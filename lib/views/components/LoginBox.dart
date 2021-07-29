@@ -75,12 +75,14 @@ class LoginBoxState extends State<LoginBox> {
             MyTextField(
               placeholder: 'Login',
               suffixIcon: 'assets/img/icons/account.png',
+              onTap: () {},
             ),
             SizedBox(height: 15),
             //todo: Password TextField
             MyTextField(
               placeholder: 'Mot de passe',
               suffixIcon: 'assets/img/icons/padlock.png',
+              onTap: () {},
             ),
             SizedBox(height: 15),
             //todo: Login Button

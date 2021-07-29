@@ -84,6 +84,9 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
                 placeholderColor: Color.fromRGBO(0, 0, 0, 0.5),
                 suffixIcon: 'assets/img/icons/mail.png',
                 cursorColor: Colors.black,
+                onTap: () {
+                  print('Forgotpassword TextField Taped !');
+                },
               ),
               SizedBox(height: 10),
               //todo: Send Button
