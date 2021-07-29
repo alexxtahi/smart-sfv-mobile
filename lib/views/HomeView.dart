@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_sfv_mobile/views/components/AppName.dart';
+import 'package:smart_sfv_mobile/views/components/MyOutlinedButton.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
@@ -32,8 +33,16 @@ class HomeViewState extends State<HomeView> {
             children: [
               //todo: AppBar
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  //todo: Drawer Button
+                  MyOutlinedButton(
+                    icon: 'assets/img/icons/drawer.png',
+                    iconSize: 30,
+                    size: 50,
+                    borderRadius: 15,
+                    borderColor: Color.fromRGBO(60, 141, 188, 1),
+                  ),
                   //todo: House Icon
                   Column(
                     children: [
@@ -48,6 +57,14 @@ class HomeViewState extends State<HomeView> {
                         color: Color.fromRGBO(193, 193, 193, 1),
                       ),
                     ],
+                  ),
+                  //todo: Drawer Button
+                  MyOutlinedButton(
+                    icon: 'assets/img/icons/drawer.png',
+                    iconSize: 30,
+                    size: 50,
+                    borderRadius: 15,
+                    borderColor: Color.fromRGBO(60, 141, 188, 1),
                   ),
                 ],
               ),
