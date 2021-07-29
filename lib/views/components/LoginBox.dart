@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
 
 class LoginBox extends StatefulWidget {
@@ -13,6 +14,7 @@ class LoginBox extends StatefulWidget {
   final Color loginButtonColor;
   final String forgottenPasswordText;
   final Color forgottenPasswordTextColor;
+  final SlidingUpPanelController panelController = SlidingUpPanelController();
 
   LoginBox({
     Key? key,
@@ -34,6 +36,7 @@ class LoginBox extends StatefulWidget {
 }
 
 class LoginBoxState extends State<LoginBox> {
+  ///The controller of sliding up panel
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,6 +117,7 @@ class LoginBoxState extends State<LoginBox> {
             //todo: Forgotten Password Button
             TextButton(
               onPressed: () {
+                widget.panelController.anchor();
                 print('Forgotten password button pressed !');
               },
               child: Text(

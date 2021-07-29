@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/LoginView.dart';
+import 'package:smart_sfv_mobile/views/components/AppName.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -54,36 +56,16 @@ class SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/img/motion-design/warehouse.png',
-                    fit: BoxFit.cover,
-                    width: 150,
-                    height: 150,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 34,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'SMART-',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'SFV',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
+                  DelayedDisplay(
+                    delay: Duration(seconds: 1),
+                    child: Image.asset(
+                      'assets/img/motion-design/warehouse.png',
+                      fit: BoxFit.cover,
+                      width: 150,
+                      height: 150,
                     ),
                   ),
+                  AppName(),
                 ],
               ),
               //todo: Signature
