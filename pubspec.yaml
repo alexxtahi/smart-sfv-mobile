@@ -42,7 +42,7 @@ dev_dependencies:
   flutter_native_splash: 1.1.8+4
 
 flutter_icons:
-  #image_path: "assets/img/Logos/NumeriZer.png"
+  image_path: "assets/img/logo/smart-sfv.png"
   android: true
   ios: true
 
@@ -134,8 +134,39 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/img/warehouse.png
-     - assets/img/key.png
+    # logo
+     - assets/img/logo/smart-sfv.png
+    # motion design
+     - assets/img/motion-design/warehouse.png
+     - assets/img/motion-design/wholesale.png
+    # motion design
+     - assets/img/backgrounds/stock1.jpg
+     - assets/img/backgrounds/entrepot.jpg
+     - assets/img/backgrounds/gestion-stock.jpg
+     - assets/img/backgrounds/storage-center.jpg
+    # icons
+     - assets/img/icons/key.png
+     - assets/img/icons/account.png
+     - assets/img/icons/bank.png
+     - assets/img/icons/box.png
+     - assets/img/icons/briefcase.png
+     - assets/img/icons/calculator.png
+     - assets/img/icons/credit-card.png
+     - assets/img/icons/credit-cards-payment.png
+     - assets/img/icons/customer.png
+     - assets/img/icons/customer1.png
+     - assets/img/icons/dashboard.png
+     - assets/img/icons/drawer.png
+     - assets/img/icons/down-arrow-in-a-circle.png
+     - assets/img/icons/previous.png
+     - assets/img/icons/house.png
+     - assets/img/icons/mail.png
+     - assets/img/icons/paper.png
+     - assets/img/icons/provider.png
+     - assets/img/icons/stock.png
+     - assets/img/icons/suitcase.png
+     - assets/img/icons/previous.png
+     - assets/img/icons/padlock.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

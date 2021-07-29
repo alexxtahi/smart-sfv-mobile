@@ -9,7 +9,6 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
-  String recentTheme = 'Light';
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -45,10 +44,5 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
       ),
     );
-  }
-
-  //todo: Getter to the recent theme
-  void getRecentTheme() async {
-    this.recentTheme = (await ThemeController.getRecentTheme())!;
   }
 }

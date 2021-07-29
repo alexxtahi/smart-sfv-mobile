@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stacked_themes/stacked_themes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
-import 'package:smart_sfv_mobile/views/HomeView.dart';
+import 'package:smart_sfv_mobile/views/LoginView.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -13,20 +11,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  String backgroundUri = 'assets/img/Backgrounds/Dark.png';
-  String iconUri = 'assets/img/Logos/NumeriZerLightIcon.png';
-
   @override
   void initState() {
     //todo: Start timer
-    /*Timer(
+    Timer(
       Duration(seconds: 5),
       () {
         print('Showing home view !');
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeView()));
+            context, MaterialPageRoute(builder: (context) => LoginView()));
       },
-    );*/
+    );
     super.initState();
   }
 
@@ -60,7 +55,7 @@ class SplashScreenState extends State<SplashScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/img/warehouse.png',
+                    'assets/img/motion-design/warehouse.png',
                     fit: BoxFit.cover,
                     width: 150,
                     height: 150,
