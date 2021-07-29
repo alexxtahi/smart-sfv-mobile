@@ -45,15 +45,10 @@ class LoginViewState extends State<LoginView> {
             alignment: Alignment.center,
             children: <Widget>[
               //todo: Background
-              //First Background
-              /*Image.asset(
-                'assets/img/backgrounds/stock1.jpg',
-                width: screenSize[0],
-                height: screenSize[1],
-                fit: BoxFit.cover,
-              ),*/
-              //Second Background
-              BlurBackground(),
+              BlurBackground(
+                index: 2,
+                imageChoice: 2,
+              ),
               //todo: Title
               Container(
                 width: screenSize[0],
@@ -71,8 +66,7 @@ class LoginViewState extends State<LoginView> {
                   ],
                 ),
               ),
-
-              //todo: Signature
+              //todo: Copyrights
               Positioned(
                 bottom: 10,
                 child: Text(
