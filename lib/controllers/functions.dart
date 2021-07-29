@@ -24,13 +24,20 @@ void showMessageToSnackbar(
   );
 }
 
-void openPage(BuildContext context, Widget view) {
-  Navigator.push(
-    context,
-    new MaterialPageRoute(
-      builder: (BuildContext context) {
-        return view;
-      },
-    ),
-  );
+void openPage(BuildContext context, Widget view, String mode) {
+  switch (mode) {
+    case 'pushReplacement':
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => view),
+      );
+      break;
+    case 'push':
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => view),
+      );
+      break;
+    default:
+  }
 }

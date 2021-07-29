@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smart_sfv_mobile/views/HomeView.dart';
 import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
+import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 
 class LoginBox extends StatefulWidget {
   final double width;
@@ -88,6 +90,7 @@ class LoginBoxState extends State<LoginBox> {
             //todo: Login Button
             ElevatedButton(
               onPressed: () {
+                functions.openPage(context, HomeView(), 'pushReplacement');
                 print('Login button pressed !');
               },
               child: Text(

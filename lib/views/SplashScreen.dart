@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/LoginView.dart';
 import 'package:smart_sfv_mobile/views/components/AppName.dart';
+import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -20,8 +21,7 @@ class SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 5),
       () {
         print('Showing home view !');
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginView()));
+        functions.openPage(context, LoginView(), 'pushReplacement');
       },
     );
     super.initState();
