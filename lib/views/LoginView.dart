@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
 import '../controllers/ScreenController.dart';
 
 class LoginView extends StatefulWidget {
@@ -82,7 +83,7 @@ class LoginViewState extends State<LoginView> {
                 //todo: Login Box
                 Container(
                   width: 350,
-                  height: 370,
+                  height: 365,
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(255, 255, 255, 0.3),
                   ),
@@ -113,81 +114,15 @@ class LoginViewState extends State<LoginView> {
                         ),
                         SizedBox(height: 20),
                         //todo: Login TextField
-                        TextField(
-                          cursorColor: Color.fromRGBO(0, 0, 0, 0.5),
-                          style: TextStyle(fontFamily: 'Montserrat'),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color.fromRGBO(255, 255, 255, 0.5),
-                            hintText: 'Login',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color.fromRGBO(0, 0, 0, 0.5),
-                            ),
-                            suffixIcon: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Image.asset(
-                                'assets/img/icons/account.png',
-                                width: 20,
-                                height: 20,
-                              ),
-                            ),
-                            /*errorText: 'Aucun résultat',
-        errorStyle: TextStyle(fontFamily: 'Montserrat'),*/
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 0, 0, 0.5),
-                              ),
-                              borderRadius: BorderRadius.all(Radius.zero),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 0, 0, 0.5),
-                              ),
-                              borderRadius: BorderRadius.all(Radius.zero),
-                            ),
-                          ),
+                        MyTextField(
+                          placeholder: 'Login',
+                          suffixIcon: 'assets/img/icons/account.png',
                         ),
                         SizedBox(height: 15),
                         //todo: Password TextField
-                        TextField(
-                          cursorColor: Color.fromRGBO(0, 0, 0, 0.5),
-                          style: TextStyle(fontFamily: 'Montserrat'),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color.fromRGBO(255, 255, 255, 0.5),
-                            hintText: 'Mot de passe',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Color.fromRGBO(0, 0, 0, 0.5),
-                            ),
-                            suffixIcon: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Image.asset(
-                                'assets/img/icons/padlock.png',
-                                width: 20,
-                                height: 20,
-                              ),
-                            ),
-                            /*errorText: 'Aucun résultat',
-        errorStyle: TextStyle(fontFamily: 'Montserrat'),*/
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 0, 0, 0.5),
-                              ),
-                              borderRadius: BorderRadius.all(Radius.zero),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 0, 0, 0.5),
-                              ),
-                              borderRadius: BorderRadius.all(Radius.zero),
-                            ),
-                          ),
+                        MyTextField(
+                          placeholder: 'Mot de passe',
+                          suffixIcon: 'assets/img/icons/padlock.png',
                         ),
                         SizedBox(height: 15),
                         //todo: Login Button
