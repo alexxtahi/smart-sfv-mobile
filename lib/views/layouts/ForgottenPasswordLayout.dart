@@ -190,6 +190,7 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
       onStatusChanged: (dragging) {
         // If the dragging direction is dragging down
         if (dragging.index == 1) {
+          FocusScope.of(context).requestFocus(FocusNode());
           widget.panelController.hide();
           //print("zaza"); // ! debug
         }
