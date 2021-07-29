@@ -13,6 +13,7 @@ class MyTextField extends StatefulWidget {
   final Color enableBorderColor;
   final Radius borderRadius;
   final void Function()? onTap;
+  final void Function()? onEditingComplete;
   MyTextField({
     Key? key,
     this.textColor = const Color.fromRGBO(0, 0, 0, 0.5),
@@ -27,6 +28,7 @@ class MyTextField extends StatefulWidget {
     this.enableBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.borderRadius = Radius.zero,
     required this.onTap,
+    this.onEditingComplete,
   }) : super(key: key);
 
   @override
@@ -38,6 +40,8 @@ class MyTextFieldState extends State<MyTextField> {
   Widget build(BuildContext context) {
     return TextField(
       onTap: widget.onTap,
+      onEditingComplete:
+          (widget.onEditingComplete != null) ? widget.onEditingComplete : () {},
       cursorColor: widget.cursorColor,
       style: TextStyle(
         fontFamily: 'Montserrat',

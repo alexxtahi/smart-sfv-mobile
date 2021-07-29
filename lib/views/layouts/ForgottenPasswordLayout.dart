@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
+import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
 
 class ForgottenPasswordLayout extends StatefulWidget {
@@ -85,13 +86,28 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
                 suffixIcon: 'assets/img/icons/mail.png',
                 cursorColor: Colors.black,
                 onTap: () {
-                  print('Forgotpassword TextField Taped !');
+                  // Expand the panel
+                  widget.panelController.expand();
+                  //print('Hidding panel'); // ! debug
+                },
+                onEditingComplete: () {
+                  // Hiding keyboard
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  // Move the panel to anchor position
+                  widget.panelController.anchor();
                 },
               ),
               SizedBox(height: 10),
               //todo: Send Button
               OutlinedButton(
                 onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  widget.panelController.hide();
+                  functions.showMessageToSnackbar(
+                      context,
+                      "E-mail envoyé ! vérifiez votre boîte.",
+                      3,
+                      Icon(Icons.mail_outlined));
                   print('envoi du mail de récupération');
                 },
                 child: Text(
