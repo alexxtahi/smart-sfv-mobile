@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
 import '../controllers/ScreenController.dart';
+import 'components/AppName.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key? key}) : super(key: key);
@@ -55,29 +56,8 @@ class LoginViewState extends State<LoginView> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      fontSize: 34,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: 'SMART-',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'SFV',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
-                  ),
+                AppName(
+                  color: Colors.white,
                 ),
                 SizedBox(height: 20),
                 //todo: Login Box
