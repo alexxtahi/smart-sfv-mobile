@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/layouts/DashboardScreen.dart';
 import 'package:smart_sfv_mobile/views/layouts/DrawerLayout.dart';
 import 'package:smart_sfv_mobile/views/layouts/ProfileLayout.dart';
@@ -17,7 +16,6 @@ class HomeViewState extends State<HomeView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   @override
   Widget build(BuildContext context) {
-    List<double> screenSize = ScreenController.getScreenSize(context);
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

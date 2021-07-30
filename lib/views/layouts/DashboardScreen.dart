@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smart_sfv_mobile/controllers/DrawerLayoutController.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/components/AppName.dart';
 import 'package:smart_sfv_mobile/views/components/DashboardCard.dart';
@@ -14,23 +15,20 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
-  double xOffset = 0;
-  double yOffset = 0;
-  double scaleFactor = 1;
-  bool isDrawerOpen = false;
-
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
     // Return building scaffold
     return AnimatedContainer(
-      transform: Matrix4.translationValues(xOffset, yOffset, 0)
-        ..scale(scaleFactor),
+      transform: Matrix4.translationValues(
+          DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
+        ..scale(DrawerLayoutController.scaleFactor),
       duration: Duration(milliseconds: 250),
       child: Scaffold(
-        backgroundColor: (isDrawerOpen)
-            ? Colors.transparent
-            : Color.fromRGBO(251, 251, 251, 1),
+        backgroundColor: (DrawerLayoutController.isDrawerOpen)
+            ? Colors.transparent // color when the drawer is open
+            : Color.fromRGBO(
+                251, 251, 251, 1), // color when the drawer is close
         body: Container(
           decoration: BoxDecoration(
             color: Color.fromRGBO(251, 251, 251, 1),
@@ -46,7 +44,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //todo: Drawer Button
-                      (isDrawerOpen)
+                      (DrawerLayoutController.isDrawerOpen)
+                          // Button when the drawer is open
                           ? MyOutlinedIconButton(
                               icon: Icon(
                                 Icons.arrow_back_ios_rounded,
@@ -61,13 +60,11 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   Color.fromRGBO(60, 141, 188, 0.15),
                               onPressed: () {
                                 setState(() {
-                                  xOffset = 0;
-                                  yOffset = 0;
-                                  scaleFactor = 1;
-                                  isDrawerOpen = false;
+                                  DrawerLayoutController.close();
                                 });
                               },
                             )
+                          // Button when the drawer is close
                           : MyOutlinedIconButton(
                               icon: 'assets/img/icons/drawer.png',
                               iconSize: 30,
@@ -78,10 +75,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   Color.fromRGBO(60, 141, 188, 0.15),
                               onPressed: () {
                                 setState(() {
-                                  xOffset = screenSize[0] / 1.25;
-                                  yOffset = (screenSize[1] / 2) - 410;
-                                  scaleFactor = 0.9;
-                                  isDrawerOpen = true;
+                                  DrawerLayoutController.open(context);
                                 });
                               },
                             ),
