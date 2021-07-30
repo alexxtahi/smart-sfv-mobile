@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
+import 'package:smart_sfv_mobile/views/components/MyOutlinedButton.dart';
 import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
 
 class ProfileLayout extends StatefulWidget {
@@ -30,7 +31,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
     List<double> screenSize = ScreenController.getScreenSize(context);
     return SlidingUpPanelWidget(
       controlHeight: 50.0,
-      anchor: 0.6,
+      anchor: 0.5,
       panelController: widget.panelController,
       child: Container(
         width: screenSize[0],
@@ -106,43 +107,41 @@ class ProfileLayoutState extends State<ProfileLayout> {
               ),
               SizedBox(height: 20),
               //todo: Buttons
-              Positioned(
-                bottom: 10,
-                child: Column(
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Modifier ses informations',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Color.fromRGBO(60, 141, 188, 1),
-                          //color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                        ),
+              Column(
+                children: [
+                  MyOutlinedButton(
+                    text: 'Modifier ses informations',
+                    textColor: Color.fromRGBO(60, 141, 188, 1),
+                    width: screenSize[0],
+                    height: 50,
+                    borderRadius: 10,
+                    borderColor: Color.fromRGBO(60, 141, 188, 10),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MyOutlinedButton(
+                        text: 'Profil',
+                        textColor: Color.fromRGBO(60, 141, 188, 1),
+                        width: screenSize[0] / 2.27,
+                        height: 50,
+                        borderRadius: 10,
+                        borderColor: Color.fromRGBO(60, 141, 188, 1),
+                        backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                       ),
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
-                        minimumSize:
-                            MaterialStateProperty.all<Size>(Size(20, 20)),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
-                        fixedSize: MaterialStateProperty.all<Size>(
-                            Size(screenSize[0], 50)),
-                        side: MaterialStateProperty.all<BorderSide>(
-                            BorderSide(color: Color.fromRGBO(60, 141, 188, 1))),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
+                      MyOutlinedButton(
+                        text: 'Deconnexion',
+                        textColor: Color.fromRGBO(221, 75, 57, 1),
+                        width: screenSize[0] / 2.27,
+                        height: 50,
+                        borderRadius: 10,
+                        borderColor: Color.fromRGBO(221, 75, 57, 1),
+                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),

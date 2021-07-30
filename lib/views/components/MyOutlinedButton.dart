@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MyOutlinedButton extends StatefulWidget {
   //todo: Properties
   final String text;
+  final Color textColor;
   final double width;
   final double height;
   final double borderRadius;
@@ -11,6 +12,7 @@ class MyOutlinedButton extends StatefulWidget {
   //todo: Constructor
   MyOutlinedButton({
     required this.text,
+    required this.textColor,
     required this.width,
     required this.height,
     required this.borderRadius,
@@ -34,7 +36,7 @@ class MyOutlinedButtonState extends State<MyOutlinedButton> {
         widget.text,
         style: TextStyle(
           fontFamily: 'Montserrat',
-          color: Color.fromRGBO(60, 141, 188, 1),
+          color: widget.textColor,
           //color: Colors.black,
           fontSize: 18,
           fontWeight: FontWeight.w800,
