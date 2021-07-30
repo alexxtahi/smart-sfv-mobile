@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:smart_sfv_mobile/controllers/DrawerLayoutController.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
-import 'package:smart_sfv_mobile/views/components/BlurBackground.dart';
 import 'package:smart_sfv_mobile/views/components/DrawerBlurBackground.dart';
 
 class DrawerLayout extends StatefulWidget {
@@ -41,7 +40,11 @@ class DrawerLayoutState extends State<DrawerLayout> {
             bottom: 0,
             right: 0,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  DrawerLayoutController.close();
+                });
+              },
               child: Row(
                 children: [
                   Icon(

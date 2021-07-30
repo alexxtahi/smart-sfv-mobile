@@ -1,8 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
+import 'package:smart_sfv_mobile/views/components/MyExpandableBox.dart';
 
 class ExpansionTable extends StatefulWidget {
   final String headerText;
@@ -15,8 +14,6 @@ class ExpansionTable extends StatefulWidget {
 }
 
 class ExpansionTableState extends State<ExpansionTable> {
-  ///The controller of sliding up panel
-  SlidingUpPanelController panelController = SlidingUpPanelController();
   // textfield controller
   @override
   Widget build(BuildContext context) {
@@ -27,73 +24,18 @@ class ExpansionTableState extends State<ExpansionTable> {
       // <-- Provides ExpandableController to its children
       child: Column(
         children: [
-          Expandable(
-            // <-- Driven by ExpandableController from ExpandableNotifier
-            collapsed: ExpandableButton(
-              // <-- Expands when tapped on the cover photo
-              child: Container(
-                width: screenSize[0],
-                height: 150,
-                color: Colors.red,
-              ),
-            ),
-            expanded: Column(children: [
-              Container(
-                width: screenSize[0],
-                height: 150,
-                color: Colors.green,
-              ),
-              ExpandableButton(
-                // <-- Collapses when tapped on
-                child: Text(
-                  "Back",
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    color: Colors.black,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ]),
-          ),
+          MyExpandableBox(headerText: 'Caisses ouvertes'),
+          MyExpandableBox(headerText: 'Articles en voie de péremption'),
+          MyExpandableBox(headerText: 'Articles en voie de rupture'),
+          MyExpandableBox(headerText: 'Liste des 5 meilleurs clients'),
+          MyExpandableBox(
+              headerText: 'Liste des 5 clients les moins rentables'),
+          MyExpandableBox(headerText: 'Liste des 5 articles les plus vendus'),
+          MyExpandableBox(headerText: 'Liste des 5 articles les moins vendus'),
+          MyExpandableBox(headerText: 'Liste des 5 clients les plus endettés'),
+          MyExpandableBox(headerText: 'Commandes en cours'),
         ],
       ),
     );
-    /*ExpandablePanel(
-      header: Text(
-        widget.headerText,
-        style: TextStyle(
-          fontFamily: 'Montserrat',
-          color: Colors.black,
-          fontSize: 16,
-        ),
-      ),
-      collapsed: Text(
-        'COLAPSED',
-        softWrap: true,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontFamily: 'Montserrat',
-          color: Colors.black,
-          fontSize: 16,
-        ),
-      ),
-      expanded: Text(
-        'EXPANDED',
-        softWrap: true,
-        style: TextStyle(
-          fontFamily: 'Montserrat',
-          color: Colors.black,
-          fontSize: 16,
-        ),
-      ),
-      theme: ExpandableThemeData(
-        hasIcon: true,
-        iconColor: Colors.black,
-        //expandIcon: IconData(0),
-        //collapseIcon: IconData(1),
-      ),
-    );*/
   }
 }
