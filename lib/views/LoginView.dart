@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
 import 'package:smart_sfv_mobile/views/components/BlurBackground.dart';
 import 'package:smart_sfv_mobile/views/components/LoginBox.dart';
 import '../controllers/ScreenController.dart';

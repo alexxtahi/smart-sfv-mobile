@@ -25,7 +25,7 @@ class AppNameState extends State<AppName> {
           fontSize: widget.fontSize,
         ),
         children: [
-          TextSpan(text: 'SMART-'),
+          TextSpan(text: 'SMART '),
           TextSpan(
             text: 'SFV',
             style: TextStyle(

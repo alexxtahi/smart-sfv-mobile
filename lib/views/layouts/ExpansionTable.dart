@@ -21,16 +21,26 @@ class ExpansionTableState extends State<ExpansionTable> {
       // <-- Provides ExpandableController to its children
       child: Column(
         children: [
-          MyExpandableBox(headerText: 'Caisses ouvertes'),
-          MyExpandableBox(headerText: 'Articles en voie de péremption'),
-          MyExpandableBox(headerText: 'Articles en voie de rupture'),
-          MyExpandableBox(headerText: 'Liste des 5 meilleurs clients'),
+          MyExpandableBox(key: Key('1'), headerText: 'Caisses ouvertes'),
           MyExpandableBox(
+              key: Key('2'), headerText: 'Articles en voie de péremption'),
+          MyExpandableBox(
+              key: Key('3'), headerText: 'Articles en voie de rupture'),
+          MyExpandableBox(
+              key: Key('4'), headerText: 'Liste des 5 meilleurs clients'),
+          MyExpandableBox(
+              key: Key('5'),
               headerText: 'Liste des 5 clients les moins rentables'),
-          MyExpandableBox(headerText: 'Liste des 5 articles les plus vendus'),
-          MyExpandableBox(headerText: 'Liste des 5 articles les moins vendus'),
-          MyExpandableBox(headerText: 'Liste des 5 clients les plus endettés'),
-          MyExpandableBox(headerText: 'Commandes en cours'),
+          MyExpandableBox(
+              key: Key('6'),
+              headerText: 'Liste des 5 articles les plus vendus'),
+          MyExpandableBox(
+              key: Key('7'),
+              headerText: 'Liste des 5 articles les moins vendus'),
+          MyExpandableBox(
+              key: Key('8'),
+              headerText: 'Liste des 5 clients les plus endettés'),
+          MyExpandableBox(key: Key('9'), headerText: 'Commandes en cours'),
         ],
       ),
     );
