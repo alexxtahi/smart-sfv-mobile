@@ -38,6 +38,7 @@ dependencies:
   flutter_sliding_up_panel: ^2.0.1
   expandable: ^5.0.1
   slide_drawer: ^1.0.3
+  fading_edge_scrollview: ^2.0.0
 
 dev_dependencies:
   flutter_test:

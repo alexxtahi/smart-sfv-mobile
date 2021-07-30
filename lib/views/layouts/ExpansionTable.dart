@@ -1,6 +1,5 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/components/MyExpandableBox.dart';
 
 class ExpansionTable extends StatefulWidget {
@@ -17,8 +16,6 @@ class ExpansionTableState extends State<ExpansionTable> {
   // textfield controller
   @override
   Widget build(BuildContext context) {
-    List<double> screenSize = ScreenController.getScreenSize(context);
-
     // Return building scaffold
     return ExpandableNotifier(
       // <-- Provides ExpandableController to its children

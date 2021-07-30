@@ -1,3 +1,4 @@
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smart_sfv_mobile/controllers/DrawerLayoutController.dart';
@@ -16,6 +17,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
+  ScrollController scrollController = new ScrollController();
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
@@ -110,52 +112,64 @@ class DashboardScreenState extends State<DashboardScreen> {
                   SizedBox(height: 20),
                   //todo: Scrolling View
                   Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          //todo: Dashboard
-                          Container(
-                            width: screenSize[0],
-                            child: Wrap(
-                              alignment: WrapAlignment.spaceBetween,
+                    child: Stack(
+                      children: [
+                        FadingEdgeScrollView.fromSingleChildScrollView(
+                          gradientFractionOnStart: 0.05,
+                          gradientFractionOnEnd: 0.2,
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            child: Column(
                               children: [
-                                DashboardCard(
-                                  text: 'Clients',
-                                  icon: 'assets/img/icons/customer1.png',
-                                  iconColor: Color.fromRGBO(0, 27, 121, 1),
+                                //todo: Dashboard
+                                Container(
+                                  width: screenSize[0],
+                                  child: Wrap(
+                                    alignment: WrapAlignment.spaceBetween,
+                                    children: [
+                                      DashboardCard(
+                                        text: 'Clients',
+                                        icon: 'assets/img/icons/customer1.png',
+                                        iconColor:
+                                            Color.fromRGBO(0, 27, 121, 1),
+                                      ),
+                                      DashboardCard(
+                                        text: 'Articles',
+                                        icon: 'assets/img/icons/box.png',
+                                        iconColor:
+                                            Color.fromRGBO(231, 57, 0, 1),
+                                        backgroundColor:
+                                            Color.fromRGBO(243, 156, 18, 1),
+                                      ),
+                                      DashboardCard(
+                                        text: 'Dépôts',
+                                        icon: 'assets/img/icons/bank.png',
+                                        iconColor: Color.fromRGBO(0, 77, 0, 1),
+                                        backgroundColor:
+                                            Color.fromRGBO(0, 166, 90, 1),
+                                      ),
+                                      DashboardCard(
+                                        text: 'Fournisseurs',
+                                        icon: 'assets/img/icons/provider.png',
+                                        iconColor: Color.fromRGBO(187, 0, 0, 1),
+                                        backgroundColor:
+                                            Color.fromRGBO(221, 75, 57, 1),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                DashboardCard(
-                                  text: 'Articles',
-                                  icon: 'assets/img/icons/box.png',
-                                  iconColor: Color.fromRGBO(231, 57, 0, 1),
-                                  backgroundColor:
-                                      Color.fromRGBO(243, 156, 18, 1),
-                                ),
-                                DashboardCard(
-                                  text: 'Dépôts',
-                                  icon: 'assets/img/icons/bank.png',
-                                  iconColor: Color.fromRGBO(0, 77, 0, 1),
-                                  backgroundColor:
-                                      Color.fromRGBO(0, 166, 90, 1),
-                                ),
-                                DashboardCard(
-                                  text: 'Fournisseurs',
-                                  icon: 'assets/img/icons/provider.png',
-                                  iconColor: Color.fromRGBO(187, 0, 0, 1),
-                                  backgroundColor:
-                                      Color.fromRGBO(221, 75, 57, 1),
+                                SizedBox(height: 20),
+                                //todo: Tables
+                                ExpansionTable(
+                                  headerText: 'Caisses ouvertes',
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 20),
-                          //todo: Tables
-                          ExpansionTable(
-                            headerText: 'Caisses ouvertes',
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
