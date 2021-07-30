@@ -3,10 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/components/AppName.dart';
-import 'package:smart_sfv_mobile/views/components/MyOutlinedButton.dart';
+import 'package:smart_sfv_mobile/views/components/DashboardCard.dart';
 import 'package:smart_sfv_mobile/views/components/MyOutlinedIconButton.dart';
 import 'package:smart_sfv_mobile/views/components/UserAvatar.dart';
-import 'package:smart_sfv_mobile/views/components/UserButton.dart';
 import 'package:smart_sfv_mobile/views/layouts/ProfileLayout.dart';
 
 class HomeView extends StatefulWidget {
@@ -44,7 +43,7 @@ class HomeViewState extends State<HomeView> {
                 children: [
                   //todo: AppBar
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //todo: Drawer Button
                       MyOutlinedIconButton(
@@ -55,7 +54,6 @@ class HomeViewState extends State<HomeView> {
                         borderColor: Color.fromRGBO(60, 141, 188, 1),
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                       ),
-                      Spacer(),
                       //todo: House Icon
                       Column(
                         children: [
@@ -71,7 +69,6 @@ class HomeViewState extends State<HomeView> {
                           ),
                         ],
                       ),
-                      Spacer(),
                       //todo: User Avatar
                       UserAvatar(
                         username: 'Alexandre TAHI',
@@ -82,6 +79,39 @@ class HomeViewState extends State<HomeView> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 20),
+                  //todo: Dashboard
+                  Container(
+                    width: screenSize[0],
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      children: [
+                        DashboardCard(
+                          text: 'Clients',
+                          icon: 'assets/img/icons/customer1.png',
+                          iconColor: Color.fromRGBO(0, 27, 121, 1),
+                        ),
+                        DashboardCard(
+                          text: 'Articles',
+                          icon: 'assets/img/icons/box.png',
+                          iconColor: Color.fromRGBO(231, 57, 0, 1),
+                          backgroundColor: Color.fromRGBO(243, 156, 18, 1),
+                        ),
+                        DashboardCard(
+                          text: 'Dépôts',
+                          icon: 'assets/img/icons/bank.png',
+                          iconColor: Color.fromRGBO(0, 77, 0, 1),
+                          backgroundColor: Color.fromRGBO(0, 166, 90, 1),
+                        ),
+                        DashboardCard(
+                          text: 'Fournisseurs',
+                          icon: 'assets/img/icons/provider.png',
+                          iconColor: Color.fromRGBO(187, 0, 0, 1),
+                          backgroundColor: Color.fromRGBO(221, 75, 57, 1),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
-import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 import 'package:smart_sfv_mobile/views/components/MyOutlinedButton.dart';
-import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
 
 class ProfileLayout extends StatefulWidget {
   final String username;
