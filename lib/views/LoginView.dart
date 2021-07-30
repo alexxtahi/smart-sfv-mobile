@@ -16,8 +16,6 @@ class LoginView extends StatefulWidget {
 }
 
 class LoginViewState extends State<LoginView> {
-  ///The controller of sliding up panel
-  SlidingUpPanelController panelController = SlidingUpPanelController();
   LoginBox loginBox = LoginBox(
     width: 350,
     height: 365,

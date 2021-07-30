@@ -1,44 +1,41 @@
 import 'package:flutter/material.dart';
 
-class MyOutlinedButton extends StatefulWidget {
+class MyOutlinedIconButton extends StatefulWidget {
   //todo: Properties
-  final String text;
-  final double width;
-  final double height;
+  final String title;
+  final String icon;
+  final double iconSize;
+  final double size;
   final double borderRadius;
   final Color borderColor;
   final Color backgroundColor;
   //todo: Constructor
-  MyOutlinedButton({
-    required this.text,
-    required this.width,
-    required this.height,
+  MyOutlinedIconButton({
+    this.title = 'button',
+    required this.icon,
+    required this.iconSize,
+    required this.size,
     required this.borderRadius,
     required this.borderColor,
     this.backgroundColor = Colors.transparent,
   });
   //todo: State
   @override
-  MyOutlinedButtonState createState() => MyOutlinedButtonState();
+  MyOutlinedIconButtonState createState() => MyOutlinedIconButtonState();
 }
 
-class MyOutlinedButtonState extends State<MyOutlinedButton> {
+class MyOutlinedIconButtonState extends State<MyOutlinedIconButton> {
   @override
   Widget build(BuildContext context) {
     // Return building outlined button
     return OutlinedButton(
       onPressed: () {
-        print(widget.text + " button pressed !");
+        print(widget.title + " button pressed !");
       },
-      child: Text(
-        widget.text,
-        style: TextStyle(
-          fontFamily: 'Montserrat',
-          color: Color.fromRGBO(60, 141, 188, 1),
-          //color: Colors.black,
-          fontSize: 18,
-          fontWeight: FontWeight.w800,
-        ),
+      child: Image.asset(
+        widget.icon,
+        width: widget.iconSize,
+        height: widget.iconSize,
       ),
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -47,7 +44,7 @@ class MyOutlinedButtonState extends State<MyOutlinedButton> {
         backgroundColor:
             MaterialStateProperty.all<Color>(widget.backgroundColor),
         fixedSize:
-            MaterialStateProperty.all<Size>(Size(widget.width, widget.height)),
+            MaterialStateProperty.all<Size>(Size(widget.size, widget.size)),
         side: MaterialStateProperty.all<BorderSide>(
             BorderSide(color: widget.borderColor)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
