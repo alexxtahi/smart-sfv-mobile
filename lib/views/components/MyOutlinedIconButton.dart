@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 class MyOutlinedIconButton extends StatefulWidget {
   //todo: Properties
   final String title;
-  final String icon;
+  final icon;
   final double iconSize;
   final double size;
   final double borderRadius;
   final Color borderColor;
   final Color backgroundColor;
+  final void Function()? onPressed;
   //todo: Constructor
   MyOutlinedIconButton({
     this.title = 'button',
@@ -18,6 +19,7 @@ class MyOutlinedIconButton extends StatefulWidget {
     required this.borderRadius,
     required this.borderColor,
     this.backgroundColor = Colors.transparent,
+    this.onPressed,
   });
   //todo: State
   @override
@@ -29,14 +31,14 @@ class MyOutlinedIconButtonState extends State<MyOutlinedIconButton> {
   Widget build(BuildContext context) {
     // Return building outlined button
     return OutlinedButton(
-      onPressed: () {
-        print(widget.title + " button pressed !");
-      },
-      child: Image.asset(
-        widget.icon,
-        width: widget.iconSize,
-        height: widget.iconSize,
-      ),
+      onPressed: widget.onPressed,
+      child: (widget.icon is String)
+          ? Image.asset(
+              widget.icon,
+              width: widget.iconSize,
+              height: widget.iconSize,
+            )
+          : widget.icon,
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
             EdgeInsets.symmetric(horizontal: 0, vertical: 0)),

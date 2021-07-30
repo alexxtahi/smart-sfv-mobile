@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sfv_mobile/views/SplashScreen.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'controllers/ThemeController.dart';
 
 Future main() async {
   await ThemeManager.initialise();
