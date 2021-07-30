@@ -20,7 +20,6 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
 
-    // Return building scaffold
     return Card(
       elevation: 5,
       color: Colors.transparent,
@@ -43,6 +42,7 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Flexible(
                     child: Text(
@@ -81,6 +81,7 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
                       //todo: Header
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Flexible(
                             child: Text(
