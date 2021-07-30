@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/components/BlurBackground.dart';
+import 'package:smart_sfv_mobile/views/components/DrawerBlurBackground.dart';
 
 class DrawerLayout extends StatefulWidget {
   DrawerLayout({
@@ -21,9 +22,8 @@ class DrawerLayoutState extends State<DrawerLayout> {
       height: screenSize[1],
       child: Stack(
         children: [
-          BlurBackground(
-            index: 2,
-            imageChoice: 1,
+          DrawerBlurBackground(
+            imageChoice: 2,
           ),
         ],
       ),
