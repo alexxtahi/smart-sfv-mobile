@@ -9,6 +9,7 @@ class MyOutlinedButton extends StatefulWidget {
   final double borderRadius;
   final Color borderColor;
   final Color backgroundColor;
+  final void Function()? onPressed;
   //todo: Constructor
   MyOutlinedButton({
     required this.text,
@@ -17,6 +18,7 @@ class MyOutlinedButton extends StatefulWidget {
     required this.height,
     required this.borderRadius,
     required this.borderColor,
+    this.onPressed,
     this.backgroundColor = Colors.transparent,
   });
   //todo: State
@@ -29,9 +31,7 @@ class MyOutlinedButtonState extends State<MyOutlinedButton> {
   Widget build(BuildContext context) {
     // Return building outlined button
     return OutlinedButton(
-      onPressed: () {
-        print(widget.text + " button pressed !");
-      },
+      onPressed: widget.onPressed,
       child: Text(
         widget.text,
         style: TextStyle(

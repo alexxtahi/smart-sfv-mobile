@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
+import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
+import 'package:smart_sfv_mobile/views/LoginView.dart';
 import 'package:smart_sfv_mobile/views/components/MyOutlinedButton.dart';
 
 class ProfileLayout extends StatefulWidget {
@@ -136,6 +138,10 @@ class ProfileLayoutState extends State<ProfileLayout> {
                         borderRadius: 10,
                         borderColor: Color.fromRGBO(221, 75, 57, 1),
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
+                        onPressed: () {
+                          functions.openPage(
+                              context, LoginView(), 'pushReplacement');
+                        },
                       ),
                     ],
                   ),

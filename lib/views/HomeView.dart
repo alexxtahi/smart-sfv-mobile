@@ -26,6 +26,7 @@ class HomeViewState extends State<HomeView> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
+    SystemChrome.setPreferredOrientations([]);
     // Return building scaffold
     return Stack(
       children: [

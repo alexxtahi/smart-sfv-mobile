@@ -17,7 +17,7 @@ class DashboardScreen extends StatefulWidget {
 class DashboardScreenState extends State<DashboardScreen> {
   ScrollController scrollController = new ScrollController();
   //todo: setState function for the childrens
-  void callback(Function childSetState) {
+  void setstate(Function childSetState) {
     /*
     * This function is made to set state of this widget by this childrens
     */
@@ -52,7 +52,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   //todo: AppBar
                   MyAppBar(
-                    parentSetState: callback,
+                    parentSetState: setstate,
                     panelController: widget.panelController,
                   ),
                   SizedBox(height: 20),

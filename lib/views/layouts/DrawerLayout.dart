@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_sfv_mobile/controllers/DrawerLayoutController.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/components/DrawerBlurBackground.dart';
+import 'package:smart_sfv_mobile/views/components/MyDrawerHeader.dart';
 
 class DrawerLayout extends StatefulWidget {
   DrawerLayout({
@@ -25,14 +26,33 @@ class DrawerLayoutState extends State<DrawerLayout> {
           DrawerBlurBackground(
             imageChoice: 2,
           ),
-          //todo: Hide drawer button
+          //todo: Darawer Content
           ConstrainedBox(
             constraints: BoxConstraints.expand(
-              width: screenSize[0],
+              width: screenSize[0] / 1.25,
               height: screenSize[1],
             ),
             child: SafeArea(
-              child: Column(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          //todo: Drawer Header
+                          MyDrawerHeader(),
+                          //todo:
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           //todo: Hide drawer button
@@ -62,13 +82,6 @@ class DrawerLayoutState extends State<DrawerLayout> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-
-                  /*Image.asset(
-                    'assets/img/icons/previous.png',
-                    width: 20,
-                    height: 20,
-                    color: Colors.white,
-                  ),*/
                 ],
               ),
             ),
