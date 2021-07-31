@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'ScreenController.dart';
+import 'package:flutter/material.dart';
+import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 
 class DrawerLayoutController {
   static double xOffset = 0;
@@ -10,17 +10,17 @@ class DrawerLayoutController {
   //todo: Open Drawer Method
   static void open(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    xOffset = screenSize[0] / 1.25;
-    yOffset = (screenSize[1] / 2) - 410;
-    scaleFactor = 0.9;
-    isDrawerOpen = true;
+    DrawerLayoutController.xOffset = screenSize[0] / 1.25;
+    DrawerLayoutController.yOffset = (screenSize[1] / 2) - 410;
+    DrawerLayoutController.scaleFactor = 0.9;
+    DrawerLayoutController.isDrawerOpen = true;
   }
 
   //todo: Colse Drawer Method
   static void close() {
-    xOffset = 0;
-    yOffset = 0;
-    scaleFactor = 1;
-    isDrawerOpen = false;
+    DrawerLayoutController.xOffset = 0;
+    DrawerLayoutController.yOffset = 0;
+    DrawerLayoutController.scaleFactor = 1;
+    DrawerLayoutController.isDrawerOpen = false;
   }
 }

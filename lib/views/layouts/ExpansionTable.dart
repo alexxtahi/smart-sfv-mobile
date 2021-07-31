@@ -4,10 +4,8 @@ import 'package:smart_sfv_mobile/views/components/MyDataTable.dart';
 import 'package:smart_sfv_mobile/views/components/MyExpandableBox.dart';
 
 class ExpansionTable extends StatefulWidget {
-  final String headerText;
   ExpansionTable({
     Key? key,
-    required this.headerText,
   }) : super(key: key);
   @override
   ExpansionTableState createState() => ExpansionTableState();
@@ -33,9 +31,9 @@ class ExpansionTableState extends State<ExpansionTable> {
                 'Sera périmé dans',
               ],
               rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Chaise', '53dd5', '23/09/2021', '45 jours'],
+                ['45', 'Paquet de chips', '7728t', '01/05/2021', '17 jours'],
+                ['77', 'Sac à main', '336tf6', '30/12/2021', '23 jours'],
               ],
             ),
           ),
