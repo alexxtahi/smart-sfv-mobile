@@ -3,12 +3,15 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/components/MyDataTable.dart';
+import 'package:smart_sfv_mobile/views/components/MyText.dart';
 
 class MyExpandableBox extends StatefulWidget {
   final String headerText;
+  final MyDataTable table;
   MyExpandableBox({
     Key? key,
     required this.headerText,
+    required this.table,
   }) : super(key: key);
   @override
   MyExpandableBoxState createState() => MyExpandableBoxState();
@@ -119,76 +122,48 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
                           controller: scrollController,
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          child: MyDataTable(
-                            columns: [
-                              'Dépôt',
-                              'Article',
-                              'lot',
-                              'Date de péremption',
-                              'Sera périmé dans',
-                            ],
-                            rows: [
-                              [
-                                '14',
-                                'Sac à main',
-                                '18n47b',
-                                '23/09/2021',
-                                '45 jours'
-                              ],
-                              [
-                                '14',
-                                'Sac à main',
-                                '18n47b',
-                                '23/09/2021',
-                                '45 jours'
-                              ],
-                              [
-                                '14',
-                                'Sac à main',
-                                '18n47b',
-                                '23/09/2021',
-                                '45 jours'
-                              ],
-                            ],
-                          ),
+                          child: widget.table,
                         ),
                       ),
                       //todo: See more button
-                      /*ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
+                      Row(
                         children: [
-                          //todo: Text
-                          Text(
-                            'Voir plus',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w800,
+                          Spacer(),
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                //todo: Text
+                                MyText(
+                                  text: 'Voir plus',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 12,
+                                ),
+                                SizedBox(width: 5),
+                                //todo: Icon
+                                Image.asset(
+                                  'assets/img/icons/previous.png',
+                                  width: 20,
+                                  height: 20,
+                                  fit: BoxFit.contain,
+                                  color: Colors.white,
+                                ),
+                              ],
                             ),
-                          ),
-                          SizedBox(width: 5),
-                          //todo: Icon
-                          Image.asset(
-                            'assets/img/icons/previous.png',
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.contain,
-                            color: Colors.white,
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromRGBO(60, 141, 188, 1)),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromRGBO(60, 141, 188, 1)),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),*/
                     ],
                   ),
                 ),

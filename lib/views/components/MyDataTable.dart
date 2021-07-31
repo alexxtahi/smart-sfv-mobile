@@ -14,8 +14,6 @@ class MyDataTable extends StatefulWidget {
 }
 
 class MyDataTableState extends State<MyDataTable> {
-  // Scroll controller
-  ScrollController scrollController = new ScrollController();
   @override
   Widget build(BuildContext context) {
     return DataTable(

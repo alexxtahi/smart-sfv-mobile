@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_sfv_mobile/views/components/MyDataTable.dart';
 import 'package:smart_sfv_mobile/views/components/MyExpandableBox.dart';
 
 class ExpansionTable extends StatefulWidget {
@@ -21,26 +22,159 @@ class ExpansionTableState extends State<ExpansionTable> {
       // <-- Provides ExpandableController to its children
       child: Column(
         children: [
-          MyExpandableBox(key: Key('1'), headerText: 'Caisses ouvertes'),
           MyExpandableBox(
-              key: Key('2'), headerText: 'Articles en voie de péremption'),
+            headerText: 'Caisses ouvertes',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
           MyExpandableBox(
-              key: Key('3'), headerText: 'Articles en voie de rupture'),
+            headerText: 'Articles en voie de péremption',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
           MyExpandableBox(
-              key: Key('4'), headerText: 'Liste des 5 meilleurs clients'),
+            headerText: 'Articles en voie de rupture',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
           MyExpandableBox(
-              key: Key('5'),
-              headerText: 'Liste des 5 clients les moins rentables'),
+            headerText: 'Liste des 5 meilleurs clients',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
           MyExpandableBox(
-              key: Key('6'),
-              headerText: 'Liste des 5 articles les plus vendus'),
+            headerText: 'Liste des 5 clients les moins rentables',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
           MyExpandableBox(
-              key: Key('7'),
-              headerText: 'Liste des 5 articles les moins vendus'),
+            headerText: 'Liste des 5 articles les plus vendus',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
           MyExpandableBox(
-              key: Key('8'),
-              headerText: 'Liste des 5 clients les plus endettés'),
-          MyExpandableBox(key: Key('9'), headerText: 'Commandes en cours'),
+            headerText: 'Liste des 5 articles les moins vendus',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
+          MyExpandableBox(
+            headerText: 'Liste des 5 clients les plus endettés',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
+          MyExpandableBox(
+            headerText: 'Commandes en cours',
+            table: MyDataTable(
+              columns: [
+                'Dépôt',
+                'Article',
+                'lot',
+                'Date de péremption',
+                'Sera périmé dans',
+              ],
+              rows: [
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
+              ],
+            ),
+          ),
         ],
       ),
     );
