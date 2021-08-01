@@ -96,6 +96,19 @@ flutter:
      - assets/img/icons/stock.png
      - assets/img/icons/suitcase.png
      - assets/img/icons/padlock.png
+     - assets/img/icons/settings.png
+     - assets/img/icons/mechanical-gears.png
+     - assets/img/icons/shop.png
+     - assets/img/icons/marketing.png
+     - assets/img/icons/global-network.png
+     - assets/img/icons/backup.png
+     - assets/img/icons/collaboration.png
+     - assets/img/icons/company.png
+     - assets/img/icons/follower.png
+     - assets/img/icons/followers.png
+     - assets/img/icons/no-wifi.png
+     - assets/img/icons/subscribe.png
+     - assets/img/icons/technics.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -35,7 +35,16 @@ class DrawerBlurBackgroundState extends State<DrawerBlurBackground> {
         filter: ImageFilter.blur(
             sigmaX: widget.blurLevel, sigmaY: widget.blurLevel),
         child: Container(
-          color: Color.fromRGBO(60, 141, 188, 1).withOpacity(0.7),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromRGBO(60, 141, 188, 0.9),
+                Color.fromRGBO(0, 82, 128, 1),
+              ],
+            ),
+          ),
         ),
       ),
     );

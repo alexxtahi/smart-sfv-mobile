@@ -52,14 +52,10 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
-                      child: Text(
-                        widget.headerText,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
+                      child: MyText(
+                        text: widget.headerText,
+                        color: Colors.black,
+                        fontSize: 16,
                       ),
                     ),
                     Icon(

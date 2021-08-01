@@ -47,7 +47,7 @@ class DrawerLayoutState extends State<DrawerLayout> {
                         children: [
                           //todo: Drawer Header
                           MyDrawerHeader(),
-                          SizedBox(height: 50),
+                          SizedBox(height: 30),
                           //todo: Drawer Tiles
                           DrawerTileLayout(),
                         ],

@@ -32,7 +32,7 @@ class DashboardCardState extends State<DashboardCard> {
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
     return DelayedDisplay(
-      delay: Duration(seconds: 2),
+      delay: Duration(milliseconds: 500),
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(

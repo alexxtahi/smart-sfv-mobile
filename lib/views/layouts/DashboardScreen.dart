@@ -34,7 +34,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
         ..scale(DrawerLayoutController.scaleFactor),
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 250),
       child: Scaffold(
         backgroundColor: (DrawerLayoutController.isDrawerOpen)
             ? Colors.transparent // color when the drawer is open

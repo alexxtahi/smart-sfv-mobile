@@ -21,7 +21,7 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
         children: [
           //todo: Profile Picture
           CircleAvatar(
-            radius: 50,
+            radius: 40,
             backgroundColor: Color.fromRGBO(1, 21, 122, 1),
             backgroundImage:
                 AssetImage('assets/img/backgrounds/storage-center.jpg'),
@@ -40,6 +40,7 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
                 /*MyText(
                   text: "Concepteur de l'application",
                   color: Colors.white,
+                  overflow: TextOverflow.ellipsis,
                 ),*/
               ],
             ),

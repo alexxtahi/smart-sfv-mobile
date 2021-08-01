@@ -28,11 +28,14 @@ class MyTextState extends State<MyText> {
     return Text(
       widget.text,
       overflow: widget.overflow,
+      softWrap: true,
       style: TextStyle(
         fontFamily: widget.fontFamily,
         color: widget.color,
         fontSize: widget.fontSize,
         fontWeight: widget.fontWeight,
+        fontStyle: FontStyle.normal,
+        decoration: TextDecoration.none,
       ),
     );
   }
