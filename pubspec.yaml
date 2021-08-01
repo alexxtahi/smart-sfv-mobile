@@ -78,6 +78,7 @@ flutter:
      - assets/img/icons/key.png
      - assets/img/icons/account.png
      - assets/img/icons/bank.png
+     - assets/img/icons/bank-building.png
      - assets/img/icons/box.png
      - assets/img/icons/briefcase.png
      - assets/img/icons/calculator.png
@@ -112,6 +113,43 @@ flutter:
      - assets/img/icons/go-back-arrow.png
      - assets/img/icons/info.png
      - assets/img/icons/dollar.png
+     - assets/img/icons/tax.png
+     - assets/img/icons/countries.png
+     - assets/img/icons/cashier.png
+     - assets/img/icons/regim.png
+     - assets/img/icons/category.png
+     - assets/img/icons/sub-category.png
+     - assets/img/icons/wallet.png
+     - assets/img/icons/section.png
+     - assets/img/icons/locker.png
+     - assets/img/icons/above.png
+     - assets/img/icons/package.png
+     - assets/img/icons/more.png
+     - assets/img/icons/unity.png
+     - assets/img/icons/hand.png
+     - assets/img/icons/google-docs.png
+     - assets/img/icons/document.png
+     - assets/img/icons/supplies.png
+     - assets/img/icons/truck.png
+     - assets/img/icons/warehouse.png
+     - assets/img/icons/inventory.png
+     - assets/img/icons/arrows.png
+     - assets/img/icons/unpacking.png
+     - assets/img/icons/packages.png
+     - assets/img/icons/cashier-machine.png
+     - assets/img/icons/exchange.png
+     - assets/img/icons/discount.png
+     - assets/img/icons/spending.png
+     - assets/img/icons/stock-movement.png
+     - assets/img/icons/button.png
+     - assets/img/icons/flag.png
+     - assets/img/icons/price-tag.png
+     - assets/img/icons/molecular.png
+     - assets/img/icons/deposit.png
+     - assets/img/icons/reload.png
+     - assets/img/icons/setting-lines.png
+     - assets/img/icons/spending-movement.png
+     - assets/img/icons/user.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

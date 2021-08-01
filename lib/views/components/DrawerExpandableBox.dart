@@ -88,8 +88,12 @@ class DrawerExpandableBoxState extends State<DrawerExpandableBox> {
                             children: [
                               for (var element in widget.expandedElements)
                                 MyDrawerTile(
-                                  icon: element[0],
-                                  headerText: element[1],
+                                  icon: (element.length == 2)
+                                      ? element[0]
+                                      : 'assets/img/icons/button.png',
+                                  headerText: (element.length == 2)
+                                      ? element[1]
+                                      : element[0],
                                   headerTextSize: 16,
                                   iconSize: 30,
                                   breakSpace: 2,

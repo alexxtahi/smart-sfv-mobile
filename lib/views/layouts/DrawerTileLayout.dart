@@ -47,22 +47,22 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                   expandedElements: [
                     ['assets/img/icons/suitcase.png', 'Client'],
                     ['assets/img/icons/provider.png', 'Fournisseur'],
-                    ['assets/img/icons/bank.png', 'Banque'],
-                    ['assets/img/icons/suitcase.png', 'TVA'],
-                    ['assets/img/icons/suitcase.png', 'Régime'],
-                    ['assets/img/icons/suitcase.png', 'Article'],
-                    ['assets/img/icons/suitcase.png', 'Caisse'],
-                    ['assets/img/icons/suitcase.png', 'Pays'],
-                    ['assets/img/icons/suitcase.png', 'Catégorie'],
-                    ['assets/img/icons/suitcase.png', 'Sous catégorie'],
-                    ['assets/img/icons/suitcase.png', 'Moyen de paiement'],
-                    ['assets/img/icons/suitcase.png', 'Rayon'],
-                    ['assets/img/icons/suitcase.png', 'Rangée'],
-                    ['assets/img/icons/suitcase.png', 'Casier'],
-                    ['assets/img/icons/suitcase.png', 'Unité'],
-                    ['assets/img/icons/suitcase.png', 'Taille'],
-                    ['assets/img/icons/suitcase.png', 'Divers'],
-                    ['assets/img/icons/suitcase.png', 'Catégorie dépense'],
+                    ['assets/img/icons/bank-building.png', 'Banque'],
+                    ['assets/img/icons/tax.png', 'TVA'],
+                    ['assets/img/icons/regim.png', 'Régime'],
+                    ['assets/img/icons/box.png', 'Article'],
+                    ['assets/img/icons/cashier.png', 'Caisse'],
+                    ['assets/img/icons/countries.png', 'Pays'],
+                    ['assets/img/icons/category.png', 'Catégorie'],
+                    ['assets/img/icons/sub-category.png', 'Sous catégorie'],
+                    ['assets/img/icons/wallet.png', 'Moyen de paiement'],
+                    ['assets/img/icons/section.png', 'Rayon'],
+                    ['assets/img/icons/above.png', 'Rangée'],
+                    ['assets/img/icons/locker.png', 'Casier'],
+                    ['assets/img/icons/unity.png', 'Unité'], // ! à revenir
+                    ['assets/img/icons/package.png', 'Taille'],
+                    ['assets/img/icons/more.png', 'Divers'],
+                    ['assets/img/icons/hand.png', 'Catégorie dépense'],
                   ],
                 ),
                 //todo: Stocks
@@ -70,16 +70,19 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                   icon: 'assets/img/icons/stock.png',
                   headerText: 'Stocks',
                   expandedElements: [
-                    ['assets/img/icons/suitcase.png', 'Bon de commande'],
-                    ['assets/img/icons/suitcase.png', 'Réception de commande'],
-                    ['assets/img/icons/suitcase.png', 'Approvisionnement'],
-                    ['assets/img/icons/suitcase.png', 'Stock par dépôt'],
-                    ['assets/img/icons/suitcase.png', 'Transfert de stock'],
-                    ['assets/img/icons/suitcase.png', 'Déstockage'],
-                    ['assets/img/icons/suitcase.png', 'Inventaire'],
-                    ['assets/img/icons/suitcase.png', 'Mouvements de stock'],
+                    ['assets/img/icons/document.png', 'Bon de commande'],
+                    ['assets/img/icons/truck.png', 'Réception de commande'],
+                    ['assets/img/icons/supplies.png', 'Approvisionnement'],
+                    ['assets/img/icons/warehouse.png', 'Stock par dépôt'],
+                    ['assets/img/icons/arrows.png', 'Transfert de stock'],
+                    ['assets/img/icons/unpacking.png', 'Déstockage'],
+                    ['assets/img/icons/inventory.png', 'Inventaire'],
                     [
-                      'assets/img/icons/suitcase.png',
+                      'assets/img/icons/stock-movement.png',
+                      'Mouvements de stock'
+                    ],
+                    [
+                      'assets/img/icons/packages.png',
                       'Mouvement stock article'
                     ],
                   ],
@@ -90,13 +93,12 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                   headerText: 'Boutique',
                   expandedElements: [
                     ['assets/img/icons/credit-cards-payment.png', 'Vente'],
-                    ['assets/img/icons/suitcase.png', 'Point de caisse'],
-                    ['assets/img/icons/suitcase.png', 'Vente divers'],
+                    ['assets/img/icons/cashier-machine.png', 'Point de caisse'],
+                    ['assets/img/icons/spending.png', 'Vente divers'],
                     ['assets/img/icons/go-back-arrow.png', "Retour d'articles"],
                     ['assets/img/icons/dollar.png', 'Règlement de facture'],
-                    ['assets/img/icons/suitcase.png', 'Déstockage'],
-                    ['assets/img/icons/suitcase.png', 'Opération de caisse'],
-                    ['assets/img/icons/suitcase.png', 'Promotion'],
+                    ['assets/img/icons/exchange.png', 'Opération de caisse'],
+                    ['assets/img/icons/discount.png', 'Promotion'],
                   ],
                 ),
                 //todo: Comptabilité
@@ -104,23 +106,14 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                   icon: 'assets/img/icons/calculator.png',
                   headerText: 'Comptabilité',
                   expandedElements: [
-                    [
-                      'assets/img/icons/credit-cards-payment.png',
-                      'Solde client'
-                    ],
-                    ['assets/img/icons/suitcase.png', 'Solde fournisseur'],
-                    ['assets/img/icons/suitcase.png', 'Déclaration TVA'],
-                    [
-                      'assets/img/icons/go-back-arrow.png',
-                      'Ticket déclaré pour TVA'
-                    ],
-                    ['assets/img/icons/dollar.png', 'Timbre fiscal'],
-                    ['assets/img/icons/suitcase.png', 'Marge sur vente'],
-                    [
-                      'assets/img/icons/suitcase.png',
-                      'Points de caisse cloturés'
-                    ],
-                    ['assets/img/icons/suitcase.png', 'Dépenses'],
+                    ['Solde client'],
+                    ['Solde fournisseur'],
+                    ['Déclaration TVA'],
+                    ['Ticket déclaré pour TVA'],
+                    ['Timbre fiscal'],
+                    ['Marge sur vente'],
+                    ['Points de caisse cloturés'],
+                    ['Dépenses'],
                   ],
                 ),
                 //todo: Etats
@@ -128,17 +121,14 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                   icon: 'assets/img/icons/paper.png',
                   headerText: 'Etats',
                   expandedElements: [
-                    [
-                      'assets/img/icons/credit-cards-payment.png',
-                      'Vente caisse'
-                    ],
-                    ['assets/img/icons/suitcase.png', 'Article'],
-                    ['assets/img/icons/suitcase.png', 'Article vendus'],
-                    ['assets/img/icons/go-back-arrow.png', 'Article reçus'],
-                    ['assets/img/icons/dollar.png', 'Articles retournés'],
-                    ['assets/img/icons/suitcase.png', 'Fournisseur'],
-                    ['assets/img/icons/suitcase.png', 'Client'],
-                    ['assets/img/icons/suitcase.png', 'Dépôt'],
+                    ['Vente caisse'],
+                    ['Article'],
+                    ['Article vendus'],
+                    ['Article reçus'],
+                    ['Articles retournés'],
+                    ['Fournisseur'],
+                    ['Client'],
+                    ['Dépôt'],
                   ],
                 ),
                 //todo: Canal
@@ -146,30 +136,33 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                   icon: 'assets/img/icons/global-network.png',
                   headerText: 'Canal',
                   expandedElements: [
-                    ['assets/img/icons/credit-cards-payment.png', 'Localité'],
-                    ['assets/img/icons/suitcase.png', 'Offres'],
-                    ['assets/img/icons/suitcase.png', 'Options canal'],
-                    ['assets/img/icons/go-back-arrow.png', 'Type de caution'],
+                    ['assets/img/icons/flag.png', 'Localité'],
+                    ['assets/img/icons/price-tag.png', 'Offres'],
+                    ['assets/img/icons/molecular.png', 'Options canal'],
+                    ['assets/img/icons/sub-category.png', 'Type de caution'],
                     ['assets/img/icons/dollar.png', 'Type de pièce'],
-                    ['assets/img/icons/suitcase.png', 'Matériel'],
-                    ['assets/img/icons/suitcase.png', 'Agence'],
-                    ['assets/img/icons/suitcase.png', 'Caution canal'],
+                    ['assets/img/icons/technics.png', 'Matériel'],
+                    ['assets/img/icons/company.png', 'Agence'],
+                    ['assets/img/icons/deposit.png', 'Caution canal'],
                     ['assets/img/icons/suitcase.png', 'Caution agence'],
                     [
-                      'assets/img/icons/suitcase.png',
+                      'assets/img/icons/google-docs.png',
                       'Liste des rechargements'
                     ],
-                    ['assets/img/icons/suitcase.png', 'Abonnés'],
-                    ['assets/img/icons/suitcase.png', 'Abonnement'],
-                    ['assets/img/icons/suitcase.png', 'Réabonnement'],
-                    ['assets/img/icons/suitcase.png', 'Vente de matériel'],
-                    ['assets/img/icons/suitcase.png', 'Mouvement des ventes'],
-                    ['assets/img/icons/suitcase.png', 'Utilisateur agence'],
+                    ['assets/img/icons/follower.png', 'Abonnés'],
+                    ['assets/img/icons/subscribe.png', 'Abonnement'],
+                    ['assets/img/icons/reload.png', 'Réabonnement'],
+                    ['assets/img/icons/briefcase.png', 'Vente de matériel'],
+                    [
+                      'assets/img/icons/spending-movement.png',
+                      'Mouvement des ventes'
+                    ],
+                    ['assets/img/icons/user.png', 'Utilisateur agence'],
                   ],
                 ),
                 //todo: Cautions
                 MyDrawerTile(
-                  icon: 'assets/img/icons/dashboard.png',
+                  icon: 'assets/img/icons/deposit.png',
                   iconSize: 40,
                   headerText: 'Cautions',
                   headerTextSize: 16,
@@ -177,7 +170,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                 ),
                 //todo: Utilisateurs
                 MyDrawerTile(
-                  icon: 'assets/img/icons/dashboard.png',
+                  icon: 'assets/img/icons/user.png',
                   iconSize: 40,
                   headerText: 'Utilisateurs',
                   headerTextSize: 16,
@@ -185,7 +178,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                 ),
                 //todo: Configuration
                 MyDrawerTile(
-                  icon: 'assets/img/icons/dashboard.png',
+                  icon: 'assets/img/icons/setting-lines.png',
                   iconSize: 40,
                   headerText: 'Configuration',
                   headerTextSize: 16,
@@ -193,7 +186,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                 ),
                 //todo: Dépot
                 MyDrawerTile(
-                  icon: 'assets/img/icons/dashboard.png',
+                  icon: 'assets/img/icons/bank-building.png',
                   iconSize: 40,
                   headerText: 'Dépot',
                   headerTextSize: 16,
@@ -201,7 +194,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                 ),
                 //todo: Restaurer les données
                 MyDrawerTile(
-                  icon: 'assets/img/icons/dashboard.png',
+                  icon: 'assets/img/icons/backup.png',
                   iconSize: 40,
                   headerText: 'Restaurer les données',
                   headerTextSize: 16,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/controllers/DrawerLayoutController.dart';
+import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
+import 'package:smart_sfv_mobile/views/LoginView.dart';
 import 'package:smart_sfv_mobile/views/components/DrawerBlurBackground.dart';
 import 'package:smart_sfv_mobile/views/components/MyDrawerHeader.dart';
+import 'package:smart_sfv_mobile/views/components/MyOutlinedButton.dart';
+import 'package:smart_sfv_mobile/views/components/MyText.dart';
 import 'package:smart_sfv_mobile/views/layouts/DrawerTileLayout.dart';
 
 class DrawerLayout extends StatefulWidget {
@@ -50,6 +53,38 @@ class DrawerLayoutState extends State<DrawerLayout> {
                           SizedBox(height: 30),
                           //todo: Drawer Tiles
                           DrawerTileLayout(),
+                          //todo: Logout button
+                          MyOutlinedButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Image.asset(
+                                  'assets/img/icons/paper.png',
+                                  color: Color.fromRGBO(1, 21, 122, 1),
+                                  width: 40,
+                                  height: 40,
+                                ),
+                                MyText(
+                                  text: 'Déconnexion',
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ],
+                            ),
+                            width: screenSize[0] / 1.25,
+                            height: 50,
+                            borderRadius: 15,
+                            borderColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: Colors.white.withOpacity(0.2),
+                            onPressed: () {
+                              setState(() {
+                                functions.openPage(
+                                    context, LoginView(), 'pushReplacement');
+                              });
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -58,8 +93,9 @@ class DrawerLayoutState extends State<DrawerLayout> {
               ),
             ),
           ),
-          //todo: Hide drawer button
-          Positioned(
+
+          //todo: Bottom right button
+          /*Positioned(
             bottom: 0,
             right: 0,
             child: TextButton(
@@ -88,7 +124,7 @@ class DrawerLayoutState extends State<DrawerLayout> {
                 ],
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );

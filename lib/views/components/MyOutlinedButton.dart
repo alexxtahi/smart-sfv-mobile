@@ -10,9 +10,10 @@ class MyOutlinedButton extends StatefulWidget {
   final Color borderColor;
   final Color backgroundColor;
   final void Function()? onPressed;
+  var child;
   //todo: Constructor
   MyOutlinedButton({
-    required this.text,
+    this.text = 'button',
     required this.textColor,
     required this.width,
     required this.height,
@@ -20,6 +21,7 @@ class MyOutlinedButton extends StatefulWidget {
     required this.borderColor,
     this.onPressed,
     this.backgroundColor = Colors.transparent,
+    this.child,
   });
   //todo: State
   @override
@@ -32,16 +34,18 @@ class MyOutlinedButtonState extends State<MyOutlinedButton> {
     // Return building outlined button
     return OutlinedButton(
       onPressed: widget.onPressed,
-      child: Text(
-        widget.text,
-        style: TextStyle(
-          fontFamily: 'Montserrat',
-          color: widget.textColor,
-          //color: Colors.black,
-          fontSize: 18,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
+      child: (widget.child != null)
+          ? widget.child
+          : Text(
+              widget.text,
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: widget.textColor,
+                //color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
             EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
