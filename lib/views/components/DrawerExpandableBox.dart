@@ -32,6 +32,9 @@ class DrawerExpandableBoxState extends State<DrawerExpandableBox> {
         elevation: 0,
         color: Colors.transparent,
         child: ExpandablePanel(
+          theme: ExpandableThemeData(
+            iconColor: Color.fromRGBO(1, 21, 122, 1),
+          ),
           header: Container(
             width: screenSize[0],
             height: 50,
@@ -54,11 +57,6 @@ class DrawerExpandableBoxState extends State<DrawerExpandableBox> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
-                  Spacer(),
-                  /*Icon(
-                    Icons.keyboard_arrow_left_rounded,
-                    color: Color.fromRGBO(1, 21, 122, 1),
-                  ),*/
                 ],
               ),
             ),
@@ -70,30 +68,36 @@ class DrawerExpandableBoxState extends State<DrawerExpandableBox> {
           expanded: Row(
             children: [
               Expanded(
-                child: Container(
-                  width: screenSize[0],
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(0, 0, 77, 0.2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 50),
-                      Column(
-                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    Container(
+                      width: screenSize[0],
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(0, 0, 77, 0.2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
                         children: [
-                          for (var element in widget.expandedElements)
-                            MyDrawerTile(
-                              icon: element[0],
-                              headerText: element[1],
-                              headerTextSize: 16,
-                              iconSize: 30,
-                            ),
+                          SizedBox(width: 50),
+                          Column(
+                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              for (var element in widget.expandedElements)
+                                MyDrawerTile(
+                                  icon: element[0],
+                                  headerText: element[1],
+                                  headerTextSize: 16,
+                                  iconSize: 30,
+                                  breakSpace: 2,
+                                ),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
