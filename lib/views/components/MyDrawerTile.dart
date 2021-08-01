@@ -9,6 +9,7 @@ class MyDrawerTile extends StatefulWidget {
   final String headerText;
   final double headerTextSize;
   final double breakSpace;
+  final FontWeight headerTextWeight;
   MyDrawerTile({
     Key? key,
     this.iconSize = 0,
@@ -16,6 +17,7 @@ class MyDrawerTile extends StatefulWidget {
     required this.headerText,
     this.headerTextSize = 12,
     this.breakSpace = 1,
+    this.headerTextWeight = FontWeight.w600,
   }) : super(key: key);
   @override
   MyDrawerTileState createState() => MyDrawerTileState();
@@ -57,12 +59,16 @@ class MyDrawerTileState extends State<MyDrawerTile> {
                     text: widget.headerText,
                     color: Colors.white,
                     fontSize: widget.headerTextSize,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: widget.headerTextWeight,
                     overflow: TextOverflow.visible,
                   ),
                 ),
               ],
             ),
+          ),
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
           ),
         ),
       ),

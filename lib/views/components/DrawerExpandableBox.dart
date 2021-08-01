@@ -49,6 +49,8 @@ class DrawerExpandableBoxState extends State<DrawerExpandableBox> {
                   Image.asset(
                     widget.icon,
                     color: Color.fromRGBO(1, 21, 122, 1),
+                    width: 40,
+                    height: 40,
                   ),
                   SizedBox(width: 10),
                   MyText(

@@ -2,9 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_sfv_mobile/views/components/DrawerExpandableBox.dart';
-import 'package:smart_sfv_mobile/views/components/MyDataTable.dart';
 import 'package:smart_sfv_mobile/views/components/MyDrawerTile.dart';
-import 'package:smart_sfv_mobile/views/components/MyExpandableBox.dart';
 
 class DrawerTileLayout extends StatefulWidget {
   DrawerTileLayout({
@@ -31,13 +29,18 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
           child: ExpandableNotifier(
             controller: expandableController,
             // <-- Provides ExpandableController to its children
+            //todo: Drawer Tiles
             child: Column(
               children: [
+                //todo: Tableau de bord
                 MyDrawerTile(
                   icon: 'assets/img/icons/dashboard.png',
+                  iconSize: 40,
                   headerText: 'Tableau de bord',
                   headerTextSize: 16,
+                  headerTextWeight: FontWeight.bold,
                 ),
+                //todo: Paramètres
                 DrawerExpandableBox(
                   icon: 'assets/img/icons/settings.png',
                   headerText: 'Paramètres',
@@ -62,6 +65,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     ['assets/img/icons/suitcase.png', 'Catégorie dépense'],
                   ],
                 ),
+                //todo: Stocks
                 DrawerExpandableBox(
                   icon: 'assets/img/icons/stock.png',
                   headerText: 'Stocks',
@@ -78,62 +82,131 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       'assets/img/icons/suitcase.png',
                       'Mouvement stock article'
                     ],
-                    ['assets/img/icons/suitcase.png', 'Bon de commande'],
-                    ['assets/img/icons/suitcase.png', 'Bon de commande'],
                   ],
-                ), /*
+                ),
+                //todo: Boutique
                 DrawerExpandableBox(
                   icon: 'assets/img/icons/shop.png',
                   headerText: 'Boutique',
+                  expandedElements: [
+                    ['assets/img/icons/credit-cards-payment.png', 'Vente'],
+                    ['assets/img/icons/suitcase.png', 'Point de caisse'],
+                    ['assets/img/icons/suitcase.png', 'Vente divers'],
+                    ['assets/img/icons/go-back-arrow.png', "Retour d'articles"],
+                    ['assets/img/icons/dollar.png', 'Règlement de facture'],
+                    ['assets/img/icons/suitcase.png', 'Déstockage'],
+                    ['assets/img/icons/suitcase.png', 'Opération de caisse'],
+                    ['assets/img/icons/suitcase.png', 'Promotion'],
+                  ],
                 ),
+                //todo: Comptabilité
                 DrawerExpandableBox(
                   icon: 'assets/img/icons/calculator.png',
                   headerText: 'Comptabilité',
+                  expandedElements: [
+                    [
+                      'assets/img/icons/credit-cards-payment.png',
+                      'Solde client'
+                    ],
+                    ['assets/img/icons/suitcase.png', 'Solde fournisseur'],
+                    ['assets/img/icons/suitcase.png', 'Déclaration TVA'],
+                    [
+                      'assets/img/icons/go-back-arrow.png',
+                      'Ticket déclaré pour TVA'
+                    ],
+                    ['assets/img/icons/dollar.png', 'Timbre fiscal'],
+                    ['assets/img/icons/suitcase.png', 'Marge sur vente'],
+                    [
+                      'assets/img/icons/suitcase.png',
+                      'Points de caisse cloturés'
+                    ],
+                    ['assets/img/icons/suitcase.png', 'Dépenses'],
+                  ],
                 ),
+                //todo: Etats
                 DrawerExpandableBox(
                   icon: 'assets/img/icons/paper.png',
                   headerText: 'Etats',
+                  expandedElements: [
+                    [
+                      'assets/img/icons/credit-cards-payment.png',
+                      'Vente caisse'
+                    ],
+                    ['assets/img/icons/suitcase.png', 'Article'],
+                    ['assets/img/icons/suitcase.png', 'Article vendus'],
+                    ['assets/img/icons/go-back-arrow.png', 'Article reçus'],
+                    ['assets/img/icons/dollar.png', 'Articles retournés'],
+                    ['assets/img/icons/suitcase.png', 'Fournisseur'],
+                    ['assets/img/icons/suitcase.png', 'Client'],
+                    ['assets/img/icons/suitcase.png', 'Dépôt'],
+                  ],
                 ),
+                //todo: Canal
                 DrawerExpandableBox(
                   icon: 'assets/img/icons/global-network.png',
                   headerText: 'Canal',
+                  expandedElements: [
+                    ['assets/img/icons/credit-cards-payment.png', 'Localité'],
+                    ['assets/img/icons/suitcase.png', 'Offres'],
+                    ['assets/img/icons/suitcase.png', 'Options canal'],
+                    ['assets/img/icons/go-back-arrow.png', 'Type de caution'],
+                    ['assets/img/icons/dollar.png', 'Type de pièce'],
+                    ['assets/img/icons/suitcase.png', 'Matériel'],
+                    ['assets/img/icons/suitcase.png', 'Agence'],
+                    ['assets/img/icons/suitcase.png', 'Caution canal'],
+                    ['assets/img/icons/suitcase.png', 'Caution agence'],
+                    [
+                      'assets/img/icons/suitcase.png',
+                      'Liste des rechargements'
+                    ],
+                    ['assets/img/icons/suitcase.png', 'Abonnés'],
+                    ['assets/img/icons/suitcase.png', 'Abonnement'],
+                    ['assets/img/icons/suitcase.png', 'Réabonnement'],
+                    ['assets/img/icons/suitcase.png', 'Vente de matériel'],
+                    ['assets/img/icons/suitcase.png', 'Mouvement des ventes'],
+                    ['assets/img/icons/suitcase.png', 'Utilisateur agence'],
+                  ],
                 ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/customer.png',
-                  headerText: 'Abonnés',
-                ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/customer.png',
-                  headerText: 'Abonnement',
-                ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/customer.png',
-                  headerText: 'Réabonnement',
-                ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/customer.png',
-                  headerText: 'Vente de matériel',
-                ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/customer.png',
+                //todo: Cautions
+                MyDrawerTile(
+                  icon: 'assets/img/icons/dashboard.png',
+                  iconSize: 40,
                   headerText: 'Cautions',
+                  headerTextSize: 16,
+                  headerTextWeight: FontWeight.bold,
                 ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/customer.png',
+                //todo: Utilisateurs
+                MyDrawerTile(
+                  icon: 'assets/img/icons/dashboard.png',
+                  iconSize: 40,
                   headerText: 'Utilisateurs',
+                  headerTextSize: 16,
+                  headerTextWeight: FontWeight.bold,
                 ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/customer.png',
+                //todo: Configuration
+                MyDrawerTile(
+                  icon: 'assets/img/icons/dashboard.png',
+                  iconSize: 40,
                   headerText: 'Configuration',
+                  headerTextSize: 16,
+                  headerTextWeight: FontWeight.bold,
                 ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/bank.png',
-                  headerText: 'Dépôt',
+                //todo: Dépot
+                MyDrawerTile(
+                  icon: 'assets/img/icons/dashboard.png',
+                  iconSize: 40,
+                  headerText: 'Dépot',
+                  headerTextSize: 16,
+                  headerTextWeight: FontWeight.bold,
                 ),
-                DrawerExpandableBox(
-                  icon: 'assets/img/icons/customer.png',
-                  headerText: 'Restauration de données',
-                ),*/
+                //todo: Restaurer les données
+                MyDrawerTile(
+                  icon: 'assets/img/icons/dashboard.png',
+                  iconSize: 40,
+                  headerText: 'Restaurer les données',
+                  headerTextSize: 16,
+                  headerTextWeight: FontWeight.bold,
+                ),
               ],
             ),
           ),
