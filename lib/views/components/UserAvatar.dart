@@ -24,17 +24,10 @@ class UserAvatarState extends State<UserAvatar> {
     // Return building User button
     return CircleAvatar(
       radius: widget.avatarRadius,
+      backgroundImage: AssetImage('assets/img/backgrounds/storage-center.jpg'),
       child: TextButton(
+        child: Container(),
         onPressed: widget.onPressed,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: Image.asset(
-            'assets/img/backgrounds/storage-center.jpg',
-            fit: BoxFit.cover,
-            width: 50,
-            height: 50,
-          ),
-        ),
         style: ButtonStyle(
           fixedSize: MaterialStateProperty.all<Size>(
             Size(

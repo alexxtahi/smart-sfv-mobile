@@ -3,6 +3,7 @@ import 'package:smart_sfv_mobile/controllers/DrawerLayoutController.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/components/DrawerBlurBackground.dart';
 import 'package:smart_sfv_mobile/views/components/MyDrawerHeader.dart';
+import 'package:smart_sfv_mobile/views/layouts/DrawerTileLayout.dart';
 
 class DrawerLayout extends StatefulWidget {
   DrawerLayout({
@@ -35,7 +36,7 @@ class DrawerLayoutState extends State<DrawerLayout> {
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
+                  horizontal: 10,
                   vertical: 10,
                 ),
                 child: Flex(
@@ -46,7 +47,9 @@ class DrawerLayoutState extends State<DrawerLayout> {
                         children: [
                           //todo: Drawer Header
                           MyDrawerHeader(),
-                          //todo:
+                          SizedBox(height: 50),
+                          //todo: Drawer Tiles
+                          DrawerTileLayout(),
                         ],
                       ),
                     ),

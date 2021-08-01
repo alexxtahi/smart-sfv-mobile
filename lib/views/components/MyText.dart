@@ -6,6 +6,7 @@ class MyText extends StatefulWidget {
   final Color color;
   final double fontSize;
   final FontWeight fontWeight;
+  final TextOverflow overflow;
   MyText({
     Key? key,
     required this.text,
@@ -13,6 +14,7 @@ class MyText extends StatefulWidget {
     this.color = Colors.black,
     this.fontSize = 14,
     this.fontWeight = FontWeight.normal,
+    this.overflow = TextOverflow.ellipsis,
   }) : super(key: key);
   @override
   MyTextState createState() => MyTextState();
@@ -25,6 +27,7 @@ class MyTextState extends State<MyText> {
   Widget build(BuildContext context) {
     return Text(
       widget.text,
+      overflow: widget.overflow,
       style: TextStyle(
         fontFamily: widget.fontFamily,
         color: widget.color,
