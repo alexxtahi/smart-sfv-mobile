@@ -22,19 +22,19 @@ class SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 5),
       () {
         print('Showing home view !');
-        BlurBackground loginViewBackground = BlurBackground(
-          index: 2,
-          imageChoice: 2,
-        );
-        functions.openPage(
-            context,
-            LoginView(
-              background: loginViewBackground,
-            ),
-            'pushReplacement');
+        functions.openPage(context, LoginView(), 'pushReplacement');
       },
     );
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    precacheImage(
+        AssetImage('assets/img/backgrounds/storage-center.jpg'), context);
+    precacheImage(
+        AssetImage('assets/img/backgrounds/gestion-stock.jpg'), context);
+    super.didChangeDependencies();
   }
 
   @override

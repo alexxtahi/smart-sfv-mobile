@@ -10,10 +10,8 @@ import 'layouts/ForgottenPasswordLayout.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatefulWidget {
-  var background;
   LoginView({
     Key? key,
-    this.background,
   }) : super(key: key);
   @override
   LoginViewState createState() => LoginViewState();
@@ -26,10 +24,6 @@ class LoginViewState extends State<LoginView> {
   );
   @override
   void initState() {
-    widget.background = BlurBackground(
-      index: 2,
-      imageChoice: 2,
-    );
     super.initState();
   }
 
@@ -56,11 +50,10 @@ class LoginViewState extends State<LoginView> {
             alignment: Alignment.center,
             children: <Widget>[
               //todo: Background
-              widget.background,
-              /*BlurBackground(
+              BlurBackground(
                 index: 2,
                 imageChoice: 2,
-              ),*/
+              ),
               //todo: Title
               Container(
                 width: screenSize[0],
