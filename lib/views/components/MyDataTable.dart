@@ -7,7 +7,7 @@ class MyDataTable extends StatefulWidget {
   MyDataTable({
     Key? key,
     required this.columns,
-    required this.rows,
+    this.rows = const [],
   }) : super(key: key);
   @override
   MyDataTableState createState() => MyDataTableState();
