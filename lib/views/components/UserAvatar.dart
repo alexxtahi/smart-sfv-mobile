@@ -22,27 +22,12 @@ class UserAvatarState extends State<UserAvatar> {
   @override
   Widget build(BuildContext context) {
     // Return building User button
-    return CircleAvatar(
-      radius: widget.avatarRadius,
-      backgroundImage: AssetImage('assets/img/backgrounds/storage-center.jpg'),
-      child: TextButton(
-        child: Container(),
-        onPressed: widget.onPressed,
-        style: ButtonStyle(
-          fixedSize: MaterialStateProperty.all<Size>(
-            Size(
-              50,
-              50,
-            ),
-          ),
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-        ),
+    return InkWell(
+      onTap: widget.onPressed,
+      child: CircleAvatar(
+        radius: widget.avatarRadius,
+        backgroundImage:
+            AssetImage('assets/img/backgrounds/storage-center.jpg'),
       ),
     );
   }

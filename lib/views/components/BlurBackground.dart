@@ -29,6 +29,8 @@ class BlurBackgroundState extends State<BlurBackground> {
         width: screenSize[0],
         height: screenSize[1],
         fit: BoxFit.cover,
+        color: Colors.black.withOpacity(0.2),
+        colorBlendMode: BlendMode.darken,
       );
     } else {
       // ? Second Background

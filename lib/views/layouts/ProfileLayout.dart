@@ -71,6 +71,8 @@ class ProfileLayoutState extends State<ProfileLayout> {
               CircleAvatar(
                 radius: 70,
                 backgroundColor: Color.fromRGBO(60, 141, 188, 0.3),
+                backgroundImage:
+                    AssetImage('assets/img/backgrounds/storage-center.jpg'),
               ),
               SizedBox(height: 15),
               //todo: Username

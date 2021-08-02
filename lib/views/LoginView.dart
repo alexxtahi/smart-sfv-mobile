@@ -8,8 +8,13 @@ import '../controllers/ScreenController.dart';
 import 'components/AppName.dart';
 import 'layouts/ForgottenPasswordLayout.dart';
 
+// ignore: must_be_immutable
 class LoginView extends StatefulWidget {
-  LoginView({Key? key}) : super(key: key);
+  var background;
+  LoginView({
+    Key? key,
+    this.background,
+  }) : super(key: key);
   @override
   LoginViewState createState() => LoginViewState();
 }
@@ -19,6 +24,15 @@ class LoginViewState extends State<LoginView> {
     width: 350,
     height: 365,
   );
+  @override
+  void initState() {
+    widget.background = BlurBackground(
+      index: 1,
+      imageChoice: 2,
+    );
+    super.initState();
+  }
+
   // textfield controller
   @override
   Widget build(BuildContext context) {
@@ -37,15 +51,16 @@ class LoginViewState extends State<LoginView> {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Color.fromRGBO(155, 155, 155, 1),
           body: Stack(
             alignment: Alignment.center,
             children: <Widget>[
               //todo: Background
-              BlurBackground(
+              widget.background,
+              /*BlurBackground(
                 index: 2,
                 imageChoice: 2,
-              ),
+              ),*/
               //todo: Title
               Container(
                 width: screenSize[0],

@@ -6,6 +6,7 @@ import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/LoginView.dart';
 import 'package:smart_sfv_mobile/views/components/AppName.dart';
 import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
+import 'package:smart_sfv_mobile/views/components/BlurBackground.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -21,7 +22,16 @@ class SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 5),
       () {
         print('Showing home view !');
-        functions.openPage(context, LoginView(), 'pushReplacement');
+        BlurBackground loginViewBackground = BlurBackground(
+          index: 2,
+          imageChoice: 2,
+        );
+        functions.openPage(
+            context,
+            LoginView(
+              background: loginViewBackground,
+            ),
+            'pushReplacement');
       },
     );
     super.initState();
