@@ -38,6 +38,11 @@ class LoginViewState extends State<LoginView> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
+    // lock screen orientation
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     // Return building scaffold
     return Stack(
       children: [
