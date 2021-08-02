@@ -1,6 +1,6 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
+import 'package:smart_sfv/controllers/ScreenController.dart';
 
 class DashboardCard extends StatefulWidget {
   final String text;

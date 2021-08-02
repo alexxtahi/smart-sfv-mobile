@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "smart_sfv_mobile",
+            "name": "smart_sfv",
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
         },
         {
-            "name": "smart_sfv_mobile (profile mode)",
+            "name": "smart_sfv (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"

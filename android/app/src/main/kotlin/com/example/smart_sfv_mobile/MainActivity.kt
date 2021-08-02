@@ -1,4 +1,4 @@
-package com.example.smart_sfv_mobile
+package com.example.smart_sfv
 
 import io.flutter.embedding.android.FlutterActivity
 

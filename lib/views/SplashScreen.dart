@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
-import 'package:smart_sfv_mobile/views/LoginView.dart';
-import 'package:smart_sfv_mobile/views/components/AppName.dart';
-import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
+import 'package:smart_sfv/controllers/ScreenController.dart';
+import 'package:smart_sfv/views/LoginView.dart';
+import 'package:smart_sfv/views/components/AppName.dart';
+import 'package:smart_sfv/controllers/functions.dart' as functions;
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);

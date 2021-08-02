@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/views/components/MyText.dart';
+import 'package:smart_sfv/views/components/MyText.dart';
 
 class MyDataTable extends StatefulWidget {
   final List<String> columns;

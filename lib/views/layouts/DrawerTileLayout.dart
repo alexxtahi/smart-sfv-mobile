@@ -1,8 +1,8 @@
 import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/views/components/DrawerExpandableBox.dart';
-import 'package:smart_sfv_mobile/views/components/MyDrawerTile.dart';
+import 'package:smart_sfv/views/components/DrawerExpandableBox.dart';
+import 'package:smart_sfv/views/components/MyDrawerTile.dart';
 
 class DrawerTileLayout extends StatefulWidget {
   DrawerTileLayout({

@@ -1,11 +1,10 @@
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv_mobile/controllers/DrawerLayoutController.dart';
-import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
-import 'package:smart_sfv_mobile/views/components/DashboardCard.dart';
-import 'package:smart_sfv_mobile/views/components/MyAppBar.dart';
-import 'package:smart_sfv_mobile/views/layouts/ExpansionTable.dart';
+import 'package:smart_sfv/controllers/DrawerLayoutController.dart';
+import 'package:smart_sfv/views/components/MyAppBar.dart';
+import 'package:smart_sfv/views/layouts/DashboardGridViewLayout.dart';
+import 'package:smart_sfv/views/layouts/ExpansionTable.dart';
 
 class DashboardScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -29,7 +28,6 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<double> screenSize = ScreenController.getScreenSize(context);
     // Return building scaffold
     return AnimatedContainer(
       transform: Matrix4.translationValues(
@@ -71,51 +69,11 @@ class DashboardScreenState extends State<DashboardScreen> {
                             child: Column(
                               children: [
                                 //todo: Dashboard
-                                ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    maxWidth: screenSize[0],
-                                  ),
-                                  child: GridView.count(
-                                    controller: this.gridViewScrollController,
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 2,
-                                    mainAxisSpacing: 2,
-                                    childAspectRatio: 1.25,
-                                    shrinkWrap: true,
-                                    //physics:BouncingScrollPhysics(),
-                                    padding: EdgeInsets.all(0),
-                                    scrollDirection: Axis.vertical,
-                                    children: [
-                                      DashboardCard(
-                                        text: 'Clients',
-                                        icon: 'assets/img/icons/customer1.png',
-                                        iconColor:
-                                            Color.fromRGBO(0, 27, 121, 1),
-                                      ),
-                                      DashboardCard(
-                                        text: 'Articles',
-                                        icon: 'assets/img/icons/box.png',
-                                        iconColor:
-                                            Color.fromRGBO(231, 57, 0, 1),
-                                        backgroundColor:
-                                            Color.fromRGBO(243, 156, 18, 1),
-                                      ),
-                                      DashboardCard(
-                                        text: 'Dépôts',
-                                        icon: 'assets/img/icons/bank.png',
-                                        iconColor: Color.fromRGBO(0, 77, 0, 1),
-                                        backgroundColor:
-                                            Color.fromRGBO(0, 166, 90, 1),
-                                      ),
-                                      DashboardCard(
-                                        text: 'Fournisseurs',
-                                        icon: 'assets/img/icons/provider.png',
-                                        iconColor: Color.fromRGBO(187, 0, 0, 1),
-                                        backgroundColor:
-                                            Color.fromRGBO(221, 75, 57, 1),
-                                      ),
-                                    ],
-                                  ),
+                                DashboardGridViewLayout(
+                                  elementsPerLine: 2,
+                                  gridViewScrollController:
+                                      this.gridViewScrollController,
+                                  childAspectRatio: 1.25,
                                 ),
                                 SizedBox(height: 20),
                                 //todo: Tables

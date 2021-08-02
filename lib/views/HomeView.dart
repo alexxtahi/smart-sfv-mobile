@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv_mobile/views/layouts/DashboardScreen.dart';
-import 'package:smart_sfv_mobile/views/layouts/DrawerLayout.dart';
-import 'package:smart_sfv_mobile/views/layouts/ProfileLayout.dart';
+import 'package:smart_sfv/views/layouts/DashboardScreen.dart';
+import 'package:smart_sfv/views/layouts/DrawerLayout.dart';
+import 'package:smart_sfv/views/layouts/ProfileLayout.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);

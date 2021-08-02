@@ -1,4 +1,4 @@
-# smart_sfv_mobile
+# smart_sfv
 
 A new Flutter project.
 

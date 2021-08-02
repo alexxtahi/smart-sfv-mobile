@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
-import 'package:smart_sfv_mobile/views/components/MyText.dart';
+import 'package:smart_sfv/controllers/ScreenController.dart';
+import 'package:smart_sfv/views/components/MyText.dart';
 
 class MyDrawerHeader extends StatefulWidget {
   MyDrawerHeader({Key? key}) : super(key: key);

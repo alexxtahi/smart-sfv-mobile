@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv_mobile/api.dart';
-import 'package:smart_sfv_mobile/views/HomeView.dart';
-import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
-import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
+import 'package:smart_sfv/api.dart';
+import 'package:smart_sfv/views/HomeView.dart';
+import 'package:smart_sfv/views/components/MyTextField.dart';
+import 'package:smart_sfv/controllers/functions.dart' as functions;
 
 class LoginBox extends StatefulWidget {
   final Color backgroundColor;

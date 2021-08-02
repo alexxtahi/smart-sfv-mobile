@@ -1,7 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/views/components/MyDataTable.dart';
-import 'package:smart_sfv_mobile/views/components/MyExpandableBox.dart';
+import 'package:smart_sfv/views/components/MyDataTable.dart';
+import 'package:smart_sfv/views/components/MyExpandableBox.dart';
 
 class ExpansionTable extends StatefulWidget {
   ExpansionTable({

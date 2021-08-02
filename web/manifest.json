@@ -1,6 +1,6 @@
 {
-    "name": "smart_sfv_mobile",
-    "short_name": "smart_sfv_mobile",
+    "name": "smart_sfv",
+    "short_name": "smart_sfv",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

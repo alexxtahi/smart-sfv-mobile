@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
-import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
-import 'package:smart_sfv_mobile/views/LoginView.dart';
-import 'package:smart_sfv_mobile/views/components/DrawerBlurBackground.dart';
-import 'package:smart_sfv_mobile/views/components/MyDrawerHeader.dart';
-import 'package:smart_sfv_mobile/views/components/MyOutlinedButton.dart';
-import 'package:smart_sfv_mobile/views/components/MyText.dart';
-import 'package:smart_sfv_mobile/views/layouts/DrawerTileLayout.dart';
+import 'package:smart_sfv/controllers/functions.dart' as functions;
+import 'package:smart_sfv/controllers/ScreenController.dart';
+import 'package:smart_sfv/views/LoginView.dart';
+import 'package:smart_sfv/views/components/DrawerBlurBackground.dart';
+import 'package:smart_sfv/views/components/MyDrawerHeader.dart';
+import 'package:smart_sfv/views/components/MyOutlinedButton.dart';
+import 'package:smart_sfv/views/components/MyText.dart';
+import 'package:smart_sfv/views/layouts/DrawerTileLayout.dart';
 
 class DrawerLayout extends StatefulWidget {
   DrawerLayout({

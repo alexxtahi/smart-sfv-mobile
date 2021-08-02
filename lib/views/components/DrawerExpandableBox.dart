@@ -1,10 +1,10 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_sfv_mobile/controllers/MyExpandableController.dart';
-import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
-import 'package:smart_sfv_mobile/views/components/MyDrawerTile.dart';
-import 'package:smart_sfv_mobile/views/components/MyText.dart';
+import 'package:smart_sfv/controllers/MyExpandableController.dart';
+import 'package:smart_sfv/controllers/ScreenController.dart';
+import 'package:smart_sfv/views/components/MyDrawerTile.dart';
+import 'package:smart_sfv/views/components/MyText.dart';
 
 class DrawerExpandableBox extends StatefulWidget {
   final String icon;

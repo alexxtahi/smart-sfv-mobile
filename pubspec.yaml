@@ -1,4 +1,4 @@
-name: smart_sfv_mobile
+name: smart_sfv
 description: La version mobile de SMART-SFV, l'application de gestion des stock, des finances et des ventes.
 
 # The following line prevents the package from being accidentally published to

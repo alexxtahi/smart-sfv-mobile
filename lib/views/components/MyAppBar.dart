@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv_mobile/controllers/DrawerLayoutController.dart';
-import 'package:smart_sfv_mobile/views/components/MyOutlinedIconButton.dart';
-import 'package:smart_sfv_mobile/views/components/UserAvatar.dart';
+import 'package:smart_sfv/controllers/DrawerLayoutController.dart';
+import 'package:smart_sfv/views/components/MyOutlinedIconButton.dart';
+import 'package:smart_sfv/views/components/UserAvatar.dart';
 
 import 'AppName.dart';
 
