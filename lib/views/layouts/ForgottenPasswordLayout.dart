@@ -105,10 +105,10 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
                   FocusScope.of(context).requestFocus(FocusNode());
                   widget.panelController.hide();
                   functions.showMessageToSnackbar(
-                      context,
-                      "E-mail envoyé ! vérifiez votre boîte.",
-                      3,
-                      Icon(Icons.mail_outlined));
+                      context: context,
+                      message: "E-mail envoyé ! vérifiez votre boîte.",
+                      duration: 3,
+                      icon: Icon(Icons.mail_outlined));
                   print('envoi du mail de récupération');
                 },
                 child: Text(

@@ -1,31 +1,48 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 
 class Api {
   // todo: Properties
   late http.Response response;
-  bool isLinkCorrect = false;
+  bool requestSuccess = false;
   late String url;
 
   // ! App context methods
   // todo: get user datas method
-  Future getUserData() async {
+  Future getUserData(BuildContext context) async {
     this.url = 'http://192.168.1.16:8000/api/getusers'; // set url
-    this.response = await http.get(Uri.parse(url)); // getting datas from url
-    print('le lien est: $url');
+    //this.url = 'https://jsonplaceholder.typicode.com/users'; // JSON placeholder url
+    try {
+      this.response = await http.get(Uri.parse(url)); // getting datas from url
+      print('le lien est: $url');
 
-    if (this.response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      this.isLinkCorrect = true;
-      print(this.response);
-      //return models.Food.fromJson(jsonDecode(this.response.body));
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      this.isLinkCorrect = false;
-      throw Exception('Failed to load Food');
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        print(this.response.body);
+        // show success snack bar
+        functions.successSnackbar(
+          context: context,
+          message: "Récupération des données réussie",
+        );
+        //return models.Food.fromJson(jsonDecode(this.response.body));
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des données",
+        );
+        throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
     }
   }
 
@@ -40,13 +57,13 @@ class Api {
     if (this.response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      this.isLinkCorrect = true;
+      this.requestSuccess = true;
       print(this.response);
       //return models.Food.fromJson(jsonDecode(this.response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      this.isLinkCorrect = false;
+      this.requestSuccess = false;
       throw Exception('Failed to load Food');
     }
   }

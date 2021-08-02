@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smart_sfv_mobile/api.dart';
 import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 import 'package:smart_sfv_mobile/views/LoginView.dart';
@@ -140,6 +141,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                         borderRadius: 10,
                         borderColor: Color.fromRGBO(60, 141, 188, 1),
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                        onPressed: getUserData,
                       ),
                       MyOutlinedButton(
                         text: 'Deconnexion',
@@ -180,7 +182,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
           //print("zaza"); // ! debug
         }
       },
-      enableOnTap: true, //Enable the onTap callback for control bar.
+      //enableOnTap: true, //Enable the onTap callback for control bar.
       dragDown: (details) {
         //widget.panelController.hide();
         print('dragDown');
@@ -198,5 +200,27 @@ class ProfileLayoutState extends State<ProfileLayout> {
         print('dragEnd');
       },
     );
+  }
+
+  //todo: get user datas function
+  void getUserData() {
+    Api api = new Api();
+    api.getUserData(context);
+    widget.panelController.hide();
+    /*if (api.requestSuccess) {
+      functions.showMessageToSnackbar(
+        context,
+        "Récupération des données réussie",
+        5,
+        Icon(Icons.check),
+      );
+    } else {
+      functions.showMessageToSnackbar(
+        context,
+        "Echec de récupération des données",
+        5,
+        Icon(Icons.close),
+      );
+    }*/
   }
 }
