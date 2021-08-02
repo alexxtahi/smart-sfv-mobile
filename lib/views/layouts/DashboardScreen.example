@@ -16,7 +16,6 @@ class DashboardScreen extends StatefulWidget {
 
 class DashboardScreenState extends State<DashboardScreen> {
   ScrollController scrollController = new ScrollController();
-  ScrollController gridViewScrollController = new ScrollController();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -71,20 +70,10 @@ class DashboardScreenState extends State<DashboardScreen> {
                             child: Column(
                               children: [
                                 //todo: Dashboard
-                                ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    maxWidth: screenSize[0],
-                                  ),
-                                  child: GridView.count(
-                                    controller: this.gridViewScrollController,
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 2,
-                                    mainAxisSpacing: 2,
-                                    childAspectRatio: 1.25,
-                                    shrinkWrap: true,
-                                    //physics:BouncingScrollPhysics(),
-                                    padding: EdgeInsets.all(0),
-                                    scrollDirection: Axis.vertical,
+                                Container(
+                                  width: screenSize[0],
+                                  child: Wrap(
+                                    alignment: WrapAlignment.spaceBetween,
                                     children: [
                                       DashboardCard(
                                         text: 'Clients',
