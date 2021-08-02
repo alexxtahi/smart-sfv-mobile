@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MyOutlinedButton extends StatefulWidget {
   //todo: Properties
   final String text;

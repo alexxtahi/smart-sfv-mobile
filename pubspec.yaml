@@ -150,6 +150,7 @@ flutter:
      - assets/img/icons/setting-lines.png
      - assets/img/icons/spending-movement.png
      - assets/img/icons/user.png
+     - assets/img/icons/exit.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

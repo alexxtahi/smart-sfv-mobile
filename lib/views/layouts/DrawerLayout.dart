@@ -59,10 +59,10 @@ class DrawerLayoutState extends State<DrawerLayout> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Image.asset(
-                                  'assets/img/icons/paper.png',
+                                  'assets/img/icons/exit.png',
                                   color: Color.fromRGBO(1, 21, 122, 1),
-                                  width: 40,
-                                  height: 40,
+                                  width: 30,
+                                  height: 30,
                                 ),
                                 MyText(
                                   text: 'Déconnexion',
