@@ -19,6 +19,19 @@ class BlurBackground extends StatefulWidget {
 }
 
 class BlurBackgroundState extends State<BlurBackground> {
+  var background;
+  @override
+  void initState() {
+    background = AssetImage('assets/img/backgrounds/storage-center.jpg');
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    precacheImage(background, context);
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
@@ -41,7 +54,8 @@ class BlurBackgroundState extends State<BlurBackground> {
           image: DecorationImage(
             image: (widget.imageChoice == 1)
                 ? AssetImage('assets/img/backgrounds/gestion-stock.jpg')
-                : AssetImage('assets/img/backgrounds/storage-center.jpg'),
+                : background,
+            //: AssetImage('assets/img/backgrounds/storage-center.jpg'),
             fit: BoxFit.cover,
           ),
         ),

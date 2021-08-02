@@ -27,7 +27,7 @@ class LoginViewState extends State<LoginView> {
   @override
   void initState() {
     widget.background = BlurBackground(
-      index: 1,
+      index: 2,
       imageChoice: 2,
     );
     super.initState();
