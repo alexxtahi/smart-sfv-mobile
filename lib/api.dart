@@ -84,6 +84,36 @@ class Api {
     }
   }
 
+  // todo: verify login method
+  Future verifyLoginRequest(
+      BuildContext context, String login, String password) async {
+    this.url = 'http://192.168.1.16:8000/api/postusers'; // set url
+    try {
+      this.response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+        },
+        body: {
+          'login': login,
+          'password': password,
+        },
+      );
+      functions.showMessageToSnackbar(
+          context: context,
+          message: "Envoi des identifiants au server éffectué !");
+      final responseJson = json.decode(json.encode(this.response.body));
+      print("Réponse du server: $responseJson");
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+          context: context,
+          message: "Envoi des identifiants au server éffectué !");
+    }
+  }
+
   // ! End app context methods
 
   // todo: get data method

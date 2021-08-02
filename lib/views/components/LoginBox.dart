@@ -109,10 +109,10 @@ class LoginBoxState extends State<LoginBox> {
                         String password = this.passwordFieldController.text;
                         // ? Verify the user informations
                         Api api = Api();
-                        api.verifyLogin(context);
+                        api.verifyLoginRequest(context, login, password);
                         // ? Open the home page when the login is correct
-                        functions.openPage(
-                            context, HomeView(), 'pushReplacement');
+                        /*functions.openPage(
+                            context, HomeView(), 'pushReplacement');*/
                         print('Login button pressed !');
                       },
                       child: Text(
