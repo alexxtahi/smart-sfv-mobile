@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
+import 'package:smart_sfv_mobile/models/User.dart';
 
 class Api {
   // todo: Properties
@@ -28,6 +29,43 @@ class Api {
         functions.successSnackbar(
           context: context,
           message: "Récupération des données réussie",
+        );
+        //return models.Food.fromJson(jsonDecode(this.response.body));
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des données",
+        );
+        throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+    }
+  }
+
+  // todo: verify login method
+  Future verifyLogin(BuildContext context) async {
+    this.url = 'http://192.168.1.16:8000/api/getusers'; // set url
+    try {
+      this.response = await http.get(Uri.parse(url)); // getting datas from url
+      //print('le lien est: $url'); // ! debug
+      // ? Http response status code
+      if (this.response.statusCode == 200) {
+        // 200 is the success response
+        this.requestSuccess = true;
+        // ? Getting login informations of all users from the server
+        Map<String, dynamic> users = jsonDecode(this.response.body)['data'][0];
+        User databaseUser = User.fromJson(users);
+        print(
+            "Utilisateur dans la base de données: ${databaseUser.login}, ${databaseUser.name}, ${databaseUser.role}"); // ! debug
+        // show success snack bar
+        functions.successSnackbar(
+          context: context,
+          message: "Utilisateur: ${databaseUser.login}",
         );
         //return models.Food.fromJson(jsonDecode(this.response.body));
       } else {

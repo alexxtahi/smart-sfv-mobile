@@ -79,6 +79,8 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
               SizedBox(height: 10),
               //todo: Email TextField
               MyTextField(
+                focusNode: FocusNode(),
+                textEditingController: TextEditingController(),
                 borderRadius: Radius.circular(10),
                 textColor: Colors.black,
                 placeholder: 'Votre E-mail pour le lien de récupération',

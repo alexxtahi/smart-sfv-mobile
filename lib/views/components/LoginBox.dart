@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv_mobile/views/HomeView.dart';
+import 'package:smart_sfv_mobile/api.dart';
 import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
-import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 
 class LoginBox extends StatefulWidget {
   final Color backgroundColor;
@@ -34,7 +33,10 @@ class LoginBox extends StatefulWidget {
 }
 
 class LoginBoxState extends State<LoginBox> {
-  ///The controller of sliding up panel
+  ///The controller of login & password TextFIeld
+  TextEditingController loginFieldController = TextEditingController();
+  TextEditingController passwordFieldController = TextEditingController();
+  late FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -77,21 +79,38 @@ class LoginBoxState extends State<LoginBox> {
                     MyTextField(
                       placeholder: 'Login',
                       suffixIcon: 'assets/img/icons/account.png',
-                      onTap: () {},
+                      textEditingController: this.loginFieldController,
+                      focusNode: FocusNode(),
+                      onSubmitted: (inputValue) {
+                        //FocusScope.of(context).requestFocus(FocusNode());
+                        this.focusNode.requestFocus();
+                      },
                     ),
                     SizedBox(height: 15),
                     //todo: Password TextField
                     MyTextField(
+                      inputType: 'password',
                       placeholder: 'Mot de passe',
                       suffixIcon: 'assets/img/icons/padlock.png',
-                      onTap: () {},
+                      textEditingController: this.passwordFieldController,
+                      focusNode: this.focusNode,
+                      onSubmitted: (inputValue) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
                     ),
                     SizedBox(height: 15),
                     //todo: Login Button
                     ElevatedButton(
                       onPressed: () {
-                        functions.openPage(
-                            context, HomeView(), 'pushReplacement');
+                        // ? Get the login inputs value
+                        String login = this.loginFieldController.text;
+                        String password = this.passwordFieldController.text;
+                        // ? Verify the user informations
+                        Api api = Api();
+                        api.verifyLogin(context);
+                        // ? Open the home page when the login is correct
+                        /*functions.openPage(
+                            context, HomeView(), 'pushReplacement');*/
                         print('Login button pressed !');
                       },
                       child: Text(
