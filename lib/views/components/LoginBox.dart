@@ -5,8 +5,6 @@ import 'package:smart_sfv_mobile/views/components/MyTextField.dart';
 import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
 
 class LoginBox extends StatefulWidget {
-  final double width;
-  final double height;
   final Color backgroundColor;
   final double padding;
   final String loginText;
@@ -20,8 +18,6 @@ class LoginBox extends StatefulWidget {
 
   LoginBox({
     Key? key,
-    required this.width,
-    required this.height,
     this.backgroundColor = const Color.fromRGBO(255, 255, 255, 0.3),
     this.padding = 20,
     this.loginText = 'Connectez vous',
@@ -41,102 +37,114 @@ class LoginBoxState extends State<LoginBox> {
   ///The controller of sliding up panel
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.width,
-      height: widget.height,
-      decoration: BoxDecoration(
-        color: widget.backgroundColor,
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(widget.padding),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            //todo: Key icon
-            CircleAvatar(
-              radius: 25,
-              backgroundColor: Colors.white,
-              child: Image.asset(
-                'assets/img/icons/key.png',
-                width: 30,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 0),
+              decoration: BoxDecoration(
+                color: widget.backgroundColor,
               ),
-            ),
-            //todo: Login text
-            Text(
-              widget.loginText,
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: widget.loginTextColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            SizedBox(height: 20),
-            //todo: Login TextField
-            MyTextField(
-              placeholder: 'Login',
-              suffixIcon: 'assets/img/icons/account.png',
-              onTap: () {},
-            ),
-            SizedBox(height: 15),
-            //todo: Password TextField
-            MyTextField(
-              placeholder: 'Mot de passe',
-              suffixIcon: 'assets/img/icons/padlock.png',
-              onTap: () {},
-            ),
-            SizedBox(height: 15),
-            //todo: Login Button
-            ElevatedButton(
-              onPressed: () {
-                functions.openPage(context, HomeView(), 'pushReplacement');
-                print('Login button pressed !');
-              },
-              child: Text(
-                widget.loginButtonText,
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  color: widget.loginButtonTextColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
+              child: Padding(
+                padding: EdgeInsets.all(widget.padding),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //todo: Key icon
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.white,
+                      child: Image.asset(
+                        'assets/img/icons/key.png',
+                        width: 30,
+                      ),
+                    ),
+                    //todo: Login text
+                    Text(
+                      widget.loginText,
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: widget.loginTextColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    //todo: Login TextField
+                    MyTextField(
+                      placeholder: 'Login',
+                      suffixIcon: 'assets/img/icons/account.png',
+                      onTap: () {},
+                    ),
+                    SizedBox(height: 15),
+                    //todo: Password TextField
+                    MyTextField(
+                      placeholder: 'Mot de passe',
+                      suffixIcon: 'assets/img/icons/padlock.png',
+                      onTap: () {},
+                    ),
+                    SizedBox(height: 15),
+                    //todo: Login Button
+                    ElevatedButton(
+                      onPressed: () {
+                        functions.openPage(
+                            context, HomeView(), 'pushReplacement');
+                        print('Login button pressed !');
+                      },
+                      child: Text(
+                        widget.loginButtonText,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: widget.loginButtonTextColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all<double>(0),
+                        /*padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    EdgeInsets.symmetric(horizontal: 0, vertical: 0)),*/
+                        minimumSize:
+                            MaterialStateProperty.all<Size>(Size(20, 20)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            widget.loginButtonColor),
+                        fixedSize:
+                            MaterialStateProperty.all<Size>(Size(350, 50)),
+                        side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(color: Colors.transparent)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    //todo: Forgotten Password Button
+                    TextButton(
+                      onPressed: () {
+                        widget.panelController.anchor();
+                        print('Forgotten password button pressed !');
+                      },
+                      child: Text(
+                        widget.forgottenPasswordText,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: widget.forgottenPasswordTextColor,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              style: ButtonStyle(
-                elevation: MaterialStateProperty.all<double>(0),
-                /*padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal: 0, vertical: 0)),*/
-                minimumSize: MaterialStateProperty.all<Size>(Size(20, 20)),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(widget.loginButtonColor),
-                fixedSize: MaterialStateProperty.all<Size>(Size(350, 50)),
-                side: MaterialStateProperty.all<BorderSide>(
-                    BorderSide(color: Colors.transparent)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0),
-                  ),
-                ),
-              ),
             ),
-            //todo: Forgotten Password Button
-            TextButton(
-              onPressed: () {
-                widget.panelController.anchor();
-                print('Forgotten password button pressed !');
-              },
-              child: Text(
-                widget.forgottenPasswordText,
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  color: widget.forgottenPasswordTextColor,
-                  fontSize: 14,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

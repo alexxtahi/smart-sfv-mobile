@@ -27,6 +27,15 @@ class ProfileLayoutState extends State<ProfileLayout> {
   }
 
   @override
+  void didChangeDependencies() {
+    precacheImage(
+        AssetImage('assets/img/backgrounds/storage-center.jpg'), context);
+    precacheImage(
+        AssetImage('assets/img/backgrounds/gestion-stock.jpg'), context);
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
     return SlidingUpPanelWidget(

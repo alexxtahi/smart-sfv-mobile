@@ -6,7 +6,6 @@ import 'package:smart_sfv_mobile/controllers/ScreenController.dart';
 import 'package:smart_sfv_mobile/views/LoginView.dart';
 import 'package:smart_sfv_mobile/views/components/AppName.dart';
 import 'package:smart_sfv_mobile/controllers/functions.dart' as functions;
-import 'package:smart_sfv_mobile/views/components/BlurBackground.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);

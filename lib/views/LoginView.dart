@@ -18,10 +18,7 @@ class LoginView extends StatefulWidget {
 }
 
 class LoginViewState extends State<LoginView> {
-  LoginBox loginBox = LoginBox(
-    width: 350,
-    height: 365,
-  );
+  LoginBox loginBox = LoginBox();
   @override
   void initState() {
     super.initState();
