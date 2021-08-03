@@ -4,11 +4,11 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
+import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
-import 'package:smartsfv/views/layouts/DashboardGridViewLayout.dart';
 
 class ClientScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -19,7 +19,7 @@ class ClientScreen extends StatefulWidget {
 
 class ClientScreenState extends State<ClientScreen> {
   ScrollController scrollController = new ScrollController();
-  ScrollController gridViewScrollController = new ScrollController();
+  ScrollController datatableScrollController = new ScrollController();
   TextEditingController textEditingController = TextEditingController();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
@@ -76,12 +76,14 @@ class ClientScreenState extends State<ClientScreen> {
                             textEditingController: this.textEditingController,
                             borderRadius: Radius.circular(20),
                             placeholder: 'Rechercher un client',
-                            cursorColor: Colors.white,
-                            textColor: Colors.white,
+                            placeholderColor: Colors.black,
+                            cursorColor: Colors.black,
+                            textColor: Colors.black,
                             enableBorderColor: Colors.transparent,
                             focusBorderColor: Colors.transparent,
-                            fillColor: Colors.black.withOpacity(1),
+                            fillColor: Colors.black.withOpacity(0.15),
                             suffixIcon: MyOutlinedIconButton(
+                              onPressed: () {},
                               backgroundColor: Colors.white,
                               borderColor: Colors.transparent,
                               borderRadius: 15,
@@ -104,6 +106,7 @@ class ClientScreenState extends State<ClientScreen> {
                               crossAxisSpacing: 10,
                               children: [
                                 MyOutlinedButton(
+                                  onPressed: () {},
                                   backgroundColor:
                                       Color.fromRGBO(60, 141, 188, 0.15),
                                   borderRadius: 15,
@@ -114,7 +117,7 @@ class ClientScreenState extends State<ClientScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        'assets/img/icons/countries.png',
+                                        'assets/img/icons/australia.png',
                                         width: 30,
                                         height: 30,
                                         fit: BoxFit.contain,
@@ -130,6 +133,7 @@ class ClientScreenState extends State<ClientScreen> {
                                   ),
                                 ),
                                 MyOutlinedButton(
+                                  onPressed: () {},
                                   backgroundColor:
                                       Color.fromRGBO(60, 141, 188, 0.15),
                                   borderRadius: 15,
@@ -140,7 +144,7 @@ class ClientScreenState extends State<ClientScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        'assets/img/icons/countries.png',
+                                        'assets/img/icons/filter.png',
                                         width: 30,
                                         height: 30,
                                         fit: BoxFit.contain,
@@ -157,6 +161,51 @@ class ClientScreenState extends State<ClientScreen> {
                                 ),
                               ],
                             ),
+                          ),
+                          SizedBox(height: 10),
+                          //todo: Table
+                          Row(
+                            children: [
+                              Expanded(
+                                child: FadingEdgeScrollView
+                                    .fromSingleChildScrollView(
+                                  gradientFractionOnStart: 0.2,
+                                  gradientFractionOnEnd: 0.2,
+                                  child: SingleChildScrollView(
+                                    controller: datatableScrollController,
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    child: MyDataTable(
+                                      columns: [
+                                        'Code',
+                                        'Nom du client',
+                                        'Contact',
+                                        'Pays',
+                                        'Régime',
+                                        'E-mail',
+                                        'Adresse',
+                                        'Montant plafond',
+                                        'Compte contr.'
+                                      ],
+                                      rows: [
+                                        for (var i = 1; i < 100; i++)
+                                          [
+                                            '1',
+                                            'Alexandre TAHI',
+                                            '+225 05 84 64 98 25',
+                                            "Côte d'ivoire",
+                                            'Bio',
+                                            'alexandretahi7@gmail.com',
+                                            'Yopougon, Lièvre Rouge',
+                                            '45.000.000 FCFA',
+                                            'Compte001'
+                                          ],
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
