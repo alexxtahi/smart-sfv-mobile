@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:smart_sfv/controllers/functions.dart' as functions;
-import 'package:smart_sfv/models/User.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/models/User.dart';
 
 class Api {
   // todo: Properties

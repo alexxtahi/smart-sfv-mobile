@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sfv/views/SplashScreen.dart';
+import 'package:smartsfv/views/SplashScreen.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
 Future main() async {

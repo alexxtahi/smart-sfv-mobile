@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:smart_sfv/controllers/ScreenController.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 
 class BlurBackground extends StatefulWidget {
   final double blurLevel;

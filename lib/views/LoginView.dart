@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smart_sfv/views/components/BlurBackground.dart';
-import 'package:smart_sfv/views/components/LoginBox.dart';
+import 'package:smartsfv/views/components/BlurBackground.dart';
+import 'package:smartsfv/views/components/LoginBox.dart';
 import '../controllers/ScreenController.dart';
 import 'components/AppName.dart';
 import 'layouts/ForgottenPasswordLayout.dart';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sfv/controllers/functions.dart' as functions;
-import 'package:smart_sfv/controllers/ScreenController.dart';
-import 'package:smart_sfv/views/LoginView.dart';
-import 'package:smart_sfv/views/components/DrawerBlurBackground.dart';
-import 'package:smart_sfv/views/components/MyDrawerHeader.dart';
-import 'package:smart_sfv/views/components/MyOutlinedButton.dart';
-import 'package:smart_sfv/views/components/MyText.dart';
-import 'package:smart_sfv/views/layouts/DrawerTileLayout.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/views/LoginView.dart';
+import 'package:smartsfv/views/components/DrawerBlurBackground.dart';
+import 'package:smartsfv/views/components/MyDrawerHeader.dart';
+import 'package:smartsfv/views/components/MyOutlinedButton.dart';
+import 'package:smartsfv/views/components/MyText.dart';
+import 'package:smartsfv/views/layouts/DrawerTileLayout.dart';
 
 class DrawerLayout extends StatefulWidget {
   DrawerLayout({
@@ -81,7 +81,10 @@ class DrawerLayoutState extends State<DrawerLayout> {
                             onPressed: () {
                               setState(() {
                                 functions.openPage(
-                                    context, LoginView(), 'pushReplacement');
+                                  context,
+                                  LoginView(),
+                                  mode: 'pushReplacement',
+                                );
                               });
                             },
                           ),

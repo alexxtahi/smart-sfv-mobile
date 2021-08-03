@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sfv/controllers/ScreenController.dart';
-import 'package:smart_sfv/views/components/DashboardCard.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/views/ClientView.dart';
+import 'package:smartsfv/views/components/DashboardCard.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
 
 class DashboardGridViewLayout extends StatefulWidget {
   final ScrollController gridViewScrollController;
@@ -49,6 +51,10 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
             text: 'Clients',
             icon: 'assets/img/icons/customer1.png',
             iconColor: Color.fromRGBO(0, 27, 121, 1),
+            onPressed: () {
+              print('Bash Client appuyé !');
+              functions.openPage(context, ClientView());
+            },
           ),
           DashboardCard(
             text: 'Articles',

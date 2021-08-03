@@ -14,10 +14,10 @@ class MyOutlinedIconButton extends StatefulWidget {
   MyOutlinedIconButton({
     this.title = 'button',
     required this.icon,
-    required this.iconSize,
-    required this.size,
-    required this.borderRadius,
-    required this.borderColor,
+    this.size = 50,
+    this.iconSize = 25,
+    this.borderRadius = 10,
+    this.borderColor = Colors.black,
     this.backgroundColor = Colors.transparent,
     this.onPressed,
   });

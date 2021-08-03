@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MyTextField extends StatefulWidget {
   final Color textColor;
   final Color fillColor;
@@ -7,8 +8,9 @@ class MyTextField extends StatefulWidget {
   final String placeholder;
   final double placeholderSize;
   final Color placeholderColor;
-  final String suffixIcon;
+  var suffixIcon;
   final double suffixIconSize;
+  final double suffixPadding;
   final Color focusBorderColor;
   final Color enableBorderColor;
   final Radius borderRadius;
@@ -28,8 +30,9 @@ class MyTextField extends StatefulWidget {
     this.placeholder = '',
     this.placeholderSize = 16,
     this.placeholderColor = const Color.fromRGBO(0, 0, 0, 0.5),
-    this.suffixIcon = '',
+    this.suffixIcon,
     this.suffixIconSize = 20,
+    this.suffixPadding = 10,
     this.focusBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.enableBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.borderRadius = Radius.zero,
@@ -73,14 +76,14 @@ class MyTextFieldState extends State<MyTextField> {
           fontSize: widget.placeholderSize,
         ),
         suffixIcon: Padding(
-          padding: EdgeInsets.all(10),
-          child: (widget.suffixIcon != '')
+          padding: EdgeInsets.all(widget.suffixPadding),
+          child: (widget.suffixIcon is String)
               ? Image.asset(
                   widget.suffixIcon,
                   width: widget.suffixIconSize,
                   height: widget.suffixIconSize,
                 )
-              : null,
+              : widget.suffixIcon,
         ),
         /*errorText: 'Aucun résultat',
         errorStyle: TextStyle(fontFamily: 'Montserrat'),*/

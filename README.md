@@ -1,4 +1,4 @@
-# smart_sfv
+# smartsfv
 
 A new Flutter project.
 

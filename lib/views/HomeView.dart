@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv/views/layouts/DashboardScreen.dart';
-import 'package:smart_sfv/views/layouts/DrawerLayout.dart';
-import 'package:smart_sfv/views/layouts/ProfileLayout.dart';
+import 'package:smartsfv/views/screens/DashboardScreen.dart';
+import 'package:smartsfv/views/layouts/DrawerLayout.dart';
+import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
@@ -32,18 +32,20 @@ class HomeViewState extends State<HomeView> {
       DeviceOrientation.portraitDown,
     ]);
     // Return building scaffold
-    return Stack(
-      children: [
-        //todo: Drawer Screen
-        DrawerLayout(),
-        //todo: Home Screen
-        DashboardScreen(panelController: panelController),
-        //todo: Profile Layout
-        ProfileLayout(
-          username: 'Alexandre TAHI',
-          panelController: panelController,
-        ),
-      ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          //todo: Drawer Screen
+          DrawerLayout(),
+          //todo: Home Screen
+          DashboardScreen(panelController: panelController),
+          //todo: Profile Layout
+          ProfileLayout(
+            username: 'Alexandre TAHI',
+            panelController: panelController,
+          ),
+        ],
+      ),
     );
   }
 }

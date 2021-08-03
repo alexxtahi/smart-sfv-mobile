@@ -1,6 +1,6 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_sfv/controllers/ScreenController.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 
 class DashboardCard extends StatefulWidget {
   final String text;
@@ -10,7 +10,7 @@ class DashboardCard extends StatefulWidget {
   final double iconSize;
   final Color iconColor;
   final Radius borderRadius;
-  final void Function()? onTap;
+  final void Function()? onPressed;
   DashboardCard({
     Key? key,
     required this.text,
@@ -20,7 +20,7 @@ class DashboardCard extends StatefulWidget {
     this.iconSize = 70,
     this.iconColor = Colors.black,
     this.borderRadius = const Radius.circular(20),
-    this.onTap,
+    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -39,7 +39,7 @@ class DashboardCardState extends State<DashboardCard> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: widget.onPressed,
           style: ButtonStyle(
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(horizontal: 0, vertical: 0)),

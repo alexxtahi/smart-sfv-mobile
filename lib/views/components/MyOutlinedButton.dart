@@ -10,18 +10,20 @@ class MyOutlinedButton extends StatefulWidget {
   final double borderRadius;
   final Color borderColor;
   final Color backgroundColor;
+  final EdgeInsets padding;
   final void Function()? onPressed;
   var child;
   //todo: Constructor
   MyOutlinedButton({
+    this.width = 100,
+    this.height = 50,
     this.text = 'button',
-    required this.textColor,
-    required this.width,
-    required this.height,
-    required this.borderRadius,
-    required this.borderColor,
+    this.textColor = Colors.black,
+    this.borderRadius = 15,
+    this.borderColor = Colors.black,
     this.onPressed,
     this.backgroundColor = Colors.transparent,
+    this.padding = const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
     this.child,
   });
   //todo: State
@@ -48,8 +50,7 @@ class MyOutlinedButtonState extends State<MyOutlinedButton> {
               ),
             ),
       style: ButtonStyle(
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(widget.padding),
         minimumSize: MaterialStateProperty.all<Size>(Size(20, 20)),
         backgroundColor:
             MaterialStateProperty.all<Color>(widget.backgroundColor),

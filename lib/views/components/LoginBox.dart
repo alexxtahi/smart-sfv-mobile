@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv/api.dart';
-import 'package:smart_sfv/views/HomeView.dart';
-import 'package:smart_sfv/views/components/MyTextField.dart';
-import 'package:smart_sfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/api.dart';
+import 'package:smartsfv/views/HomeView.dart';
+import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
 
 class LoginBox extends StatefulWidget {
   final Color backgroundColor;
@@ -108,11 +108,14 @@ class LoginBoxState extends State<LoginBox> {
                         String login = this.loginFieldController.text;
                         String password = this.passwordFieldController.text;
                         // ? Verify the user informations
-                        Api api = Api();
-                        api.verifyLoginRequest(context, login, password);
+                        /*Api api = Api();
+                        api.verifyLoginRequest(context, login, password);*/
                         // ? Open the home page when the login is correct
-                        /*functions.openPage(
-                            context, HomeView(), 'pushReplacement');*/
+                        functions.openPage(
+                          context,
+                          HomeView(),
+                          mode: 'pushReplacement',
+                        );
                         print('Login button pressed !');
                       },
                       child: Text(

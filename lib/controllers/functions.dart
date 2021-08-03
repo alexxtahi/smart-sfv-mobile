@@ -57,7 +57,7 @@ void showMessageToSnackbar({
   );
 }
 
-void openPage(BuildContext context, Widget view, String mode) {
+void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
   switch (mode) {
     case 'pushReplacement':
       Navigator.pushReplacement(

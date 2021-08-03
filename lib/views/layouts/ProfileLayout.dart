@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smart_sfv/api.dart';
-import 'package:smart_sfv/controllers/ScreenController.dart';
-import 'package:smart_sfv/controllers/functions.dart' as functions;
-import 'package:smart_sfv/views/LoginView.dart';
-import 'package:smart_sfv/views/components/MyOutlinedButton.dart';
+import 'package:smartsfv/api.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/views/LoginView.dart';
+import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 
 class ProfileLayout extends StatefulWidget {
   final String username;
@@ -153,7 +153,10 @@ class ProfileLayoutState extends State<ProfileLayout> {
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         onPressed: () {
                           functions.openPage(
-                              context, LoginView(), 'pushReplacement');
+                            context,
+                            LoginView(),
+                            mode: 'pushReplacement',
+                          );
                         },
                       ),
                     ],
