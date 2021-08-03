@@ -49,7 +49,7 @@ class Api {
 
   // todo: verify login method
   Future verifyLogin(BuildContext context) async {
-    this.url = 'http://192.168.1.16:8000/api/getusers'; // set url
+    this.url = 'http://192.168.1.16:8000/api/getlogin'; // set url
     try {
       this.response = await http.get(Uri.parse(url)); // getting datas from url
       //print('le lien est: $url'); // ! debug
@@ -87,7 +87,7 @@ class Api {
   // todo: verify login method
   Future verifyLoginRequest(
       BuildContext context, String login, String password) async {
-    this.url = 'http://192.168.1.16:8000/api/postusers'; // set url
+    this.url = 'http://192.168.1.16:8000/api/getlogin'; // set url
     try {
       this.response = await http.post(
         Uri.parse(url),
