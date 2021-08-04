@@ -52,7 +52,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
             icon: 'assets/img/icons/customer1.png',
             iconColor: Color.fromRGBO(0, 27, 121, 1),
             onPressed: () {
-              print('Bash Client appuyé !');
+              print('Dashboard card Client appuyé !');
               functions.openPage(context, ClientView());
             },
           ),

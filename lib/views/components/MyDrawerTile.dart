@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
@@ -10,6 +12,7 @@ class MyDrawerTile extends StatefulWidget {
   final double headerTextSize;
   final double breakSpace;
   final FontWeight headerTextWeight;
+  final Function()? onPressed;
   MyDrawerTile({
     Key? key,
     this.iconSize = 0,
@@ -18,6 +21,7 @@ class MyDrawerTile extends StatefulWidget {
     this.headerTextSize = 12,
     this.breakSpace = 1,
     this.headerTextWeight = FontWeight.w600,
+    this.onPressed,
   }) : super(key: key);
   @override
   MyDrawerTileState createState() => MyDrawerTileState();
@@ -39,9 +43,7 @@ class MyDrawerTileState extends State<MyDrawerTile> {
           color: Colors.transparent,
         ),
         child: TextButton(
-          onPressed: () {
-            print("Pressed: " + widget.headerText);
-          },
+          onPressed: widget.onPressed,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(

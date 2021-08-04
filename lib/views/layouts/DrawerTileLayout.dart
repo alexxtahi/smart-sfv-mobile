@@ -1,8 +1,11 @@
 import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
+import 'package:smartsfv/views/ClientView.dart';
+import 'package:smartsfv/views/HomeView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
 
 class DrawerTileLayout extends StatefulWidget {
   DrawerTileLayout({
@@ -27,8 +30,6 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           child: ExpandableNotifier(
-            controller: expandableController,
-
             // <-- Provides ExpandableController to its children
             //todo: Drawer Tiles
             child: ScrollOnExpand(
@@ -43,6 +44,13 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     headerText: 'Tableau de bord',
                     headerTextSize: 16,
                     headerTextWeight: FontWeight.bold,
+                    onPressed: () {
+                      functions.openPage(
+                        context,
+                        HomeView(),
+                        mode: 'pushReplacement',
+                      );
+                    },
                   ),
                   //todo: Paramètres
                   DrawerExpandableBox(
@@ -50,24 +58,82 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     icon: 'assets/img/icons/settings.png',
                     headerText: 'Paramètres',
                     expandedElements: [
-                      ['assets/img/icons/suitcase.png', 'Client'],
-                      ['assets/img/icons/provider.png', 'Fournisseur'],
-                      ['assets/img/icons/bank-building.png', 'Banque'],
-                      ['assets/img/icons/tax.png', 'TVA'],
-                      ['assets/img/icons/regim.png', 'Régime'],
-                      ['assets/img/icons/box.png', 'Article'],
-                      ['assets/img/icons/cashier.png', 'Caisse'],
-                      ['assets/img/icons/countries.png', 'Pays'],
-                      ['assets/img/icons/category.png', 'Catégorie'],
-                      ['assets/img/icons/sub-category.png', 'Sous catégorie'],
-                      ['assets/img/icons/wallet.png', 'Moyen de paiement'],
-                      ['assets/img/icons/section.png', 'Rayon'],
-                      ['assets/img/icons/above.png', 'Rangée'],
-                      ['assets/img/icons/locker.png', 'Casier'],
-                      ['assets/img/icons/unity.png', 'Unité'], // ! à revenir
-                      ['assets/img/icons/package.png', 'Taille'],
-                      ['assets/img/icons/more.png', 'Divers'],
-                      ['assets/img/icons/hand.png', 'Catégorie dépense'],
+                      {
+                        'icon': 'assets/img/icons/suitcase.png',
+                        'headerText': 'Client',
+                        'onPressed': () {
+                          print('Dashboard card Client appuyé !');
+                          functions.openPage(
+                            context,
+                            ClientView(),
+                          );
+                        },
+                      },
+                      {
+                        'icon': 'assets/img/icons/provider.png',
+                        'headerText': 'Fournisseur'
+                      },
+                      {
+                        'icon': 'assets/img/icons/bank-building.png',
+                        'headerText': 'Banque'
+                      },
+                      {'icon': 'assets/img/icons/tax.png', 'headerText': 'TVA'},
+                      {
+                        'icon': 'assets/img/icons/regim.png',
+                        'headerText': 'Régime'
+                      },
+                      {
+                        'icon': 'assets/img/icons/box.png',
+                        'headerText': 'Article'
+                      },
+                      {
+                        'icon': 'assets/img/icons/cashier.png',
+                        'headerText': 'Caisse'
+                      },
+                      {
+                        'icon': 'assets/img/icons/countries.png',
+                        'headerText': 'Pays'
+                      },
+                      {
+                        'icon': 'assets/img/icons/category.png',
+                        'headerText': 'Catégorie'
+                      },
+                      {
+                        'icon': 'assets/img/icons/sub-category.png',
+                        'headerText': 'Sous catégorie'
+                      },
+                      {
+                        'icon': 'assets/img/icons/wallet.png',
+                        'headerText': 'Moyen de paiement'
+                      },
+                      {
+                        'icon': 'assets/img/icons/section.png',
+                        'headerText': 'Rayon'
+                      },
+                      {
+                        'icon': 'assets/img/icons/above.png',
+                        'headerText': 'Rangée'
+                      },
+                      {
+                        'icon': 'assets/img/icons/locker.png',
+                        'headerText': 'Casier'
+                      },
+                      {
+                        'icon': 'assets/img/icons/unity.png',
+                        'headerText': 'Unité'
+                      },
+                      {
+                        'icon': 'assets/img/icons/package.png',
+                        'headerText': 'Taille'
+                      },
+                      {
+                        'icon': 'assets/img/icons/more.png',
+                        'headerText': 'Divers'
+                      },
+                      {
+                        'icon': 'assets/img/icons/hand.png',
+                        'headerText': 'Catégorie dépense'
+                      },
                     ],
                   ),
                   //todo: Stocks
@@ -76,21 +142,42 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     icon: 'assets/img/icons/stock.png',
                     headerText: 'Stocks',
                     expandedElements: [
-                      ['assets/img/icons/document.png', 'Bon de commande'],
-                      ['assets/img/icons/truck.png', 'Réception de commande'],
-                      ['assets/img/icons/supplies.png', 'Approvisionnement'],
-                      ['assets/img/icons/warehouse.png', 'Stock par dépôt'],
-                      ['assets/img/icons/arrows.png', 'Transfert de stock'],
-                      ['assets/img/icons/unpacking.png', 'Déstockage'],
-                      ['assets/img/icons/inventory.png', 'Inventaire'],
-                      [
-                        'assets/img/icons/stock-movement.png',
-                        'Mouvements de stock'
-                      ],
-                      [
-                        'assets/img/icons/packages.png',
-                        'Mouvement stock article'
-                      ],
+                      {
+                        'icon': 'assets/img/icons/document.png',
+                        'headerText': 'Bon de commande'
+                      },
+                      {
+                        'icon': 'assets/img/icons/truck.png',
+                        'headerText': 'Réception de commande'
+                      },
+                      {
+                        'icon': 'assets/img/icons/supplies.png',
+                        'headerText': 'Approvisionnement'
+                      },
+                      {
+                        'icon': 'assets/img/icons/warehouse.png',
+                        'headerText': 'Stock par dépôt'
+                      },
+                      {
+                        'icon': 'assets/img/icons/arrows.png',
+                        'headerText': 'Transfert de stock'
+                      },
+                      {
+                        'icon': 'assets/img/icons/unpacking.png',
+                        'headerText': 'Déstockage'
+                      },
+                      {
+                        'icon': 'assets/img/icons/inventory.png',
+                        'headerText': 'Inventaire'
+                      },
+                      {
+                        'icon': 'assets/img/icons/stock-movement.png',
+                        'headerText': 'Mouvements de stock'
+                      },
+                      {
+                        'icon': 'assets/img/icons/packages.png',
+                        'headerText': 'Mouvement stock article'
+                      },
                     ],
                   ),
                   //todo: Boutique
@@ -99,19 +186,34 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     icon: 'assets/img/icons/shop.png',
                     headerText: 'Boutique',
                     expandedElements: [
-                      ['assets/img/icons/credit-cards-payment.png', 'Vente'],
-                      [
-                        'assets/img/icons/cashier-machine.png',
-                        'Point de caisse'
-                      ],
-                      ['assets/img/icons/spending.png', 'Vente divers'],
-                      [
-                        'assets/img/icons/go-back-arrow.png',
-                        "Retour d'articles"
-                      ],
-                      ['assets/img/icons/dollar.png', 'Règlement de facture'],
-                      ['assets/img/icons/exchange.png', 'Opération de caisse'],
-                      ['assets/img/icons/discount.png', 'Promotion'],
+                      {
+                        'icon': 'assets/img/icons/credit-cards-payment.png',
+                        'headerText': 'Vente'
+                      },
+                      {
+                        'icon': 'assets/img/icons/cashier-machine.png',
+                        'headerText': 'Point de caisse'
+                      },
+                      {
+                        'icon': 'assets/img/icons/spending.png',
+                        'headerText': 'Vente divers'
+                      },
+                      {
+                        'icon': 'assets/img/icons/go-back-arrow.png',
+                        'headerText': "Retour d'articles"
+                      },
+                      {
+                        'icon': 'assets/img/icons/dollar.png',
+                        'headerText': 'Règlement de facture'
+                      },
+                      {
+                        'icon': 'assets/img/icons/exchange.png',
+                        'headerText': 'Opération de caisse'
+                      },
+                      {
+                        'icon': 'assets/img/icons/discount.png',
+                        'headerText': 'Promotion'
+                      },
                     ],
                   ),
                   //todo: Comptabilité
@@ -120,14 +222,14 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     icon: 'assets/img/icons/calculator.png',
                     headerText: 'Comptabilité',
                     expandedElements: [
-                      ['Solde client'],
-                      ['Solde fournisseur'],
-                      ['Déclaration TVA'],
-                      ['Ticket déclaré pour TVA'],
-                      ['Timbre fiscal'],
-                      ['Marge sur vente'],
-                      ['Points de caisse cloturés'],
-                      ['Dépenses'],
+                      {'headerText': 'Solde client'},
+                      {'headerText': 'Solde fournisseur'},
+                      {'headerText': 'Déclaration TVA'},
+                      {'headerText': 'Ticket déclaré pour TVA'},
+                      {'headerText': 'Timbre fiscal'},
+                      {'headerText': 'Marge sur vente'},
+                      {'headerText': 'Points de caisse cloturés'},
+                      {'headerText': 'Dépenses'},
                     ],
                   ),
                   //todo: Etats
@@ -136,14 +238,14 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     icon: 'assets/img/icons/paper.png',
                     headerText: 'Etats',
                     expandedElements: [
-                      ['Vente caisse'],
-                      ['Article'],
-                      ['Article vendus'],
-                      ['Article reçus'],
-                      ['Articles retournés'],
-                      ['Fournisseur'],
-                      ['Client'],
-                      ['Dépôt'],
+                      {'headerText': 'Vente caisse'},
+                      {'headerText': 'Article'},
+                      {'headerText': 'Article vendus'},
+                      {'headerText': 'Article reçus'},
+                      {'headerText': 'Articles retournés'},
+                      {'headerText': 'Fournisseur'},
+                      {'headerText': 'Client'},
+                      {'headerText': 'Dépôt'},
                     ],
                   ),
                   //todo: Canal
@@ -152,28 +254,70 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     icon: 'assets/img/icons/global-network.png',
                     headerText: 'Canal',
                     expandedElements: [
-                      ['assets/img/icons/flag.png', 'Localité'],
-                      ['assets/img/icons/price-tag.png', 'Offres'],
-                      ['assets/img/icons/molecular.png', 'Options canal'],
-                      ['assets/img/icons/sub-category.png', 'Type de caution'],
-                      ['assets/img/icons/dollar.png', 'Type de pièce'],
-                      ['assets/img/icons/technics.png', 'Matériel'],
-                      ['assets/img/icons/company.png', 'Agence'],
-                      ['assets/img/icons/deposit.png', 'Caution canal'],
-                      ['assets/img/icons/suitcase.png', 'Caution agence'],
-                      [
-                        'assets/img/icons/google-docs.png',
-                        'Liste des rechargements'
-                      ],
-                      ['assets/img/icons/follower.png', 'Abonnés'],
-                      ['assets/img/icons/subscribe.png', 'Abonnement'],
-                      ['assets/img/icons/reload.png', 'Réabonnement'],
-                      ['assets/img/icons/briefcase.png', 'Vente de matériel'],
-                      [
-                        'assets/img/icons/spending-movement.png',
-                        'Mouvement des ventes'
-                      ],
-                      ['assets/img/icons/user.png', 'Utilisateur agence'],
+                      {
+                        'icon': 'assets/img/icons/flag.png',
+                        'headerText': 'Localité'
+                      },
+                      {
+                        'icon': 'assets/img/icons/price-tag.png',
+                        'headerText': 'Offres'
+                      },
+                      {
+                        'icon': 'assets/img/icons/molecular.png',
+                        'headerText': 'Options canal'
+                      },
+                      {
+                        'icon': 'assets/img/icons/sub-category.png',
+                        'headerText': 'Type de caution'
+                      },
+                      {
+                        'icon': 'assets/img/icons/dollar.png',
+                        'headerText': 'Type de pièce'
+                      },
+                      {
+                        'icon': 'assets/img/icons/technics.png',
+                        'headerText': 'Matériel'
+                      },
+                      {
+                        'icon': 'assets/img/icons/company.png',
+                        'headerText': 'Agence'
+                      },
+                      {
+                        'icon': 'assets/img/icons/deposit.png',
+                        'headerText': 'Caution canal'
+                      },
+                      {
+                        'icon': 'assets/img/icons/suitcase.png',
+                        'headerText': 'Caution agence'
+                      },
+                      {
+                        'icon': 'assets/img/icons/google-docs.png',
+                        'headerText': 'Liste des rechargements'
+                      },
+                      {
+                        'icon': 'assets/img/icons/follower.png',
+                        'headerText': 'Abonnés'
+                      },
+                      {
+                        'icon': 'assets/img/icons/subscribe.png',
+                        'headerText': 'Abonnement'
+                      },
+                      {
+                        'icon': 'assets/img/icons/reload.png',
+                        'headerText': 'Réabonnement'
+                      },
+                      {
+                        'icon': 'assets/img/icons/briefcase.png',
+                        'headerText': 'Vente de matériel'
+                      },
+                      {
+                        'icon': 'assets/img/icons/spending-movement.png',
+                        'headerText': 'Mouvement des ventes'
+                      },
+                      {
+                        'icon': 'assets/img/icons/user.png',
+                        'headerText': 'Utilisateur agence'
+                      },
                     ],
                   ),
                   //todo: Cautions

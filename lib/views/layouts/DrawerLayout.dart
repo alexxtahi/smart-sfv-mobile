@@ -79,13 +79,11 @@ class DrawerLayoutState extends State<DrawerLayout> {
                             textColor: Colors.white,
                             backgroundColor: Colors.white.withOpacity(0.2),
                             onPressed: () {
-                              setState(() {
-                                functions.openPage(
-                                  context,
-                                  LoginView(),
-                                  mode: 'pushReplacement',
-                                );
-                              });
+                              functions.openPage(
+                                context,
+                                LoginView(),
+                                mode: 'pushReplacement',
+                              );
                             },
                           ),
                         ],
@@ -96,38 +94,6 @@ class DrawerLayoutState extends State<DrawerLayout> {
               ),
             ),
           ),
-
-          //todo: Bottom right button
-          /*Positioned(
-            bottom: 0,
-            right: 0,
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  DrawerLayoutController.close();
-                });
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Colors.white,
-                    size: 15,
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    'Fermer',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),*/
         ],
       ),
     );

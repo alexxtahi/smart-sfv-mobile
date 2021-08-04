@@ -10,7 +10,7 @@ class DrawerExpandableBox extends StatefulWidget {
   final String icon;
   final String headerText;
   final ExpandableController expandableController;
-  final List<List<String>> expandedElements;
+  final List<Map<String, dynamic>> expandedElements;
   DrawerExpandableBox({
     Key? key,
     required this.icon,
@@ -100,15 +100,14 @@ class DrawerExpandableBoxState extends State<DrawerExpandableBox> {
                               children: [
                                 for (var element in widget.expandedElements)
                                   MyDrawerTile(
-                                    icon: (element.length == 2)
-                                        ? element[0]
+                                    icon: (element.containsKey('icon'))
+                                        ? element['icon']
                                         : 'assets/img/icons/button.png',
-                                    headerText: (element.length == 2)
-                                        ? element[1]
-                                        : element[0],
+                                    headerText: element['headerText'],
                                     headerTextSize: 16,
                                     iconSize: 30,
                                     breakSpace: 2,
+                                    onPressed: element['onPressed'],
                                   ),
                               ],
                             ),
