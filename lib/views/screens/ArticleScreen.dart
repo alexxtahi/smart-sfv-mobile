@@ -84,7 +84,7 @@ class ArticleScreenState extends State<ArticleScreen> {
                             textColor: Colors.black,
                             enableBorderColor: Colors.transparent,
                             focusBorderColor: Colors.transparent,
-                            fillColor: Colors.black.withOpacity(0.15),
+                            fillColor: Color.fromRGBO(243, 156, 18, 0.15),
                             suffixIcon: MyOutlinedIconButton(
                               onPressed: () {},
                               backgroundColor: Colors.white,
@@ -204,7 +204,7 @@ class ArticleScreenState extends State<ArticleScreen> {
                                           color: Color.fromRGBO(231, 57, 0, 1),
                                         ),
                                       );
-                                      print('Rehcerhce: ' + this.searchBy);
+                                      print('Recherche: ' + this.searchBy);
                                     });
                                   },
                                   backgroundColor:

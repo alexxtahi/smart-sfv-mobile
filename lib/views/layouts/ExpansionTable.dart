@@ -1,6 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
+import 'package:smartsfv/views/CommandeView.dart';
 import 'package:smartsfv/views/ListTableView.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyExpandableBox.dart';
@@ -65,6 +66,28 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Articles en voie de péremption
           MyExpandableBox(
             headerText: 'Articles en voie de péremption',
+            seeMoreBtn: () {
+              openListTableView(
+                title: 'Article en voie de péremption',
+                columns: [
+                  'Dépôt',
+                  'Article',
+                  'lot',
+                  'Date de péremption',
+                  'Sera périmé dans',
+                ],
+                rows: [
+                  for (var i = 1; i < 100; i++)
+                    [
+                      '1',
+                      'Alexandre TAHI',
+                      '+225 05 84 64 98 25',
+                      "Côte d'ivoire",
+                      "Côte d'ivoire",
+                    ],
+                ],
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Dépôt',
@@ -83,6 +106,28 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Articles en voie de rupture
           MyExpandableBox(
             headerText: 'Articles en voie de rupture',
+            seeMoreBtn: () {
+              openListTableView(
+                title: 'Article en voie de rupture',
+                columns: [
+                  'Article',
+                  'Catégorie',
+                  'Sous catégorie',
+                  'En stock',
+                  'Dépôt',
+                ],
+                rows: [
+                  for (var i = 1; i < 100; i++)
+                    [
+                      '1',
+                      'Alexandre TAHI',
+                      '+225 05 84 64 98 25',
+                      "Côte d'ivoire",
+                      "Côte d'ivoire",
+                    ],
+                ],
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Article',
@@ -101,6 +146,24 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Liste des 5 meilleurs clients
           MyExpandableBox(
             headerText: 'Liste des 5 meilleurs clients',
+            seeMoreBtn: () {
+              openListTableView(
+                title: 'Liste des 5 meilleurs clients',
+                columns: [
+                  'Client',
+                  'Contact',
+                  "Chiffre d'affaires",
+                ],
+                rows: [
+                  for (var i = 1; i < 100; i++)
+                    [
+                      '1',
+                      'Alexandre TAHI',
+                      '+225 05 84 64 98 25',
+                    ],
+                ],
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Client',
@@ -117,6 +180,24 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Liste des 5 clients les moins rentables
           MyExpandableBox(
             headerText: 'Liste des 5 clients les moins rentables',
+            seeMoreBtn: () {
+              openListTableView(
+                title: 'Liste des 5 clients les moins rentables',
+                columns: [
+                  'Client',
+                  'Contact',
+                  "Chiffre d'affaires",
+                ],
+                rows: [
+                  for (var i = 1; i < 100; i++)
+                    [
+                      '1',
+                      'Alexandre TAHI',
+                      '+225 05 84 64 98 25',
+                    ],
+                ],
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Client',
@@ -133,6 +214,24 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Liste des 5 articles les plus vendus
           MyExpandableBox(
             headerText: 'Liste des 5 articles les plus vendus',
+            seeMoreBtn: () {
+              openListTableView(
+                title: 'Liste des 5 articles les plus vendus',
+                columns: [
+                  'Article',
+                  'Quantité',
+                  'Montant',
+                ],
+                rows: [
+                  for (var i = 1; i < 100; i++)
+                    [
+                      '1',
+                      'Alexandre TAHI',
+                      '+225 05 84 64 98 25',
+                    ],
+                ],
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Article',
@@ -149,6 +248,24 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Liste des 5 articles les moins vendus
           MyExpandableBox(
             headerText: 'Liste des 5 articles les moins vendus',
+            seeMoreBtn: () {
+              openListTableView(
+                title: 'Liste des 5 articles les moins vendus',
+                columns: [
+                  'Article',
+                  'Quantité',
+                  'Montant',
+                ],
+                rows: [
+                  for (var i = 1; i < 100; i++)
+                    [
+                      '1',
+                      'Alexandre TAHI',
+                      '+225 05 84 64 98 25',
+                    ],
+                ],
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Article',
@@ -165,6 +282,26 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Liste des 5 clients les plus endettés
           MyExpandableBox(
             headerText: 'Liste des 5 clients les plus endettés',
+            seeMoreBtn: () {
+              openListTableView(
+                title: 'Liste des 5 clients les plus endettés',
+                columns: [
+                  'Client',
+                  'Contact',
+                  'Adresse',
+                  'Montant',
+                ],
+                rows: [
+                  for (var i = 1; i < 100; i++)
+                    [
+                      '1',
+                      'Alexandre TAHI',
+                      '+225 05 84 64 98 25',
+                      '+225 05 84 64 98 25',
+                    ],
+                ],
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Client',
@@ -182,6 +319,14 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Commande en cours
           MyExpandableBox(
             headerText: 'Commandes en cours',
+            seeMoreBtn: () {
+              print('Chargement de la fenêtre des commandes');
+              functions.openPage(
+                context,
+                CommandeView(),
+                mode: 'pushReplacement',
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Date commande',
@@ -210,7 +355,7 @@ class ExpansionTableState extends State<ExpansionTable> {
     functions.openPage(
       context,
       ListTableView(
-        title: 'Caisses ouvertes',
+        title: title,
         columns: columns,
         rows: rows,
       ),

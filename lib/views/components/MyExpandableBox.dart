@@ -9,12 +9,19 @@ import 'package:smartsfv/views/components/MyText.dart';
 class MyExpandableBox extends StatefulWidget {
   final String headerText;
   final MyDataTable table;
+  final String seeMoreBtnText;
+  final Icon seeMoreBtnIcon;
   final Function()? seeMoreBtn;
   MyExpandableBox({
     Key? key,
     required this.headerText,
     required this.table,
     this.seeMoreBtn,
+    this.seeMoreBtnIcon = const Icon(
+      Icons.print_rounded,
+      color: Colors.white,
+    ),
+    this.seeMoreBtnText = 'Voir plus',
   }) : super(key: key);
   @override
   MyExpandableBoxState createState() => MyExpandableBoxState();
@@ -115,20 +122,22 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
                                         children: [
                                           //todo: Text
                                           MyText(
-                                            text: 'Voir plus',
+                                            text: widget.seeMoreBtnText,
                                             color: Colors.white,
                                             fontWeight: FontWeight.w800,
                                             fontSize: 12,
                                           ),
                                           SizedBox(width: 5),
                                           //todo: Icon
-                                          Image.asset(
-                                            'assets/img/icons/previous.png',
-                                            width: 20,
-                                            height: 20,
-                                            fit: BoxFit.contain,
-                                            color: Colors.white,
-                                          ),
+                                          (widget.seeMoreBtnText != 'Voir plus')
+                                              ? widget.seeMoreBtnIcon
+                                              : Image.asset(
+                                                  'assets/img/icons/previous.png',
+                                                  width: 20,
+                                                  height: 20,
+                                                  fit: BoxFit.contain,
+                                                  color: Colors.white,
+                                                ),
                                         ],
                                       ),
                                       style: ButtonStyle(

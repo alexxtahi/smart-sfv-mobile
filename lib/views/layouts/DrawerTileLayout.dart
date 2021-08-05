@@ -3,6 +3,7 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/views/ClientView.dart';
+import 'package:smartsfv/views/CommandeView.dart';
 import 'package:smartsfv/views/HomeView.dart';
 import 'package:smartsfv/views/ListTableView.dart';
 import 'package:smartsfv/views/ProviderView.dart';
@@ -166,7 +167,15 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     expandedElements: [
                       {
                         'icon': 'assets/img/icons/document.png',
-                        'headerText': 'Bon de commande'
+                        'headerText': 'Bon de commande',
+                        'onPressed': () {
+                          print('Chargement de la fenêtre des commandes');
+                          functions.openPage(
+                            context,
+                            CommandeView(),
+                            mode: 'pushReplacement',
+                          );
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/truck.png',

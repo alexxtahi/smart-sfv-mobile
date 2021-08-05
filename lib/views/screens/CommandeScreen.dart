@@ -9,18 +9,21 @@ import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
 
-class ProviderScreen extends StatefulWidget {
+class CommandeScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
-  ProviderScreen({Key? key, required this.panelController}) : super(key: key);
+  CommandeScreen({Key? key, required this.panelController}) : super(key: key);
   @override
-  ProviderScreenState createState() => ProviderScreenState();
+  CommandeScreenState createState() => CommandeScreenState();
 }
 
-class ProviderScreenState extends State<ProviderScreen> {
+class CommandeScreenState extends State<CommandeScreen> {
   ScrollController scrollController = new ScrollController();
   ScrollController datatableScrollController = new ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  String searchBy = 'Par N° de bon';
+  String searchByIcon = 'code';
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -54,9 +57,9 @@ class ProviderScreenState extends State<ProviderScreen> {
                 MyAppBar(
                   parentSetState: setstate,
                   panelController: widget.panelController,
-                  icon: 'assets/img/icons/provider.png',
-                  iconColor: Color.fromRGBO(221, 75, 57, 1),
-                  title: 'Fournisseurs',
+                  icon: 'assets/img/icons/shopping-cart.png',
+                  iconColor: Color.fromRGBO(0, 27, 121, 1),
+                  title: 'Commandes',
                 ),
                 SizedBox(height: 20),
                 //todo: Scrolling View
@@ -75,13 +78,13 @@ class ProviderScreenState extends State<ProviderScreen> {
                             focusNode: FocusNode(),
                             textEditingController: this.textEditingController,
                             borderRadius: Radius.circular(20),
-                            placeholder: 'Rechercher un fournisseur',
+                            placeholder: 'Rechercher une commande',
                             placeholderColor: Colors.black,
                             cursorColor: Colors.black,
                             textColor: Colors.black,
                             enableBorderColor: Colors.transparent,
                             focusBorderColor: Colors.transparent,
-                            fillColor: Color.fromRGBO(221, 75, 57, 0.15),
+                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
                             suffixIcon: MyOutlinedIconButton(
                               onPressed: () {},
                               backgroundColor: Colors.white,
@@ -89,7 +92,7 @@ class ProviderScreenState extends State<ProviderScreen> {
                               borderRadius: 15,
                               icon: Icon(
                                 Icons.search,
-                                color: Color.fromRGBO(187, 0, 0, 1),
+                                color: Color.fromRGBO(0, 27, 121, 1),
                                 size: 40,
                               ),
                             ),
@@ -100,15 +103,15 @@ class ProviderScreenState extends State<ProviderScreen> {
                             constraints:
                                 BoxConstraints(maxWidth: screenSize[0]),
                             child: GridView.count(
-                              crossAxisCount: 2,
+                              crossAxisCount: 3,
                               shrinkWrap: true,
-                              childAspectRatio: 4,
+                              childAspectRatio: 3,
                               crossAxisSpacing: 10,
                               children: [
                                 MyOutlinedButton(
                                   onPressed: () {},
                                   backgroundColor:
-                                      Color.fromRGBO(221, 75, 57, 0.15),
+                                      Color.fromRGBO(0, 27, 121, 1),
                                   borderRadius: 15,
                                   borderColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(horizontal: 15),
@@ -117,17 +120,19 @@ class ProviderScreenState extends State<ProviderScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        'assets/img/icons/australia.png',
-                                        width: 30,
-                                        height: 30,
+                                        'assets/img/icons/provider.png',
+                                        width: 20,
+                                        height: 20,
                                         fit: BoxFit.contain,
-                                        color: Color.fromRGBO(187, 0, 0, 1),
+                                        color: Colors.white,
                                       ),
                                       SizedBox(width: 15),
-                                      MyText(
-                                        text: 'Pays',
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(187, 0, 0, 1),
+                                      Flexible(
+                                        child: MyText(
+                                          text: 'Fournisseurs',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -135,7 +140,7 @@ class ProviderScreenState extends State<ProviderScreen> {
                                 MyOutlinedButton(
                                   onPressed: () {},
                                   backgroundColor:
-                                      Color.fromRGBO(221, 75, 57, 0.15),
+                                      Color.fromRGBO(0, 27, 121, 1),
                                   borderRadius: 15,
                                   borderColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(horizontal: 15),
@@ -145,16 +150,87 @@ class ProviderScreenState extends State<ProviderScreen> {
                                     children: [
                                       Image.asset(
                                         'assets/img/icons/filter.png',
-                                        width: 30,
-                                        height: 30,
+                                        width: 20,
+                                        height: 20,
                                         fit: BoxFit.contain,
-                                        color: Color.fromRGBO(187, 0, 0, 1),
+                                        color: Colors.white,
                                       ),
                                       SizedBox(width: 15),
                                       MyText(
                                         text: 'Filtres',
                                         fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(187, 0, 0, 1),
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                MyOutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (this.searchBy == 'Par N° de bon') {
+                                        this.searchBy = 'Par date';
+                                        this.searchByIcon = 'calendar';
+                                      } else {
+                                        this.searchBy = 'Par N° de bon';
+                                        this.searchByIcon = 'code';
+                                      }
+                                      functions.showMessageToSnackbar(
+                                        context: context,
+                                        message: RichText(
+                                          text: TextSpan(
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                  text:
+                                                      'Recherche des commandes '),
+                                              TextSpan(
+                                                text:
+                                                    this.searchBy.toLowerCase(),
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      60, 141, 188, 1),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        duration: 5,
+                                        icon: Icon(
+                                          Icons.info,
+                                          color:
+                                              Color.fromRGBO(60, 141, 188, 1),
+                                        ),
+                                      );
+                                      print('Recherche: ' + this.searchBy);
+                                    });
+                                  },
+                                  backgroundColor:
+                                      Color.fromRGBO(60, 141, 188, 0.15),
+                                  borderRadius: 15,
+                                  borderColor: Colors.transparent,
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/img/icons/$searchByIcon.png',
+                                        width: 20,
+                                        height: 20,
+                                        fit: BoxFit.contain,
+                                        color: Color.fromRGBO(0, 27, 121, 1),
+                                      ),
+                                      SizedBox(width: 15),
+                                      Flexible(
+                                        child: MyText(
+                                          text: this.searchBy,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -177,17 +253,11 @@ class ProviderScreenState extends State<ProviderScreen> {
                                     scrollDirection: Axis.horizontal,
                                     child: MyDataTable(
                                       columns: [
-                                        'Code',
-                                        'Nom du fournisseur',
-                                        'Contact',
-                                        'Pays',
-                                        'Banque',
-                                        'Compte banque',
-                                        'E-mail',
-                                        'Boîte postale',
-                                        'Adresse',
-                                        'Fax',
-                                        'Compte contr.'
+                                        'Bon',
+                                        'Date',
+                                        'N° bon de commande',
+                                        'Fournisseur',
+                                        'Montant total',
                                       ],
                                       rows: [
                                         for (var i = 1; i < 100; i++)
@@ -197,12 +267,6 @@ class ProviderScreenState extends State<ProviderScreen> {
                                             '+225 05 84 64 98 25',
                                             "Côte d'ivoire",
                                             'Bio',
-                                            'alexandretahi7@gmail.com',
-                                            'Yopougon, Lièvre Rouge',
-                                            '45.000.000 FCFA',
-                                            'Compte001',
-                                            'Compte001',
-                                            'Compte001',
                                           ],
                                       ],
                                     ),

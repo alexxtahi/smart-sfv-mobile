@@ -58,6 +58,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               functions.openPage(
                 context,
                 ClientView(),
+                mode: 'pushReplacement',
               );
             },
           ),
@@ -71,6 +72,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               functions.openPage(
                 context,
                 ArticleView(),
+                mode: 'pushReplacement',
               );
             },
           ),
@@ -83,7 +85,8 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               print('Dashboard card Article appuyé !');
               functions.openPage(
                 context,
-                ArticleView(),
+                DepotView(),
+                mode: 'pushReplacement',
               );
             },*/
           ),
@@ -97,6 +100,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               functions.openPage(
                 context,
                 ProviderView(),
+                mode: 'pushReplacement',
               );
             },
           ),

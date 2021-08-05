@@ -81,7 +81,7 @@ class ClientScreenState extends State<ClientScreen> {
                             textColor: Colors.black,
                             enableBorderColor: Colors.transparent,
                             focusBorderColor: Colors.transparent,
-                            fillColor: Colors.black.withOpacity(0.15),
+                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
                             suffixIcon: MyOutlinedIconButton(
                               onPressed: () {},
                               backgroundColor: Colors.white,

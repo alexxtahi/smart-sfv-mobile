@@ -44,6 +44,31 @@ class ListTableViewState extends State<ListTableView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        elevation: 5,
+        onPressed: () {},
+        backgroundColor: Color.fromRGBO(60, 141, 188, 1),
+        child: Tooltip(
+          message: 'Imprimer',
+          decoration: BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          textStyle: TextStyle(
+            fontFamily: 'Montserrat',
+            color: Color.fromRGBO(60, 141, 188, 1),
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            fontStyle: FontStyle.normal,
+            decoration: TextDecoration.none,
+          ),
+          child: Icon(
+            Icons.print_rounded,
+            color: Colors.white,
+          ),
+        ),
+      ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: MyText(
