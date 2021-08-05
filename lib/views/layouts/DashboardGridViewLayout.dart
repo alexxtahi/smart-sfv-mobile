@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/views/ArticleView.dart';
 import 'package:smartsfv/views/ClientView.dart';
 import 'package:smartsfv/views/components/DashboardCard.dart';
 import 'package:smartsfv/controllers/functions.dart' as functions;
@@ -61,18 +62,39 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
             icon: 'assets/img/icons/box.png',
             iconColor: Color.fromRGBO(231, 57, 0, 1),
             backgroundColor: Color.fromRGBO(243, 156, 18, 1),
+            onPressed: () {
+              print('Dashboard card Article appuyé !');
+              functions.openPage(
+                context,
+                ArticleView(),
+              );
+            },
           ),
           DashboardCard(
             text: 'Dépôts',
             icon: 'assets/img/icons/bank.png',
             iconColor: Color.fromRGBO(0, 77, 0, 1),
             backgroundColor: Color.fromRGBO(0, 166, 90, 1),
+            onPressed: () {
+              print('Dashboard card Article appuyé !');
+              functions.openPage(
+                context,
+                ArticleView(),
+              );
+            },
           ),
           DashboardCard(
             text: 'Fournisseurs',
             icon: 'assets/img/icons/provider.png',
             iconColor: Color.fromRGBO(187, 0, 0, 1),
             backgroundColor: Color.fromRGBO(221, 75, 57, 1),
+            onPressed: () {
+              print('Dashboard card Client appuyé !');
+              functions.openPage(
+                context,
+                ClientView(),
+              );
+            },
           ),
         ],
       ),
