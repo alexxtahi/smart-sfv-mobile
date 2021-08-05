@@ -31,13 +31,12 @@ void showMessageToSnackbar({
   required String message,
   int duration = 2,
   Icon icon = const Icon(Icons.info),
-  Color? backgroundColor,
-  Color? messageColor,
+  Color? backgroundColor = Colors.black,
+  Color? messageColor = Colors.white,
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      backgroundColor:
-          (backgroundColor != null) ? backgroundColor : Colors.black,
+      backgroundColor: backgroundColor,
       duration: Duration(seconds: duration),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +45,7 @@ void showMessageToSnackbar({
             message,
             style: TextStyle(
               fontFamily: 'Montserrat',
-              color: (backgroundColor != null) ? messageColor : Colors.white,
+              color: messageColor,
               fontWeight: FontWeight.bold,
             ),
           ),

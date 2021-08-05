@@ -155,6 +155,8 @@ flutter:
      - assets/img/icons/filter1.png
      - assets/img/icons/placeholder.png
      - assets/img/icons/australia.png
+     - assets/img/icons/sort-az.png
+     - assets/img/icons/barcode.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

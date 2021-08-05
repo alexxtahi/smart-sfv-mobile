@@ -55,7 +55,10 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
             iconColor: Color.fromRGBO(0, 27, 121, 1),
             onPressed: () {
               print('Dashboard card Client appuyé !');
-              functions.openPage(context, ClientView());
+              functions.openPage(
+                context,
+                ClientView(),
+              );
             },
           ),
           DashboardCard(
@@ -76,13 +79,13 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
             icon: 'assets/img/icons/bank.png',
             iconColor: Color.fromRGBO(0, 77, 0, 1),
             backgroundColor: Color.fromRGBO(0, 166, 90, 1),
-            onPressed: () {
+            /*onPressed: () {
               print('Dashboard card Article appuyé !');
               functions.openPage(
                 context,
                 ArticleView(),
               );
-            },
+            },*/
           ),
           DashboardCard(
             text: 'Fournisseurs',

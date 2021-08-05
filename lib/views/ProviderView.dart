@@ -43,7 +43,7 @@ class ProviderViewState extends State<ProviderView> {
         //backgroundColor: Colors.white,
         backgroundColor: Color.fromRGBO(221, 75, 57, 1),
         child: Tooltip(
-          message: 'Ajouter un client',
+          message: 'Ajouter un fournisseur',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -58,8 +58,7 @@ class ProviderViewState extends State<ProviderView> {
             decoration: TextDecoration.none,
           ),
           child: Image.asset(
-            'assets/img/icons/follower.png',
-            //color: Color.fromRGBO(60, 141, 188, 1),
+            'assets/img/icons/provider.png',
             color: Colors.white,
             width: 30,
             height: 30,

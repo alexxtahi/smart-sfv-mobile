@@ -1,6 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
+import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/views/ClientView.dart';
 import 'package:smartsfv/views/HomeView.dart';
 import 'package:smartsfv/views/ProviderView.dart';
@@ -51,6 +52,9 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                         HomeView(),
                         mode: 'pushReplacement',
                       );
+                      setState(() {
+                        DrawerLayoutController.close();
+                      });
                     },
                   ),
                   //todo: Paramètres
@@ -68,6 +72,9 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                             context,
                             ClientView(),
                           );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
                         },
                       },
                       {
@@ -79,6 +86,9 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                             context,
                             ProviderView(),
                           );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
                         },
                       },
                       {
@@ -164,7 +174,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       },
                       {
                         'icon': 'assets/img/icons/warehouse.png',
-                        'headerText': 'Stock par dépôt'
+                        'headerText': 'Stock par dépôt',
                       },
                       {
                         'icon': 'assets/img/icons/arrows.png',

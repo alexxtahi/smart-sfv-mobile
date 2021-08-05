@@ -9,6 +9,7 @@ import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
 
 class ArticleScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -22,6 +23,7 @@ class ArticleScreenState extends State<ArticleScreen> {
   ScrollController datatableScrollController = new ScrollController();
   TextEditingController textEditingController = TextEditingController();
   String searchBy = 'Par nom';
+  String searchByIcon = 'sort-az';
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -165,15 +167,30 @@ class ArticleScreenState extends State<ArticleScreen> {
                                 MyOutlinedButton(
                                   onPressed: () {
                                     setState(() {
-                                      this.searchBy =
-                                          (this.searchBy == 'Par nom')
-                                              ? 'Par code barre'
-                                              : 'Par nom';
+                                      if (this.searchBy == 'Par nom') {
+                                        this.searchBy = 'Par code barre';
+                                        this.searchByIcon = 'barcode';
+                                      } else {
+                                        this.searchBy = 'Par nom';
+                                        this.searchByIcon = 'sort-az';
+                                      }
+                                      functions.showMessageToSnackbar(
+                                        context: context,
+                                        message:
+                                            'Recherche des articles ${this.searchBy.toLowerCase()}',
+                                        messageColor:
+                                            Color.fromRGBO(231, 57, 0, 1),
+                                        duration: 5,
+                                        icon: Icon(
+                                          Icons.info,
+                                          color: Color.fromRGBO(231, 57, 0, 1),
+                                        ),
+                                      );
                                       print('Rehcerhce: ' + this.searchBy);
                                     });
                                   },
                                   backgroundColor:
-                                      Color.fromRGBO(243, 156, 18, 0.15),
+                                      Color.fromRGBO(231, 57, 0, 1),
                                   borderRadius: 15,
                                   borderColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(horizontal: 15),
@@ -182,18 +199,18 @@ class ArticleScreenState extends State<ArticleScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        'assets/img/icons/setting-lines.png',
+                                        'assets/img/icons/$searchByIcon.png',
                                         width: 20,
                                         height: 20,
                                         fit: BoxFit.contain,
-                                        color: Color.fromRGBO(231, 57, 0, 1),
+                                        color: Colors.white,
                                       ),
                                       SizedBox(width: 15),
                                       Flexible(
                                         child: MyText(
                                           text: this.searchBy,
                                           fontWeight: FontWeight.bold,
-                                          color: Color.fromRGBO(231, 57, 0, 1),
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ],

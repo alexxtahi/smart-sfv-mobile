@@ -59,8 +59,7 @@ class ArticleViewState extends State<ArticleView> {
             decoration: TextDecoration.none,
           ),
           child: Image.asset(
-            'assets/img/icons/follower.png',
-            //color: Color.fromRGBO(60, 141, 188, 1),
+            'assets/img/icons/box.png',
             color: Colors.white,
             width: 30,
             height: 30,
