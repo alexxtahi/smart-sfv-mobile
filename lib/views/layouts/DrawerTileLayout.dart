@@ -11,6 +11,7 @@ import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/screens/tva/TvaView.dart';
 
 class DrawerTileLayout extends StatefulWidget {
   DrawerTileLayout({
@@ -112,7 +113,20 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                           });
                         },
                       },
-                      {'icon': 'assets/img/icons/tax.png', 'headerText': 'TVA'},
+                      {
+                        'icon': 'assets/img/icons/tax.png',
+                        'headerText': 'TVA',
+                        'onPressed': () {
+                          print('Dashboard card Client appuyé !');
+                          functions.openPage(
+                            context,
+                            TvaView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
+                      },
                       {
                         'icon': 'assets/img/icons/regim.png',
                         'headerText': 'Régime',
