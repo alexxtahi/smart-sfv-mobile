@@ -3,6 +3,7 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/views/ClientView.dart';
 import 'package:smartsfv/views/HomeView.dart';
+import 'package:smartsfv/views/ProviderView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
 import 'package:smartsfv/controllers/functions.dart' as functions;
@@ -71,7 +72,14 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       },
                       {
                         'icon': 'assets/img/icons/provider.png',
-                        'headerText': 'Fournisseur'
+                        'headerText': 'Fournisseur',
+                        'onPressed': () {
+                          print('Dashboard card Client appuyé !');
+                          functions.openPage(
+                            context,
+                            ProviderView(),
+                          );
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/bank-building.png',

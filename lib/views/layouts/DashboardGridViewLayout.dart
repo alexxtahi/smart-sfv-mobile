@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/ArticleView.dart';
 import 'package:smartsfv/views/ClientView.dart';
+import 'package:smartsfv/views/ProviderView.dart';
 import 'package:smartsfv/views/components/DashboardCard.dart';
 import 'package:smartsfv/controllers/functions.dart' as functions;
 
@@ -92,7 +93,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               print('Dashboard card Client appuyé !');
               functions.openPage(
                 context,
-                ClientView(),
+                ProviderView(),
               );
             },
           ),
