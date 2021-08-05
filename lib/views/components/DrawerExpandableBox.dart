@@ -1,7 +1,6 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:smartsfv/controllers/MyExpandableController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
 import 'package:smartsfv/views/components/MyText.dart';

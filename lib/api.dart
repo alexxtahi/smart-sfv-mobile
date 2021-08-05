@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/User.dart';
 
 class Api {
@@ -14,6 +14,7 @@ class Api {
   // ! App context methods
   // todo: get user datas method
   Future getUserData(BuildContext context) async {
+    //this.url = 'http://localhost:8000/api/getusers'; // set url
     this.url = 'http://192.168.1.16:8000/api/getusers'; // set url
     //this.url = 'https://jsonplaceholder.typicode.com/users'; // JSON placeholder url
     try {

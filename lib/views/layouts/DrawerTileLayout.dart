@@ -2,14 +2,15 @@ import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
-import 'package:smartsfv/views/ClientView.dart';
-import 'package:smartsfv/views/CommandeView.dart';
-import 'package:smartsfv/views/HomeView.dart';
-import 'package:smartsfv/views/ListTableView.dart';
-import 'package:smartsfv/views/ProviderView.dart';
+import 'package:smartsfv/views/screens/banque/BanqueView.dart';
+import 'package:smartsfv/views/screens/client/ClientView.dart';
+import 'package:smartsfv/views/screens/commande/CommandeView.dart';
+import 'package:smartsfv/views/screens/home/HomeView.dart';
+import 'package:smartsfv/views/screens/others/ListTableView.dart';
+import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
-import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/functions.dart' as functions;
 
 class DrawerTileLayout extends StatefulWidget {
   DrawerTileLayout({
@@ -98,20 +99,31 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       //todo: Banque Tile
                       {
                         'icon': 'assets/img/icons/bank-building.png',
-                        'headerText': 'Banque'
+                        'headerText': 'Banque',
+                        'onPressed': () {
+                          print('Chargement de la fenêtre des banques');
+                          functions.openPage(
+                            context,
+                            BanqueView(),
+                            mode: 'pushReplacement',
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {'icon': 'assets/img/icons/tax.png', 'headerText': 'TVA'},
                       {
                         'icon': 'assets/img/icons/regim.png',
-                        'headerText': 'Régime'
+                        'headerText': 'Régime',
                       },
                       {
                         'icon': 'assets/img/icons/box.png',
-                        'headerText': 'Article'
+                        'headerText': 'Article',
                       },
                       {
                         'icon': 'assets/img/icons/cashier.png',
-                        'headerText': 'Caisse'
+                        'headerText': 'Caisse',
                       },
                       {
                         'icon': 'assets/img/icons/countries.png',

@@ -1,11 +1,11 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
-import 'package:smartsfv/views/CommandeView.dart';
-import 'package:smartsfv/views/ListTableView.dart';
+import 'package:smartsfv/views/screens/commande/CommandeView.dart';
+import 'package:smartsfv/views/screens/others/ListTableView.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyExpandableBox.dart';
-import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/functions.dart' as functions;
 
 class ExpansionTable extends StatefulWidget {
   ExpansionTable({

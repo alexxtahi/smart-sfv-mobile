@@ -161,6 +161,8 @@ flutter:
      - assets/img/icons/code.png
      - assets/img/icons/shopping-bag.png
      - assets/img/icons/shopping-cart.png
+     - assets/img/icons/add-box.png
+     - assets/img/icons/add-user.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

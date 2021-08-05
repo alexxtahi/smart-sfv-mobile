@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/views/ArticleView.dart';
-import 'package:smartsfv/views/ClientView.dart';
-import 'package:smartsfv/views/ProviderView.dart';
+import 'package:smartsfv/views/screens/article/ArticleView.dart';
+import 'package:smartsfv/views/screens/client/ClientView.dart';
+import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DashboardCard.dart';
-import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/functions.dart' as functions;
 
 class DashboardGridViewLayout extends StatefulWidget {
   final ScrollController gridViewScrollController;
@@ -60,6 +61,9 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
                 ClientView(),
                 mode: 'pushReplacement',
               );
+              setState(() {
+                DrawerLayoutController.close();
+              });
             },
           ),
           DashboardCard(
@@ -74,6 +78,9 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
                 ArticleView(),
                 mode: 'pushReplacement',
               );
+              setState(() {
+                DrawerLayoutController.close();
+              });
             },
           ),
           DashboardCard(
@@ -81,14 +88,17 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
             icon: 'assets/img/icons/bank.png',
             iconColor: Color.fromRGBO(0, 77, 0, 1),
             backgroundColor: Color.fromRGBO(0, 166, 90, 1),
-            /*onPressed: () {
-              print('Dashboard card Article appuyé !');
+            onPressed: () {
+              /*print('Dashboard card Article appuyé !');
               functions.openPage(
                 context,
                 DepotView(),
                 mode: 'pushReplacement',
-              );
-            },*/
+              );*/
+              setState(() {
+                DrawerLayoutController.close();
+              });
+            },
           ),
           DashboardCard(
             text: 'Fournisseurs',
@@ -102,6 +112,9 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
                 ProviderView(),
                 mode: 'pushReplacement',
               );
+              setState(() {
+                DrawerLayoutController.close();
+              });
             },
           ),
         ],

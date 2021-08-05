@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
-import 'package:smartsfv/views/screens/ArticleScreen.dart';
+import 'package:smartsfv/views/screens/article/ArticleScreen.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 
 class ArticleView extends StatefulWidget {
@@ -58,7 +58,7 @@ class ArticleViewState extends State<ArticleView> {
             decoration: TextDecoration.none,
           ),
           child: Image.asset(
-            'assets/img/icons/box.png',
+            'assets/img/icons/add-box.png',
             color: Colors.white,
             width: 30,
             height: 30,

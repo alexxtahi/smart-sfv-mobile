@@ -15,15 +15,15 @@ class MyTextField extends StatefulWidget {
   final Color enableBorderColor;
   final Radius borderRadius;
   final String inputType;
-  final FocusNode focusNode;
-  final TextEditingController textEditingController;
+  final FocusNode? focusNode;
+  final TextEditingController? textEditingController;
   final void Function()? onTap;
   final void Function()? onEditingComplete;
   final void Function(String)? onSubmitted;
   MyTextField({
     Key? key,
     this.inputType = '',
-    required this.focusNode,
+    this.focusNode,
     this.textColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.fillColor = const Color.fromRGBO(255, 255, 255, 0.5),
     this.cursorColor = const Color.fromRGBO(0, 0, 0, 0.5),
@@ -36,7 +36,7 @@ class MyTextField extends StatefulWidget {
     this.focusBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.enableBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.borderRadius = Radius.zero,
-    required this.textEditingController,
+    this.textEditingController,
     this.onTap,
     this.onEditingComplete,
     this.onSubmitted,
@@ -59,8 +59,7 @@ class MyTextFieldState extends State<MyTextField> {
           (widget.inputType == 'password') ? false : true,
       controller: widget.textEditingController,
       onTap: widget.onTap,
-      onEditingComplete:
-          (widget.onEditingComplete != null) ? widget.onEditingComplete : () {},
+      onEditingComplete: widget.onEditingComplete,
       cursorColor: widget.cursorColor,
       style: TextStyle(
         fontFamily: 'Montserrat',

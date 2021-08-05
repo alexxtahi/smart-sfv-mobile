@@ -43,7 +43,7 @@ class ClientScreenState extends State<ClientScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: Color.fromRGBO(251, 251, 251, 1),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: DrawerLayoutController.borderRadius,
         ),
         child: SafeArea(
           child: Padding(
@@ -113,6 +113,7 @@ class ClientScreenState extends State<ClientScreen> {
                                   borderColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
@@ -140,6 +141,7 @@ class ClientScreenState extends State<ClientScreen> {
                                   borderColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [

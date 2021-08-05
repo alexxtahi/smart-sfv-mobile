@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/views/components/MyTextField.dart';
 
 class ForgottenPasswordLayout extends StatefulWidget {

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smartsfv/views/components/BlurBackground.dart';
 import 'package:smartsfv/views/components/LoginBox.dart';
-import '../controllers/ScreenController.dart';
-import 'components/AppName.dart';
-import 'layouts/ForgottenPasswordLayout.dart';
+import '../../../controllers/ScreenController.dart';
+import '../../components/AppName.dart';
+import '../../layouts/ForgottenPasswordLayout.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatefulWidget {

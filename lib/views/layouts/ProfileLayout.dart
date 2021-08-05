@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/controllers/functions.dart' as functions;
-import 'package:smartsfv/views/LoginView.dart';
+import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/screens/others/LoginView.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 
 class ProfileLayout extends StatefulWidget {

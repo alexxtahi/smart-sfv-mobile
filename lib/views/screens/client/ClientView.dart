@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
+import 'package:smartsfv/views/screens/client/ClientScreen.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
-import 'package:smartsfv/views/screens/ProviderScreen.dart';
 
-class ProviderView extends StatefulWidget {
-  ProviderView({Key? key}) : super(key: key);
+class ClientView extends StatefulWidget {
+  ClientView({Key? key}) : super(key: key);
   @override
-  ProviderViewState createState() => ProviderViewState();
+  ClientViewState createState() => ClientViewState();
 }
 
-class ProviderViewState extends State<ProviderView> {
+class ClientViewState extends State<ClientView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   @override
@@ -41,9 +41,9 @@ class ProviderViewState extends State<ProviderView> {
         hoverElevation: 10,
         onPressed: () {},
         //backgroundColor: Colors.white,
-        backgroundColor: Color.fromRGBO(221, 75, 57, 1),
+        backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un fournisseur',
+          message: 'Ajouter un client',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -58,7 +58,8 @@ class ProviderViewState extends State<ProviderView> {
             decoration: TextDecoration.none,
           ),
           child: Image.asset(
-            'assets/img/icons/provider.png',
+            'assets/img/icons/follower.png',
+            //color: Color.fromRGBO(60, 141, 188, 1),
             color: Colors.white,
             width: 30,
             height: 30,
@@ -71,7 +72,7 @@ class ProviderViewState extends State<ProviderView> {
           //todo: Drawer Screen
           DrawerLayout(),
           //todo: Home Screen
-          ProviderScreen(panelController: panelController),
+          ClientScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
             username: 'Alexandre TAHI',

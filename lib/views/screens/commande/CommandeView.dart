@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
-import 'package:smartsfv/views/screens/CommandeScreen.dart';
+import 'package:smartsfv/views/screens/commande/CommandeScreen.dart';
 
 class CommandeView extends StatefulWidget {
   CommandeView({Key? key}) : super(key: key);

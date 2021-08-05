@@ -37,7 +37,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: Color.fromRGBO(251, 251, 251, 1),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: DrawerLayoutController.borderRadius,
         ),
         child: SafeArea(
           child: Padding(

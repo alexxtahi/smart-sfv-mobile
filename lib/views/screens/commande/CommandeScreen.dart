@@ -9,7 +9,7 @@ import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
-import 'package:smartsfv/controllers/functions.dart' as functions;
+import 'package:smartsfv/functions.dart' as functions;
 
 class CommandeScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -46,7 +46,7 @@ class CommandeScreenState extends State<CommandeScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: Color.fromRGBO(251, 251, 251, 1),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: DrawerLayoutController.borderRadius,
         ),
         child: SafeArea(
           child: Padding(
@@ -116,6 +116,7 @@ class CommandeScreenState extends State<CommandeScreen> {
                                   borderColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
@@ -145,6 +146,7 @@ class CommandeScreenState extends State<CommandeScreen> {
                                   borderColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
@@ -214,6 +216,7 @@ class CommandeScreenState extends State<CommandeScreen> {
                                   borderColor: Colors.transparent,
                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
