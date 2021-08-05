@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
@@ -19,6 +21,7 @@ class BanqueViewState extends State<BanqueView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
+  bool isNewBankEmpty = false;
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
@@ -74,6 +77,9 @@ class BanqueViewState extends State<BanqueView> {
                         borderRadius: Radius.circular(10),
                         focusBorderColor: Colors.transparent,
                         enableBorderColor: Colors.transparent,
+                        errorText: (this.isNewBankEmpty)
+                            ? 'Saisissez un nom avant de valider.'
+                            : null,
                       ),
                       SizedBox(height: 10),
                       //todo: Save button
@@ -84,11 +90,37 @@ class BanqueViewState extends State<BanqueView> {
                         borderColor: Colors.transparent,
                         width: screenSize[0],
                         onPressed: () {
-                          Navigator.pop(context);
-                          functions.successSnackbar(
-                            context: context,
-                            message: 'Banque ajoutée avec succès !',
-                          );
+                          if (this.textEditingController.text.isNotEmpty) {
+                            setState(() {
+                              this.isNewBankEmpty = false;
+                            });
+                            Navigator.pop(context); // dismiss alertdialog
+                            this
+                                .textEditingController
+                                .clear(); // erase textfield content
+                            functions.successSnackbar(
+                              context: context,
+                              message: 'Banque ajoutée avec succès !',
+                            );
+                          } else {
+                            print('Champ nouvelle banque vide !');
+                            functions.errorSnackbar(
+                              context: context,
+                              message: 'Saisissez un nom avant de valider.',
+                            );
+                            setState(() {
+                              this.isNewBankEmpty = true;
+                            });
+                            //todo: Start timer
+                            Timer(
+                              Duration(seconds: 5),
+                              () {
+                                setState(() {
+                                  this.isNewBankEmpty = false;
+                                });
+                              },
+                            );
+                          }
                         },
                       ),
                       SizedBox(height: 10),

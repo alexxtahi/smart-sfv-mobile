@@ -15,6 +15,7 @@ class MyTextField extends StatefulWidget {
   final Color enableBorderColor;
   final Radius borderRadius;
   final String inputType;
+  final String? errorText;
   final FocusNode? focusNode;
   final TextEditingController? textEditingController;
   final void Function()? onTap;
@@ -23,6 +24,7 @@ class MyTextField extends StatefulWidget {
   MyTextField({
     Key? key,
     this.inputType = '',
+    this.errorText,
     this.focusNode,
     this.textColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.fillColor = const Color.fromRGBO(255, 255, 255, 0.5),
@@ -84,8 +86,12 @@ class MyTextFieldState extends State<MyTextField> {
                 )
               : widget.suffixIcon,
         ),
-        /*errorText: 'Aucun résultat',
-        errorStyle: TextStyle(fontFamily: 'Montserrat'),*/
+        errorText: widget.errorText,
+        errorStyle: TextStyle(
+          fontFamily: 'Montserrat',
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+        ),
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
