@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/views/ClientView.dart';
 import 'package:smartsfv/views/HomeView.dart';
+import 'package:smartsfv/views/ListTableView.dart';
 import 'package:smartsfv/views/ProviderView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
@@ -213,7 +214,25 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       },
                       {
                         'icon': 'assets/img/icons/cashier-machine.png',
-                        'headerText': 'Point de caisse'
+                        'headerText': 'Point de caisse',
+                        'onPressed': () => openListTableView(
+                              title: 'Caisses ouvertes',
+                              columns: [
+                                'Dépôt',
+                                'Caisse',
+                                'Etat',
+                                'Accéder',
+                              ],
+                              rows: [
+                                for (var i = 1; i < 100; i++)
+                                  [
+                                    '1',
+                                    'Alexandre TAHI',
+                                    '+225 05 84 64 98 25',
+                                    "Côte d'ivoire",
+                                  ],
+                              ],
+                            ),
                       },
                       {
                         'icon': 'assets/img/icons/spending.png',
@@ -388,5 +407,24 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
         ),
       ),
     );
+  }
+
+  void openListTableView(
+      {String title: 'Nouvelle liste 1',
+      List<String> columns: const [],
+      List<List<String>> rows: const [],
+      debugMessage: ''}) {
+    print(debugMessage);
+    functions.openPage(
+      context,
+      ListTableView(
+        title: 'Caisses ouvertes',
+        columns: columns,
+        rows: rows,
+      ),
+    );
+    setState(() {
+      DrawerLayoutController.close();
+    });
   }
 }
