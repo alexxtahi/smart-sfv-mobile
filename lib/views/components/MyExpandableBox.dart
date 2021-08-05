@@ -9,10 +9,12 @@ import 'package:smartsfv/views/components/MyText.dart';
 class MyExpandableBox extends StatefulWidget {
   final String headerText;
   final MyDataTable table;
+  final Function()? seeMoreBtn;
   MyExpandableBox({
     Key? key,
     required this.headerText,
     required this.table,
+    this.seeMoreBtn,
   }) : super(key: key);
   @override
   MyExpandableBoxState createState() => MyExpandableBoxState();
@@ -28,7 +30,7 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
     List<double> screenSize = ScreenController.getScreenSize(context);
 
     return DelayedDisplay(
-      delay: Duration(seconds: 2),
+      delay: Duration(seconds: 1),
       child: Card(
         elevation: 5,
         color: Colors.transparent,
@@ -108,7 +110,7 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
                                   children: [
                                     Spacer(),
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: widget.seeMoreBtn,
                                       child: Row(
                                         children: [
                                           //todo: Text

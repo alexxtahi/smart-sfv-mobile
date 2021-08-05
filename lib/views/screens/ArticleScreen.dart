@@ -176,10 +176,28 @@ class ArticleScreenState extends State<ArticleScreen> {
                                       }
                                       functions.showMessageToSnackbar(
                                         context: context,
-                                        message:
-                                            'Recherche des articles ${this.searchBy.toLowerCase()}',
-                                        messageColor:
-                                            Color.fromRGBO(231, 57, 0, 1),
+                                        message: RichText(
+                                          text: TextSpan(
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                  text:
+                                                      'Recherche des articles '),
+                                              TextSpan(
+                                                text:
+                                                    this.searchBy.toLowerCase(),
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      231, 57, 0, 1),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         duration: 5,
                                         icon: Icon(
                                           Icons.info,

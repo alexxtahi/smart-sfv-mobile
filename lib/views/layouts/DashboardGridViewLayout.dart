@@ -93,7 +93,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
             iconColor: Color.fromRGBO(187, 0, 0, 1),
             backgroundColor: Color.fromRGBO(221, 75, 57, 1),
             onPressed: () {
-              print('Dashboard card Client appuyé !');
+              print('Dashboard card Fournisseur appuyé !');
               functions.openPage(
                 context,
                 ProviderView(),

@@ -63,6 +63,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     icon: 'assets/img/icons/settings.png',
                     headerText: 'Paramètres',
                     expandedElements: [
+                      //todo: Client Tile
                       {
                         'icon': 'assets/img/icons/suitcase.png',
                         'headerText': 'Client',
@@ -77,6 +78,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                           });
                         },
                       },
+                      //todo: Fournisseur Tile
                       {
                         'icon': 'assets/img/icons/provider.png',
                         'headerText': 'Fournisseur',
@@ -91,6 +93,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                           });
                         },
                       },
+                      //todo: Banque Tile
                       {
                         'icon': 'assets/img/icons/bank-building.png',
                         'headerText': 'Banque'

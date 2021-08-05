@@ -1,7 +1,10 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:smartsfv/controllers/DrawerLayoutController.dart';
+import 'package:smartsfv/views/ListTableView.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyExpandableBox.dart';
+import 'package:smartsfv/controllers/functions.dart' as functions;
 
 class ExpansionTable extends StatefulWidget {
   ExpansionTable({
@@ -23,6 +26,26 @@ class ExpansionTableState extends State<ExpansionTable> {
           //todo: Caisses ouvertes
           MyExpandableBox(
             headerText: 'Caisses ouvertes',
+            seeMoreBtn: () {
+              openListTableView(
+                title: 'Caisses ouvertes',
+                columns: [
+                  'Dépôt',
+                  'Caisse',
+                  'Etat',
+                  'Accéder',
+                ],
+                rows: [
+                  for (var i = 1; i < 100; i++)
+                    [
+                      '1',
+                      'Alexandre TAHI',
+                      '+225 05 84 64 98 25',
+                      "Côte d'ivoire",
+                    ],
+                ],
+              );
+            },
             table: MyDataTable(
               columns: [
                 'Dépôt',
@@ -176,5 +199,24 @@ class ExpansionTableState extends State<ExpansionTable> {
         ],
       ),
     );
+  }
+
+  void openListTableView(
+      {String title: 'Nouvelle liste 1',
+      List<String> columns: const [],
+      List<List<String>> rows: const [],
+      debugMessage: ''}) {
+    print(debugMessage);
+    functions.openPage(
+      context,
+      ListTableView(
+        title: 'Caisses ouvertes',
+        columns: columns,
+        rows: rows,
+      ),
+    );
+    setState(() {
+      DrawerLayoutController.close();
+    });
   }
 }

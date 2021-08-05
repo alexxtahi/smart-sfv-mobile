@@ -28,7 +28,7 @@ void errorSnackbar({required BuildContext context, required String message}) {
 
 void showMessageToSnackbar({
   required BuildContext context,
-  required String message,
+  required var message,
   int duration = 2,
   Icon icon = const Icon(Icons.info),
   Color? backgroundColor = Colors.black,
@@ -41,14 +41,16 @@ void showMessageToSnackbar({
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            message,
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              color: messageColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          (message is String)
+              ? Text(
+                  message,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: messageColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              : message,
           icon,
         ],
       ),
