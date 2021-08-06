@@ -1,91 +1,98 @@
 import 'package:flutter/material.dart';
+import 'package:smartsfv/views/components/MyComboBox.dart';
+import 'package:smartsfv/views/components/MyOutlinedButton.dart';
+import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 
-final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
 Future<void> showInformationDialog(BuildContext context) async {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   return await showDialog(
     context: context,
     builder: (context) {
       final TextEditingController textEditingController =
           TextEditingController();
-      bool isChecked = false;
-      String dropDownValue = 'Sélectionnez un dépôt';
-      List<String> depotlist = ['Sélectionnez un dépôt', 'Two', 'Free', 'Four'];
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
+            elevation: 5,
+            contentPadding: EdgeInsets.all(20),
+            backgroundColor: Colors.white,
             content: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    //todo: Caisse TextFormField
-                    MyTextFormField(
-                      textEditingController: textEditingController,
-                      validator: (value) {
-                        return value!.isNotEmpty ? null : "Invalid Field";
-                      },
-                      placeholder: 'Libellé de la caisse',
-                      textColor: Color.fromRGBO(60, 141, 188, 1),
-                      placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                      fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                      borderRadius: Radius.circular(10),
-                      focusBorderColor: Colors.transparent,
-                      enableBorderColor: Colors.transparent,
-                    ),
-                    SizedBox(height: 10),
-
-                    //todo: Dépot DropDownButton
-                    DropdownButton<String>(
-                      isExpanded: true,
-                      value: dropDownValue,
-                      icon: Icon(Icons.keyboard_arrow_down_rounded),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String? newDropDownValue) {
-                        setState(() {
-                          dropDownValue = newDropDownValue!;
-                        });
-                      },
-                      items: depotlist
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    /*
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Choice Box"),
-                        Checkbox(
-                            value: isChecked,
-                            onChanged: (checked) {
-                              setState(() {
-                                isChecked = checked!;
-                              });
-                            })
-                      ],
-                    ),*/
-                  ],
-                )),
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  //todo: Icon
+                  Image.asset(
+                    'assets/img/icons/cashier.png',
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.contain,
+                    color: Color.fromRGBO(60, 141, 188, 1),
+                  ),
+                  MyText(
+                    text: 'Ajouter une nouvelle caisse',
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //todo: Caisse TextFormField
+                  MyTextFormField(
+                    textEditingController: textEditingController,
+                    validator: (value) {
+                      return value!.isNotEmpty
+                          ? null
+                          : 'Saisissez un nom de caisse';
+                    },
+                    placeholder: 'Libellé de la caisse',
+                    textColor: Color.fromRGBO(60, 141, 188, 1),
+                    placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                    fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                    borderRadius: Radius.circular(10),
+                    focusBorderColor: Colors.transparent,
+                    enableBorderColor: Colors.transparent,
+                  ),
+                  SizedBox(height: 10),
+                  //todo: Dépot DropDownButton
+                  MyComboBox(
+                    initialDropDownValue: 'Sélectionnez un dépôt',
+                    initialDropDownList: [
+                      'Sélectionnez un dépôt',
+                      for (var i = 1; i <= 10; i++) 'Dépôt $i',
+                    ],
+                  ),
+                ],
+              ),
+            ),
             actions: <Widget>[
+              //todo: Cancel button
               TextButton(
-                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: MyText(
+                  text: 'Annuler',
+                  color: Color.fromRGBO(221, 75, 57, 1),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //todo: Save button
+              TextButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    // Do something like updating SharedPreferences or User Settings etc.
                     Navigator.of(context).pop();
+                    successSnackbar(
+                      context: context,
+                      message: 'Nouvelle caisse ajouté !',
+                    );
                   }
                 },
+                child: MyText(
+                  text: 'Ajouter',
+                  color: Color.fromRGBO(60, 141, 188, 1),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           );
