@@ -4,11 +4,13 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
+import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/functions.dart' as functions;
 
 class ProviderScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -100,40 +102,65 @@ class ProviderScreenState extends State<ProviderScreen> {
                     childAspectRatio: 4,
                     crossAxisSpacing: 10,
                     children: [
-                      MyOutlinedButton(
-                        onPressed: () {},
-                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
-                        borderRadius: 15,
-                        borderColor: Colors.transparent,
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/img/icons/australia.png',
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.contain,
-                              color: Color.fromRGBO(187, 0, 0, 1),
-                            ),
-                            SizedBox(width: 15),
-                            MyText(
-                              text: 'Pays',
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(187, 0, 0, 1),
-                            ),
-                          ],
+                      //todo: Pays DropDown
+                      MyComboBox(
+                        initialDropDownValue: 'Pays',
+                        initialDropDownList: [
+                          'Pays',
+                          for (var i = 1; i <= 10; i++) 'Pays $i',
+                        ],
+                        prefixPadding: 10,
+                        prefixIcon: Image.asset(
+                          'assets/img/icons/countries.png',
+                          fit: BoxFit.contain,
+                          width: 20,
+                          height: 20,
+                          color: Color.fromRGBO(187, 0, 0, 1),
                         ),
+                        textColor: Color.fromRGBO(187, 0, 0, 1),
+                        textFontWeight: FontWeight.bold,
+                        fillColor: Color.fromRGBO(187, 0, 0, 0.15),
+                        borderRadius: Radius.circular(15),
+                        focusBorderColor: Colors.transparent,
+                        enableBorderColor: Colors.transparent,
                       ),
+                      //todo: Filtres Button
                       MyOutlinedButton(
-                        onPressed: () {},
-                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
+                        onPressed: () {
+                          print('Filtre appuyé !');
+                          functions.showFormDialog(
+                            context,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 10),
+                            hasCancelButton: false,
+                            hasSnackbar: false,
+                            headerIcon: 'assets/img/icons/filter.png',
+                            title: 'Filtres',
+                            formElements: [
+                              for (var i = 0; i < 10; i++)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    MyText(text: 'Filtre $i'),
+                                    Checkbox(
+                                      value: true,
+                                      checkColor: Colors.blue,
+                                      onChanged: (checked) {
+                                        print(checked);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          );
+                        },
+                        backgroundColor: Color.fromRGBO(187, 0, 0, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset(
