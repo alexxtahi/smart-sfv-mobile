@@ -4,6 +4,7 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/screens/client/ClientScreen.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
+import 'package:smartsfv/functions.dart' as functions;
 
 class ClientView extends StatefulWidget {
   ClientView({Key? key}) : super(key: key);
@@ -39,7 +40,12 @@ class ClientViewState extends State<ClientView> {
         isExtended: true,
         elevation: 5,
         hoverElevation: 10,
-        onPressed: () {},
+        onPressed: () {
+          functions.showFormDialog(
+            context,
+            headerIcon: 'assets/img/icons/customer.png',
+          );
+        },
         //backgroundColor: Colors.white,
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/views/components/MyOutlinedButton.dart';
-import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/components/MyComboBox.dart';
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/views/screens/caisse/CaisseScreen.dart';
@@ -24,7 +23,6 @@ class CaisseViewState extends State<CaisseView> {
   List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   @override
   Widget build(BuildContext context) {
-    List<double> screenSize = ScreenController.getScreenSize(context);
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -47,7 +45,42 @@ class CaisseViewState extends State<CaisseView> {
         elevation: 5,
         hoverElevation: 10,
         onPressed: () async {
-          await functions.showInformationDialog(context);
+          final TextEditingController libEditingController =
+              TextEditingController();
+          await functions.showFormDialog(
+            context,
+            headerIcon: 'assets/img/icons/cashier.png',
+            title: 'Ajouter une nouvelle caisse',
+            successMessage: 'Nouvelle caisse ajouté !',
+            padding: EdgeInsets.all(20),
+            formElements: [
+              //todo: TextFormField
+              MyTextFormField(
+                textEditingController: libEditingController,
+                validator: (value) {
+                  return value!.isNotEmpty
+                      ? null
+                      : 'Saisissez un nom de caisse';
+                },
+                placeholder: 'Libellé de la caisse',
+                textColor: Color.fromRGBO(60, 141, 188, 1),
+                placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                borderRadius: Radius.circular(10),
+                focusBorderColor: Colors.transparent,
+                enableBorderColor: Colors.transparent,
+              ),
+              SizedBox(height: 10),
+              //todo: Dépot DropDownButton
+              MyComboBox(
+                initialDropDownValue: 'Sélectionnez un dépôt',
+                initialDropDownList: [
+                  'Sélectionnez un dépôt',
+                  for (var i = 1; i <= 10; i++) 'Dépôt $i',
+                ],
+              ),
+            ],
+          );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
