@@ -6,8 +6,23 @@ class MyComboBox extends StatefulWidget {
   final List<String> initialDropDownList;
   final double iconSize;
   final int elevation;
-  final Color underlineColor;
-  final double underlineThickness;
+
+  final Color textColor;
+  final Color fillColor;
+  final FontWeight textFontWeight;
+  final double textFontSize;
+  var suffixIcon;
+  Widget? prefixIcon;
+  final double suffixIconSize;
+  final double suffixPadding;
+  final double prefixPadding;
+  final Color focusBorderColor;
+  final Color enableBorderColor;
+  final Radius borderRadius;
+  final String? errorText;
+  final FocusNode? focusNode;
+  final void Function()? onTap;
+  final String? Function(String?)? validator;
 
   MyComboBox({
     Key? key,
@@ -15,8 +30,22 @@ class MyComboBox extends StatefulWidget {
     this.initialDropDownList = const ['Sélectionnez...'],
     this.iconSize = 24,
     this.elevation = 16,
-    this.underlineColor = const Color.fromRGBO(60, 141, 188, 1),
-    this.underlineThickness = 2,
+    this.errorText,
+    this.focusNode,
+    this.textColor = const Color.fromRGBO(60, 141, 188, 1),
+    this.fillColor = const Color.fromRGBO(255, 255, 255, 0.5),
+    this.prefixIcon,
+    this.suffixIcon,
+    this.suffixIconSize = 20,
+    this.suffixPadding = 10,
+    this.prefixPadding = 10,
+    this.focusBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
+    this.enableBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
+    this.borderRadius = Radius.zero,
+    this.onTap,
+    this.validator,
+    this.textFontWeight = FontWeight.normal,
+    this.textFontSize = 14,
   }) : super(key: key);
 
   @override
@@ -35,23 +64,21 @@ class MyComboBoxState extends State<MyComboBox> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButtonFormField<String>(
+      iconEnabledColor: widget.textColor,
       isExpanded: true,
+      validator: widget.validator,
       value: this.dropDownValue,
       icon: Icon(Icons.keyboard_arrow_down_rounded),
       iconSize: widget.iconSize,
       elevation: widget.elevation,
       style: TextStyle(
         fontFamily: 'Montserrat',
-        color: Colors.black,
+        color: widget.textColor,
         fontSize: 14,
         fontWeight: FontWeight.normal,
         fontStyle: FontStyle.normal,
         decoration: TextDecoration.none,
-      ),
-      underline: Container(
-        height: widget.underlineThickness,
-        color: widget.underlineColor,
       ),
       onChanged: (String? newDropDownValue) {
         setState(() {
@@ -61,9 +88,67 @@ class MyComboBoxState extends State<MyComboBox> {
       items: this.dropDownList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: MyText(text: value),
+          child: MyText(
+            text: value,
+            color: widget.textColor,
+            fontSize: widget.textFontSize,
+            fontWeight: widget.textFontWeight,
+          ),
         );
       }).toList(),
+      decoration: InputDecoration(
+        prefixIcon: (widget.prefixIcon != null)
+            ? Padding(
+                padding: EdgeInsets.all(widget.prefixPadding),
+                child: widget.prefixIcon,
+              )
+            : null,
+        filled: true,
+        fillColor: widget.fillColor,
+        suffixIcon: (widget.suffixIcon != null)
+            ? Padding(
+                padding: EdgeInsets.all(widget.suffixPadding),
+                child: (widget.suffixIcon is String)
+                    ? Image.asset(
+                        widget.suffixIcon,
+                        width: widget.suffixIconSize,
+                        height: widget.suffixIconSize,
+                      )
+                    : widget.suffixIcon,
+              )
+            : null,
+        errorText: widget.errorText,
+        errorStyle: TextStyle(
+          fontFamily: 'Montserrat',
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: widget.focusBorderColor,
+          ),
+          borderRadius: BorderRadius.all(widget.borderRadius),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: widget.focusBorderColor,
+          ),
+          borderRadius: BorderRadius.all(widget.borderRadius),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red,
+          ),
+          borderRadius: BorderRadius.all(widget.borderRadius),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red,
+          ),
+          borderRadius: BorderRadius.all(widget.borderRadius),
+        ),
+      ),
     );
   }
 }

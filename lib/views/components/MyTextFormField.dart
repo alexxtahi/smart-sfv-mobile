@@ -9,13 +9,17 @@ class MyTextFormField extends StatefulWidget {
   final double placeholderSize;
   final Color placeholderColor;
   var suffixIcon;
+  Widget? prefixIcon;
   final double suffixIconSize;
   final double suffixPadding;
+  final double prefixPadding;
   final Color focusBorderColor;
   final Color enableBorderColor;
   final Radius borderRadius;
   final String inputType;
   final String? errorText;
+  final String? labelText;
+  final Color labelTextColor;
   final FocusNode? focusNode;
   final TextEditingController? textEditingController;
   final void Function()? onTap;
@@ -32,9 +36,11 @@ class MyTextFormField extends StatefulWidget {
     this.placeholder = '',
     this.placeholderSize = 16,
     this.placeholderColor = const Color.fromRGBO(0, 0, 0, 0.5),
+    this.prefixIcon,
     this.suffixIcon,
     this.suffixIconSize = 20,
     this.suffixPadding = 10,
+    this.prefixPadding = 10,
     this.focusBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.enableBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.borderRadius = Radius.zero,
@@ -42,6 +48,8 @@ class MyTextFormField extends StatefulWidget {
     this.onTap,
     this.onEditingComplete,
     this.validator,
+    this.labelText,
+    this.labelTextColor = const Color.fromRGBO(0, 0, 0, 0.5),
   }) : super(key: key);
 
   @override
@@ -68,6 +76,18 @@ class MyTextFormFieldState extends State<MyTextFormField> {
         color: widget.textColor,
       ),
       decoration: InputDecoration(
+        labelText: widget.labelText,
+        prefixIcon: (widget.prefixIcon != null)
+            ? Padding(
+                padding: EdgeInsets.all(widget.prefixPadding),
+                child: widget.prefixIcon,
+              )
+            : null,
+        labelStyle: TextStyle(
+          fontFamily: 'Montserrat',
+          color: widget.labelTextColor,
+          fontSize: widget.placeholderSize,
+        ),
         filled: true,
         fillColor: widget.fillColor,
         hintText: widget.placeholder,
@@ -76,16 +96,18 @@ class MyTextFormFieldState extends State<MyTextFormField> {
           color: widget.placeholderColor,
           fontSize: widget.placeholderSize,
         ),
-        suffixIcon: Padding(
-          padding: EdgeInsets.all(widget.suffixPadding),
-          child: (widget.suffixIcon is String)
-              ? Image.asset(
-                  widget.suffixIcon,
-                  width: widget.suffixIconSize,
-                  height: widget.suffixIconSize,
-                )
-              : widget.suffixIcon,
-        ),
+        suffixIcon: (widget.suffixIcon != null)
+            ? Padding(
+                padding: EdgeInsets.all(widget.suffixPadding),
+                child: (widget.suffixIcon is String)
+                    ? Image.asset(
+                        widget.suffixIcon,
+                        width: widget.suffixIconSize,
+                        height: widget.suffixIconSize,
+                      )
+                    : widget.suffixIcon,
+              )
+            : null,
         errorText: widget.errorText,
         errorStyle: TextStyle(
           fontFamily: 'Montserrat',
@@ -102,6 +124,18 @@ class MyTextFormFieldState extends State<MyTextFormField> {
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: widget.focusBorderColor,
+          ),
+          borderRadius: BorderRadius.all(widget.borderRadius),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red,
+          ),
+          borderRadius: BorderRadius.all(widget.borderRadius),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red,
           ),
           borderRadius: BorderRadius.all(widget.borderRadius),
         ),

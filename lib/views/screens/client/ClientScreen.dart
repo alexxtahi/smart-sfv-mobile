@@ -4,6 +4,7 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
+import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
@@ -100,31 +101,27 @@ class ClientScreenState extends State<ClientScreen> {
                     childAspectRatio: 4,
                     crossAxisSpacing: 10,
                     children: [
-                      MyOutlinedButton(
-                        onPressed: () {},
-                        backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
-                        borderRadius: 15,
-                        borderColor: Colors.transparent,
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/img/icons/australia.png',
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.contain,
-                              color: Color.fromRGBO(0, 27, 121, 1),
-                            ),
-                            SizedBox(width: 15),
-                            MyText(
-                              text: 'Pays',
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(0, 27, 121, 1),
-                            ),
-                          ],
+                      //todo: Pays DropDown
+                      MyComboBox(
+                        initialDropDownValue: 'Pays',
+                        initialDropDownList: [
+                          'Pays',
+                          for (var i = 1; i <= 10; i++) 'Pays $i',
+                        ],
+                        prefixPadding: 10,
+                        prefixIcon: Image.asset(
+                          'assets/img/icons/countries.png',
+                          fit: BoxFit.contain,
+                          width: 30,
+                          height: 30,
+                          color: Color.fromRGBO(0, 27, 121, 1),
                         ),
+                        textColor: Color.fromRGBO(0, 27, 121, 1),
+                        textFontWeight: FontWeight.bold,
+                        fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                        borderRadius: Radius.circular(15),
+                        focusBorderColor: Colors.transparent,
+                        enableBorderColor: Colors.transparent,
                       ),
                       MyOutlinedButton(
                         onPressed: () {},

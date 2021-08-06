@@ -19,6 +19,7 @@ Future<void> showFormDialog(
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
+            scrollable: true,
             elevation: 5,
             contentPadding: padding,
             backgroundColor: Colors.white,
@@ -46,17 +47,6 @@ Future<void> showFormDialog(
               ),
             ),
             actions: <Widget>[
-              //todo: Cancel button
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: MyText(
-                  text: cancelBtnText,
-                  color: Color.fromRGBO(221, 75, 57, 1),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               //todo: Save button
               TextButton(
                 onPressed: () {
@@ -68,10 +58,41 @@ Future<void> showFormDialog(
                     );
                   }
                 },
-                child: MyText(
-                  text: confirmBtnText,
-                  color: Color.fromRGBO(60, 141, 188, 1),
-                  fontWeight: FontWeight.bold,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MyText(
+                      text: confirmBtnText,
+                      color: Color.fromRGBO(60, 141, 188, 1),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    SizedBox(width: 5),
+                    Icon(
+                      Icons.check,
+                      color: Color.fromRGBO(60, 141, 188, 1),
+                    ),
+                  ],
+                ),
+              ),
+              //todo: Cancel button
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MyText(
+                      text: cancelBtnText,
+                      color: Color.fromRGBO(221, 75, 57, 1),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    SizedBox(width: 5),
+                    Icon(
+                      Icons.close,
+                      color: Color.fromRGBO(221, 75, 57, 1),
+                    ),
+                  ],
                 ),
               ),
             ],
