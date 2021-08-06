@@ -11,6 +11,10 @@ Future<void> showFormDialog(
   String successMessage = 'Nouvelle caisse ajouté !',
   String confirmBtnText = 'Valider',
   String cancelBtnText = 'Annuler',
+  bool hasHeaderIcon = true,
+  bool hasHeaderTitle = true,
+  bool hasCancelButton = true,
+  bool hasSnackbar = true,
 }) async {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   return await showDialog(
@@ -28,19 +32,28 @@ Future<void> showFormDialog(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  //todo: Icon
-                  Image.asset(
-                    headerIcon,
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.contain,
-                    color: headerIconColor,
-                  ),
-                  MyText(
-                    text: title,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  SizedBox(height: 20),
+                  (hasHeaderIcon)
+                      ?
+                      //todo: Icon
+                      Image.asset(
+                          headerIcon,
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.contain,
+                          color: headerIconColor,
+                        )
+                      : Container(),
+                  (hasHeaderTitle)
+                      ?
+                      //todo: Title
+                      MyText(
+                          text: title,
+                          fontWeight: FontWeight.bold,
+                        )
+                      : Container(),
+                  (hasHeaderIcon || hasHeaderTitle)
+                      ? SizedBox(height: 20)
+                      : Container(),
                   // adding list of new form element in the parameters
                   for (var formElement in formElements) formElement,
                 ],
@@ -52,10 +65,12 @@ Future<void> showFormDialog(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     Navigator.of(context).pop();
-                    successSnackbar(
-                      context: context,
-                      message: successMessage,
-                    );
+                    if (hasSnackbar) {
+                      successSnackbar(
+                        context: context,
+                        message: successMessage,
+                      );
+                    }
                   }
                 },
                 child: Row(
@@ -74,27 +89,30 @@ Future<void> showFormDialog(
                   ],
                 ),
               ),
-              //todo: Cancel button
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    MyText(
-                      text: cancelBtnText,
-                      color: Color.fromRGBO(221, 75, 57, 1),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    SizedBox(width: 5),
-                    Icon(
-                      Icons.close,
-                      color: Color.fromRGBO(221, 75, 57, 1),
-                    ),
-                  ],
-                ),
-              ),
+              (hasCancelButton)
+                  ?
+                  //todo: Cancel button
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          MyText(
+                            text: cancelBtnText,
+                            color: Color.fromRGBO(221, 75, 57, 1),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          SizedBox(width: 5),
+                          Icon(
+                            Icons.close,
+                            color: Color.fromRGBO(221, 75, 57, 1),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(),
             ],
           );
         },

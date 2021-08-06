@@ -10,6 +10,7 @@ import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/functions.dart' as functions;
 
 class ClientScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -22,6 +23,7 @@ class ClientScreenState extends State<ClientScreen> {
   ScrollController scrollController = new ScrollController();
   ScrollController datatableScrollController = new ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  bool filterChecked = true;
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -112,8 +114,8 @@ class ClientScreenState extends State<ClientScreen> {
                         prefixIcon: Image.asset(
                           'assets/img/icons/countries.png',
                           fit: BoxFit.contain,
-                          width: 30,
-                          height: 30,
+                          width: 20,
+                          height: 20,
                           color: Color.fromRGBO(0, 27, 121, 1),
                         ),
                         textColor: Color.fromRGBO(0, 27, 121, 1),
@@ -123,14 +125,43 @@ class ClientScreenState extends State<ClientScreen> {
                         focusBorderColor: Colors.transparent,
                         enableBorderColor: Colors.transparent,
                       ),
+                      //todo: Filtres Button
                       MyOutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          print('Filtre appuyé !');
+                          functions.showFormDialog(
+                            context,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 10),
+                            hasCancelButton: false,
+                            hasSnackbar: false,
+                            headerIcon: 'assets/img/icons/filter.png',
+                            title: 'Filtres',
+                            formElements: [
+                              for (var i = 0; i < 10; i++)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    MyText(text: 'Filtre $i'),
+                                    Checkbox(
+                                      value: true,
+                                      checkColor: Colors.blue,
+                                      onChanged: (checked) {
+                                        print(checked);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          );
+                        },
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset(

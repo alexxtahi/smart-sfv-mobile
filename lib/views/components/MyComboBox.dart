@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
+// ignore: must_be_immutable
 class MyComboBox extends StatefulWidget {
   final String initialDropDownValue;
   final List<String> initialDropDownList;
   final double iconSize;
   final int elevation;
-
   final Color textColor;
   final Color fillColor;
   final FontWeight textFontWeight;
@@ -22,7 +22,9 @@ class MyComboBox extends StatefulWidget {
   final String? errorText;
   final FocusNode? focusNode;
   final void Function()? onTap;
+  final void Function(String?)? onChanged;
   final String? Function(String?)? validator;
+  var menuItem;
 
   MyComboBox({
     Key? key,
@@ -43,9 +45,11 @@ class MyComboBox extends StatefulWidget {
     this.enableBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.borderRadius = Radius.zero,
     this.onTap,
+    this.onChanged,
     this.validator,
     this.textFontWeight = FontWeight.normal,
     this.textFontSize = 14,
+    this.menuItem,
   }) : super(key: key);
 
   @override
@@ -65,6 +69,7 @@ class MyComboBoxState extends State<MyComboBox> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
+      onTap: widget.onTap,
       iconEnabledColor: widget.textColor,
       isExpanded: true,
       validator: widget.validator,
@@ -80,20 +85,24 @@ class MyComboBoxState extends State<MyComboBox> {
         fontStyle: FontStyle.normal,
         decoration: TextDecoration.none,
       ),
-      onChanged: (String? newDropDownValue) {
-        setState(() {
-          this.dropDownValue = newDropDownValue!;
-        });
-      },
+      onChanged: (widget.onChanged != null)
+          ? widget.onChanged
+          : (String? newDropDownValue) {
+              setState(() {
+                this.dropDownValue = newDropDownValue!;
+              });
+            },
       items: this.dropDownList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: MyText(
-            text: value,
-            color: widget.textColor,
-            fontSize: widget.textFontSize,
-            fontWeight: widget.textFontWeight,
-          ),
+          child: (widget.menuItem != null)
+              ? widget.menuItem
+              : MyText(
+                  text: value,
+                  color: widget.textColor,
+                  fontSize: widget.textFontSize,
+                  fontWeight: widget.textFontWeight,
+                ),
         );
       }).toList(),
       decoration: InputDecoration(
