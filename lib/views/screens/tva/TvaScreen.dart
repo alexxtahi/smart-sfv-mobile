@@ -62,7 +62,7 @@ class TvaScreenState extends State<TvaScreen> {
                   title: 'TVA',
                 ),
                 SizedBox(height: 20),
-                //todo: Search Bar
+                //todo: Add tax TextField
                 MyTextField(
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
@@ -74,8 +74,14 @@ class TvaScreenState extends State<TvaScreen> {
                   enableBorderColor: Colors.transparent,
                   focusBorderColor: Colors.transparent,
                   fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                  onSubmitted: (text) {
+                    // dismiss keyboard
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
                   suffixIcon: MyOutlinedIconButton(
                     onPressed: () {
+                      // dismiss keyboard
+                      FocusScope.of(context).requestFocus(FocusNode());
                       if (this.textEditingController.text.isNotEmpty) {
                         setState(() {
                           banklist.add(this.textEditingController.text);

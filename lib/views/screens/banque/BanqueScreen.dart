@@ -73,8 +73,15 @@ class BanqueScreenState extends State<BanqueScreen> {
                   enableBorderColor: Colors.transparent,
                   focusBorderColor: Colors.transparent,
                   fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                  onSubmitted: (text) {
+                    // dismiss keyboard
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
                   suffixIcon: MyOutlinedIconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // dismiss keyboard
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
                     backgroundColor: Colors.white,
                     borderColor: Colors.transparent,
                     borderRadius: 15,

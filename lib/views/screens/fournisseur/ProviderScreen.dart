@@ -59,6 +59,121 @@ class ProviderScreenState extends State<ProviderScreen> {
                   title: 'Fournisseurs',
                 ),
                 SizedBox(height: 20),
+                //todo: Search Bar
+                MyTextField(
+                  focusNode: FocusNode(),
+                  textEditingController: this.textEditingController,
+                  borderRadius: Radius.circular(20),
+                  placeholder: 'Rechercher un fournisseur',
+                  placeholderColor: Color.fromRGBO(221, 75, 57, 1),
+                  cursorColor: Colors.black,
+                  textColor: Color.fromRGBO(221, 75, 57, 1),
+                  enableBorderColor: Colors.transparent,
+                  focusBorderColor: Colors.transparent,
+                  fillColor: Color.fromRGBO(221, 75, 57, 0.15),
+                  onSubmitted: (text) {
+                    // dismiss keyboard
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  suffixIcon: MyOutlinedIconButton(
+                    onPressed: () {
+                      // dismiss keyboard
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                    backgroundColor: Colors.white,
+                    borderColor: Colors.transparent,
+                    borderRadius: 15,
+                    icon: Icon(
+                      Icons.search,
+                      color: Color.fromRGBO(187, 0, 0, 1),
+                      size: 40,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                //todo: Countries & Filters
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: screenSize[0]),
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    childAspectRatio: 4,
+                    crossAxisSpacing: 10,
+                    children: [
+                      MyOutlinedButton(
+                        onPressed: () {},
+                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
+                        borderRadius: 15,
+                        borderColor: Colors.transparent,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/icons/australia.png',
+                              width: 30,
+                              height: 30,
+                              fit: BoxFit.contain,
+                              color: Color.fromRGBO(187, 0, 0, 1),
+                            ),
+                            SizedBox(width: 15),
+                            MyText(
+                              text: 'Pays',
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(187, 0, 0, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                      MyOutlinedButton(
+                        onPressed: () {},
+                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
+                        borderRadius: 15,
+                        borderColor: Colors.transparent,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/icons/filter.png',
+                              width: 30,
+                              height: 30,
+                              fit: BoxFit.contain,
+                              color: Color.fromRGBO(187, 0, 0, 1),
+                            ),
+                            SizedBox(width: 15),
+                            MyText(
+                              text: 'Filtres',
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(187, 0, 0, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                //todo: List title
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 5,
+                      backgroundColor: Color.fromRGBO(221, 75, 57, 1),
+                    ),
+                    SizedBox(width: 10),
+                    MyText(
+                      text: 'Liste des fournisseurs',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color.fromRGBO(221, 75, 57, 1),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
                 //todo: Scrolling View
                 Expanded(
                   child: FadingEdgeScrollView.fromSingleChildScrollView(
@@ -70,101 +185,6 @@ class ProviderScreenState extends State<ProviderScreen> {
                       scrollDirection: Axis.vertical,
                       child: Column(
                         children: [
-                          //todo: Search Bar
-                          MyTextField(
-                            focusNode: FocusNode(),
-                            textEditingController: this.textEditingController,
-                            borderRadius: Radius.circular(20),
-                            placeholder: 'Rechercher un fournisseur',
-                            placeholderColor: Colors.black,
-                            cursorColor: Colors.black,
-                            textColor: Colors.black,
-                            enableBorderColor: Colors.transparent,
-                            focusBorderColor: Colors.transparent,
-                            fillColor: Color.fromRGBO(221, 75, 57, 0.15),
-                            suffixIcon: MyOutlinedIconButton(
-                              onPressed: () {},
-                              backgroundColor: Colors.white,
-                              borderColor: Colors.transparent,
-                              borderRadius: 15,
-                              icon: Icon(
-                                Icons.search,
-                                color: Color.fromRGBO(187, 0, 0, 1),
-                                size: 40,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          //todo: Countries & Filters
-                          ConstrainedBox(
-                            constraints:
-                                BoxConstraints(maxWidth: screenSize[0]),
-                            child: GridView.count(
-                              crossAxisCount: 2,
-                              shrinkWrap: true,
-                              childAspectRatio: 4,
-                              crossAxisSpacing: 10,
-                              children: [
-                                MyOutlinedButton(
-                                  onPressed: () {},
-                                  backgroundColor:
-                                      Color.fromRGBO(221, 75, 57, 0.15),
-                                  borderRadius: 15,
-                                  borderColor: Colors.transparent,
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/img/icons/australia.png',
-                                        width: 30,
-                                        height: 30,
-                                        fit: BoxFit.contain,
-                                        color: Color.fromRGBO(187, 0, 0, 1),
-                                      ),
-                                      SizedBox(width: 15),
-                                      MyText(
-                                        text: 'Pays',
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(187, 0, 0, 1),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                MyOutlinedButton(
-                                  onPressed: () {},
-                                  backgroundColor:
-                                      Color.fromRGBO(221, 75, 57, 0.15),
-                                  borderRadius: 15,
-                                  borderColor: Colors.transparent,
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/img/icons/filter.png',
-                                        width: 30,
-                                        height: 30,
-                                        fit: BoxFit.contain,
-                                        color: Color.fromRGBO(187, 0, 0, 1),
-                                      ),
-                                      SizedBox(width: 15),
-                                      MyText(
-                                        text: 'Filtres',
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(187, 0, 0, 1),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 10),
                           //todo: Table
                           Row(
                             children: [

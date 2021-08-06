@@ -62,6 +62,188 @@ class CommandeScreenState extends State<CommandeScreen> {
                   title: 'Commandes',
                 ),
                 SizedBox(height: 20),
+                //todo: Search Bar
+                MyTextField(
+                  focusNode: FocusNode(),
+                  textEditingController: this.textEditingController,
+                  borderRadius: Radius.circular(20),
+                  placeholder: 'Rechercher une commande',
+                  placeholderColor: Color.fromRGBO(0, 27, 121, 1),
+                  cursorColor: Colors.black,
+                  textColor: Color.fromRGBO(0, 27, 121, 1),
+                  enableBorderColor: Colors.transparent,
+                  focusBorderColor: Colors.transparent,
+                  fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                  onSubmitted: (text) {
+                    // dismiss keyboard
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  suffixIcon: MyOutlinedIconButton(
+                    onPressed: () {
+                      // dismiss keyboard
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                    backgroundColor: Colors.white,
+                    borderColor: Colors.transparent,
+                    borderRadius: 15,
+                    icon: Icon(
+                      Icons.search,
+                      color: Color.fromRGBO(0, 27, 121, 1),
+                      size: 40,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                //todo: Countries & Filters
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: screenSize[0]),
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    childAspectRatio: 3,
+                    crossAxisSpacing: 10,
+                    children: [
+                      MyOutlinedButton(
+                        onPressed: () {},
+                        backgroundColor: Color.fromRGBO(0, 27, 121, 1),
+                        borderRadius: 15,
+                        borderColor: Colors.transparent,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/icons/provider.png',
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.contain,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 15),
+                            Flexible(
+                              child: MyText(
+                                text: 'Fournisseurs',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      MyOutlinedButton(
+                        onPressed: () {},
+                        backgroundColor: Color.fromRGBO(0, 27, 121, 1),
+                        borderRadius: 15,
+                        borderColor: Colors.transparent,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/icons/filter.png',
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.contain,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 15),
+                            MyText(
+                              text: 'Filtres',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                      MyOutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            if (this.searchBy == 'Par N° de bon') {
+                              this.searchBy = 'Par date';
+                              this.searchByIcon = 'calendar';
+                            } else {
+                              this.searchBy = 'Par N° de bon';
+                              this.searchByIcon = 'code';
+                            }
+                            functions.showMessageToSnackbar(
+                              context: context,
+                              message: RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  children: [
+                                    TextSpan(text: 'Recherche des commandes '),
+                                    TextSpan(
+                                      text: this.searchBy.toLowerCase(),
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              duration: 5,
+                              icon: Icon(
+                                Icons.info,
+                                color: Color.fromRGBO(60, 141, 188, 1),
+                              ),
+                            );
+                            print('Recherche: ' + this.searchBy);
+                          });
+                        },
+                        backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                        borderRadius: 15,
+                        borderColor: Colors.transparent,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/icons/$searchByIcon.png',
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.contain,
+                              color: Color.fromRGBO(0, 27, 121, 1),
+                            ),
+                            SizedBox(width: 15),
+                            Flexible(
+                              child: MyText(
+                                text: this.searchBy,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(0, 27, 121, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                //todo: List title
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 5,
+                      backgroundColor: Color.fromRGBO(0, 27, 121, 1),
+                    ),
+                    SizedBox(width: 10),
+                    MyText(
+                      text: 'Liste des commandes',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color.fromRGBO(0, 27, 121, 1),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
                 //todo: Scrolling View
                 Expanded(
                   child: FadingEdgeScrollView.fromSingleChildScrollView(
@@ -73,175 +255,6 @@ class CommandeScreenState extends State<CommandeScreen> {
                       scrollDirection: Axis.vertical,
                       child: Column(
                         children: [
-                          //todo: Search Bar
-                          MyTextField(
-                            focusNode: FocusNode(),
-                            textEditingController: this.textEditingController,
-                            borderRadius: Radius.circular(20),
-                            placeholder: 'Rechercher une commande',
-                            placeholderColor: Colors.black,
-                            cursorColor: Colors.black,
-                            textColor: Colors.black,
-                            enableBorderColor: Colors.transparent,
-                            focusBorderColor: Colors.transparent,
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            suffixIcon: MyOutlinedIconButton(
-                              onPressed: () {},
-                              backgroundColor: Colors.white,
-                              borderColor: Colors.transparent,
-                              borderRadius: 15,
-                              icon: Icon(
-                                Icons.search,
-                                color: Color.fromRGBO(0, 27, 121, 1),
-                                size: 40,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          //todo: Countries & Filters
-                          ConstrainedBox(
-                            constraints:
-                                BoxConstraints(maxWidth: screenSize[0]),
-                            child: GridView.count(
-                              crossAxisCount: 3,
-                              shrinkWrap: true,
-                              childAspectRatio: 3,
-                              crossAxisSpacing: 10,
-                              children: [
-                                MyOutlinedButton(
-                                  onPressed: () {},
-                                  backgroundColor:
-                                      Color.fromRGBO(0, 27, 121, 1),
-                                  borderRadius: 15,
-                                  borderColor: Colors.transparent,
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/img/icons/provider.png',
-                                        width: 20,
-                                        height: 20,
-                                        fit: BoxFit.contain,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(width: 15),
-                                      Flexible(
-                                        child: MyText(
-                                          text: 'Fournisseurs',
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                MyOutlinedButton(
-                                  onPressed: () {},
-                                  backgroundColor:
-                                      Color.fromRGBO(0, 27, 121, 1),
-                                  borderRadius: 15,
-                                  borderColor: Colors.transparent,
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/img/icons/filter.png',
-                                        width: 20,
-                                        height: 20,
-                                        fit: BoxFit.contain,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(width: 15),
-                                      MyText(
-                                        text: 'Filtres',
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                MyOutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (this.searchBy == 'Par N° de bon') {
-                                        this.searchBy = 'Par date';
-                                        this.searchByIcon = 'calendar';
-                                      } else {
-                                        this.searchBy = 'Par N° de bon';
-                                        this.searchByIcon = 'code';
-                                      }
-                                      functions.showMessageToSnackbar(
-                                        context: context,
-                                        message: RichText(
-                                          text: TextSpan(
-                                            style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                  text:
-                                                      'Recherche des commandes '),
-                                              TextSpan(
-                                                text:
-                                                    this.searchBy.toLowerCase(),
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      60, 141, 188, 1),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        duration: 5,
-                                        icon: Icon(
-                                          Icons.info,
-                                          color:
-                                              Color.fromRGBO(60, 141, 188, 1),
-                                        ),
-                                      );
-                                      print('Recherche: ' + this.searchBy);
-                                    });
-                                  },
-                                  backgroundColor:
-                                      Color.fromRGBO(60, 141, 188, 0.15),
-                                  borderRadius: 15,
-                                  borderColor: Colors.transparent,
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/img/icons/$searchByIcon.png',
-                                        width: 20,
-                                        height: 20,
-                                        fit: BoxFit.contain,
-                                        color: Color.fromRGBO(0, 27, 121, 1),
-                                      ),
-                                      SizedBox(width: 15),
-                                      Flexible(
-                                        child: MyText(
-                                          text: this.searchBy,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color.fromRGBO(0, 27, 121, 1),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 10),
                           //todo: Table
                           Row(
                             children: [

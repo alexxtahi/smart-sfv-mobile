@@ -79,14 +79,22 @@ class ArticleScreenState extends State<ArticleScreen> {
                             textEditingController: this.textEditingController,
                             borderRadius: Radius.circular(20),
                             placeholder: 'Rechercher un article',
-                            placeholderColor: Colors.black,
+                            placeholderColor: Color.fromRGBO(231, 57, 0, 1),
                             cursorColor: Colors.black,
-                            textColor: Colors.black,
+                            textColor: Color.fromRGBO(231, 57, 0, 1),
                             enableBorderColor: Colors.transparent,
                             focusBorderColor: Colors.transparent,
                             fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                            onSubmitted: (text) {
+                              // dismiss keyboard
+                              FocusScope.of(context).requestFocus(FocusNode());
+                            },
                             suffixIcon: MyOutlinedIconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // dismiss keyboard
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                              },
                               backgroundColor: Colors.white,
                               borderColor: Colors.transparent,
                               borderRadius: 15,
