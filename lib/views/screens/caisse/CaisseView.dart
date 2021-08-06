@@ -47,7 +47,8 @@ class CaisseViewState extends State<CaisseView> {
         elevation: 5,
         hoverElevation: 10,
         onPressed: () {
-          showDialog(
+          functions.showInformationDialog(context);
+          /*showDialog(
             context: context,
             builder: (_) => AlertDialog(
               scrollable: false,
@@ -159,7 +160,7 @@ class CaisseViewState extends State<CaisseView> {
               ),
             ),
             barrierDismissible: true,
-          );
+          );*/
         },
         //backgroundColor: Colors.white,
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
