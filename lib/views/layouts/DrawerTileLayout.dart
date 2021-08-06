@@ -2,7 +2,9 @@ import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
+import 'package:smartsfv/views/screens/article/ArticleView.dart';
 import 'package:smartsfv/views/screens/banque/BanqueView.dart';
+import 'package:smartsfv/views/screens/caisse/CaisseView.dart';
 import 'package:smartsfv/views/screens/client/ClientView.dart';
 import 'package:smartsfv/views/screens/commande/CommandeView.dart';
 import 'package:smartsfv/views/screens/home/HomeView.dart';
@@ -11,6 +13,7 @@ import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/screens/regime/RegimeView.dart';
 import 'package:smartsfv/views/screens/tva/TvaView.dart';
 
 class DrawerTileLayout extends StatefulWidget {
@@ -130,30 +133,60 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       {
                         'icon': 'assets/img/icons/regim.png',
                         'headerText': 'Régime',
+                        'onPressed': () {
+                          print('Régime appuyé !');
+                          functions.openPage(
+                            context,
+                            RegimeView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/box.png',
                         'headerText': 'Article',
+                        'onPressed': () {
+                          print('Article appuyé !');
+                          functions.openPage(
+                            context,
+                            ArticleView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/cashier.png',
                         'headerText': 'Caisse',
+                        'onPressed': () {
+                          print('Caisse appuyé !');
+                          functions.openPage(
+                            context,
+                            CaisseView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/countries.png',
-                        'headerText': 'Pays'
+                        'headerText': 'Pays',
                       },
                       {
                         'icon': 'assets/img/icons/category.png',
-                        'headerText': 'Catégorie'
+                        'headerText': 'Catégorie',
                       },
                       {
                         'icon': 'assets/img/icons/sub-category.png',
-                        'headerText': 'Sous catégorie'
+                        'headerText': 'Sous catégorie',
                       },
                       {
                         'icon': 'assets/img/icons/wallet.png',
-                        'headerText': 'Moyen de paiement'
+                        'headerText': 'Moyen de paiement',
                       },
                       {
                         'icon': 'assets/img/icons/section.png',
