@@ -128,8 +128,10 @@ class ProviderScreenState extends State<ProviderScreen> {
                       MyOutlinedButton(
                         onPressed: () {
                           print('Filtre appuyé !');
+                          GlobalKey<FormState> formKey = GlobalKey<FormState>();
                           functions.showFormDialog(
                             context,
+                            formKey,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 50, vertical: 10),
                             hasCancelButton: false,

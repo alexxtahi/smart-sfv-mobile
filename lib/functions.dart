@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
 Future<void> showFormDialog(
-  BuildContext context, {
+  BuildContext context,
+  GlobalKey<FormState> formKey, {
   EdgeInsets padding = const EdgeInsets.all(10),
   String headerIcon = 'assets/img/icons/cashier.png',
   Color headerIconColor = const Color.fromRGBO(60, 141, 188, 1),
@@ -15,8 +16,9 @@ Future<void> showFormDialog(
   bool hasHeaderTitle = true,
   bool hasCancelButton = true,
   bool hasSnackbar = true,
+  final void Function()? onValidate,
 }) async {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  //GlobalKey<FormState> formKey = GlobalKey<FormState>();
   return await showDialog(
     context: context,
     builder: (context) {
@@ -62,17 +64,7 @@ Future<void> showFormDialog(
             actions: <Widget>[
               //todo: Save button
               TextButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    Navigator.of(context).pop();
-                    if (hasSnackbar) {
-                      successSnackbar(
-                        context: context,
-                        message: successMessage,
-                      );
-                    }
-                  }
-                },
+                onPressed: onValidate,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

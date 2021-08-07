@@ -137,10 +137,9 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               LinearProgressIndicator(
-                color: Color.fromRGBO(231, 57, 0, 1),
+                color: Color.fromRGBO(60, 141, 188, 1),
                 backgroundColor: Colors.transparent,
-                semanticsLabel: 'Chargement des Clients',
-                //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                semanticsLabel: 'Chargement des clients',
               ),
             ],
           ),

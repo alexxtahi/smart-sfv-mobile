@@ -45,12 +45,22 @@ class ClientViewState extends State<ClientView> {
           List<TextEditingController> fieldControllers = [
             for (var i = 1; i <= 8; i++) TextEditingController(),
           ];
+          GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             context,
+            formKey,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             headerIcon: 'assets/img/icons/customer.png',
             title: 'Ajouter un nouveau client',
-            successMessage: 'Nouveau client ajouté !',
+            onValidate: () {
+              if (formKey.currentState!.validate()) {
+                Navigator.of(context).pop();
+                functions.successSnackbar(
+                  context: context,
+                  message: 'Nouveau client ajouté !',
+                );
+              }
+            },
             formElements: [
               //todo: Name Field
               Column(

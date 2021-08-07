@@ -47,8 +47,10 @@ class CaisseViewState extends State<CaisseView> {
         onPressed: () async {
           final TextEditingController libEditingController =
               TextEditingController();
+          GlobalKey<FormState> formKey = GlobalKey<FormState>();
           await functions.showFormDialog(
             context,
+            formKey,
             headerIcon: 'assets/img/icons/cashier.png',
             title: 'Ajouter une nouvelle caisse',
             successMessage: 'Nouvelle caisse ajouté !',
