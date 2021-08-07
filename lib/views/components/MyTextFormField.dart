@@ -25,6 +25,7 @@ class MyTextFormField extends StatefulWidget {
   final void Function()? onTap;
   final void Function()? onEditingComplete;
   final String? Function(String?)? validator;
+  final String? Function(String?)? onSubmitted;
   MyTextFormField({
     Key? key,
     this.inputType = '',
@@ -48,6 +49,7 @@ class MyTextFormField extends StatefulWidget {
     this.onTap,
     this.onEditingComplete,
     this.validator,
+    this.onSubmitted,
     this.labelText,
     this.labelTextColor = const Color.fromRGBO(0, 0, 0, 0.5),
   }) : super(key: key);
@@ -61,6 +63,7 @@ class MyTextFormFieldState extends State<MyTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.textEditingController,
+      onFieldSubmitted: widget.onSubmitted,
       validator: widget.validator,
       focusNode: widget.focusNode,
       obscureText: (widget.inputType == 'password') ? true : false,

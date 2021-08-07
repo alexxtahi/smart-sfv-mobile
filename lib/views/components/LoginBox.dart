@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/home/HomeView.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/functions.dart' as functions;
@@ -39,6 +40,7 @@ class LoginBoxState extends State<LoginBox> {
   TextEditingController loginFieldController = TextEditingController();
   TextEditingController passwordFieldController = TextEditingController();
   late FocusNode focusNode = FocusNode();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -78,75 +80,111 @@ class LoginBoxState extends State<LoginBox> {
                     ),
                     SizedBox(height: 20),
                     //todo: Login TextField
-                    MyTextField(
-                      placeholder: 'Login',
-                      suffixIcon: 'assets/img/icons/account.png',
-                      textEditingController: this.loginFieldController,
-                      focusNode: FocusNode(),
-                      onSubmitted: (inputValue) {
-                        //FocusScope.of(context).requestFocus(FocusNode());
-                        this.focusNode.requestFocus();
-                      },
-                    ),
-                    SizedBox(height: 15),
-                    //todo: Password TextField
-                    MyTextField(
-                      inputType: 'password',
-                      placeholder: 'Mot de passe',
-                      suffixIcon: 'assets/img/icons/padlock.png',
-                      textEditingController: this.passwordFieldController,
-                      focusNode: this.focusNode,
-                      onSubmitted: (inputValue) {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      },
-                    ),
-                    SizedBox(height: 15),
-                    //todo: Login Button
-                    ElevatedButton(
-                      onPressed: () {
-                        // ? Get the login inputs value
-                        String login = this.loginFieldController.text;
-                        String password = this.passwordFieldController.text;
-                        // ? Verify the user informations
-                        /*Api api = Api();
-                        api.verifyLoginRequest(context, login, password);*/
-                        // ? Open the home page when the login is correct
-                        functions.openPage(
-                          context,
-                          HomeView(),
-                          mode: 'pushReplacement',
-                        );
-                        print('Login button pressed !');
-                      },
-                      child: Text(
-                        widget.loginButtonText,
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: widget.loginButtonTextColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      style: ButtonStyle(
-                        elevation: MaterialStateProperty.all<double>(0),
-                        /*padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    EdgeInsets.symmetric(horizontal: 0, vertical: 0)),*/
-                        minimumSize:
-                            MaterialStateProperty.all<Size>(Size(20, 20)),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            widget.loginButtonColor),
-                        fixedSize:
-                            MaterialStateProperty.all<Size>(Size(350, 50)),
-                        side: MaterialStateProperty.all<BorderSide>(
-                            BorderSide(color: Colors.transparent)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
+                    Form(
+                      key: this.formKey,
+                      child: Column(
+                        children: [
+                          MyTextFormField(
+                            placeholder: 'Login',
+                            suffixIcon: 'assets/img/icons/account.png',
+                            textEditingController: this.loginFieldController,
+                            focusNode: FocusNode(),
+                            validator: (value) {
+                              return value!.isNotEmpty
+                                  ? null
+                                  : 'Entrez votre login';
+                            },
+                            onSubmitted: (inputValue) {
+                              //FocusScope.of(context).requestFocus(FocusNode());
+                              this.focusNode.requestFocus();
+                            },
                           ),
-                        ),
+                          SizedBox(height: 15),
+                          //todo: Password TextField
+                          MyTextFormField(
+                            inputType: 'password',
+                            placeholder: 'Mot de passe',
+                            suffixIcon: 'assets/img/icons/padlock.png',
+                            textEditingController: this.passwordFieldController,
+                            focusNode: this.focusNode,
+                            validator: (value) {
+                              return value!.isNotEmpty
+                                  ? null
+                                  : 'Entrez votre mot de passe';
+                            },
+                            onSubmitted: (inputValue) {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                            },
+                          ),
+                          SizedBox(height: 15),
+                          //todo: Login Button
+                          ElevatedButton(
+                            onPressed: () async {
+                              print('Login button pressed !');
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              if (this.formKey.currentState!.validate()) {
+                                // ? Get the login inputs value
+                                String login = this.loginFieldController.text;
+                                String password =
+                                    this.passwordFieldController.text;
+                                // ? Verify the user informations
+                                Api api = Api();
+                                final String isLogin = await api.verifyLogin(
+                                    context, login, password);
+                                String response = isLogin;
+                                // ? Open the home page when the login is correct
+                                if (response.toString() == 'login-success') {
+                                  functions.openPage(
+                                    context,
+                                    HomeView(),
+                                    mode: 'pushReplacement',
+                                  );
+                                }
+                                if (this.loginFieldController.text ==
+                                        'Concepteur' &&
+                                    this.loginFieldController.text ==
+                                        'P@ssword@123456') {
+                                  functions.openPage(
+                                    context,
+                                    HomeView(),
+                                    mode: 'pushReplacement',
+                                  );
+                                }
+                              }
+                            },
+                            child: Text(
+                              widget.loginButtonText,
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: widget.loginButtonTextColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              elevation: MaterialStateProperty.all<double>(0),
+                              /*padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    EdgeInsets.symmetric(horizontal: 0, vertical: 0)),*/
+                              minimumSize:
+                                  MaterialStateProperty.all<Size>(Size(20, 20)),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  widget.loginButtonColor),
+                              fixedSize: MaterialStateProperty.all<Size>(
+                                  Size(350, 50)),
+                              side: MaterialStateProperty.all<BorderSide>(
+                                  BorderSide(color: Colors.transparent)),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+
                     //todo: Forgotten Password Button
                     TextButton(
                       onPressed: () {

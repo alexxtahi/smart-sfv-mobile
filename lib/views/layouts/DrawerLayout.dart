@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/views/screens/others/LoginView.dart';
+import 'package:smartsfv/views/screens/login/LoginView.dart';
 import 'package:smartsfv/views/components/DrawerBlurBackground.dart';
 import 'package:smartsfv/views/components/MyDrawerHeader.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
