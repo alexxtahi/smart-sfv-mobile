@@ -4,12 +4,12 @@ class Article {
   String description;
   String categorie;
   int enStock;
-  double prixAchatTTC;
-  double prixAchatHT;
-  double prixVenteTTC;
-  double prixVenteHT;
+  int prixAchatTTC;
+  int prixAchatHT;
+  int prixVenteTTC;
+  int prixVenteHT;
   String fournisseur;
-  double tva;
+  int tva;
   int stockMin;
   // todo: Constructor
   Article({
@@ -29,17 +29,17 @@ class Article {
   // get data from json method
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
-      codeBarre: json[''] as String,
-      description: json[''] as String,
-      categorie: json[''] as String,
-      enStock: json[''] as int,
-      prixAchatTTC: json[''] as double,
-      prixAchatHT: json[''] as double,
-      prixVenteTTC: json[''] as double,
-      prixVenteHT: json[''] as double,
-      fournisseur: json[''] as String,
-      tva: json[''] as double,
-      stockMin: json[''] as int,
+      codeBarre: json['code_barre'] as String,
+      description: json['description_article'] as String,
+      categorie: json['categorie']['libelle_categorie'] as String,
+      enStock: json['quantite_en_stock'] as int,
+      prixAchatTTC: json['prix_achat_ttc'] as int,
+      //prixAchatHT: json[''] as int,
+      prixVenteTTC: json['prix_vente_ttc_base'] as int,
+      //prixVenteHT: json[''] as int,
+      fournisseur: json['fournisseurs'][0]['full_name_fournisseur'] as String,
+      //tva: json['param_tva'] as int,
+      stockMin: json['stock_mini'] as int,
     );
   }
 }

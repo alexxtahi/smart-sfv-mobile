@@ -129,11 +129,13 @@ class LoginBoxState extends State<LoginBox> {
                                     this.passwordFieldController.text;
                                 // ? Verify the user informations
                                 Api api = Api();
-                                final String isLogin = await api.verifyLogin(
-                                    context, login, password);
-                                String response = isLogin;
-                                // ? Open the home page when the login is correct
-                                if (response.toString() == 'login-success') {
+                                final Map<String, dynamic> loginResponse =
+                                    await api.verifyLogin(
+                                        context, login, password);
+                                // get the access token value
+                                String? token = loginResponse["access_token"];
+                                // ? Open the home page when the server give access token
+                                if (token != null) {
                                   functions.openPage(
                                     context,
                                     HomeView(),

@@ -14,8 +14,8 @@ class ArticleFutureBuilder extends StatefulWidget {
 }
 
 class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
-  ScrollController scrollController = new ScrollController();
-  ScrollController datatableScrollController = new ScrollController();
+  ScrollController scrollController = ScrollController();
+  ScrollController datatableScrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Article>(
@@ -23,35 +23,40 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return (snapshot.data!.codeBarre.isEmpty)
-              ? Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        'assets/img/icons/sad.png',
-                        fit: BoxFit.contain,
-                        width: 100,
-                        height: 100,
-                        color: Color.fromRGBO(231, 57, 0, 0.5),
+              ? Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            'assets/img/icons/sad.png',
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                            color: Color.fromRGBO(231, 57, 0, 0.5),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Flexible(
+                            child: MyText(
+                              text:
+                                  "Vous n'avez aucun article en stock. Remplissez le formulaire d'ajout pour en ajouter.",
+                              textAlign: TextAlign.center,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(231, 57, 0, 0.5),
+                              overflow: TextOverflow.visible,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Flexible(
-                        child: MyText(
-                          text:
-                              "Vous n'avez aucun article en stock. Remplissez le formulaire d'ajout pour en ajouter.",
-                          textAlign: TextAlign.center,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(231, 57, 0, 0.5),
-                          overflow: TextOverflow.visible,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               : Expanded(
                   child: FadingEdgeScrollView.fromSingleChildScrollView(
