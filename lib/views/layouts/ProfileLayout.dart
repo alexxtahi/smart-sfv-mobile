@@ -141,7 +141,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                         borderRadius: 10,
                         borderColor: Color.fromRGBO(60, 141, 188, 1),
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
-                        onPressed: getUserData,
+                        //onPressed: getUserData,
                       ),
                       MyOutlinedButton(
                         text: 'Deconnexion',
@@ -203,27 +203,5 @@ class ProfileLayoutState extends State<ProfileLayout> {
         print('dragEnd');
       },
     );
-  }
-
-  //todo: get user datas function
-  void getUserData() {
-    Api api = new Api();
-    api.getUserData(context);
-    widget.panelController.hide();
-    /*if (api.requestSuccess) {
-      functions.showMessageToSnackbar(
-        context,
-        "Récupération des données réussie",
-        5,
-        Icon(Icons.check),
-      );
-    } else {
-      functions.showMessageToSnackbar(
-        context,
-        "Echec de récupération des données",
-        5,
-        Icon(Icons.close),
-      );
-    }*/
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/User.dart';
 
 class Api {
@@ -30,26 +31,28 @@ class Api {
   }
 
   // ! App context methods
-  // todo: get user datas method
-  Future getUserData(BuildContext context) async {
-    //this.url = 'http://localhost:8000/api/getusers'; // set url
-    this.url = 'http://192.168.1.16:8000/api/getusers'; // set url
-    //this.url = 'https://jsonplaceholder.typicode.com/users'; // JSON placeholder url
+  // todo: get articles method
+  Future<Article> getArticle(BuildContext context) async {
+    this.url = this.routes['getArticles'].toString(); // set login url
     try {
-      this.response = await http.get(Uri.parse(url)); // getting datas from url
-      print('le lien est: $url');
-
+      // ? getting datas from url
+      this.response = await http.get(Uri.parse(this.url));
+      // ? Check the response status code
       if (this.response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         this.requestSuccess = true;
         print(this.response.body);
         // show success snack bar
-        functions.successSnackbar(
+        functions.showMessageToSnackbar(
           context: context,
-          message: "Récupération des données réussie",
+          message: "Articles chargés !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(231, 57, 0, 1),
+          ),
         );
-        //return models.Food.fromJson(jsonDecode(this.response.body));
+        return Article.fromJson(jsonDecode(this.response.body));
       } else {
         // If the server did not return a 200 OK response,
         // then throw an exception.
@@ -57,12 +60,14 @@ class Api {
         // show error snack bar
         functions.errorSnackbar(
           context: context,
-          message: "Echec de récupération des données",
+          message: "Echec de récupération des articles",
         );
-        throw Exception('Failed to load user datas');
+        return Article();
+        //throw Exception('Failed to load user datas');
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
+      return Article();
     }
   }
 
