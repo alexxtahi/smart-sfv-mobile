@@ -19,6 +19,7 @@ class MyComboBox extends StatefulWidget {
   final Color focusBorderColor;
   final Color enableBorderColor;
   final Radius borderRadius;
+  final TextOverflow textOverflow;
   final String? errorText;
   final FocusNode? focusNode;
   final void Function()? onTap;
@@ -49,6 +50,7 @@ class MyComboBox extends StatefulWidget {
     this.validator,
     this.textFontWeight = FontWeight.normal,
     this.textFontSize = 14,
+    this.textOverflow = TextOverflow.ellipsis,
     this.menuItem,
   }) : super(key: key);
 
@@ -97,11 +99,19 @@ class MyComboBoxState extends State<MyComboBox> {
           value: value,
           child: (widget.menuItem != null)
               ? widget.menuItem
-              : MyText(
-                  text: value,
-                  color: widget.textColor,
-                  fontSize: widget.textFontSize,
-                  fontWeight: widget.textFontWeight,
+              : Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    Flexible(
+                      child: MyText(
+                        text: value,
+                        color: widget.textColor,
+                        fontSize: widget.textFontSize,
+                        fontWeight: widget.textFontWeight,
+                        overflow: widget.textOverflow,
+                      ),
+                    ),
+                  ],
                 ),
         );
       }).toList(),
