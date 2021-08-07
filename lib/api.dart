@@ -10,18 +10,24 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  final Map<String, String> routes = {
-    'login': 'http://192.168.1.8:8000/api/auth/login',
-    'getArticles': 'http://192.168.1.8:8000/api/auth/articles',
-    'userinfo': 'http://192.168.1.8:8000/api/auth/user',
-    'logout': 'http://192.168.1.8:8000/api/auth/logout',
-    'getRegimes': 'http://192.168.1.8:8000/api/auth/regimes',
-    'getNations': 'http://192.168.1.8:8000/api/auth/nations',
-    'postClient': 'http://192.168.1.8:8000/api/auth/client/store',
-    'getClients': 'http://192.168.1.8:8000/api/auth/clients',
-    'putClient': 'http://192.168.1.8:8000/api/auth/client/update/',
-    'delete': 'http://192.168.1.8:8000/api/auth/clients/delete/',
-  };
+  String host = '192.168.1.10:8000';
+  late Map<String, String> routes;
+  //todo: Constructor
+  Api() {
+    // initialisation of the routes Map
+    this.routes = {
+      'login': 'http://${this.host}/api/auth/login',
+      'getArticles': 'http://${this.host}/api/auth/articles',
+      'userinfo': 'http://${this.host}/api/auth/user',
+      'logout': 'http://${this.host}/api/auth/logout',
+      'getRegimes': 'http://${this.host}/api/auth/regimes',
+      'getNations': 'http://${this.host}/api/auth/nations',
+      'postClient': 'http://${this.host}/api/auth/client/store',
+      'getClients': 'http://${this.host}/api/auth/clients',
+      'putClient': 'http://${this.host}/api/auth/client/update/',
+      'deleteClient': 'http://${this.host}/api/auth/clients/delete/',
+    };
+  }
 
   // ! App context methods
   // todo: get user datas method
@@ -63,7 +69,7 @@ class Api {
   // todo: verify login method
   Future<String> verifyLogin(
       BuildContext context, String login, String password) async {
-    this.url = this.routes['login'].toString(); // set url
+    this.url = this.routes['login'].toString(); // set login url
     try {
       this.response = await http.post(
         Uri.parse(this.url),
@@ -87,6 +93,7 @@ class Api {
           context: context,
           message: responseJson['message'],
         );
+
         return 'login-success'; // return to know lodin state
         // ? Login failed
       } else {
@@ -156,5 +163,3 @@ class Api {
     print("Réponse du server: $responseJson");
   }
 }
-
-Api api = new Api();
