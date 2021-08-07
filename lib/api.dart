@@ -35,7 +35,7 @@ class Api {
 
   // ! App context methods
   // todo: get articles method
-  Future<Article> getArticles(BuildContext context) async {
+  Future<List<Article>> getArticles(BuildContext context) async {
     this.url = this.routes['getArticles'].toString(); // set login url
     /*SharedPreferences prefs =
         await SharedPreferences.getInstance(); // load SharedPreferences
@@ -65,8 +65,13 @@ class Api {
             color: Color.fromRGBO(231, 57, 0, 1),
           ),
         );
-        // print("code barre: ${json.decode(this.response.body)['rows'][0]['code_barre']}");
-        return Article.fromJson(json.decode(this.response.body)['rows'][0]);
+        // ? create list of articles
+        List articleResponse = json.decode(this.response.body)['rows'];
+        List<Article> articles = [
+          for (var article in articleResponse) Article.fromJson(article),
+        ];
+        // ? return list of articles
+        return articles;
       } else {
         // If the server did not return a 200 OK response,
         // then throw an exception.
@@ -76,12 +81,12 @@ class Api {
           context: context,
           message: "Echec de récupération des articles",
         );
-        return Article();
+        return <Article>[];
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      return Article();
+      return <Article>[];
     }
   }
 

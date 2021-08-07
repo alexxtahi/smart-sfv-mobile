@@ -18,11 +18,11 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
   ScrollController datatableScrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Article>(
+    return FutureBuilder<List<Article>>(
       future: this.fetchArticle(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return (snapshot.data!.codeBarre.isEmpty)
+          return (snapshot.data!.isEmpty)
               ? Flex(
                   direction: Axis.vertical,
                   children: [
@@ -95,22 +95,20 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                         'Stock minimum',
                                       ],
                                       rows: [
-                                        //for (var i = 1; i < 100; i++)
-                                        [
-                                          snapshot.data!.codeBarre,
-                                          snapshot.data!.description,
-                                          snapshot.data!.categorie,
-                                          snapshot.data!.enStock.toString(),
-                                          snapshot.data!.prixAchatTTC
-                                              .toString(),
-                                          snapshot.data!.prixAchatHT.toString(),
-                                          snapshot.data!.prixVenteTTC
-                                              .toString(),
-                                          snapshot.data!.prixVenteHT.toString(),
-                                          snapshot.data!.fournisseur,
-                                          snapshot.data!.tva.toString(),
-                                          snapshot.data!.stockMin.toString(),
-                                        ],
+                                        for (var article in snapshot.data!)
+                                          [
+                                            article.codeBarre,
+                                            article.description,
+                                            article.categorie,
+                                            article.enStock.toString(),
+                                            article.prixAchatTTC.toString(),
+                                            article.prixAchatHT.toString(),
+                                            article.prixVenteTTC.toString(),
+                                            article.prixVenteHT.toString(),
+                                            article.fournisseur,
+                                            article.tva.toString(),
+                                            article.stockMin.toString(),
+                                          ],
                                       ],
                                     ),
                                   ),
@@ -154,11 +152,11 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
     );
   }
 
-  Future<Article>? fetchArticle() async {
+  Future<List<Article>>? fetchArticle() async {
     // init API instance
     Api api = Api();
     // call API method getArticles
-    Future<Article> articles = api.getArticles(context);
+    Future<List<Article>> articles = api.getArticles(context);
     // return results
     return articles;
   }
