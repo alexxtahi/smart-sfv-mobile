@@ -1,28 +1,29 @@
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/api.dart';
-import 'package:smartsfv/models/Article.dart';
+import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class ArticleFutureBuilder extends StatefulWidget {
-  ArticleFutureBuilder({Key? key}) : super(key: key);
+class ClientFutureBuilder extends StatefulWidget {
+  ClientFutureBuilder({Key? key}) : super(key: key);
 
   @override
-  ArticleFutureBuilderState createState() => ArticleFutureBuilderState();
+  ClientFutureBuilderState createState() => ClientFutureBuilderState();
 }
 
-class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
+class ClientFutureBuilderState extends State<ClientFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Article>(
-      future: this.fetchArticle(),
+    return FutureBuilder<List<Client>>(
+      future: this.fetchClients(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return (snapshot.data!.codeBarre.isEmpty)
+          // ? Check if the list of clients is empty or not
+          return (snapshot.data!.isEmpty)
               ? Flex(
                   direction: Axis.vertical,
                   children: [
@@ -38,7 +39,7 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                             fit: BoxFit.contain,
                             width: 100,
                             height: 100,
-                            color: Color.fromRGBO(231, 57, 0, 0.5),
+                            color: Color.fromRGBO(60, 141, 188, 0.5),
                           ),
                           SizedBox(
                             height: 10,
@@ -46,10 +47,10 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                           Flexible(
                             child: MyText(
                               text:
-                                  "Vous n'avez aucun article en stock. Remplissez le formulaire d'ajout pour en ajouter.",
+                                  "Vous n'avez pas encore ajouté de client. Remplissez le formulaire d'ajout pour en ajouter.",
                               textAlign: TextAlign.center,
                               fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(231, 57, 0, 0.5),
+                              color: Color.fromRGBO(60, 141, 188, 0.5),
                               overflow: TextOverflow.visible,
                             ),
                           ),
@@ -82,35 +83,29 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                     scrollDirection: Axis.horizontal,
                                     child: MyDataTable(
                                       columns: [
-                                        'Code barre',
-                                        'Article',
-                                        'Catégorie',
-                                        'En stock',
-                                        "Prix d'achat TTC",
-                                        "Prix d'achat HT",
-                                        "Prix de vente TTC",
-                                        "Prix de vente HT",
-                                        'Fournisseur(s)',
-                                        'TVA',
-                                        'Stock minimum',
+                                        'Code',
+                                        'Nom du client',
+                                        'Contact',
+                                        'Pays',
+                                        'Régime',
+                                        'E-mail',
+                                        'Adresse',
+                                        'Montant plafond',
+                                        'Compte contr.'
                                       ],
                                       rows: [
-                                        //for (var i = 1; i < 100; i++)
-                                        [
-                                          snapshot.data!.codeBarre,
-                                          snapshot.data!.description,
-                                          snapshot.data!.categorie,
-                                          snapshot.data!.enStock.toString(),
-                                          snapshot.data!.prixAchatTTC
-                                              .toString(),
-                                          snapshot.data!.prixAchatHT.toString(),
-                                          snapshot.data!.prixVenteTTC
-                                              .toString(),
-                                          snapshot.data!.prixVenteHT.toString(),
-                                          snapshot.data!.fournisseur,
-                                          snapshot.data!.tva.toString(),
-                                          snapshot.data!.stockMin.toString(),
-                                        ],
+                                        for (var client in snapshot.data!)
+                                          [
+                                            client.code,
+                                            client.nom,
+                                            client.contact,
+                                            client.pays,
+                                            client.regime,
+                                            client.email,
+                                            client.adresse,
+                                            client.montantPlafond.toString(),
+                                            client.compteContrib,
+                                          ],
                                       ],
                                     ),
                                   ),
@@ -128,11 +123,11 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
           //print("Données non récupérables");
           functions.errorSnackbar(
             context: context,
-            message: 'Echec de récupération des articles',
+            message: 'Echec de récupération des clients',
           );
           return MyText(
             text: snapshot.error.toString(),
-            color: Colors.red,
+            color: Color.fromRGBO(60, 141, 188, 0.5),
           );
         }
 
@@ -144,7 +139,7 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
               LinearProgressIndicator(
                 color: Color.fromRGBO(231, 57, 0, 1),
                 backgroundColor: Colors.transparent,
-                semanticsLabel: 'Chargement des articles',
+                semanticsLabel: 'Chargement des Clients',
                 //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
               ),
             ],
@@ -154,12 +149,12 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
     );
   }
 
-  Future<Article>? fetchArticle() async {
+  Future<List<Client>>? fetchClients() async {
     // init API instance
     Api api = Api();
-    // call API method getArticles
-    Future<Article> articles = api.getArticles(context);
+    // call API method getClients
+    Future<List<Client>> clients = api.getClients(context);
     // return results
-    return articles;
+    return clients;
   }
 }

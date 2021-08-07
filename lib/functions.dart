@@ -152,8 +152,8 @@ void showMessageToSnackbar({
   required var message,
   int duration = 2,
   Icon icon = const Icon(Icons.info),
-  Color? backgroundColor = Colors.black,
-  Color? messageColor = Colors.white,
+  Color backgroundColor = Colors.black,
+  Color messageColor = Colors.white,
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -163,10 +163,9 @@ void showMessageToSnackbar({
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           (message is String)
-              ? Text(
-                  message,
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
+              ? Flexible(
+                  child: MyText(
+                    text: message,
                     color: messageColor,
                     fontWeight: FontWeight.bold,
                   ),

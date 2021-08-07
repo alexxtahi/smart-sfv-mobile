@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
+import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/User.dart';
 
 class Api {
@@ -34,7 +35,7 @@ class Api {
 
   // ! App context methods
   // todo: get articles method
-  Future<Article> getArticle(BuildContext context) async {
+  Future<Article> getArticles(BuildContext context) async {
     this.url = this.routes['getArticles'].toString(); // set login url
     /*SharedPreferences prefs =
         await SharedPreferences.getInstance(); // load SharedPreferences
@@ -54,7 +55,7 @@ class Api {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         this.requestSuccess = true;
-        print(this.response.body);
+        //print(this.response.body);
         // show success snack bar
         functions.showMessageToSnackbar(
           context: context,
@@ -64,8 +65,7 @@ class Api {
             color: Color.fromRGBO(231, 57, 0, 1),
           ),
         );
-        print(
-            "code barre: ${json.decode(this.response.body)['rows'][0]['code_barre']}");
+        // print("code barre: ${json.decode(this.response.body)['rows'][0]['code_barre']}");
         return Article.fromJson(json.decode(this.response.body)['rows'][0]);
       } else {
         // If the server did not return a 200 OK response,
@@ -85,9 +85,66 @@ class Api {
     }
   }
 
+  // todo: get articles method
+  Future<List<Client>> getClients(BuildContext context) async {
+    this.url = this.routes['getClients'].toString(); // set login url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get clients token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // show success snack bar
+        functions.showMessageToSnackbar(
+          context: context,
+          message: "Clients chargés !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(60, 141, 188, 1),
+          ),
+        );
+        // ? create list of clients
+        List clientResponse = json.decode(this.response.body)['rows'];
+        List<Client> clients = [
+          for (var client in clientResponse) Client.fromJson(client),
+        ];
+        // ? return list of clients
+        return clients;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des clients",
+        );
+        return <Client>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return <Client>[];
+    }
+  }
+
   // todo: verify login method
   Future<Map<String, dynamic>> verifyLogin(
-      BuildContext context, String login, String password) async {
+      BuildContext context, String login, String password,
+      {String remember = 'false'}) async {
     this.url = this.routes['login'].toString(); // set login url
     try {
       this.response = await http.post(
@@ -100,12 +157,13 @@ class Api {
         body: {
           'login': login,
           'password': password,
+          'remember': remember,
         },
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
-      print("Réponse du server: $responseJson");
-      print(responseJson.runtimeType);
+      //print("Réponse du server: $responseJson");
+      //print(responseJson.runtimeType);
       // ? Login success
       if (responseJson['access_token'] != null) {
         // create new user instance and save his token
