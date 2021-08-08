@@ -1,8 +1,10 @@
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
@@ -11,6 +13,7 @@ import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/screens/fournisseur/ProviderFutureBuilder.dart';
 
 class ProviderScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -103,26 +106,72 @@ class ProviderScreenState extends State<ProviderScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       //todo: Pays DropDown
-                      MyComboBox(
-                        initialDropDownValue: 'Pays',
-                        initialDropDownList: [
-                          'Pays',
-                          for (var i = 1; i <= 10; i++) 'Pays $i',
-                        ],
-                        prefixPadding: 10,
-                        prefixIcon: Image.asset(
-                          'assets/img/icons/countries.png',
-                          fit: BoxFit.contain,
-                          width: 20,
-                          height: 20,
-                          color: Color.fromRGBO(187, 0, 0, 1),
-                        ),
-                        textColor: Color.fromRGBO(187, 0, 0, 1),
-                        textFontWeight: FontWeight.bold,
-                        fillColor: Color.fromRGBO(187, 0, 0, 0.15),
-                        borderRadius: Radius.circular(15),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
+                      //todo: Pays DropDown
+                      FutureBuilder<List<Pays>>(
+                        future: this.fetchCountries(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            // ? get nations datas from server
+                            return MyComboBox(
+                              initialDropDownValue: 'Pays',
+                              initialDropDownList: [
+                                'Pays',
+                                // ? datas integration
+                                for (var pays in snapshot.data!) pays.libelle,
+                              ],
+                              iconSize: 0,
+                              prefixPadding: 10,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/countries.png',
+                                fit: BoxFit.contain,
+                                width: 20,
+                                height: 20,
+                                color: Color.fromRGBO(187, 0, 0, 1),
+                              ),
+                              textColor: Color.fromRGBO(187, 0, 0, 1),
+                              textFontWeight: FontWeight.bold,
+                              fillColor: Color.fromRGBO(221, 75, 57, 0.15),
+                              borderRadius: Radius.circular(15),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
+                          } else if (snapshot.hasError) {
+                            functions.errorSnackbar(
+                              context: context,
+                              message: 'Echec de récupération des pays',
+                            );
+                            return MyText(
+                              text: snapshot.error.toString(),
+                              color: Color.fromRGBO(60, 141, 188, 0.5),
+                            );
+                          }
+                          // ? on wait the combo with data load empty combo
+                          return MyOutlinedButton(
+                            backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
+                            borderRadius: 15,
+                            borderColor: Colors.transparent,
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/img/icons/countries.png',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.contain,
+                                  color: Color.fromRGBO(187, 0, 0, 1),
+                                ),
+                                SizedBox(width: 15),
+                                MyText(
+                                  text: 'Pays',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(187, 0, 0, 1),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                       //todo: Filtres Button
                       MyOutlinedButton(
@@ -157,7 +206,7 @@ class ProviderScreenState extends State<ProviderScreen> {
                             ],
                           );
                         },
-                        backgroundColor: Color.fromRGBO(187, 0, 0, 0.15),
+                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(horizontal: 15),
@@ -187,91 +236,68 @@ class ProviderScreenState extends State<ProviderScreen> {
                 SizedBox(height: 20),
                 //todo: List title
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      radius: 5,
-                      backgroundColor: Color.fromRGBO(221, 75, 57, 1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 5,
+                          backgroundColor: Color.fromRGBO(221, 75, 57, 1),
+                        ),
+                        SizedBox(width: 10),
+                        MyText(
+                          text: 'Liste des fournisseurs',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color.fromRGBO(221, 75, 57, 1),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 10),
-                    MyText(
-                      text: 'Liste des fournisseurs',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Color.fromRGBO(221, 75, 57, 1),
+                    //todo: Reload button
+                    IconButton(
+                      splashColor: Color.fromRGBO(60, 141, 188, 0.15),
+                      tooltip: 'Actualiser',
+                      onPressed: () {
+                        // show refresh message
+                        functions.showMessageToSnackbar(
+                          context: context,
+                          message: "Rechargement...",
+                          icon: CircularProgressIndicator(
+                            color: Color.fromRGBO(221, 75, 57, 1),
+                            strokeWidth: 5,
+                          ),
+                          /*Icon(
+                            Icons.refresh_rounded,
+                            color: Color.fromRGBO(221, 75, 57, 1),
+                          ),*/
+                        );
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.refresh_rounded,
+                        color: Color.fromRGBO(221, 75, 57, 1),
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
                 //todo: Scrolling View
-                Expanded(
-                  child: FadingEdgeScrollView.fromSingleChildScrollView(
-                    gradientFractionOnStart: 0.05,
-                    gradientFractionOnEnd: 0.2,
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          //todo: Table
-                          Row(
-                            children: [
-                              Expanded(
-                                child: FadingEdgeScrollView
-                                    .fromSingleChildScrollView(
-                                  gradientFractionOnStart: 0.2,
-                                  gradientFractionOnEnd: 0.2,
-                                  child: SingleChildScrollView(
-                                    controller: datatableScrollController,
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    child: MyDataTable(
-                                      columns: [
-                                        'Code',
-                                        'Nom du fournisseur',
-                                        'Contact',
-                                        'Pays',
-                                        'Banque',
-                                        'Compte banque',
-                                        'E-mail',
-                                        'Boîte postale',
-                                        'Adresse',
-                                        'Fax',
-                                        'Compte contr.'
-                                      ],
-                                      rows: [
-                                        for (var i = 1; i < 100; i++)
-                                          [
-                                            '1',
-                                            'Alexandre TAHI',
-                                            '+225 05 84 64 98 25',
-                                            "Côte d'ivoire",
-                                            'Bio',
-                                            'alexandretahi7@gmail.com',
-                                            'Yopougon, Lièvre Rouge',
-                                            '45.000.000 FCFA',
-                                            'Compte001',
-                                            'Compte001',
-                                            'Compte001',
-                                          ],
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                ProviderFutureBuilder(),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<List<Pays>> fetchCountries() async {
+    // init API instance
+    Api api = Api();
+    // call API method getPays
+    Future<List<Pays>> countries = api.getPays(context);
+    // return results
+    return countries;
   }
 }

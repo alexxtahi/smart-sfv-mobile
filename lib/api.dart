@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Client.dart';
+import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/models/User.dart';
@@ -32,6 +33,7 @@ class Api {
       'getClients': 'http://${this.host}/api/auth/clients',
       'putClient': 'http://${this.host}/api/auth/client/update/',
       'deleteClient': 'http://${this.host}/api/auth/clients/delete/',
+      'getFournisseurs': 'http://${this.host}/api/auth/fournisseurs'
     };
   }
 
@@ -148,7 +150,7 @@ class Api {
     }
   }
 
-  // todo: get articles method
+  // todo: get pays method
   Future<List<Pays>> getPays(BuildContext context) async {
     this.url = this.routes['getNations'].toString(); // set login url
     /*SharedPreferences prefs =
@@ -205,7 +207,7 @@ class Api {
     }
   }
 
-  // todo: get articles method
+  // todo: get regimes method
   Future<List<Regime>> getRegimes(BuildContext context) async {
     this.url = this.routes['getRegimes'].toString(); // set login url
     /*SharedPreferences prefs =
@@ -262,13 +264,14 @@ class Api {
     }
   }
 
-  // todo: get articles method
+  // todo: get dashboard stats method
   Future<Map<String, int>> getDashboardStats() async {
-    Map<String, int> dashboardDatas = {
-      'getClients': 0,
-      'getArticles': 0,
-    };
-    List<String> dashboardCards = ['getClients', 'getArticles'];
+    Map<String, int> dashboardDatas = {};
+    List<String> dashboardCards = [
+      'getClients',
+      'getArticles',
+      'getFournisseurs'
+    ];
     try {
       // ? getting dashboard datas from url
       for (var card in dashboardCards) {
@@ -292,6 +295,64 @@ class Api {
     }
     // ? Return dashboard statistics
     return dashboardDatas;
+  }
+
+  // todo: get fournisseurs method
+  Future<List<Fournisseur>> getFournisseurs(BuildContext context) async {
+    this.url =
+        this.routes['getFournisseurs'].toString(); // set get fournisseurs url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get articles token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // show success snack bar
+        functions.showMessageToSnackbar(
+          context: context,
+          message: "Fournisseurs chargés !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(221, 75, 57, 1),
+          ),
+        );
+        // ? create list of fournisseurs
+        List fournisseurResponse = json.decode(this.response.body)['rows'];
+        List<Fournisseur> fournisseurs = [
+          for (var fournisseur in fournisseurResponse)
+            Fournisseur.fromJson(fournisseur),
+        ];
+        // ? return list of fournisseurs
+        return fournisseurs;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des fournisseurs",
+        );
+        return <Fournisseur>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return <Fournisseur>[];
+    }
   }
 
   // todo: verify login method
@@ -405,52 +466,4 @@ class Api {
   }
 
   // ! End app context methods
-
-  // todo: get data method
-  Future getData() async {
-    this.url = 'http://192.168.138.11:8000/foods'; // set url
-    this.response = await http.get(Uri.parse(url)); // getting datas from url
-    print('le lien est: $url');
-
-    if (this.response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      this.requestSuccess = true;
-      print(this.response);
-      //return models.Food.fromJson(jsonDecode(this.response.body));
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      this.requestSuccess = false;
-      throw Exception('Failed to load Food');
-    }
-  }
-
-  // todo: post data method
-  void postData(String title, String filename) async {
-    /*
-    ! Best function !!!
-    * This function is use to send data from the flutter app to an API
-    * Add the datas you want to send in the 'body' with key and value.
-    */
-    this.url = 'http://192.168.138.11:8000/foods'; // set url
-    final response = await http.post(
-      Uri.parse(this.url),
-      //headers: {AuthUtils.AUTH_HEADER: _authToken},
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Charset': 'utf-8',
-      },
-      body: {
-        'title': title,
-        'filename': filename,
-        //'image': image != null ? base64Encode(image.readAsBytesSync()) : '',
-      },
-    );
-
-    final responseJson = json.decode(json.encode(response.body));
-
-    print("Réponse du server: $responseJson");
-  }
 }
