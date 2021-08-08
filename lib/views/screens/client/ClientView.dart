@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
+import 'package:smartsfv/models/Pays.dart';
+import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
@@ -42,9 +45,18 @@ class ClientViewState extends State<ClientView> {
         hoverElevation: 10,
         onPressed: () {
           // TextFormField controllers
-          List<TextEditingController> fieldControllers = [
-            for (var i = 1; i <= 8; i++) TextEditingController(),
-          ];
+          Map<String, dynamic> fieldControllers = {
+            'name': TextEditingController(),
+            'contact': TextEditingController(),
+            'email': TextEditingController(),
+            'pays': '',
+            'geoAdr': TextEditingController(),
+            'postalAdr': TextEditingController(),
+            'regimes': '',
+            'montantPlafond': TextEditingController(),
+            'fax': TextEditingController(),
+            'compteContrib': TextEditingController(),
+          };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             context,
@@ -52,13 +64,69 @@ class ClientViewState extends State<ClientView> {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             headerIcon: 'assets/img/icons/customer.png',
             title: 'Ajouter un nouveau client',
-            onValidate: () {
+            onValidate: () async {
               if (formKey.currentState!.validate()) {
-                Navigator.of(context).pop();
-                functions.successSnackbar(
-                  context: context,
-                  message: 'Nouveau client ajouté !',
+                // ? get fields datas
+                String name =
+                    fieldControllers['name'].text; // get name  // ! required
+                String contact = fieldControllers['contact']
+                    .text; // get contact // ! required
+                String email = (fieldControllers['email'].text != null)
+                    ? fieldControllers['email'].text
+                    : ''; // get email
+                String pays =
+                    fieldControllers['pays']; // get pays // ! required
+                String geoAdr = (fieldControllers['geoAdr'].text != null)
+                    ? fieldControllers['geoAdr'].text
+                    : ''; // get geoAdr
+                String postalAdr = (fieldControllers['postalAdr'].text != null)
+                    ? fieldControllers['postalAdr'].text
+                    : ''; // get postalAdr
+                String regime =
+                    fieldControllers['regime']; // get regime // ! required
+                String montantPlafond =
+                    (fieldControllers['montantPlafond'].text != null)
+                        ? fieldControllers['montantPlafond'].text
+                        : ''; // get montant plafond
+                String fax = (fieldControllers['fax'].text != null)
+                    ? fieldControllers['fax'].text
+                    : ''; // get fax
+                String compteContrib =
+                    (fieldControllers['compteContrib'].text != null)
+                        ? fieldControllers['compteContrib'].text
+                        : ''; // get compte contribuable
+                // ? sending datas to API
+                Api api = Api();
+                final Map<String, dynamic> postClientResponse =
+                    await api.postClient(
+                  context,
+                  name,
+                  contact,
+                  pays,
+                  regime,
+                  email: email,
+                  geoAdr: geoAdr,
+                  postalAdr: postalAdr,
+                  montantPlafond: montantPlafond,
+                  fax: fax,
+                  compteContrib: compteContrib,
                 );
+                /*print("Réponse d'ajout du client: " +
+                    postClientResponse['msg']); // ! debug*/
+                // ? check the server response
+                if (postClientResponse['msg'] ==
+                    'Enregistrement effectué avec succès.') {
+                  Navigator.of(context).pop();
+                  functions.successSnackbar(
+                    context: context,
+                    message: 'Nouveau client ajouté !',
+                  );
+                } else {
+                  functions.errorSnackbar(
+                    context: context,
+                    message: 'Un problème est survenu',
+                  );
+                }
               }
             },
             formElements: [
@@ -84,7 +152,7 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: Name TextFormField
                   MyTextFormField(
-                    textEditingController: fieldControllers[0],
+                    textEditingController: fieldControllers['name'],
                     validator: (value) {
                       return value!.isNotEmpty
                           ? null
@@ -131,7 +199,7 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: Contact TextFormField
                   MyTextFormField(
-                    textEditingController: fieldControllers[1],
+                    textEditingController: fieldControllers['contact'],
                     validator: (value) {
                       return value!.isNotEmpty
                           ? null
@@ -166,7 +234,7 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: Email TextFormField
                   MyTextFormField(
-                    textEditingController: fieldControllers[2],
+                    textEditingController: fieldControllers['email'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
                       Icons.mail_outline_rounded,
@@ -204,31 +272,62 @@ class ClientViewState extends State<ClientView> {
                   ),
                   SizedBox(height: 5),
                   //todo: Pays DropDown
-                  MyComboBox(
-                    validator: (value) {
-                      return value! != 'Sélectionnez un pays'
-                          ? null
-                          : 'Choisissez un pays';
-                    },
-                    initialDropDownValue: 'Sélectionnez un pays',
-                    initialDropDownList: [
-                      'Sélectionnez un pays',
-                      for (var i = 1; i <= 10; i++) 'Pays $i',
-                    ],
-                    prefixPadding: 10,
-                    prefixIcon: Image.asset(
-                      'assets/img/icons/countries.png',
-                      fit: BoxFit.contain,
-                      width: 15,
-                      height: 15,
-                      color: Color.fromRGBO(60, 141, 188, 1),
-                    ),
-                    textColor: Color.fromRGBO(60, 141, 188, 1),
-                    fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                    borderRadius: Radius.circular(10),
-                    focusBorderColor: Colors.transparent,
-                    enableBorderColor: Colors.transparent,
-                  ),
+                  FutureBuilder<List<Pays>>(
+                      future: this.fetchCountries(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          // ? get nations datas from server
+                          return MyComboBox(
+                            validator: (value) {
+                              return value! != 'Sélectionnez un pays'
+                                  ? null
+                                  : 'Choisissez un pays';
+                            },
+                            onChanged: (value) {
+                              print('Nouveau pays: $value');
+                              fieldControllers['pays'] =
+                                  value; // save the new countrie selected
+                            },
+                            initialDropDownValue: 'Sélectionnez un pays',
+                            initialDropDownList: [
+                              'Sélectionnez un pays',
+                              // ? datas integration
+                              for (var pays in snapshot.data!) pays.libelle,
+                            ],
+                            prefixPadding: 10,
+                            prefixIcon: Image.asset(
+                              'assets/img/icons/countries.png',
+                              fit: BoxFit.contain,
+                              width: 15,
+                              height: 15,
+                              color: Color.fromRGBO(60, 141, 188, 1),
+                            ),
+                            textColor: Color.fromRGBO(60, 141, 188, 1),
+                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                            borderRadius: Radius.circular(10),
+                            focusBorderColor: Colors.transparent,
+                            enableBorderColor: Colors.transparent,
+                          );
+                        }
+                        // ? on wait the combo with data load empty combo
+                        return MyTextFormField(
+                          prefixPadding: 10,
+                          prefixIcon: Image.asset(
+                            'assets/img/icons/countries.png',
+                            fit: BoxFit.contain,
+                            width: 15,
+                            height: 15,
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                          ),
+                          placeholder: 'Sélectionnez un pays',
+                          textColor: Color.fromRGBO(60, 141, 188, 1),
+                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                          borderRadius: Radius.circular(10),
+                          focusBorderColor: Colors.transparent,
+                          enableBorderColor: Colors.transparent,
+                        );
+                      }),
                 ],
               ),
               SizedBox(height: 10),
@@ -245,7 +344,7 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: Geographical address TextFormField
                   MyTextFormField(
-                    textEditingController: fieldControllers[3],
+                    textEditingController: fieldControllers['geoAdr'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
                       Icons.location_city_rounded,
@@ -275,7 +374,7 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: Postal address TextFormField
                   MyTextFormField(
-                    textEditingController: fieldControllers[4],
+                    textEditingController: fieldControllers['postalAdr'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
                       Icons.location_history_rounded,
@@ -313,27 +412,56 @@ class ClientViewState extends State<ClientView> {
                   ),
                   SizedBox(height: 5),
                   //todo: Regime DropDown
-                  MyComboBox(
-                    validator: (value) {
-                      return value! != 'Sélectionnez le régime'
-                          ? null
-                          : 'Choisissez un régime';
+                  FutureBuilder<List<Regime>>(
+                    future: this.fetchRegimes(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        // ? get nations datas from server
+                        return MyComboBox(
+                          validator: (value) {
+                            return value! != 'Sélectionnez le régime'
+                                ? null
+                                : 'Choisissez un régime';
+                          },
+                          onChanged: (value) {
+                            print('Nouveau régime: $value');
+                            fieldControllers['regime'] =
+                                value; // save the new countrie selected
+                          },
+                          initialDropDownValue: 'Sélectionnez le régime',
+                          initialDropDownList: [
+                            'Sélectionnez le régime',
+                            // ? datas integration
+                            for (var regime in snapshot.data!) regime.libelle,
+                          ],
+                          prefixPadding: 10,
+                          prefixIcon: Icon(
+                            Icons.circle_outlined,
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                          ),
+                          textColor: Color.fromRGBO(60, 141, 188, 1),
+                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                          borderRadius: Radius.circular(10),
+                          focusBorderColor: Colors.transparent,
+                          enableBorderColor: Colors.transparent,
+                        );
+                      }
+                      // ? on wait the combo with data load empty combo
+                      return MyTextFormField(
+                        prefixPadding: 10,
+                        prefixIcon: Icon(
+                          Icons.circle_outlined,
+                          color: Color.fromRGBO(60, 141, 188, 1),
+                        ),
+                        placeholder: 'Sélectionnez un régime',
+                        textColor: Color.fromRGBO(60, 141, 188, 1),
+                        placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                        fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                        borderRadius: Radius.circular(10),
+                        focusBorderColor: Colors.transparent,
+                        enableBorderColor: Colors.transparent,
+                      );
                     },
-                    initialDropDownValue: 'Sélectionnez le régime',
-                    initialDropDownList: [
-                      'Sélectionnez le régime',
-                      for (var i = 1; i <= 10; i++) 'Régime $i',
-                    ],
-                    prefixPadding: 10,
-                    prefixIcon: Icon(
-                      Icons.circle_outlined,
-                      color: Color.fromRGBO(60, 141, 188, 1),
-                    ),
-                    textColor: Color.fromRGBO(60, 141, 188, 1),
-                    fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                    borderRadius: Radius.circular(10),
-                    focusBorderColor: Colors.transparent,
-                    enableBorderColor: Colors.transparent,
                   ),
                 ],
               ),
@@ -351,7 +479,7 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: Montant plafond TextFormField
                   MyTextFormField(
-                    textEditingController: fieldControllers[5],
+                    textEditingController: fieldControllers['montantPlafond'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
                       Icons.attach_money_rounded,
@@ -381,7 +509,7 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: N° Fax TextFormField
                   MyTextFormField(
-                    textEditingController: fieldControllers[6],
+                    textEditingController: fieldControllers['fax'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
                       Icons.phone_rounded,
@@ -411,7 +539,7 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: N° Compte contribuable TextFormField
                   MyTextFormField(
-                    textEditingController: fieldControllers[7],
+                    textEditingController: fieldControllers['compteContrib'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
                       Icons.file_copy_rounded,
@@ -471,5 +599,23 @@ class ClientViewState extends State<ClientView> {
         ],
       ),
     );
+  }
+
+  Future<List<Pays>> fetchCountries() async {
+    // init API instance
+    Api api = Api();
+    // call API method getPays
+    Future<List<Pays>> countries = api.getPays(context);
+    // return results
+    return countries;
+  }
+
+  Future<List<Regime>> fetchRegimes() async {
+    // init API instance
+    Api api = Api();
+    // call API method getRegimes
+    Future<List<Regime>> regimes = api.getRegimes(context);
+    // return results
+    return regimes;
   }
 }

@@ -99,8 +99,9 @@ class MyComboBoxState extends State<MyComboBox> {
           value: value,
           child: (widget.menuItem != null)
               ? widget.menuItem
-              : Flex(
-                  direction: Axis.horizontal,
+              : Row(
+                  //direction: Axis.horizontal,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Flexible(
                       child: MyText(

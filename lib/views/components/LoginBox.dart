@@ -3,7 +3,6 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/home/HomeView.dart';
-import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
 class LoginBox extends StatefulWidget {
@@ -122,15 +121,15 @@ class LoginBoxState extends State<LoginBox> {
                             onPressed: () async {
                               print('Login button pressed !');
                               FocusScope.of(context).requestFocus(FocusNode());
-                              /*
+
                               // ! test mode
                               functions.openPage(
                                 context,
                                 HomeView(),
                                 mode: 'pushReplacement',
                               );
-                              // ! End test mode 
-                              */
+                              // ! End test mode
+                              /*
                               if (this.formKey.currentState!.validate()) {
                                 // ? Get the login inputs value
                                 String login = this.loginFieldController.text;
@@ -150,8 +149,8 @@ class LoginBoxState extends State<LoginBox> {
                                     HomeView(),
                                     mode: 'pushReplacement',
                                   );
-                                }
-                                /*if (this.loginFieldController.text ==
+                                }*/
+                              /*if (this.loginFieldController.text ==
                                         'Concepteur' &&
                                     this.loginFieldController.text ==
                                         'P@ssword@123456') {
@@ -161,7 +160,7 @@ class LoginBoxState extends State<LoginBox> {
                                     mode: 'pushReplacement',
                                   );
                                 }*/
-                              }
+                              //}
                             },
                             child: Text(
                               widget.loginButtonText,

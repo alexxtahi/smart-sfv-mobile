@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Client.dart';
+import 'package:smartsfv/models/Pays.dart';
+import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/models/User.dart';
 
 class Api {
@@ -40,7 +42,7 @@ class Api {
     /*SharedPreferences prefs =
         await SharedPreferences.getInstance(); // load SharedPreferences
     String? token = prefs.getString('access_token');*/
-    print('get articles token: ' + User.token);
+    //print('get articles token: ' + User.token);
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -90,7 +92,7 @@ class Api {
     }
   }
 
-  // todo: get articles method
+  // todo: get clients method
   Future<List<Client>> getClients(BuildContext context) async {
     this.url = this.routes['getClients'].toString(); // set login url
     /*SharedPreferences prefs =
@@ -143,6 +145,120 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       return <Client>[];
+    }
+  }
+
+  // todo: get articles method
+  Future<List<Pays>> getPays(BuildContext context) async {
+    this.url = this.routes['getNations'].toString(); // set login url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get pays token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // show success snack bar
+        /*functions.showMessageToSnackbar(
+          context: context,
+          message: "Pays chargés !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(60, 141, 188, 1),
+          ),
+        );*/
+        // ? create list of countries
+        List paysResponse = json.decode(this.response.body)['rows'];
+        List<Pays> countries = [
+          for (var pays in paysResponse) Pays.fromJson(pays),
+        ];
+        //print('List: $countries'); // ! debug
+        // ? return list of countries
+        return countries;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des pays",
+        );
+        return <Pays>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return <Pays>[];
+    }
+  }
+
+  // todo: get articles method
+  Future<List<Regime>> getRegimes(BuildContext context) async {
+    this.url = this.routes['getRegimes'].toString(); // set login url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get pays token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // show success snack bar
+        /*functions.showMessageToSnackbar(
+          context: context,
+          message: "Pays chargés !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(60, 141, 188, 1),
+          ),
+        );*/
+        // ? create list of countries
+        List regimeResponse = json.decode(this.response.body)['rows'];
+        List<Regime> regimes = [
+          for (var regime in regimeResponse) Regime.fromJson(regime),
+        ];
+        //print('List: $countries'); // ! debug
+        // ? return list of countries
+        return regimes;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des regime",
+        );
+        return <Regime>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return <Regime>[];
     }
   }
 
@@ -200,6 +316,59 @@ class Api {
         message: "Echec d'envoi des identifiants",
       );
       return {"access_token": null}; // return to know login state
+    }
+  }
+
+  // todo: verify login method
+  Future<Map<String, dynamic>> postClient(
+    BuildContext context,
+    String name,
+    String contact,
+    String pays,
+    String regime, {
+    String email = '',
+    String geoAdr = '',
+    String postalAdr = '',
+    String montantPlafond = '',
+    String compteContrib = '',
+    String fax = '',
+  }) async {
+    this.url = this.routes['postClient'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'full_name_client': name, // ! required
+          'contact_client': contact, // ! required
+          'email_client': email,
+          'nation_id': pays, // ! required
+          'adresse_client': geoAdr,
+          'boite_postale_client': postalAdr,
+          'plafond_client': montantPlafond,
+          'regime_id': regime, // ! required
+          'fax_client': fax,
+          'compte_contribuable_client': compteContrib,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement du client",
+      );
+      return {'msg': 'Une erreur est survenue'};
     }
   }
 
