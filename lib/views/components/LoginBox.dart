@@ -121,7 +121,7 @@ class LoginBoxState extends State<LoginBox> {
                             onPressed: () async {
                               print('Login button pressed !');
                               FocusScope.of(context).requestFocus(FocusNode());
-
+                              /*
                               // ! test mode
                               functions.openPage(
                                 context,
@@ -129,7 +129,7 @@ class LoginBoxState extends State<LoginBox> {
                                 mode: 'pushReplacement',
                               );
                               // ! End test mode
-                              /*
+                              */
                               if (this.formKey.currentState!.validate()) {
                                 // ? Get the login inputs value
                                 String login = this.loginFieldController.text;
@@ -149,8 +149,8 @@ class LoginBoxState extends State<LoginBox> {
                                     HomeView(),
                                     mode: 'pushReplacement',
                                   );
-                                }*/
-                              /*if (this.loginFieldController.text ==
+                                }
+                                /*if (this.loginFieldController.text ==
                                         'Concepteur' &&
                                     this.loginFieldController.text ==
                                         'P@ssword@123456') {
@@ -160,7 +160,7 @@ class LoginBoxState extends State<LoginBox> {
                                     mode: 'pushReplacement',
                                   );
                                 }*/
-                              //}
+                              }
                             },
                             child: Text(
                               widget.loginButtonText,

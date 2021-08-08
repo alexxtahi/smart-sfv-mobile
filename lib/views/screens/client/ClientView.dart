@@ -74,16 +74,16 @@ class ClientViewState extends State<ClientView> {
                 String email = (fieldControllers['email'].text != null)
                     ? fieldControllers['email'].text
                     : ''; // get email
-                String pays =
-                    fieldControllers['pays']; // get pays // ! required
+                String pays = fieldControllers['pays']
+                    .toString(); // get pays // ! required
                 String geoAdr = (fieldControllers['geoAdr'].text != null)
                     ? fieldControllers['geoAdr'].text
                     : ''; // get geoAdr
                 String postalAdr = (fieldControllers['postalAdr'].text != null)
                     ? fieldControllers['postalAdr'].text
                     : ''; // get postalAdr
-                String regime =
-                    fieldControllers['regime']; // get regime // ! required
+                String regime = fieldControllers['regime']
+                    .toString(); // get regime // ! required
                 String montantPlafond =
                     (fieldControllers['montantPlafond'].text != null)
                         ? fieldControllers['montantPlafond'].text
@@ -111,8 +111,6 @@ class ClientViewState extends State<ClientView> {
                   fax: fax,
                   compteContrib: compteContrib,
                 );
-                /*print("Réponse d'ajout du client: " +
-                    postClientResponse['msg']); // ! debug*/
                 // ? check the server response
                 if (postClientResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
@@ -127,6 +125,8 @@ class ClientViewState extends State<ClientView> {
                     message: 'Un problème est survenu',
                   );
                 }
+                // ? Refresh client list
+                setState(() {});
               }
             },
             formElements: [
@@ -284,9 +284,16 @@ class ClientViewState extends State<ClientView> {
                                   : 'Choisissez un pays';
                             },
                             onChanged: (value) {
-                              print('Nouveau pays: $value');
-                              fieldControllers['pays'] =
-                                  value; // save the new countrie selected
+                              // ? Iterate all countries to get the selected countrie id
+                              for (var pays in snapshot.data!) {
+                                if (pays.libelle == value) {
+                                  fieldControllers['pays'] =
+                                      pays.id; // save the new countrie selected
+                                  print(
+                                      "Nouveau pays: $value, ${fieldControllers['pays']}, ${pays.id}");
+                                  break;
+                                }
+                              }
                             },
                             initialDropDownValue: 'Sélectionnez un pays',
                             initialDropDownList: [
@@ -424,9 +431,18 @@ class ClientViewState extends State<ClientView> {
                                 : 'Choisissez un régime';
                           },
                           onChanged: (value) {
-                            print('Nouveau régime: $value');
-                            fieldControllers['regime'] =
-                                value; // save the new countrie selected
+                            // ? Iterate all countries to get the selected regime id
+                            for (var regime in snapshot.data!) {
+                              if (regime.libelle == value) {
+                                // if the regime name match with the selected
+                                fieldControllers['regime'] =
+                                    regime.id; // save the new regime selected
+                                print(
+                                    "Nouveau régime: $value, ${fieldControllers['regime']}, ${regime.id}");
+
+                                break;
+                              }
+                            }
                           },
                           initialDropDownValue: 'Sélectionnez le régime',
                           initialDropDownList: [

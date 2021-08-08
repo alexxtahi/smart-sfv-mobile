@@ -25,6 +25,9 @@ class ClientScreenState extends State<ClientScreen> {
   ScrollController datatableScrollController = new ScrollController();
   TextEditingController textEditingController = TextEditingController();
   bool filterChecked = true;
+  List<bool> filtres = [
+    for (var i = 0; i < 10; i++) true,
+  ];
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -185,9 +188,25 @@ class ClientScreenState extends State<ClientScreen> {
                             hasSnackbar: false,
                             headerIcon: 'assets/img/icons/filter.png',
                             title: 'Filtres',
+                            onValidate: () {
+                              Navigator.of(context).pop();
+                            },
+                            setstate: () {},
                             formElements: [
                               for (var i = 0; i < 10; i++)
-                                Row(
+                                CheckboxListTile(
+                                  value: this.filtres[i],
+                                  checkColor: Colors.blue,
+                                  title: MyText(
+                                    text: 'Filtre $i',
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      this.filtres[i] = value!;
+                                    });
+                                  },
+                                ),
+                              /*Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -200,7 +219,7 @@ class ClientScreenState extends State<ClientScreen> {
                                       },
                                     ),
                                   ],
-                                ),
+                                ),*/
                             ],
                           );
                         },
@@ -258,6 +277,19 @@ class ClientScreenState extends State<ClientScreen> {
                       splashColor: Color.fromRGBO(60, 141, 188, 0.15),
                       tooltip: 'Actualiser',
                       onPressed: () {
+                        // show refresh message
+                        functions.showMessageToSnackbar(
+                          context: context,
+                          message: "Rechargement...",
+                          icon: CircularProgressIndicator(
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                            strokeWidth: 5,
+                          ),
+                          /*Icon(
+                            Icons.refresh_rounded,
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                          ),*/
+                        );
                         setState(() {});
                       },
                       icon: Icon(

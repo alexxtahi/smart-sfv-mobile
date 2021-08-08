@@ -94,28 +94,30 @@ class MyComboBoxState extends State<MyComboBox> {
                 this.dropDownValue = newDropDownValue!;
               });
             },
-      items: this.dropDownList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: (widget.menuItem != null)
-              ? widget.menuItem
-              : Row(
-                  //direction: Axis.horizontal,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Flexible(
-                      child: MyText(
-                        text: value,
-                        color: widget.textColor,
-                        fontSize: widget.textFontSize,
-                        fontWeight: widget.textFontWeight,
-                        overflow: widget.textOverflow,
+      items: this.dropDownList.map<DropdownMenuItem<String>>(
+        (String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: (widget.menuItem != null)
+                ? widget.menuItem
+                : Row(
+                    //direction: Axis.horizontal,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Flexible(
+                        child: MyText(
+                          text: value,
+                          color: widget.textColor,
+                          fontSize: widget.textFontSize,
+                          fontWeight: widget.textFontWeight,
+                          overflow: widget.textOverflow,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-        );
-      }).toList(),
+                    ],
+                  ),
+          );
+        },
+      ).toList(),
       decoration: InputDecoration(
         prefixIcon: (widget.prefixIcon != null)
             ? Padding(

@@ -17,6 +17,7 @@ Future<void> showFormDialog(
   bool hasCancelButton = true,
   bool hasSnackbar = true,
   final void Function()? onValidate,
+  final void Function()? setstate,
 }) async {
   //GlobalKey<FormState> formKey = GlobalKey<FormState>();
   return await showDialog(
@@ -24,6 +25,9 @@ Future<void> showFormDialog(
     builder: (context) {
       return StatefulBuilder(
         builder: (context, setState) {
+          setState(() {
+            setstate!();
+          });
           return AlertDialog(
             scrollable: true,
             elevation: 5,
@@ -143,7 +147,10 @@ void showMessageToSnackbar({
   required BuildContext context,
   required var message,
   int duration = 2,
-  Icon icon = const Icon(Icons.info),
+  var icon = const Icon(
+    Icons.info,
+    color: Colors.white,
+  ),
   Color backgroundColor = Colors.black,
   Color messageColor = Colors.white,
 }) {
