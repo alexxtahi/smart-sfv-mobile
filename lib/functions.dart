@@ -17,7 +17,6 @@ Future<void> showFormDialog(
   bool hasCancelButton = true,
   bool hasSnackbar = true,
   final void Function()? onValidate,
-  final void Function()? setstate,
 }) async {
   //GlobalKey<FormState> formKey = GlobalKey<FormState>();
   return await showDialog(
@@ -25,9 +24,6 @@ Future<void> showFormDialog(
     builder: (context) {
       return StatefulBuilder(
         builder: (context, setState) {
-          setState(() {
-            setstate!();
-          });
           return AlertDialog(
             scrollable: true,
             elevation: 5,
@@ -182,7 +178,7 @@ void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
     case 'pushReplacement':
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => view),
+        MaterialPageRoute(builder: (BuildContext context) => view),
       );
       break;
     case 'push':

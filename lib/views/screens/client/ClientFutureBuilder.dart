@@ -120,7 +120,6 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
                   ),
                 );
         } else if (snapshot.hasError) {
-          //print("Données non récupérables");
           functions.errorSnackbar(
             context: context,
             message: 'Echec de récupération des clients',

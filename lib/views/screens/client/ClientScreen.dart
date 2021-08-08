@@ -191,7 +191,6 @@ class ClientScreenState extends State<ClientScreen> {
                             onValidate: () {
                               Navigator.of(context).pop();
                             },
-                            setstate: () {},
                             formElements: [
                               for (var i = 0; i < 10; i++)
                                 CheckboxListTile(

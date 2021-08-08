@@ -1,6 +1,9 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/views/components/MyText.dart';
+import 'package:smartsfv/functions.dart' as functions;
 
 class DashboardCard extends StatefulWidget {
   final String text;
@@ -11,9 +14,11 @@ class DashboardCard extends StatefulWidget {
   final Color iconColor;
   final Radius borderRadius;
   final void Function()? onPressed;
+  final String cardName;
   DashboardCard({
     Key? key,
     required this.text,
+    required this.cardName,
     this.textColor = Colors.white,
     this.backgroundColor = const Color.fromRGBO(60, 141, 188, 1),
     required this.icon,
@@ -21,6 +26,7 @@ class DashboardCard extends StatefulWidget {
     this.iconColor = Colors.black,
     this.borderRadius = const Radius.circular(20),
     this.onPressed,
+    // default card value
   }) : super(key: key);
 
   @override
@@ -86,15 +92,63 @@ class DashboardCardState extends State<DashboardCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //todo: Value
-                      Text(
-                        '0',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: widget.textColor,
-                          //color: Colors.black,
-                          fontSize: 40,
-                          fontWeight: FontWeight.w800,
-                        ),
+                      FutureBuilder<Map<String, int>>(
+                        future: this.getDashboardDatas(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            // ? Check if the list of clients is empty or not
+                            return (snapshot.data![widget.cardName] == null)
+                                ? Text(
+                                    '0',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      //color: Colors.black,
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  )
+                                : Text(
+                                    snapshot.data![widget.cardName].toString(),
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      //color: Colors.black,
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  );
+                          } else if (snapshot.hasError) {
+                            functions.errorSnackbar(
+                              context: context,
+                              message: 'Erreur sur le tableau de bord',
+                            );
+                            return Text(
+                              'Erreur',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                                //color: Colors.black,
+                                fontSize: 40,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            );
+                          }
+
+                          //todo: Loading indicator
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  color: Colors.white,
+                                  backgroundColor: Colors.transparent,
+                                  semanticsLabel: 'Chargement des clients',
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                       //todo: Title
                       Text(
@@ -143,5 +197,14 @@ class DashboardCardState extends State<DashboardCard> {
         ),
       ),
     );
+  }
+
+  Future<Map<String, int>> getDashboardDatas() async {
+    // init API instance
+    Api api = Api();
+    // call API method getDashboardDatas
+    Map<String, int> dashboardDatas = await api.getDashboardStats();
+    // return dashboard datas
+    return dashboardDatas;
   }
 }

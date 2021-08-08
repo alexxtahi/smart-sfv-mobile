@@ -53,6 +53,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
           DashboardCard(
             text: 'Clients',
             icon: 'assets/img/icons/customer1.png',
+            cardName: 'getClients',
             iconColor: Color.fromRGBO(0, 27, 121, 1),
             onPressed: () {
               print('Dashboard card Client appuyé !');
@@ -69,6 +70,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
           DashboardCard(
             text: 'Articles',
             icon: 'assets/img/icons/box.png',
+            cardName: 'getArticles',
             iconColor: Color.fromRGBO(231, 57, 0, 1),
             backgroundColor: Color.fromRGBO(243, 156, 18, 1),
             onPressed: () {
@@ -86,6 +88,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
           DashboardCard(
             text: 'Dépôts',
             icon: 'assets/img/icons/bank.png',
+            cardName: 'getDepots',
             iconColor: Color.fromRGBO(0, 77, 0, 1),
             backgroundColor: Color.fromRGBO(0, 166, 90, 1),
             onPressed: () {
@@ -103,6 +106,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
           DashboardCard(
             text: 'Fournisseurs',
             icon: 'assets/img/icons/provider.png',
+            cardName: 'getFournisseurs',
             iconColor: Color.fromRGBO(187, 0, 0, 1),
             backgroundColor: Color.fromRGBO(221, 75, 57, 1),
             onPressed: () {

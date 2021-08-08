@@ -262,6 +262,38 @@ class Api {
     }
   }
 
+  // todo: get articles method
+  Future<Map<String, int>> getDashboardStats() async {
+    Map<String, int> dashboardDatas = {
+      'getClients': 0,
+      'getArticles': 0,
+    };
+    List<String> dashboardCards = ['getClients', 'getArticles'];
+    try {
+      // ? getting dashboard datas from url
+      for (var card in dashboardCards) {
+        this.response = await http.get(
+          Uri.parse(this.routes[card].toString()),
+          headers: {
+            // pass access token into the header
+            HttpHeaders.authorizationHeader: User.token,
+          },
+        );
+        // ? Check the response status code
+        if (this.response.statusCode == 200) {
+          this.requestSuccess = true;
+          //print(this.response.body);
+          // ? get the articles number of this account
+          dashboardDatas[card] = json.decode(this.response.body)['total'];
+        }
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+    }
+    // ? Return dashboard statistics
+    return dashboardDatas;
+  }
+
   // todo: verify login method
   Future<Map<String, dynamic>> verifyLogin(
       BuildContext context, String login, String password,
