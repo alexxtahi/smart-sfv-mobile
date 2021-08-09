@@ -7,10 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Banque.dart';
+import 'package:smartsfv/models/Category.dart';
 import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
+import 'package:smartsfv/models/SubCategory.dart';
 import 'package:smartsfv/models/Tva.dart';
 import 'package:smartsfv/models/User.dart';
 
@@ -360,6 +362,104 @@ class Api {
     }
   }
 
+  // todo: get catégories method
+  Future<List<Category>> getCategories(BuildContext context) async {
+    this.url = this.routes['getCategories'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // show success snack bar
+        functions.showMessageToSnackbar(
+          context: context,
+          message: "Catégories chargées !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(60, 141, 188, 1),
+          ),
+        );
+        // ? create list of taxs
+        List categorieResponse = json.decode(this.response.body)['rows'];
+        List<Category> categories = [
+          for (var categorie in categorieResponse)
+            categorie.fromJson(categorie),
+        ];
+        //print('List: $countries'); // ! debug
+        // ? return list of categories
+        return categories;
+      } else {
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des catégories",
+        );
+        return <Category>[];
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return <Category>[];
+    }
+  }
+
+  // todo: get sous catégories method
+  Future<List<SubCategory>> getSubCategories(BuildContext context) async {
+    this.url = this.routes['getSubCategories'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // show success snack bar
+        functions.showMessageToSnackbar(
+          context: context,
+          message: "Sous catégories chargées !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(60, 141, 188, 1),
+          ),
+        );
+        // ? create list of taxs
+        List subCategorieResponse = json.decode(this.response.body)['rows'];
+        List<SubCategory> subCategories = [
+          for (var subCategorie in subCategorieResponse)
+            subCategorie.fromJson(subCategorie),
+        ];
+        //print('List: $countries'); // ! debug
+        // ? return list of sous categories
+        return subCategories;
+      } else {
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des sous catégories",
+        );
+        return <SubCategory>[];
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return <SubCategory>[];
+    }
+  }
+
   // todo: get dashboard stats method
   Future<Map<String, int>> getDashboardStats() async {
     Map<String, int> dashboardDatas = {};
@@ -556,6 +656,69 @@ class Api {
       functions.errorSnackbar(
         context: context,
         message: "Echec d'enregistrement du client",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post article method
+  Future<Map<String, dynamic>> postArticle(
+    BuildContext context, {
+    String codeBarre = '',
+    String designation = '',
+    String fournisseur = '',
+    String categorie = '',
+    String subCategorie = '',
+    String stockMin = '',
+    String tva = '',
+    String prixAchatTTC = '',
+    String prixAchatHT = '',
+    String tauxMargeAchat = '',
+    String prixVenteTTC = '',
+    String prixVenteHT = '',
+    String tauxMargeVente = '',
+    String imageArticle = '',
+    bool stockable = true,
+  }) async {
+    this.url = this.routes['postClient'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'codeBarre': codeBarre,
+          'designation': designation,
+          'fournisseur': fournisseur,
+          'categorie': categorie,
+          'subCategorie': subCategorie,
+          'stockMin': stockMin,
+          'tva': tva,
+          'prixAchatTTC': prixAchatTTC,
+          'prixAchatHT': prixAchatHT,
+          'tauxMargeAchat': tauxMargeAchat,
+          'prixVenteTTC': prixVenteTTC,
+          'prixVenteHT': prixVenteHT,
+          'tauxMargeVente': tauxMargeVente,
+          'imageArticle': imageArticle,
+          'stockable': true,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de l'article",
       );
       return {'msg': 'Une erreur est survenue'};
     }

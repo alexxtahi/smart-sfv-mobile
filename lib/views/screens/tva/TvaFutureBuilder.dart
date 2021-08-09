@@ -94,14 +94,14 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
                                         return ListTile(
                                           enableFeedback: true,
                                           onTap: () {
-                                            print(
-                                                snapshot.data![index].libelle +
-                                                    ' on tap !');
+                                            print(snapshot.data![index].percent
+                                                    .toString() +
+                                                ' on tap !');
                                           },
                                           onLongPress: () {
-                                            print(
-                                                snapshot.data![index].libelle +
-                                                    ' long press !');
+                                            print(snapshot.data![index].percent
+                                                    .toString() +
+                                                ' long press !');
                                           },
                                           leading: CircleAvatar(
                                             radius: 20,
@@ -115,7 +115,8 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
                                             ),
                                           ),
                                           title: MyText(
-                                            text: snapshot.data![index].libelle,
+                                            text: snapshot.data![index].percent
+                                                .toString(),
                                             //fontWeight: FontWeight.bold,
                                           ),
                                           selectedTileColor: Color.fromRGBO(

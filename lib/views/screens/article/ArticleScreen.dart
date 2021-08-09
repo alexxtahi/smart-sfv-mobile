@@ -3,7 +3,7 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/Article.dart';
+import 'package:smartsfv/models/Category.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
@@ -104,29 +104,75 @@ class ArticleScreenState extends State<ArticleScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       //todo: Catégories DropDown
-                      MyComboBox(
-                        initialDropDownValue: 'Catégories',
-                        initialDropDownList: [
-                          'Catégories',
-                          for (var i = 1; i <= 10; i++) 'Catégorie $i',
-                        ],
-                        //textOverflow: TextOverflow.visible,
-                        prefixPadding: 10,
-                        prefixIcon: Image.asset(
-                          'assets/img/icons/category.png',
-                          fit: BoxFit.contain,
-                          width: 20,
-                          height: 20,
-                          color: Color.fromRGBO(231, 57, 0, 1),
-                        ),
-                        iconSize: 0,
-                        textFontSize: 10,
-                        textColor: Color.fromRGBO(231, 57, 0, 1),
-                        textFontWeight: FontWeight.bold,
-                        fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                        borderRadius: Radius.circular(15),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
+                      //todo: Pays DropDown
+                      FutureBuilder<List<Category>>(
+                        future: this.fetchCategories(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            // ? get nations datas from server
+                            return MyComboBox(
+                              initialDropDownValue: 'Catégories',
+                              initialDropDownList: [
+                                'Catégories',
+                                // ? datas integration
+                                for (var categorie in snapshot.data!)
+                                  categorie.libelle,
+                              ],
+                              iconSize: 0,
+                              textFontSize: 10,
+                              prefixPadding: 10,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/category.png',
+                                fit: BoxFit.contain,
+                                width: 20,
+                                height: 20,
+                                color: Color.fromRGBO(231, 57, 0, 1),
+                              ),
+                              textColor: Color.fromRGBO(231, 57, 0, 1),
+                              textFontWeight: FontWeight.bold,
+                              fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                              borderRadius: Radius.circular(15),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
+                          } else if (snapshot.hasError) {
+                            functions.errorSnackbar(
+                              context: context,
+                              message: 'Echec de récupération des catégories',
+                            );
+                            return MyText(
+                              text: snapshot.error.toString(),
+                              color: Color.fromRGBO(60, 141, 188, 0.5),
+                            );
+                          }
+                          // ? on wait the combo with data load empty combo
+                          return MyOutlinedButton(
+                            backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                            borderRadius: 15,
+                            borderColor: Colors.transparent,
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/img/icons/category.png',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.contain,
+                                  color: Color.fromRGBO(231, 57, 0, 1),
+                                ),
+                                SizedBox(width: 15),
+                                MyText(
+                                  text: 'Catégories',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(231, 57, 0, 1),
+                                  fontSize: 10,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                       //todo: Filtres Button
                       MyOutlinedButton(
@@ -305,5 +351,14 @@ class ArticleScreenState extends State<ArticleScreen> {
         ),
       ),
     );
+  }
+
+  Future<List<Category>> fetchCategories() async {
+    // init API instance
+    Api api = Api();
+    // call API method getCategories
+    Future<List<Category>> categories = api.getCategories(context);
+    // return results
+    return categories;
   }
 }

@@ -1,5 +1,6 @@
 class Fournisseur {
   // todo: Properties
+  int id;
   String code;
   String nom;
   String contact;
@@ -13,6 +14,7 @@ class Fournisseur {
   String compteContrib;
   // todo: Constructor
   Fournisseur({
+    this.id = 0,
     this.code = '',
     this.nom = '',
     this.contact = '',
@@ -29,6 +31,7 @@ class Fournisseur {
   // get data from json method
   factory Fournisseur.fromJson(Map<String, dynamic> json) {
     return Fournisseur(
+      id: json['id'] as int,
       code: json['code_fournisseur'].toString(),
       nom: json['full_name_fournisseur'].toString(),
       contact: json['contact_fournisseur'].toString(),

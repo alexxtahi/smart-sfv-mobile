@@ -284,10 +284,6 @@ class ClientScreenState extends State<ClientScreen> {
                             color: Color.fromRGBO(60, 141, 188, 1),
                             strokeWidth: 5,
                           ),
-                          /*Icon(
-                            Icons.refresh_rounded,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),*/
                         );
                         setState(() {});
                       },
