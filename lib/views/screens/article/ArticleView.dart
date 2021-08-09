@@ -115,6 +115,21 @@ class ArticleViewState extends State<ArticleView> {
                 final Map<String, dynamic> postClientResponse =
                     await api.postArticle(
                   context,
+                  codeBarre: codeBarre,
+                  designation: designation,
+                  fournisseur: fournisseur,
+                  categorie: categorie,
+                  subCategorie: subCategorie,
+                  stockMin: stockMin,
+                  tva: tva,
+                  prixAchatTTC: prixAchatTTC,
+                  prixAchatHT: prixAchatHT,
+                  tauxMargeAchat: tauxMargeAchat,
+                  prixVenteTTC: prixVenteTTC,
+                  prixVenteHT: prixVenteHT,
+                  tauxMargeVente: tauxMargeVente,
+                  imageArticle: imageArticle,
+                  stockable: stockable,
                 );
                 // ? check the server response
                 if (postClientResponse['msg'] ==
@@ -247,7 +262,7 @@ class ArticleViewState extends State<ArticleView> {
                             'Sélectionnez un fournisseur',
                             // ? datas integration
                             for (var fournisseur in snapshot.data!)
-                              fournisseur.nom,
+                              fournisseur.nom.toString(),
                           ],
                           prefixPadding: 10,
                           prefixIcon: Image.asset(

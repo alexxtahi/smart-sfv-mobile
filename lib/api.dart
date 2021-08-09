@@ -21,7 +21,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = '192.168.1.10:8000';
+  String host = '192.168.10.11:8000'; // local ip adress
   //String host = '127.0.0.1:8000';
   late Map<String, String> routes;
   //todo: Constructor
@@ -38,7 +38,8 @@ class Api {
       'getClients': 'http://${this.host}/api/auth/clients',
       'putClient': 'http://${this.host}/api/auth/client/update/',
       'deleteClient': 'http://${this.host}/api/auth/clients/delete/',
-      'getFournisseurs': 'http://${this.host}/api/auth/fournisseurs'
+      'getFournisseurs': 'http://${this.host}/api/auth/fournisseurs',
+      'postFournisseur': 'http://${this.host}/api/auth/fournisseur/store',
     };
   }
 
@@ -661,6 +662,40 @@ class Api {
     }
   }
 
+  // todo: post provider method
+  Future<Map<String, dynamic>> postFournisseur({
+    required BuildContext context,
+    required Fournisseur fournisseur,
+  }) async {
+    this.url = this.routes['postFournisseur'].toString(); // set client url
+    print('Post Fournisseur: ' + Fournisseur.toMap(fournisseur).toString());
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Fournisseur.toMap(fournisseur),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print('API ERROR: $error');
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement du client",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
   // todo: post article method
   Future<Map<String, dynamic>> postArticle(
     BuildContext context, {
@@ -680,7 +715,7 @@ class Api {
     String imageArticle = '',
     bool stockable = true,
   }) async {
-    this.url = this.routes['postClient'].toString(); // set client url
+    this.url = this.routes['postArticle'].toString(); // set client url
     try {
       this.response = await http.post(
         Uri.parse(this.url),

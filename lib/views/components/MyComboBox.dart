@@ -18,6 +18,7 @@ class MyComboBox extends StatefulWidget {
   final double prefixPadding;
   final Color focusBorderColor;
   final Color enableBorderColor;
+  final Color errorColor;
   final Radius borderRadius;
   final TextOverflow textOverflow;
   final String? errorText;
@@ -44,6 +45,7 @@ class MyComboBox extends StatefulWidget {
     this.prefixPadding = 10,
     this.focusBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
     this.enableBorderColor = const Color.fromRGBO(0, 0, 0, 0.5),
+    this.errorColor = Colors.red,
     this.borderRadius = Radius.zero,
     this.onTap,
     this.onChanged,
@@ -142,7 +144,7 @@ class MyComboBoxState extends State<MyComboBox> {
         errorText: widget.errorText,
         errorStyle: TextStyle(
           fontFamily: 'Montserrat',
-          color: Colors.red,
+          color: widget.errorColor,
           fontWeight: FontWeight.bold,
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -160,7 +162,7 @@ class MyComboBoxState extends State<MyComboBox> {
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.red,
+            color: widget.errorColor,
           ),
           borderRadius: BorderRadius.all(widget.borderRadius),
         ),

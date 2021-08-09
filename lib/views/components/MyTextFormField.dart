@@ -20,6 +20,7 @@ class MyTextFormField extends StatefulWidget {
   final String? errorText;
   final String? labelText;
   final Color labelTextColor;
+  final Color errorColor;
   final FocusNode? focusNode;
   final TextEditingController? textEditingController;
   final void Function()? onTap;
@@ -52,6 +53,7 @@ class MyTextFormField extends StatefulWidget {
     this.onSubmitted,
     this.labelText,
     this.labelTextColor = const Color.fromRGBO(0, 0, 0, 0.5),
+    this.errorColor = Colors.red,
   }) : super(key: key);
 
   @override
@@ -114,7 +116,7 @@ class MyTextFormFieldState extends State<MyTextFormField> {
         errorText: widget.errorText,
         errorStyle: TextStyle(
           fontFamily: 'Montserrat',
-          color: Colors.red,
+          color: widget.errorColor,
           fontWeight: FontWeight.bold,
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -132,7 +134,7 @@ class MyTextFormFieldState extends State<MyTextFormField> {
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.red,
+            color: widget.errorColor,
           ),
           borderRadius: BorderRadius.all(widget.borderRadius),
         ),

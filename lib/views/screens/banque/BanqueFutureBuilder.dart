@@ -166,7 +166,7 @@ class BanqueFutureBuilderState extends State<BanqueFutureBuilder> {
     );
   }
 
-  Future<List<Banque>>? fetchBanques() async {
+  Future<List<Banque>> fetchBanques() async {
     // init API instance
     Api api = Api();
     // call API method getBanques
