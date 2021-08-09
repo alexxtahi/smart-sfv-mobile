@@ -1,25 +1,26 @@
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/api.dart';
+import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/models/Tva.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class TvaFutureBuilder extends StatefulWidget {
-  TvaFutureBuilder({Key? key}) : super(key: key);
+class RegimeFutureBuilder extends StatefulWidget {
+  RegimeFutureBuilder({Key? key}) : super(key: key);
 
   @override
-  TvaFutureBuilderState createState() => TvaFutureBuilderState();
+  RegimeFutureBuilderState createState() => RegimeFutureBuilderState();
 }
 
-class TvaFutureBuilderState extends State<TvaFutureBuilder> {
+class RegimeFutureBuilderState extends State<RegimeFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   ScrollController listViewScrollController = new ScrollController();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Tva>>(
-      future: this.fetchTvas(),
+    return FutureBuilder<List<Regime>>(
+      future: this.fetchRegimes(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           // ? Check if the list of Tvas is empty or not
@@ -47,7 +48,7 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
                           Flexible(
                             child: MyText(
                               text:
-                                  "Vous n'avez pas encore ajouté de taxe. Remplissez le formulaire d'ajout pour en ajouter.",
+                                  "Vous n'avez pas encore ajouté de régime. Remplissez le formulaire d'ajout pour en ajouter.",
                               textAlign: TextAlign.center,
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(60, 141, 188, 0.5),
@@ -141,7 +142,7 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
         } else if (snapshot.hasError) {
           functions.errorSnackbar(
             context: context,
-            message: 'Echec de récupération des taxes',
+            message: 'Echec de récupération des régimes',
           );
           return MyText(
             text: snapshot.error.toString(),
@@ -157,7 +158,7 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
               LinearProgressIndicator(
                 color: Color.fromRGBO(60, 141, 188, 1),
                 backgroundColor: Colors.transparent,
-                semanticsLabel: 'Chargement des taxes',
+                semanticsLabel: 'Chargement des régimes',
               ),
             ],
           ),
@@ -166,12 +167,12 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
     );
   }
 
-  Future<List<Tva>>? fetchTvas() async {
+  Future<List<Regime>>? fetchRegimes() async {
     // init API instance
     Api api = Api();
     // call API method getTvas
-    Future<List<Tva>> tvas = api.getTvas(context);
+    Future<List<Regime>> regimes = api.getRegimes(context);
     // return results
-    return tvas;
+    return regimes;
   }
 }

@@ -213,10 +213,6 @@ class Api {
   // todo: get regimes method
   Future<List<Regime>> getRegimes(BuildContext context) async {
     this.url = this.routes['getRegimes'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get pays token: ' + User.token);
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -233,21 +229,21 @@ class Api {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
         // show success snack bar
-        /*functions.showMessageToSnackbar(
+        functions.showMessageToSnackbar(
           context: context,
-          message: "Pays chargés !",
+          message: "Régimes chargés !",
           icon: Icon(
             Icons.info_rounded,
             color: Color.fromRGBO(60, 141, 188, 1),
           ),
-        );*/
-        // ? create list of countries
+        );
+        // ? create list of régimes
         List regimeResponse = json.decode(this.response.body)['rows'];
         List<Regime> regimes = [
           for (var regime in regimeResponse) Regime.fromJson(regime),
         ];
-        //print('List: $countries'); // ! debug
-        // ? return list of countries
+        //print('List: $régimes'); // ! debug
+        // ? return list of régimes
         return regimes;
       } else {
         // If the server did not return a 200 OK response,

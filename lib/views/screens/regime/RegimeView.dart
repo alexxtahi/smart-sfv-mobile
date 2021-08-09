@@ -2,9 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
+import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/views/screens/regime/RegimeScreen.dart';
@@ -20,10 +23,10 @@ class RegimeViewState extends State<RegimeView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController regimeController = TextEditingController();
   bool isNewBankEmpty = false;
   @override
   Widget build(BuildContext context) {
-    List<double> screenSize = ScreenController.getScreenSize(context);
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -46,100 +49,91 @@ class RegimeViewState extends State<RegimeView> {
         elevation: 5,
         hoverElevation: 10,
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              scrollable: false,
-              content: Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                      //color: Colors.red,
-                      ),
-                  child: Column(
+          GlobalKey<FormState> formKey = GlobalKey<FormState>();
+          functions.showFormDialog(
+            context,
+            formKey,
+            headerIcon: 'assets/img/icons/regim.png',
+            title: 'Ajouter un régime',
+            onValidate: () async {
+              if (formKey.currentState!.validate()) {
+                // ? get fields datas
+                String libelle =
+                    regimeController.text; // get name  // ! required
+                // ? sending datas to API
+                Api api = Api();
+                final Map<String, dynamic> postRegimeResponse =
+                    await api.postRegime(
+                  context,
+                  libelle,
+                );
+                // ? check the server response
+                if (postRegimeResponse['msg'] ==
+                    'Enregistrement effectué avec succès.') {
+                  Navigator.of(context).pop();
+                  functions.successSnackbar(
+                    context: context,
+                    message: 'Nouveau régime ajoutée !',
+                  );
+                } else {
+                  functions.errorSnackbar(
+                    context: context,
+                    message: 'Un problème est survenu',
+                  );
+                }
+                // ? Refresh bank list
+                setState(() {});
+              }
+            },
+            formElements: [
+              //todo: Libelle Field
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //todo: Libelle label
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      //todo: Icon
-                      Image.asset(
-                        'assets/img/icons/regim.png',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.contain,
-                        color: Color.fromRGBO(60, 141, 188, 1),
+                      MyText(
+                        text: 'Libellé',
+                        color: Color.fromRGBO(0, 27, 121, 1),
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 20),
-                      //todo: Libellé TextField
-                      MyTextField(
-                        textEditingController: this.textEditingController,
-                        placeholder: 'Libellé du régime',
-                        textColor: Color.fromRGBO(60, 141, 188, 1),
-                        placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                        fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                        borderRadius: Radius.circular(10),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
-                        errorText: (this.isNewBankEmpty)
-                            ? 'Saisissez un régime avant de valider.'
-                            : null,
-                      ),
-                      SizedBox(height: 10),
-                      //todo: Save button
-                      MyOutlinedButton(
-                        text: 'Valider',
-                        textColor: Colors.white,
-                        backgroundColor: Color.fromRGBO(60, 141, 188, 1),
-                        borderColor: Colors.transparent,
-                        width: screenSize[0],
-                        onPressed: () {
-                          if (this.textEditingController.text.isNotEmpty) {
-                            setState(() {
-                              this.isNewBankEmpty = false;
-                            });
-                            Navigator.pop(context); // dismiss alertdialog
-                            this
-                                .textEditingController
-                                .clear(); // erase textfield content
-                            functions.successSnackbar(
-                              context: context,
-                              message: 'Nouveau régime ajouté !',
-                            );
-                          } else {
-                            print('Champ nouvelle banque vide !');
-                            functions.errorSnackbar(
-                              context: context,
-                              message: 'Saisissez un régime avant de valider.',
-                            );
-                            setState(() {
-                              this.isNewBankEmpty = true;
-                            });
-                            //todo: Start timer
-                            Timer(
-                              Duration(seconds: 5),
-                              () {
-                                setState(() {
-                                  this.isNewBankEmpty = false;
-                                });
-                              },
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      //todo: Cancel button
-                      MyOutlinedButton(
-                        text: 'Annuler',
-                        textColor: Color.fromRGBO(221, 75, 57, 1),
-                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
-                        borderColor: Colors.transparent,
-                        width: screenSize[0],
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                      CircleAvatar(
+                        radius: 5,
+                        backgroundColor: Color.fromRGBO(221, 75, 57, 1),
                       ),
                     ],
                   ),
-                ),
+                  SizedBox(height: 5),
+                  //todo: Libelle TextFormField
+                  MyTextFormField(
+                    textEditingController: regimeController,
+                    validator: (value) {
+                      return value!.isNotEmpty
+                          ? null
+                          : "Saisissez le libellé du régime";
+                    },
+                    prefixPadding: 10,
+                    prefixIcon: Image.asset(
+                      'assets/img/icons/regim.png',
+                      fit: BoxFit.contain,
+                      width: 15,
+                      height: 15,
+                      color: Color.fromRGBO(60, 141, 188, 1),
+                    ),
+                    placeholder: 'Libellé du régime',
+                    textColor: Color.fromRGBO(60, 141, 188, 1),
+                    placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                    fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                    borderRadius: Radius.circular(10),
+                    focusBorderColor: Colors.transparent,
+                    enableBorderColor: Colors.transparent,
+                  ),
+                ],
               ),
-            ),
-            barrierDismissible: true,
+              SizedBox(height: 10),
+            ],
           );
         },
         //backgroundColor: Colors.white,

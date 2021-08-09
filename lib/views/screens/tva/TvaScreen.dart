@@ -1,4 +1,3 @@
-import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
@@ -7,7 +6,6 @@ import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
-import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/tva/TvaFutureBuilder.dart';

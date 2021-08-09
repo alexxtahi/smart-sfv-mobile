@@ -1,4 +1,3 @@
-import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
@@ -8,6 +7,8 @@ import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/screens/regime/RegimeFutureBuilder.dart';
+import 'package:smartsfv/functions.dart' as functions;
 
 class RegimeScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -33,9 +34,6 @@ class RegimeScreenState extends State<RegimeScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    List<String> banklist = [
-      for (var i = 1; i <= 50; i++) 'Régime $i',
-    ];
     // Return building scaffold
     return AnimatedContainer(
       transform: Matrix4.translationValues(
@@ -93,7 +91,7 @@ class RegimeScreenState extends State<RegimeScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                //todo: Countries & Filters
+                //todo: Edit & Delete buttons
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),
                   child: GridView.count(
@@ -154,88 +152,51 @@ class RegimeScreenState extends State<RegimeScreen> {
                 SizedBox(height: 20),
                 //todo: List title
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      radius: 5,
-                      backgroundColor: Color.fromRGBO(60, 141, 188, 1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 5,
+                          backgroundColor: Color.fromRGBO(60, 141, 188, 1),
+                        ),
+                        SizedBox(width: 10),
+                        MyText(
+                          text: 'Liste des régimes',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color.fromRGBO(60, 141, 188, 1),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 10),
-                    MyText(
-                      text: 'Liste des régimes',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Color.fromRGBO(60, 141, 188, 1),
+                    //todo: Reload button
+                    IconButton(
+                      splashColor: Color.fromRGBO(60, 141, 188, 0.15),
+                      tooltip: 'Actualiser',
+                      onPressed: () {
+                        // show refresh message
+                        functions.showMessageToSnackbar(
+                          context: context,
+                          message: "Rechargement...",
+                          icon: CircularProgressIndicator(
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                            strokeWidth: 5,
+                          ),
+                        );
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.refresh_rounded,
+                        color: Color.fromRGBO(60, 141, 188, 1),
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
                 //todo: Scrolling View
-                Expanded(
-                  child: FadingEdgeScrollView.fromSingleChildScrollView(
-                    gradientFractionOnStart: 0.05,
-                    gradientFractionOnEnd: 0.2,
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          //todo: ListView
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ListView.separated(
-                                  controller: this.listViewScrollController,
-                                  shrinkWrap: true,
-                                  itemCount: banklist.length,
-                                  scrollDirection:
-                                      Axis.vertical, // direction of scrolling
-                                  separatorBuilder: (context, index) =>
-                                      SizedBox(width: 20.0),
-                                  itemBuilder: (context, index) {
-                                    // other cards
-                                    return ListTile(
-                                      enableFeedback: true,
-                                      onTap: () {
-                                        print(banklist[index] + ' on tap !');
-                                      },
-                                      onLongPress: () {
-                                        print(
-                                            banklist[index] + ' long press !');
-                                      },
-                                      leading: CircleAvatar(
-                                        radius: 20,
-                                        backgroundColor:
-                                            Color.fromRGBO(60, 141, 188, 0.15),
-                                        child: MyText(
-                                          text: (index + 1).toString(),
-                                          color:
-                                              Color.fromRGBO(60, 141, 188, 1),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      title: MyText(
-                                        text: banklist[index],
-                                        //fontWeight: FontWeight.bold,
-                                      ),
-                                      selectedTileColor:
-                                          Color.fromRGBO(60, 141, 188, 0.15),
-                                      focusColor:
-                                          Color.fromRGBO(60, 141, 188, 0.15),
-                                      hoverColor:
-                                          Color.fromRGBO(60, 141, 188, 0.15),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                RegimeFutureBuilder(),
+                //RegimeFutureBuilder(),
               ],
             ),
           ),
