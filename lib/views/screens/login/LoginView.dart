@@ -46,48 +46,64 @@ class LoginViewState extends State<LoginView> {
     // Return building scaffold
     return Stack(
       children: [
-        Scaffold(
-          backgroundColor: Color.fromRGBO(155, 155, 155, 1),
-          body: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              //todo: Background
-              BlurBackground(
-                index: 2,
-                imageChoice: 2,
-              ),
-              //todo: Title
-              Container(
-                width: screenSize[0],
-                height: screenSize[1],
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //todo: Title
-                    AppName(
-                      color: Colors.white,
-                    ),
-                    SizedBox(height: 20),
-                    //todo: Login Box
-                    loginBox,
-                  ],
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromRGBO(60, 141, 188, 1),
+                Color.fromRGBO(100, 27, 121, 1),
+              ],
+            ),
+          ),
+          child: Scaffold(
+            //backgroundColor: Color.fromRGBO(155, 155, 155, 1),
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                //todo: Background
+                BlurBackground(
+                  index: 2,
+                  imageChoice: 2,
                 ),
-              ),
-              //todo: Copyrights
-              Positioned(
-                bottom: 10,
-                child: Text(
-                  '© All rights reserved. Group Smarty',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    color: Color.fromRGBO(0, 0, 0, 0.5),
-                    //color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
+                //todo: Title
+                Container(
+                  width: screenSize[0],
+                  height: screenSize[1],
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.3),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //todo: Title
+                      AppName(
+                        color: Colors.white,
+                      ),
+                      SizedBox(height: 20),
+                      //todo: Login Box
+                      loginBox,
+                    ],
                   ),
                 ),
-              ),
-            ],
+                //todo: Copyrights
+                Positioned(
+                  bottom: 10,
+                  child: Text(
+                    '© All rights reserved. Group Smarty',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                      //color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         ForgottenPasswordLayout(

@@ -1,7 +1,8 @@
+import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class BlurBackground extends StatefulWidget {
   final double blurLevel;
@@ -19,41 +20,45 @@ class BlurBackground extends StatefulWidget {
 }
 
 class BlurBackgroundState extends State<BlurBackground> {
+  // Backgrounds list
+  List<AssetImage> bglist = [
+    AssetImage('assets/img/backgrounds/entrepot-blur.jpg'),
+    AssetImage('assets/img/backgrounds/storage-center-blur.jpg'),
+    AssetImage('assets/img/backgrounds/gestion-stock-blur.jpg'),
+  ];
   @override
   Widget build(BuildContext context) {
+    final random = Random();
     List<double> screenSize = ScreenController.getScreenSize(context);
     if (widget.index == 1) {
       // ? First Background
-      return Image.asset(
-        'assets/img/backgrounds/stock1.jpg',
+      return FadeInImage(
+        placeholder: MemoryImage(kTransparentImage),
+        image: AssetImage('assets/img/backgrounds/stock1.jpg'),
         width: screenSize[0],
         height: screenSize[1],
         fit: BoxFit.cover,
-        color: Colors.black.withOpacity(0.2),
-        colorBlendMode: BlendMode.darken,
+        //color: Colors.black.withOpacity(0.2),
+        //colorBlendMode: BlendMode.darken,
+        //),
       );
     } else {
       // ? Second Background
       return Container(
-        width: screenSize[0],
-        height: screenSize[1],
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: (widget.imageChoice == 1)
-                ? AssetImage('assets/img/backgrounds/gestion-stock.jpg')
-                : AssetImage('assets/img/backgrounds/storage-center.jpg'),
-            //: AssetImage('assets/img/backgrounds/storage-center.jpg'),
+          width: screenSize[0],
+          height: screenSize[1],
+          child: FadeInImage(
+            placeholder: MemoryImage(kTransparentImage),
+            //image: AssetImage('assets/img/backgrounds/storage-center-blur.jpg'),
+            //image: AssetImage('assets/img/backgrounds/entrepot-blur.jpg'),
+            image: this.bglist[random.nextInt(this.bglist.length)],
+            width: screenSize[0],
+            height: screenSize[1],
             fit: BoxFit.cover,
-          ),
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-              sigmaX: widget.blurLevel, sigmaY: widget.blurLevel),
-          child: Container(
-            color: Colors.black.withOpacity(0.3),
-          ),
-        ),
-      );
+            //color: Colors.black.withOpacity(0.2),
+            //colorBlendMode: BlendMode.darken,
+            //),
+          ));
     }
   }
 }

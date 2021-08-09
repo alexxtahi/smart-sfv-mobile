@@ -39,6 +39,7 @@ dependencies:
   expandable: ^5.0.1
   slide_drawer: ^1.0.3
   fading_edge_scrollview: ^2.0.0
+  transparent_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -72,8 +73,11 @@ flutter:
     # motion design
      - assets/img/backgrounds/stock1.jpg
      - assets/img/backgrounds/entrepot.jpg
+     - assets/img/backgrounds/entrepot-blur.jpg
      - assets/img/backgrounds/gestion-stock.jpg
+     - assets/img/backgrounds/gestion-stock-blur.jpg
      - assets/img/backgrounds/storage-center.jpg
+     - assets/img/backgrounds/storage-center-blur.jpg
     # icons
      - assets/img/icons/key.png
      - assets/img/icons/account.png
