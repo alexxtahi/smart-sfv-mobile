@@ -20,6 +20,7 @@ class BlurBackground extends StatefulWidget {
 }
 
 class BlurBackgroundState extends State<BlurBackground> {
+  int bgindex = Random().nextInt(3);
   // Backgrounds list
   List<AssetImage> bglist = [
     AssetImage('assets/img/backgrounds/entrepot-blur.jpg'),
@@ -28,7 +29,6 @@ class BlurBackgroundState extends State<BlurBackground> {
   ];
   @override
   Widget build(BuildContext context) {
-    final random = Random();
     List<double> screenSize = ScreenController.getScreenSize(context);
     if (widget.index == 1) {
       // ? First Background
@@ -51,7 +51,7 @@ class BlurBackgroundState extends State<BlurBackground> {
             placeholder: MemoryImage(kTransparentImage),
             //image: AssetImage('assets/img/backgrounds/storage-center-blur.jpg'),
             //image: AssetImage('assets/img/backgrounds/entrepot-blur.jpg'),
-            image: this.bglist[random.nextInt(this.bglist.length)],
+            image: this.bglist[this.bgindex],
             width: screenSize[0],
             height: screenSize[1],
             fit: BoxFit.cover,

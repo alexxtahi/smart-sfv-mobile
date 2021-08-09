@@ -38,7 +38,7 @@ class TvaViewState extends State<TvaView> {
       body: Stack(
         children: [
           //todo: Drawer Screen
-          DrawerLayout(),
+          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           TvaScreen(panelController: panelController),
           //todo: Profile Layout

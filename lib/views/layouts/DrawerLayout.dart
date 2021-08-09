@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/screens/login/LoginView.dart';
@@ -9,9 +10,8 @@ import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/layouts/DrawerTileLayout.dart';
 
 class DrawerLayout extends StatefulWidget {
-  DrawerLayout({
-    Key? key,
-  }) : super(key: key);
+  final SlidingUpPanelController panelController;
+  DrawerLayout({Key? key, required this.panelController}) : super(key: key);
   @override
   DrawerLayoutState createState() => DrawerLayoutState();
 }
@@ -49,7 +49,8 @@ class DrawerLayoutState extends State<DrawerLayout> {
                       child: Column(
                         children: [
                           //todo: Drawer Header
-                          MyDrawerHeader(),
+                          MyDrawerHeader(
+                              panelController: widget.panelController),
                           SizedBox(height: 30),
                           //todo: Drawer Tiles
                           DrawerTileLayout(),

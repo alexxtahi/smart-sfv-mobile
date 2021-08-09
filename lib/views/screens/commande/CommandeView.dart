@@ -69,7 +69,7 @@ class CommandeViewState extends State<CommandeView> {
       body: Stack(
         children: [
           //todo: Drawer Screen
-          DrawerLayout(),
+          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           CommandeScreen(panelController: panelController),
           //todo: Profile Layout

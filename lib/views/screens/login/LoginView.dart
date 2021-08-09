@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smartsfv/views/components/BlurBackground.dart';
-import 'package:smartsfv/views/components/LoginBox.dart';
-import '../../../controllers/ScreenController.dart';
-import '../../components/AppName.dart';
-import '../../layouts/ForgottenPasswordLayout.dart';
+import 'package:smartsfv/views/screens/login/LoginBox.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/views/components/AppName.dart';
+import 'package:smartsfv/views/layouts/ForgottenPasswordLayout.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatefulWidget {
@@ -53,7 +53,8 @@ class LoginViewState extends State<LoginView> {
               end: Alignment.bottomRight,
               colors: [
                 Color.fromRGBO(60, 141, 188, 1),
-                Color.fromRGBO(100, 27, 121, 1),
+                //Color.fromRGBO(100, 27, 121, 1),
+                Colors.white,
               ],
             ),
           ),

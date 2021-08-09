@@ -851,7 +851,7 @@ class ArticleViewState extends State<ArticleView> {
       body: Stack(
         children: [
           //todo: Drawer Screen
-          DrawerLayout(),
+          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           ArticleScreen(panelController: panelController),
           //todo: Profile Layout

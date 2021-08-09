@@ -109,7 +109,7 @@ class CaisseViewState extends State<CaisseView> {
       body: Stack(
         children: [
           //todo: Drawer Screen
-          DrawerLayout(),
+          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           CaisseScreen(panelController: panelController),
           //todo: Profile Layout

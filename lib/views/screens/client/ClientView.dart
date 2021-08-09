@@ -604,7 +604,7 @@ class ClientViewState extends State<ClientView> {
       body: Stack(
         children: [
           //todo: Drawer Screen
-          DrawerLayout(),
+          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           ClientScreen(panelController: panelController),
           //todo: Profile Layout

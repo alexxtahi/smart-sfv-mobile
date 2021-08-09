@@ -1,28 +1,24 @@
 class User {
   // todo: Properties
-  String login;
-  //String password;
-  String name;
-  String role;
+  static String login = '';
+  static String password = '';
+  static String name = '';
+  static String role = '';
+  static String email = '';
+  static String contact = '';
+  static int id = 0;
+  static int code = 0;
   static String token = '';
-  // todo: Constructor
-  User({
-    required this.login,
-    //required this.token,
-    //required this.password,
-    this.name = '',
-    this.role = '',
-  });
   // todo: Methods
-  // get data from json method
-  factory User.fromJson(Map<String, dynamic> json) {
-    print("token: " + json['access_token']);
-    return User(
-      login: json['login'] as String,
-      //password: json['password'] as String,
-      name: json['full_name'] as String,
-      role: json['role'] as String,
-      //token: json['access_token'] as String,
-    );
+  static void create(Map<String, dynamic> json) {
+    //User.login = json['login'];
+    //User.password = json['password'];
+    User.name = json['full_name'];
+    User.role = json['role'];
+    User.email = json['email'];
+    User.contact = json['contact'];
+    User.id = json['id'];
+    User.code = json['code'];
+    User.token = json['access_token'];
   }
 }

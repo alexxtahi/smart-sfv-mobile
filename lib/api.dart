@@ -555,7 +555,7 @@ class Api {
   // todo: verify login method
   Future<Map<String, dynamic>> verifyLogin(
       BuildContext context, String login, String password,
-      {String remember = 'false'}) async {
+      {bool remember = false}) async {
     this.url = this.routes['login'].toString(); // set login url
     try {
       this.response = await http.post(
@@ -568,13 +568,13 @@ class Api {
         body: {
           'login': login,
           'password': password,
-          'remember': remember,
+          'remember': remember.toString(),
         },
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
-      //print("Réponse du server: $responseJson");
-      //print(responseJson.runtimeType);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
       // ? Login success
       if (responseJson['access_token'] != null) {
         // create new user instance and save his token
@@ -582,7 +582,8 @@ class Api {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', responseJson['access_token']);
         String? token = prefs.getString('access_token');*/
-        User.token = responseJson['access_token'];
+        // ? set user informations
+        User.create(responseJson);
         print('get token: ' + User.token);
         // show success messag
         functions.successSnackbar(

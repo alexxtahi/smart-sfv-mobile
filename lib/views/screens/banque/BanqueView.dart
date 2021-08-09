@@ -158,7 +158,7 @@ class BanqueViewState extends State<BanqueView> {
       body: Stack(
         children: [
           //todo: Drawer Screen
-          DrawerLayout(),
+          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           BanqueScreen(panelController: panelController),
           //todo: Profile Layout

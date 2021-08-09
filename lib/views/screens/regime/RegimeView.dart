@@ -162,7 +162,7 @@ class RegimeViewState extends State<RegimeView> {
       body: Stack(
         children: [
           //todo: Drawer Screen
-          DrawerLayout(),
+          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           RegimeScreen(panelController: panelController),
           //todo: Profile Layout

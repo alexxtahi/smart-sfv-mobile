@@ -36,7 +36,7 @@ class HomeViewState extends State<HomeView> {
       body: Stack(
         children: [
           //todo: Drawer Screen
-          DrawerLayout(),
+          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           DashboardScreen(panelController: panelController),
           //todo: Profile Layout
