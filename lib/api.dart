@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
+import 'package:smartsfv/models/Banque.dart';
 import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/Pays.dart';
@@ -18,6 +19,7 @@ class Api {
   bool requestSuccess = false;
   String url = '';
   String host = '192.168.1.10:8000';
+  //String host = '127.0.0.1:8000';
   late Map<String, String> routes;
   //todo: Constructor
   Api() {
@@ -264,13 +266,62 @@ class Api {
     }
   }
 
+  // todo: get banques method
+  Future<List<Banque>> getBanques(BuildContext context) async {
+    this.url = this.routes['getBanques'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // show success snack bar
+        functions.showMessageToSnackbar(
+          context: context,
+          message: "Banques chargées !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(60, 141, 188, 1),
+          ),
+        );
+        // ? create list of countries
+        List banqueResponse = json.decode(this.response.body)['rows'];
+        List<Banque> banques = [
+          for (var banque in banqueResponse) Banque.fromJson(banque),
+        ];
+        //print('List: $countries'); // ! debug
+        // ? return list of countries
+        return banques;
+      } else {
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des banques",
+        );
+        return <Banque>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return <Banque>[];
+    }
+  }
+
   // todo: get dashboard stats method
   Future<Map<String, int>> getDashboardStats() async {
     Map<String, int> dashboardDatas = {};
     List<String> dashboardCards = [
       'getClients',
       'getArticles',
-      'getFournisseurs'
+      'getFournisseurs',
     ];
     try {
       // ? getting dashboard datas from url
@@ -412,7 +463,7 @@ class Api {
     }
   }
 
-  // todo: verify login method
+  // todo: post client method
   Future<Map<String, dynamic>> postClient(
     BuildContext context,
     String name,
@@ -460,6 +511,536 @@ class Api {
       functions.errorSnackbar(
         context: context,
         message: "Echec d'enregistrement du client",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post bank method
+  Future<Map<String, dynamic>> postBank(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postBank'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_banque': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de la banque",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post regime method
+  Future<Map<String, dynamic>> postRegime(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postRegime'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_regime': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement du regime",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post TVA method
+  Future<Map<String, dynamic>> postTva(
+    BuildContext context,
+    int tva,
+  ) async {
+    this.url = this.routes['postTva'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'montant_tva': tva,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de la banque",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post caisse method
+  Future<Map<String, dynamic>> postCaisse(
+    BuildContext context,
+    String libelle,
+    int depot,
+  ) async {
+    this.url = this.routes['postCaisse'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_caisse': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de la caisse",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post pays method
+  Future<Map<String, dynamic>> postPays(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postPays'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_nation': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement du pays",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post catégories method
+  Future<Map<String, dynamic>> postCategory(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postCategory'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_categorie': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de la catégorie",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post sous catégorie method
+  Future<Map<String, dynamic>> postSubCategory(
+    BuildContext context,
+    String libelle,
+    int categorie,
+  ) async {
+    this.url = this.routes['postSubCategory'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_sous_categorie': libelle,
+          'categorie_id': categorie,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de la sous catégorie",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post moyen payement method
+  Future<Map<String, dynamic>> postMoyenPayement(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postMoyenPayement'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_moyen_payement': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement du moyen de payement",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post rayon method
+  Future<Map<String, dynamic>> postRayon(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postRayon'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_rayon': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement du rayon",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post rangee method
+  Future<Map<String, dynamic>> postRangee(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postRangee'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_rangee': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de la rangée",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post casier method
+  Future<Map<String, dynamic>> postCasier(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postCasier'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_casier': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement du casier",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post unité method
+  Future<Map<String, dynamic>> postUnite(
+    BuildContext context,
+    String libelle,
+    int quantite,
+  ) async {
+    this.url = this.routes['postUnite'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_unite': libelle,
+          'quantite_lot': quantite,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de l'unité",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post taille method
+  Future<Map<String, dynamic>> postTaille(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postTaille'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_taille': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de la taille",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post divers method
+  Future<Map<String, dynamic>> postDivers(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postDivers'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_divers': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement du divers",
+      );
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: post catégorie dépense method
+  Future<Map<String, dynamic>> postCategoryDepense(
+    BuildContext context,
+    String libelle,
+  ) async {
+    this.url = this.routes['postCategoryDepense'].toString(); // set client url
+    try {
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {
+          'libelle_categorie_depense': libelle,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec d'enregistrement de la catégorie dépense",
       );
       return {'msg': 'Une erreur est survenue'};
     }

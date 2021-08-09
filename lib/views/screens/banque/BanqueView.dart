@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
@@ -21,6 +22,7 @@ class BanqueViewState extends State<BanqueView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController bankController = TextEditingController();
   bool isNewBankEmpty = false;
   @override
   Widget build(BuildContext context) {
@@ -47,100 +49,42 @@ class BanqueViewState extends State<BanqueView> {
         elevation: 5,
         hoverElevation: 10,
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              scrollable: false,
-              content: Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                      //color: Colors.red,
-                      ),
-                  child: Column(
-                    children: [
-                      //todo: Icon
-                      Image.asset(
-                        'assets/img/icons/bank-building.png',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.contain,
-                        color: Color.fromRGBO(60, 141, 188, 1),
-                      ),
-                      SizedBox(height: 20),
-                      //todo: Libellé TextField
-                      MyTextField(
-                        textEditingController: this.textEditingController,
-                        placeholder: 'Nom de la banque',
-                        textColor: Color.fromRGBO(60, 141, 188, 1),
-                        placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                        fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                        borderRadius: Radius.circular(10),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
-                        errorText: (this.isNewBankEmpty)
-                            ? 'Saisissez un nom avant de valider.'
-                            : null,
-                      ),
-                      SizedBox(height: 10),
-                      //todo: Save button
-                      MyOutlinedButton(
-                        text: 'Valider',
-                        textColor: Colors.white,
-                        backgroundColor: Color.fromRGBO(60, 141, 188, 1),
-                        borderColor: Colors.transparent,
-                        width: screenSize[0],
-                        onPressed: () {
-                          if (this.textEditingController.text.isNotEmpty) {
-                            setState(() {
-                              this.isNewBankEmpty = false;
-                            });
-                            Navigator.pop(context); // dismiss alertdialog
-                            this
-                                .textEditingController
-                                .clear(); // erase textfield content
-                            functions.successSnackbar(
-                              context: context,
-                              message: 'Banque ajoutée avec succès !',
-                            );
-                          } else {
-                            print('Champ nouvelle banque vide !');
-                            functions.errorSnackbar(
-                              context: context,
-                              message: 'Saisissez un nom avant de valider.',
-                            );
-                            setState(() {
-                              this.isNewBankEmpty = true;
-                            });
-                            //todo: Start timer
-                            Timer(
-                              Duration(seconds: 5),
-                              () {
-                                setState(() {
-                                  this.isNewBankEmpty = false;
-                                });
-                              },
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      //todo: Cancel button
-                      MyOutlinedButton(
-                        text: 'Annuler',
-                        textColor: Color.fromRGBO(221, 75, 57, 1),
-                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
-                        borderColor: Colors.transparent,
-                        width: screenSize[0],
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            barrierDismissible: true,
+          GlobalKey<FormState> formKey = GlobalKey<FormState>();
+          functions.showFormDialog(
+            context,
+            formKey,
+            headerIcon: 'assets/img/icons/bank-building.png',
+            title: 'Ajouter une banque',
+            onValidate: () async {
+              if (formKey.currentState!.validate()) {
+                // ? get fields datas
+                String name = bankController.text; // get name  // ! required
+                // ? sending datas to API
+                Api api = Api();
+                final Map<String, dynamic> postClientResponse =
+                    await api.postBank(
+                  context,
+                  name,
+                );
+                // ? check the server response
+                if (postClientResponse['msg'] ==
+                    'Enregistrement effectué avec succès.') {
+                  Navigator.of(context).pop();
+                  functions.successSnackbar(
+                    context: context,
+                    message: 'Nouvelle banque ajoutée !',
+                  );
+                } else {
+                  functions.errorSnackbar(
+                    context: context,
+                    message: 'Un problème est survenu',
+                  );
+                }
+                // ? Refresh bank list
+                setState(() {});
+              }
+            },
+            formElements: [],
           );
         },
         //backgroundColor: Colors.white,
