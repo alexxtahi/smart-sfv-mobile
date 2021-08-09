@@ -9,6 +9,8 @@ import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/components/MyTextFormField.dart';
+import 'package:smartsfv/views/screens/tva/TvaFutureBuilder.dart';
 
 class TvaScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -21,6 +23,7 @@ class TvaScreenState extends State<TvaScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -34,9 +37,6 @@ class TvaScreenState extends State<TvaScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    List<String> banklist = [
-      for (var i = 1; i <= 50; i++) '$i%',
-    ];
     // Return building scaffold
     return AnimatedContainer(
       transform: Matrix4.translationValues(
@@ -63,52 +63,58 @@ class TvaScreenState extends State<TvaScreen> {
                 ),
                 SizedBox(height: 20),
                 //todo: Add tax TextField
-                MyTextField(
-                  focusNode: FocusNode(),
-                  textEditingController: this.textEditingController,
-                  borderRadius: Radius.circular(20),
-                  placeholder: 'Ajouter une taxe',
-                  textColor: Color.fromRGBO(60, 141, 188, 1),
-                  placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                  cursorColor: Colors.black,
-                  enableBorderColor: Colors.transparent,
-                  focusBorderColor: Colors.transparent,
-                  fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                  onSubmitted: (text) {
-                    // dismiss keyboard
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  },
-                  suffixIcon: MyOutlinedIconButton(
-                    onPressed: () {
+                Form(
+                  key: formKey,
+                  child: MyTextFormField(
+                    focusNode: FocusNode(),
+                    textEditingController: this.textEditingController,
+                    borderRadius: Radius.circular(20),
+                    placeholder: 'Ajouter une taxe',
+                    textColor: Color.fromRGBO(60, 141, 188, 1),
+                    placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                    cursorColor: Colors.black,
+                    enableBorderColor: Colors.transparent,
+                    focusBorderColor: Colors.transparent,
+                    fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                    validator: (value) {
+                      return value!.isNotEmpty
+                          ? null
+                          : "Veuillez saisir un pourcentage";
+                    },
+                    onSubmitted: (text) {
                       // dismiss keyboard
                       FocusScope.of(context).requestFocus(FocusNode());
-                      if (this.textEditingController.text.isNotEmpty) {
-                        setState(() {
-                          banklist.add(this.textEditingController.text);
-                        });
-                        functions.successSnackbar(
-                          context: context,
-                          message: 'Nouvelle taxe ajoutée !',
-                        );
-                      } else {
-                        functions.errorSnackbar(
-                          context: context,
-                          message: 'Veuillez saisir un pourcentage',
-                        );
-                      }
                     },
-                    backgroundColor: Colors.white,
-                    borderColor: Colors.transparent,
-                    borderRadius: 15,
-                    icon: Icon(
-                      Icons.check,
-                      color: Color.fromRGBO(60, 141, 188, 1),
-                      size: 40,
+                    suffixIcon: MyOutlinedIconButton(
+                      onPressed: () {
+                        // dismiss keyboard
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        // ? Add new tax when validator is ok
+                        if (formKey.currentState!.validate()) {
+                          functions.successSnackbar(
+                            context: context,
+                            message: 'Nouvelle taxe ajoutée !',
+                          );
+                        } else {
+                          functions.errorSnackbar(
+                            context: context,
+                            message: 'Veuillez saisir un pourcentage',
+                          );
+                        }
+                      },
+                      backgroundColor: Colors.white,
+                      borderColor: Colors.transparent,
+                      borderRadius: 15,
+                      icon: Icon(
+                        Icons.check,
+                        color: Color.fromRGBO(60, 141, 188, 1),
+                        size: 40,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(height: 10),
-                //todo: Countries & Filters
+                //todo: Edit & Delete buttons
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),
                   child: GridView.count(
@@ -169,88 +175,50 @@ class TvaScreenState extends State<TvaScreen> {
                 SizedBox(height: 20),
                 //todo: List title
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      radius: 5,
-                      backgroundColor: Color.fromRGBO(60, 141, 188, 1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 5,
+                          backgroundColor: Color.fromRGBO(60, 141, 188, 1),
+                        ),
+                        SizedBox(width: 10),
+                        MyText(
+                          text: 'Liste des taxes',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color.fromRGBO(60, 141, 188, 1),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 10),
-                    MyText(
-                      text: 'Liste des taxes',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Color.fromRGBO(60, 141, 188, 1),
+                    //todo: Reload button
+                    IconButton(
+                      splashColor: Color.fromRGBO(60, 141, 188, 0.15),
+                      tooltip: 'Actualiser',
+                      onPressed: () {
+                        // show refresh message
+                        functions.showMessageToSnackbar(
+                          context: context,
+                          message: "Rechargement...",
+                          icon: CircularProgressIndicator(
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                            strokeWidth: 5,
+                          ),
+                        );
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.refresh_rounded,
+                        color: Color.fromRGBO(60, 141, 188, 1),
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
                 //todo: Scrolling View
-                Expanded(
-                  child: FadingEdgeScrollView.fromSingleChildScrollView(
-                    gradientFractionOnStart: 0.05,
-                    gradientFractionOnEnd: 0.2,
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          //todo: ListView
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ListView.separated(
-                                  controller: this.listViewScrollController,
-                                  shrinkWrap: true,
-                                  itemCount: banklist.length,
-                                  scrollDirection:
-                                      Axis.vertical, // direction of scrolling
-                                  separatorBuilder: (context, index) =>
-                                      SizedBox(width: 20.0),
-                                  itemBuilder: (context, index) {
-                                    // other cards
-                                    return ListTile(
-                                      enableFeedback: true,
-                                      onTap: () {
-                                        print(banklist[index] + ' on tap !');
-                                      },
-                                      onLongPress: () {
-                                        print(
-                                            banklist[index] + ' long press !');
-                                      },
-                                      leading: CircleAvatar(
-                                        radius: 20,
-                                        backgroundColor:
-                                            Color.fromRGBO(60, 141, 188, 0.15),
-                                        child: MyText(
-                                          text: (index + 1).toString(),
-                                          color:
-                                              Color.fromRGBO(60, 141, 188, 1),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      title: MyText(
-                                        text: banklist[index],
-                                        //fontWeight: FontWeight.bold,
-                                      ),
-                                      selectedTileColor:
-                                          Color.fromRGBO(60, 141, 188, 0.15),
-                                      focusColor:
-                                          Color.fromRGBO(60, 141, 188, 0.15),
-                                      hoverColor:
-                                          Color.fromRGBO(60, 141, 188, 0.15),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                TvaFutureBuilder(),
               ],
             ),
           ),

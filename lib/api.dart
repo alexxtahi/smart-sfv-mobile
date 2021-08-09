@@ -11,6 +11,7 @@ import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
+import 'package:smartsfv/models/Tva.dart';
 import 'package:smartsfv/models/User.dart';
 
 class Api {
@@ -312,6 +313,54 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       return <Banque>[];
+    }
+  }
+
+  // todo: get taxes method
+  Future<List<Tva>> getTvas(BuildContext context) async {
+    this.url = this.routes['getTvas'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // show success snack bar
+        functions.showMessageToSnackbar(
+          context: context,
+          message: "Taxes chargées !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(60, 141, 188, 1),
+          ),
+        );
+        // ? create list of taxs
+        List tvaResponse = json.decode(this.response.body)['rows'];
+        List<Tva> tvas = [
+          for (var tva in tvaResponse) Tva.fromJson(tva),
+        ];
+        //print('List: $countries'); // ! debug
+        // ? return list of taxs
+        return tvas;
+      } else {
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des taxes",
+        );
+        return <Tva>[];
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return <Tva>[];
     }
   }
 
