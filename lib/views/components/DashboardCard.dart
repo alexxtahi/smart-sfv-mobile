@@ -34,6 +34,20 @@ class DashboardCard extends StatefulWidget {
 
 class DashboardCardState extends State<DashboardCard> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  // TODO: implement mounted
+  bool get mounted => super.mounted;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
     return DelayedDisplay(
@@ -93,7 +107,7 @@ class DashboardCardState extends State<DashboardCard> {
                       //todo: Value
                       FutureBuilder<Map<String, int>>(
                         future: this.getDashboardDatas(),
-                        builder: (context, snapshot) {
+                        builder: (cardContext, snapshot) {
                           if (snapshot.hasData) {
                             // ? Check if the list of clients is empty or not
                             return (snapshot.data![widget.cardName] == null)

@@ -55,18 +55,17 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     headerTextSize: 16,
                     headerTextWeight: FontWeight.bold,
                     onPressed: () {
-                      if (ScreenController.actualView == "HomeView") {
+                      /*if (ScreenController.actualView == "HomeView") {
                         setState(() {
-                        DrawerLayoutController.close();
-                      });
-                      } else {
+                          DrawerLayoutController.close();
+                        });
+                      } else {*/
                       functions.openPage(
                         context,
                         HomeView(),
                         mode: 'pushReplacement',
                       );
-                      
-                    }
+                      //}
                     },
                   ),
                   //todo: Paramètres

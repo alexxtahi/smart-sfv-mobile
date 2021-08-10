@@ -2,6 +2,7 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/layouts/DashboardGridViewLayout.dart';
@@ -18,6 +19,12 @@ class DashboardScreen extends StatefulWidget {
 class DashboardScreenState extends State<DashboardScreen> {
   ScrollController scrollController = new ScrollController();
   ScrollController gridViewScrollController = new ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -89,6 +96,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                     //todo Button
                                     InkWell(
                                       onTap: () {
+                                        ScreenController.reloadDashboard = true;
                                         // ? Show reloading message
                                         functions.showMessageToSnackbar(
                                           context: context,

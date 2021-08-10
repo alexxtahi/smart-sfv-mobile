@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
 Future<void> showFormDialog(
@@ -174,6 +175,7 @@ void showMessageToSnackbar({
 }
 
 void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
+  String oldView = ScreenController.actualView;
   switch (mode) {
     case 'pushReplacement':
       Navigator.pushReplacement(
@@ -188,5 +190,8 @@ void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
       );
       break;
     default:
+      String newView = ScreenController.actualView;
+
+      print('Old View: $oldView & NewView: $newView');
   }
 }

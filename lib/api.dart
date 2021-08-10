@@ -101,7 +101,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print('API ERROR: $error');
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Articles Model Error $error');
       return <Article>[];
     }
   }
@@ -280,7 +281,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Regime Model Error -> $error');
       return <Regime>[];
     }
   }
@@ -332,7 +334,7 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++) ('API ERROR: Banque Model Error -> $error');
       return <Banque>[];
     }
   }
@@ -383,7 +385,8 @@ class Api {
         return <Tva>[];
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Tva Model Error -> $error');
       return <Tva>[];
     }
   }
@@ -435,7 +438,8 @@ class Api {
         return <Category>[];
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Category Model Error -> $error');
       return <Category>[];
     }
   }
@@ -487,7 +491,8 @@ class Api {
         return <SubCategory>[];
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: SubCategory Model Error -> $error');
       return <SubCategory>[];
     }
   }
@@ -506,15 +511,18 @@ class Api {
       dashboardDatas['getArticles'] = articles.length;
       dashboardDatas['getFournisseurs'] = fournisseurs.length;
       // ? Show success snack bar
-      if (ScreenController.actualView == "HomeView")
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Tableau de bord actualisé !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(60, 141, 188, 1),
-          ),
-        );
+      if (ScreenController.reloadDashboard) {
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Tableau de bord actualisé !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        ScreenController.reloadDashboard = false;
+      }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
         print('API ERROR: Dashboard Error -> $error');
@@ -606,7 +614,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Fournisseur Model Error -> $error');
       return <Fournisseur>[];
     }
   }
@@ -649,7 +658,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get User Infos Error -> $error');
       return {'msg': 'no data'};
     }
   }
@@ -702,7 +712,16 @@ class Api {
           context: context,
           message: responseJson['message'],
         );
-
+        // ? Show loading message
+        functions.showMessageToSnackbar(
+          context: context,
+          message: "Chargement du tableau de bord...",
+          icon: CircularProgressIndicator(
+            color: Color.fromRGBO(60, 141, 188, 1),
+            backgroundColor: Colors.white.withOpacity(0.1),
+            strokeWidth: 5,
+          ),
+        );
         return responseJson; // return to know login state
         // ? Login failed
       } else {
@@ -713,7 +732,7 @@ class Api {
         return responseJson; // return to know lodin state
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++) print('API ERROR: Login Error -> $error');
       functions.errorSnackbar(
         context: context,
         message: "Echec d'envoi des identifiants",
@@ -766,7 +785,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print('API ERROR: $error');
+      for (var i = 1; i <= 5; i++) print('API ERROR: Post Client Model $error');
       // ? Show error snack bar
       if (ScreenController.actualView == "ClientView")
         functions.errorSnackbar(
@@ -802,7 +821,8 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print('API ERROR: $error');
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Post Fournisseur Model Error -> $error');
       // ? Show error snack bar
       if (ScreenController.actualView == "ProviderView")
         functions.errorSnackbar(
@@ -867,7 +887,8 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print('API ERROR: $error');
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Post Article Error -> $error');
       // ? Show error snack bar
       if (ScreenController.actualView == "ArticleView")
         functions.errorSnackbar(
