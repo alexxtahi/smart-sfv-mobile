@@ -5,6 +5,7 @@ import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:transparent_image/transparent_image.dart';
 
 class ClientFutureBuilder extends StatefulWidget {
   ClientFutureBuilder({Key? key}) : super(key: key);
@@ -83,7 +84,7 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
                                     scrollDirection: Axis.horizontal,
                                     child: MyDataTable(
                                       columns: [
-                                        'N',
+                                        'Nº',
                                         'Code',
                                         'Nom du client',
                                         'Contact',

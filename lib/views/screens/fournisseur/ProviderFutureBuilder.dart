@@ -1,7 +1,6 @@
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/api.dart';
-import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyText.dart';
@@ -84,6 +83,7 @@ class ProviderFutureBuilderState extends State<ProviderFutureBuilder> {
                                     scrollDirection: Axis.horizontal,
                                     child: MyDataTable(
                                       columns: [
+                                        'Nº',
                                         'Code',
                                         'Nom du fournisseur',
                                         'Contact',
@@ -99,6 +99,10 @@ class ProviderFutureBuilderState extends State<ProviderFutureBuilder> {
                                       rows: [
                                         for (var fournisseur in snapshot.data!)
                                           [
+                                            (snapshot.data!
+                                                        .indexOf(fournisseur) +
+                                                    1)
+                                                .toString(),
                                             fournisseur.code.toString(),
                                             fournisseur.nom.toString(),
                                             fournisseur.contact.toString(),

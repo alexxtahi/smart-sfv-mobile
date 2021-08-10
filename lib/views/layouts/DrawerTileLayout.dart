@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/screens/article/ArticleView.dart';
 import 'package:smartsfv/views/screens/banque/BanqueView.dart';
 import 'package:smartsfv/views/screens/caisse/CaisseView.dart';
@@ -54,14 +55,18 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     headerTextSize: 16,
                     headerTextWeight: FontWeight.bold,
                     onPressed: () {
+                      if (ScreenController.actualView == "HomeView") {
+                        setState(() {
+                        DrawerLayoutController.close();
+                      });
+                      } else {
                       functions.openPage(
                         context,
                         HomeView(),
                         mode: 'pushReplacement',
                       );
-                      setState(() {
-                        DrawerLayoutController.close();
-                      });
+                      
+                    }
                     },
                   ),
                   //todo: Paramètres
@@ -90,7 +95,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                         'icon': 'assets/img/icons/provider.png',
                         'headerText': 'Fournisseur',
                         'onPressed': () {
-                          print('Dashboard card Client appuyé !');
+                          print('Dashboard card Fournisseur appuyé !');
                           functions.openPage(
                             context,
                             ProviderView(),
@@ -120,7 +125,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                         'icon': 'assets/img/icons/tax.png',
                         'headerText': 'TVA',
                         'onPressed': () {
-                          print('Dashboard card Client appuyé !');
+                          print('Dashboard card TVA appuyé !');
                           functions.openPage(
                             context,
                             TvaView(),

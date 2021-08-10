@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
+import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/layouts/DashboardGridViewLayout.dart';
 import 'package:smartsfv/views/layouts/ExpansionTable.dart';
+import 'package:smartsfv/functions.dart' as functions;
 
 class DashboardScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -70,7 +72,57 @@ class DashboardScreenState extends State<DashboardScreen> {
                                     this.gridViewScrollController,
                                 childAspectRatio: 1.25,
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 0),
+                              //todo Reload button
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    //todo Title
+                                    MyText(
+                                      text: 'Tableau de bord',
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    //todo Button
+                                    InkWell(
+                                      onTap: () {
+                                        // ? Show reloading message
+                                        functions.showMessageToSnackbar(
+                                          context: context,
+                                          message:
+                                              "Actualisation du tableau de bord...",
+                                          icon: CircularProgressIndicator(
+                                            color:
+                                                Color.fromRGBO(60, 141, 188, 1),
+                                            backgroundColor:
+                                                Colors.white.withOpacity(0.1),
+                                            strokeWidth: 5,
+                                          ),
+                                        );
+                                        // ? Reload dashboard
+                                        setState(() {});
+                                      },
+                                      child: Chip(
+                                        backgroundColor:
+                                            Color.fromRGBO(60, 141, 188, 0.15),
+                                        label: MyText(
+                                          text: 'Actualiser',
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                        ),
+                                        avatar: Icon(
+                                          Icons.refresh_rounded,
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 0),
                               //todo: Tables
                               ExpansionTable(),
                             ],

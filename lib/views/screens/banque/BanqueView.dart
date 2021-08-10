@@ -107,7 +107,9 @@ class BanqueViewState extends State<BanqueView> {
                   MyTextFormField(
                     textEditingController: bankController,
                     validator: (value) {
-                      return value!.isNotEmpty ? null : "Saisissez le libellé";
+                      return value!.isNotEmpty
+                          ? null
+                          : "Saisissez le libellé de la banque";
                     },
                     prefixPadding: 10,
                     prefixIcon: Icon(

@@ -59,7 +59,7 @@ class ArticleViewState extends State<ArticleView> {
             'categorie': '',
             'subCategorie': '',
             'stockMin': TextEditingController(),
-            'tva': '',
+            'tva': 45 / 100, // 45% de TVA
             'prixAchatTTC': TextEditingController(),
             'prixAchatHT': TextEditingController(),
             'tauxMargeAchat': TextEditingController(),
@@ -75,6 +75,7 @@ class ArticleViewState extends State<ArticleView> {
             formKey,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             headerIcon: 'assets/img/icons/box.png',
+            headerIconColor: Color.fromRGBO(243, 156, 18, 1),
             title: 'Ajouter un nouvel article',
             onValidate: () async {
               if (formKey.currentState!.validate()) {
@@ -95,26 +96,27 @@ class ArticleViewState extends State<ArticleView> {
                 String stockMin = (fieldControllers['stockMin'].text != null)
                     ? fieldControllers['stockMin'].text
                     : ''; // get stockMin
-                String tva =
-                    fieldControllers['tva'].toString(); // get tva // ! required
-                String prixAchatTTC = fieldControllers['prixAchatTTC']
-                    .text; // get prixAchatTTC // ! required
-                String prixAchatHT = fieldControllers['prixAchatHT']
-                    .text; // get prixAchatTTC // ! required
-                String tauxMargeAchat = fieldControllers['tauxMargeAchat']
-                    .text; // get tauxMargeAchat // ! required
-                String prixVenteTTC = fieldControllers['prixVenteTTC']
-                    .text; // get prixVenteTTC // ! required
-                String prixVenteHT = fieldControllers['prixVenteHT']
-                    .text; // get prixVenteTTC // ! required
-                String tauxMargeVente = fieldControllers['tauxMargeVente']
-                    .text; // get tauxMargeVente // ! required
-                String imageArticle = fieldControllers['imageArticle']
-                    .text; // get imageArticle // ! required
+                int tva = fieldControllers['tva']; // get tva // ! required
+                int prixAchatTTC = int.parse(fieldControllers['prixAchatTTC']
+                    .text); // get prixAchatTTC // ! required
+                int prixAchatHT = int.parse(
+                    fieldControllers['prixAchatHT'].text); // get prixAchatTTC
+                int tauxMargeAchat = int.parse(
+                    fieldControllers['tauxMargeAchat']
+                        .text); // get tauxMargeAchat
+                int prixVenteTTC = int.parse(
+                    fieldControllers['prixVenteTTC'].text); // get prixVenteTTC
+                int prixVenteHT = int.parse(
+                    fieldControllers['prixVenteHT'].text); // get prixVenteTTC
+                int tauxMargeVente = int.parse(
+                    fieldControllers['tauxMargeVente']
+                        .text); // get tauxMargeVente
+                String imageArticle =
+                    fieldControllers['imageArticle'].text; // get imageArticle
                 bool stockable = fieldControllers['stockable']; // get stockable
                 // ? sending datas to API
                 Api api = Api();
-                final Map<String, dynamic> postClientResponse =
+                final Map<String, dynamic> postArticleResponse =
                     await api.postArticle(
                   context,
                   codeBarre: codeBarre,
@@ -134,12 +136,12 @@ class ArticleViewState extends State<ArticleView> {
                   stockable: stockable,
                 );
                 // ? check the server response
-                if (postClientResponse['msg'] ==
+                if (postArticleResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: context,
-                    message: 'Nouveau client ajouté !',
+                    message: 'Nouvel article ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -165,6 +167,7 @@ class ArticleViewState extends State<ArticleView> {
                   SizedBox(height: 5),
                   //todo: Code barre TextFormField
                   MyTextFormField(
+                    keyboardType: TextInputType.text,
                     textEditingController: fieldControllers['codeBarre'],
                     prefixPadding: 10,
                     prefixIcon: Image.asset(
@@ -207,11 +210,12 @@ class ArticleViewState extends State<ArticleView> {
                   SizedBox(height: 5),
                   //todo: Designation TextFormField
                   MyTextFormField(
+                    keyboardType: TextInputType.text,
                     textEditingController: fieldControllers['designation'],
                     validator: (value) {
                       return value!.isNotEmpty
                           ? null
-                          : 'Saisissez la désignation';
+                          : "Saisissez la désignation de l'article";
                     },
                     prefixPadding: 10,
                     prefixIcon: Icon(
@@ -284,6 +288,7 @@ class ArticleViewState extends State<ArticleView> {
                       // ? on wait the combo with data load empty combo
                       return MyTextFormField(
                         prefixPadding: 10,
+                        keyboardType: TextInputType.text,
                         prefixIcon: Image.asset(
                           'assets/img/icons/provider.png',
                           fit: BoxFit.contain,
@@ -367,6 +372,7 @@ class ArticleViewState extends State<ArticleView> {
                       }
                       // ? on wait the combo with data load empty combo
                       return MyTextFormField(
+                        keyboardType: TextInputType.text,
                         prefixPadding: 10,
                         prefixIcon: Image.asset(
                           'assets/img/icons/category.png',
@@ -443,6 +449,7 @@ class ArticleViewState extends State<ArticleView> {
                       }
                       // ? on wait the combo with data load empty combo
                       return MyTextFormField(
+                        keyboardType: TextInputType.text,
                         prefixPadding: 10,
                         prefixIcon: Image.asset(
                           'assets/img/icons/sub-category.png',
@@ -478,6 +485,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Stock minimum TextFormField
                   MyTextFormField(
                     textEditingController: fieldControllers['stockMin'],
+                    keyboardType: TextInputType.number,
                     prefixPadding: 10,
                     prefixIcon: Icon(
                       Icons.battery_alert_rounded,
@@ -558,6 +566,7 @@ class ArticleViewState extends State<ArticleView> {
                       // ? on wait the combo with data load empty combo
                       return MyTextFormField(
                         prefixPadding: 10,
+                        keyboardType: TextInputType.number,
                         prefixIcon: Image.asset(
                           'assets/img/icons/tax.png',
                           fit: BoxFit.contain,
@@ -601,6 +610,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Prix d'achat TTC TextFormField
                   MyTextFormField(
                     textEditingController: fieldControllers['prixAchatTTC'],
+                    keyboardType: TextInputType.number,
                     prefixPadding: 10,
                     prefixIcon: Icon(
                       Icons.attach_money_rounded,
@@ -613,6 +623,30 @@ class ArticleViewState extends State<ArticleView> {
                     borderRadius: Radius.circular(10),
                     focusBorderColor: Colors.transparent,
                     enableBorderColor: Colors.transparent,
+                    onChanged: (value) {
+                      int prixAchatTTC = int.parse(value!);
+                      double prixAchatHT =
+                          prixAchatTTC / (1 + fieldControllers['tva']);
+                      fieldControllers['prixAchatHT'].text =
+                          prixAchatHT.toInt().toString();
+                      // ? Compute the Tolerance value
+                      if (value.isNotEmpty &&
+                          fieldControllers['prixVenteTTC'].text.isNotEmpty) {
+                        int prixVenteTTC =
+                            int.parse(fieldControllers['prixVenteTTC'].text);
+                        // ? Taux Marge Vente
+                        double tauxMargeVente = ((prixVenteTTC - prixAchatTTC) *
+                            (100 / prixVenteTTC));
+                        // ? Taux Marge Achat
+                        double tauxMargeAchat = ((prixVenteTTC - prixAchatTTC) *
+                            (100 / prixAchatTTC));
+                        // ? Update field
+                        fieldControllers['tauxMargeAchat'].text =
+                            tauxMargeAchat.toInt().toString() + '%';
+                        fieldControllers['tauxMargeVente'].text =
+                            tauxMargeVente.toInt().toString() + '%';
+                      }
+                    },
                   ),
                 ],
               ),
@@ -630,6 +664,8 @@ class ArticleViewState extends State<ArticleView> {
                   SizedBox(height: 5),
                   //todo: Prix d'achat HT TextFormField
                   MyTextFormField(
+                    enabled: false,
+                    keyboardType: TextInputType.number,
                     textEditingController: fieldControllers['prixAchatHT'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
@@ -660,6 +696,8 @@ class ArticleViewState extends State<ArticleView> {
                   SizedBox(height: 5),
                   //todo: Taux de marge achat TextFormField
                   MyTextFormField(
+                    enabled: false,
+                    keyboardType: TextInputType.number,
                     textEditingController: fieldControllers['tauxMargeAchat'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
@@ -699,6 +737,7 @@ class ArticleViewState extends State<ArticleView> {
                   SizedBox(height: 5),
                   //todo: Prix de vente TTC TextFormField
                   MyTextFormField(
+                    keyboardType: TextInputType.number,
                     textEditingController: fieldControllers['prixVenteTTC'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
@@ -712,6 +751,31 @@ class ArticleViewState extends State<ArticleView> {
                     borderRadius: Radius.circular(10),
                     focusBorderColor: Colors.transparent,
                     enableBorderColor: Colors.transparent,
+                    onChanged: (value) {
+                      // ? Compute the HT Price
+                      int prixVenteTTC = int.parse(value!);
+                      double prixVenteHT =
+                          prixVenteTTC / (1 + fieldControllers['tva']);
+                      fieldControllers['prixVenteHT'].text =
+                          prixVenteHT.toInt().toString();
+                      // ? Compute the Tolerance value
+                      if (value.isNotEmpty &&
+                          fieldControllers['prixAchatTTC'].text.isNotEmpty) {
+                        int prixAchatTTC =
+                            int.parse(fieldControllers['prixAchatTTC'].text);
+                        // ? Taux Marge Vente
+                        double tauxMargeVente = ((prixVenteTTC - prixAchatTTC) *
+                            (100 / prixVenteTTC));
+                        // ? Taux Marge Achat
+                        double tauxMargeAchat = ((prixVenteTTC - prixAchatTTC) *
+                            (100 / prixAchatTTC));
+                        // ? Update field
+                        fieldControllers['tauxMargeAchat'].text =
+                            tauxMargeAchat.toInt().toString() + '%';
+                        fieldControllers['tauxMargeVente'].text =
+                            tauxMargeVente.toInt().toString() + '%';
+                      }
+                    },
                   ),
                 ],
               ),
@@ -729,6 +793,8 @@ class ArticleViewState extends State<ArticleView> {
                   SizedBox(height: 5),
                   //todo: Prix de vente HT TextFormField
                   MyTextFormField(
+                    enabled: false,
+                    keyboardType: TextInputType.number,
                     textEditingController: fieldControllers['prixVenteHT'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
@@ -759,6 +825,8 @@ class ArticleViewState extends State<ArticleView> {
                   SizedBox(height: 5),
                   //todo: Taux de marge vente TextFormField
                   MyTextFormField(
+                    enabled: false,
+                    keyboardType: TextInputType.number,
                     textEditingController: fieldControllers['tauxMargeVente'],
                     prefixPadding: 10,
                     prefixIcon: Icon(
@@ -789,6 +857,7 @@ class ArticleViewState extends State<ArticleView> {
                   SizedBox(height: 5),
                   //todo: Image TextFormField
                   MyTextFormField(
+                    keyboardType: TextInputType.number,
                     textEditingController: fieldControllers['imageArticle'],
                     prefixPadding: 10,
                     prefixIcon: Icon(

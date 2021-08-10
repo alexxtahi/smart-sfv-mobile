@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class User {
   // todo: Properties
   static String login = '';
@@ -28,5 +30,7 @@ class User {
       User.lastLogin = DateTime.parse(json['lastLogin']);
     if (json['createdAt'] != null)
       User.createdAt = DateTime.parse(json['createdAt']);
+
+    //print('createdAt: ' + DateFormat("yyyy-MM-dd HH:mm:ss").format(User.lastLogin)); // ! debug
   }
 }

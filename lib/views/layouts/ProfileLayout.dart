@@ -22,7 +22,7 @@ class ProfileLayout extends StatefulWidget {
 
 class ProfileLayoutState extends State<ProfileLayout> {
   bool isPasswordShow = false;
-  DateFormat dateFormat = DateFormat('dd-mm-yyyy HH:mm:ss');
+  DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   Map<String, dynamic> fieldControllers = {
     'name': TextEditingController(),
     'contact': TextEditingController(),

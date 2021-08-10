@@ -22,8 +22,8 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = 'http://192.168.10.11:8000'; // local ip adress
-  //String host = 'https://smartsfv.smartyacademy.com';
+  //String host = 'http://192.168.10.11:8000'; // local ip adress
+  String host = 'https://smartsfv.smartyacademy.com';
   late Map<String, String> routes;
   //todo: Constructor
   Api() {
@@ -82,7 +82,8 @@ class Api {
         List<Article> articles = [
           for (var article in articleResponse)
             // ? take only article created by the actual user
-            if (article['created_by'] == User.id) Article.fromJson(article),
+            Article.fromJson(article), // ! debug
+          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
         ];
         // ? return list of articles
         return articles;
@@ -100,7 +101,7 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++) print('API ERROR: $error');
       return <Article>[];
     }
   }
@@ -142,7 +143,8 @@ class Api {
         List<Client> clients = [
           for (var client in clientResponse)
             // ? take only client created by the actual user
-            if (client['created_by'] == User.id) Client.fromJson(client),
+            Client.fromJson(client), // ! debug
+          //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
         ];
         // ? return list of clients
         return clients;
@@ -160,7 +162,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Client Model Error -> $error');
       return <Client>[];
     }
   }
@@ -219,7 +222,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Pays Model Error -> $error');
       return <Pays>[];
     }
   }
@@ -255,7 +259,9 @@ class Api {
         // ? create list of régimes
         List regimeResponse = json.decode(this.response.body)['rows'];
         List<Regime> regimes = [
-          for (var regime in regimeResponse) Regime.fromJson(regime),
+          // ? take only regime created by the actual user
+          for (var regime in regimeResponse) Regime.fromJson(regime), // ! debug
+          //if (regime['created_by'] == User.id) Regime.fromJson(regime), // ! production
         ];
         //print('List: $régimes'); // ! debug
         // ? return list of régimes
@@ -308,10 +314,11 @@ class Api {
         // ? create list of countries
         List banqueResponse = json.decode(this.response.body)['rows'];
         List<Banque> banques = [
-          for (var banque in banqueResponse) Banque.fromJson(banque),
+          // ? take only banque created by the actual user
+          for (var banque in banqueResponse) Banque.fromJson(banque), // ! debug
+          //if (banque['created_by'] == User.id) Banque.fromJson(banque), // ! production
         ];
-        //print('List: $countries'); // ! debug
-        // ? return list of countries
+        // ? return list of banques
         return banques;
       } else {
         this.requestSuccess = false;
@@ -359,9 +366,10 @@ class Api {
         // ? create list of taxs
         List tvaResponse = json.decode(this.response.body)['rows'];
         List<Tva> tvas = [
-          for (var tva in tvaResponse) Tva.fromJson(tva),
+          // ? take only tva created by the actual user
+          for (var tva in tvaResponse) Tva.fromJson(tva), // ! debug
+          //if (tva['created_by'] == User.id) Tva.fromJson(tva), // ! production
         ];
-        //print('List: $countries'); // ! debug
         // ? return list of taxs
         return tvas;
       } else {
@@ -409,10 +417,11 @@ class Api {
         // ? create list of taxs
         List categorieResponse = json.decode(this.response.body)['rows'];
         List<Category> categories = [
+          // ? take only categorie created by the actual user
           for (var categorie in categorieResponse)
-            categorie.fromJson(categorie),
+            Category.fromJson(categorie), // ! debug
+          //if (categorie['created_by'] == User.id) Category.fromJson(categorie), // ! production
         ];
-        //print('List: $countries'); // ! debug
         // ? return list of categories
         return categories;
       } else {
@@ -460,10 +469,11 @@ class Api {
         // ? create list of taxs
         List subCategorieResponse = json.decode(this.response.body)['rows'];
         List<SubCategory> subCategories = [
+          // ? take only subCategorie created by the actual user
           for (var subCategorie in subCategorieResponse)
-            subCategorie.fromJson(subCategorie),
+            SubCategory.fromJson(subCategorie), // ! debug
+          //if (subCategorie['created_by'] == User.id) SubCategory.fromJson(subCategorie), // ! production
         ];
-        //print('List: $countries'); // ! debug
         // ? return list of sous categories
         return subCategories;
       } else {
@@ -495,8 +505,45 @@ class Api {
       dashboardDatas['getClients'] = clients.length;
       dashboardDatas['getArticles'] = articles.length;
       dashboardDatas['getFournisseurs'] = fournisseurs.length;
+      // ? Show success snack bar
+      if (ScreenController.actualView == "HomeView")
+        functions.showMessageToSnackbar(
+          context: context,
+          message: "Tableau de bord actualisé !",
+          icon: Icon(
+            Icons.info_rounded,
+            color: Color.fromRGBO(60, 141, 188, 1),
+          ),
+        );
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Dashboard Error -> $error');
+      // ? Get Socket errors
+      if (error is SocketException) {
+        // ? Show internet error snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message:
+                "Une erreur réseau est survenue.. Veuillez vérifier votre connexion internet.",
+            icon: Icon(
+              Icons.warning_amber_rounded,
+              color: Colors.yellow[900],
+            ),
+          );
+      } else {
+        // ? Get all others errors
+        // ? Show warning snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Une erreur est survenue",
+            icon: Icon(
+              Icons.warning_amber_rounded,
+              color: Colors.yellow[900],
+            ),
+          );
+      }
     }
     // ? Return dashboard statistics
     return dashboardDatas;
@@ -539,9 +586,9 @@ class Api {
         List fournisseurResponse = json.decode(this.response.body)['rows'];
         List<Fournisseur> fournisseurs = [
           for (var fournisseur in fournisseurResponse)
-            // ? take only fournisseur created by the actual user
-            if (fournisseur['created_by'] == User.id)
-              Fournisseur.fromJson(fournisseur),
+            Fournisseur.fromJson(fournisseur),
+          // ? take only fournisseur created by the actual user
+          //if (fournisseur['created_by'] == User.id) Fournisseur.fromJson(fournisseur),
         ];
         // ? return list of fournisseurs
         return fournisseurs;
@@ -641,10 +688,11 @@ class Api {
         Map<String, dynamic> userInfos = await getUserInfo(context);
         responseJson['login'] = login;
         responseJson['password'] = password;
-        responseJson['state'] =
-            (userInfos['statut_compte'] == 1) ? true : false;
-        responseJson['createdAt'] = userInfos['created_at'];
-        responseJson['lastLogin'] = userInfos['updated_at'];
+        responseJson['state'] = (userInfos['etat_user'] == 1) ? true : false;
+        responseJson['createdAt'] =
+            userInfos['created_at']; //.replaceAll('T', ' ');
+        responseJson['lastLogin'] =
+            userInfos['updated_at']; //.replaceAll('T', ' ');
         print("Réponse du server: $responseJson");
         // ? set user informations
         User.create(responseJson);
@@ -774,13 +822,13 @@ class Api {
     String categorie = '',
     String subCategorie = '',
     String stockMin = '',
-    String tva = '',
-    String prixAchatTTC = '',
-    String prixAchatHT = '',
-    String tauxMargeAchat = '',
-    String prixVenteTTC = '',
-    String prixVenteHT = '',
-    String tauxMargeVente = '',
+    int tva = 0,
+    int prixAchatTTC = 0,
+    int prixAchatHT = 0,
+    int tauxMargeAchat = 0,
+    int prixVenteTTC = 0,
+    int prixVenteHT = 0,
+    int tauxMargeVente = 0,
     String imageArticle = '',
     bool stockable = true,
   }) async {
@@ -810,7 +858,7 @@ class Api {
           'prixVenteHT': prixVenteHT,
           'tauxMargeVente': tauxMargeVente,
           'imageArticle': imageArticle,
-          'stockable': true,
+          'stockable': stockable.toString(),
         },
       );
       // get and show server response
@@ -819,7 +867,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      for (var i = 1; i <= 5; i++) print('API ERROR: $error');
       // ? Show error snack bar
       if (ScreenController.actualView == "ArticleView")
         functions.errorSnackbar(
@@ -907,7 +955,7 @@ class Api {
   // todo: post TVA method
   Future<Map<String, dynamic>> postTva(
     BuildContext context,
-    int tva,
+    String tva,
   ) async {
     this.url = this.routes['postTva'].toString(); // set client url
     try {
@@ -921,7 +969,7 @@ class Api {
           HttpHeaders.authorizationHeader: User.token,
         },
         body: {
-          'montant_tva': tva,
+          'montant_tva': int.parse(tva),
         },
       );
       // get and show server response
@@ -935,7 +983,7 @@ class Api {
       if (ScreenController.actualView == "TvaView")
         functions.errorSnackbar(
           context: context,
-          message: "Echec d'enregistrement de la banque",
+          message: "Echec d'enregistrement de la taxe",
         );
       return {'msg': 'Une erreur est survenue'};
     }

@@ -82,6 +82,7 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                     scrollDirection: Axis.horizontal,
                                     child: MyDataTable(
                                       columns: [
+                                        'Nº',
                                         'Code barre',
                                         'Article',
                                         'Catégorie',
@@ -97,6 +98,9 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                       rows: [
                                         for (var article in snapshot.data!)
                                           [
+                                            (snapshot.data!.indexOf(article) +
+                                                    1)
+                                                .toString(),
                                             article.codeBarre,
                                             article.description,
                                             article.categorie,

@@ -74,7 +74,7 @@ class RegimeViewState extends State<RegimeView> {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: context,
-                    message: 'Nouveau régime ajoutée !',
+                    message: 'Nouveau régime ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -82,7 +82,7 @@ class RegimeViewState extends State<RegimeView> {
                     message: 'Un problème est survenu',
                   );
                 }
-                // ? Refresh bank list
+                // ? Refresh regime list
                 setState(() {});
               }
             },

@@ -20,6 +20,11 @@ class ClientView extends StatefulWidget {
 }
 
 class ClientViewState extends State<ClientView> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   @override

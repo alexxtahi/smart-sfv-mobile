@@ -29,17 +29,30 @@ class Article {
   // get data from json method
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
-      codeBarre: json['code_barre'] as String,
-      description: json['description_article'] as String,
-      categorie: json['categorie']['libelle_categorie'] as String,
-      enStock: json['quantite_en_stock'] as int,
-      prixAchatTTC: json['prix_achat_ttc'] as int,
+      codeBarre:
+          (json['code_barre'] != null) ? json['code_barre'] as String : '',
+      description: (json['description_article'] != null)
+          ? json['description_article'] as String
+          : '',
+      categorie: (json['categorie'] != null)
+          ? json['categorie']['libelle_categorie'] as String
+          : '',
+      enStock: (json['quantite_en_stock'] != null)
+          ? json['quantite_en_stock'] as int
+          : 0,
+      prixAchatTTC:
+          (json['prix_achat_ttc'] != null) ? json['prix_achat_ttc'] as int : 0,
       //prixAchatHT: json[''] as int,
-      prixVenteTTC: json['prix_vente_ttc_base'] as int,
+      prixVenteTTC: (json['prix_vente_ttc_base'] != null)
+          ? json['prix_vente_ttc_base'] as int
+          : 0,
       //prixVenteHT: json[''] as int,
-      fournisseur: json['fournisseurs'][0]['full_name_fournisseur'] as String,
+      fournisseur:
+          (json['fournisseurs'] != null && json['fournisseurs'][0] != null)
+              ? json['fournisseurs'][0]['full_name_fournisseur'] as String
+              : '',
       //tva: json['param_tva'] as int,
-      stockMin: json['stock_mini'] as int,
+      stockMin: (json['stock_mini'] != null) ? json['stock_mini'] as int : 0,
     );
   }
 }

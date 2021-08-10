@@ -28,8 +28,12 @@ class Client {
       code: (json['code_client'] != null) ? json['code_client'] as String : '',
       nom: json['full_name_client'] as String, // ! required
       contact: json['contact_client'] as String, // ! required
-      pays: json['nation']['libelle_nation'] as String, // ! required
-      regime: json['regime']['libelle_regime'] as String, // ! required
+      pays: (json['nation'] != null)
+          ? json['nation']['libelle_nation'] as String
+          : '', // ! required
+      regime: (json['regime'] != null)
+          ? json['regime']['libelle_regime'] as String
+          : '', // ! required
       email:
           (json['email_client'] != null) ? json['email_client'] as String : '',
       adresse: (json['adresse_client'] != null)

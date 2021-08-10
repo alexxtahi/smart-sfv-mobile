@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
@@ -65,6 +66,7 @@ class TvaScreenState extends State<TvaScreen> {
                   key: formKey,
                   child: MyTextFormField(
                     focusNode: FocusNode(),
+                    keyboardType: TextInputType.number,
                     textEditingController: this.textEditingController,
                     borderRadius: Radius.circular(20),
                     placeholder: 'Ajouter une taxe',
@@ -77,27 +79,45 @@ class TvaScreenState extends State<TvaScreen> {
                     validator: (value) {
                       return value!.isNotEmpty
                           ? null
-                          : "Veuillez saisir un pourcentage";
+                          : "Veuillez saisir un pourcentage pour la taxe";
                     },
                     onSubmitted: (text) {
                       // dismiss keyboard
                       FocusScope.of(context).requestFocus(FocusNode());
                     },
                     suffixIcon: MyOutlinedIconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // dismiss keyboard
                         FocusScope.of(context).requestFocus(FocusNode());
                         // ? Add new tax when validator is ok
                         if (formKey.currentState!.validate()) {
-                          functions.successSnackbar(
-                            context: context,
-                            message: 'Nouvelle taxe ajoutée !',
+                          // ? get fields datas
+                          String tva = this
+                              .textEditingController
+                              .text; // get tva  // ! required
+                          // ? sending datas to API
+                          Api api = Api();
+                          final Map<String, dynamic> postTvaResponse =
+                              await api.postTva(
+                            context,
+                            tva,
                           );
-                        } else {
-                          functions.errorSnackbar(
-                            context: context,
-                            message: 'Veuillez saisir un pourcentage',
-                          );
+                          // ? check the server response
+                          if (postTvaResponse['msg'] ==
+                              'Enregistrement effectué avec succès.') {
+                            Navigator.of(context).pop();
+                            functions.successSnackbar(
+                              context: context,
+                              message: 'Nouvelle taxe ajoutée !',
+                            );
+                          } else {
+                            functions.errorSnackbar(
+                              context: context,
+                              message: 'Veuillez saisir un pourcentage',
+                            );
+                          }
+                          // ? Refresh taxs list
+                          setState(() {});
                         }
                       },
                       backgroundColor: Colors.white,
