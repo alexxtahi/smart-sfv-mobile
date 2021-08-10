@@ -21,7 +21,7 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Client>>(
       future: this.fetchClients(),
-      builder: (context, snapshot) {
+      builder: (dataTableContext, snapshot) {
         if (snapshot.hasData) {
           // ? Check if the list of clients is empty or not
           return (snapshot.data!.isEmpty)

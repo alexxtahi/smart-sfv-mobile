@@ -20,7 +20,7 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Tva>>(
       future: this.fetchTvas(),
-      builder: (context, snapshot) {
+      builder: (dataTableContext, snapshot) {
         if (snapshot.hasData) {
           // ? Check if the list of Tvas is empty or not
           return (snapshot.data!.isEmpty)
@@ -87,9 +87,10 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
                                       itemCount: snapshot.data!.length,
                                       scrollDirection: Axis
                                           .vertical, // direction of scrolling
-                                      separatorBuilder: (context, index) =>
-                                          SizedBox(width: 20.0),
-                                      itemBuilder: (context, index) {
+                                      separatorBuilder:
+                                          (separatorContext, index) =>
+                                              SizedBox(width: 20.0),
+                                      itemBuilder: (itemBuilderContext, index) {
                                         // other cards
                                         return ListTile(
                                           enableFeedback: true,

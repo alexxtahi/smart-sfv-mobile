@@ -121,7 +121,7 @@ class CaisseViewState extends State<CaisseView> {
               //todo: Dépot DropDownButton
               FutureBuilder<List<Caisse>>(
                 future: this.fetchCaisses(),
-                builder: (context, snapshot) {
+                builder: (caisseComboBoxContext, snapshot) {
                   if (snapshot.hasData) {
                     // ? get nations datas from server
                     return MyComboBox(

@@ -20,7 +20,7 @@ class ProviderFutureBuilderState extends State<ProviderFutureBuilder> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Fournisseur>>(
       future: this.fetchFournisseurs(),
-      builder: (context, snapshot) {
+      builder: (dataTableContext, snapshot) {
         if (snapshot.hasData) {
           // ? Check if the list of clients is empty or not
           return (snapshot.data!.isEmpty)

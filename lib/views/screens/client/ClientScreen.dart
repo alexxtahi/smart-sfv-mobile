@@ -110,7 +110,7 @@ class ClientScreenState extends State<ClientScreen> {
                       //todo: Pays DropDown
                       FutureBuilder<List<Pays>>(
                         future: this.fetchCountries(),
-                        builder: (context, snapshot) {
+                        builder: (paysComboBoxContext, snapshot) {
                           if (snapshot.hasData) {
                             // ? get nations datas from server
                             return MyComboBox(

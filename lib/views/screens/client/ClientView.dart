@@ -281,7 +281,7 @@ class ClientViewState extends State<ClientView> {
                   //todo: Pays DropDown
                   FutureBuilder<List<Pays>>(
                     future: this.fetchCountries(),
-                    builder: (context, snapshot) {
+                    builder: (paysComboBoxContext, snapshot) {
                       if (snapshot.hasData) {
                         // ? get nations datas from server
                         return MyComboBox(
@@ -429,7 +429,7 @@ class ClientViewState extends State<ClientView> {
                   //todo: Regime DropDown
                   FutureBuilder<List<Regime>>(
                     future: this.fetchRegimes(),
-                    builder: (context, snapshot) {
+                    builder: (regimeComboBoxContext, snapshot) {
                       if (snapshot.hasData) {
                         // ? get nations datas from server
                         return MyComboBox(

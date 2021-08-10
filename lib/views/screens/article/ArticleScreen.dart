@@ -107,7 +107,7 @@ class ArticleScreenState extends State<ArticleScreen> {
                       //todo: Pays DropDown
                       FutureBuilder<List<Category>>(
                         future: this.fetchCategories(),
-                        builder: (context, snapshot) {
+                        builder: (comboBoxContext, snapshot) {
                           if (snapshot.hasData) {
                             // ? get nations datas from server
                             return MyComboBox(

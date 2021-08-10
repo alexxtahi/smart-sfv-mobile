@@ -3,29 +3,29 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/Banque.dart';
+import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
-import 'package:smartsfv/views/screens/banque/BanqueScreen.dart';
+import 'package:smartsfv/views/screens/pays/PaysScreen.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class BanqueView extends StatefulWidget {
-  BanqueView({Key? key}) : super(key: key);
+class PaysView extends StatefulWidget {
+  PaysView({Key? key}) : super(key: key);
   @override
-  BanqueViewState createState() => BanqueViewState();
+  PaysViewState createState() => PaysViewState();
 }
 
-class BanqueViewState extends State<BanqueView> {
+class PaysViewState extends State<PaysView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  TextEditingController bankController = TextEditingController();
-  bool isNewBankEmpty = false;
+  TextEditingController paysController = TextEditingController();
+  bool isNewPaysEmpty = false;
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "BanqueView";
+    ScreenController.actualView = "PaysView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -52,27 +52,27 @@ class BanqueViewState extends State<BanqueView> {
           functions.showFormDialog(
             context,
             formKey,
-            headerIcon: 'assets/img/icons/bank-building.png',
-            title: 'Ajouter une banque',
+            headerIcon: 'assets/img/icons/countries.png',
+            title: 'Ajouter un pays',
             onValidate: () async {
               if (formKey.currentState!.validate()) {
                 // ? sending datas to API
                 Api api = Api();
-                final Map<String, dynamic> postBankResponse =
-                    await api.postBank(
+                final Map<String, dynamic> postPaysResponse =
+                    await api.postPays(
                   context: context,
-                  // ? Create Banque instance from Json and pass it to the fucnction
-                  banque: Banque.fromJson({
-                    'libelle_banque': bankController.text,
+                  // ? Create Pays instance from Json and pass it to the fucnction
+                  pays: Pays.fromJson({
+                    'libelle_nation': paysController.text,
                   }),
                 );
                 // ? check the server response
-                if (postBankResponse['msg'] ==
+                if (postPaysResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: context,
-                    message: 'Nouvelle banque ajoutée !',
+                    message: 'Nouveau pays ajoutée !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -107,11 +107,11 @@ class BanqueViewState extends State<BanqueView> {
                   SizedBox(height: 5),
                   //todo: Libelle TextFormField
                   MyTextFormField(
-                    textEditingController: bankController,
+                    textEditingController: paysController,
                     validator: (value) {
                       return value!.isNotEmpty
                           ? null
-                          : "Saisissez le libellé de la banque";
+                          : "Saisissez le libellé de la pays";
                     },
                     prefixPadding: 10,
                     prefixIcon: Icon(
@@ -135,7 +135,7 @@ class BanqueViewState extends State<BanqueView> {
         //backgroundColor: Colors.white,
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter une banque',
+          message: 'Ajouter un pays',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -160,7 +160,7 @@ class BanqueViewState extends State<BanqueView> {
           //todo: Drawer Screen
           DrawerLayout(panelController: panelController),
           //todo: Home Screen
-          BanqueScreen(panelController: panelController),
+          PaysScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
             panelController: panelController,

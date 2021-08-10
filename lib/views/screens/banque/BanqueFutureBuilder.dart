@@ -20,7 +20,7 @@ class BanqueFutureBuilderState extends State<BanqueFutureBuilder> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Banque>>(
       future: this.fetchBanques(),
-      builder: (context, snapshot) {
+      builder: (listViewContext, snapshot) {
         if (snapshot.hasData) {
           // ? Check if the list of banques is empty or not
           return (snapshot.data!.isEmpty)
@@ -87,9 +87,10 @@ class BanqueFutureBuilderState extends State<BanqueFutureBuilder> {
                                       itemCount: snapshot.data!.length,
                                       scrollDirection: Axis
                                           .vertical, // direction of scrolling
-                                      separatorBuilder: (context, index) =>
-                                          SizedBox(width: 20.0),
-                                      itemBuilder: (context, index) {
+                                      separatorBuilder:
+                                          (separatorContext, index) =>
+                                              SizedBox(width: 20.0),
+                                      itemBuilder: (itemBuilderContext, index) {
                                         // other cards
                                         return ListTile(
                                           enableFeedback: true,

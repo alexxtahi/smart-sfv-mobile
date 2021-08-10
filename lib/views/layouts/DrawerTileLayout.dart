@@ -14,6 +14,7 @@ import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/screens/pays/PaysView.dart';
 import 'package:smartsfv/views/screens/regime/RegimeView.dart';
 import 'package:smartsfv/views/screens/tva/TvaView.dart';
 
@@ -179,6 +180,16 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       {
                         'icon': 'assets/img/icons/countries.png',
                         'headerText': 'Pays',
+                        'onPressed': () {
+                          print('Pays appuyé !');
+                          functions.openPage(
+                            context,
+                            PaysView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/category.png',

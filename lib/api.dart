@@ -956,9 +956,7 @@ class Api {
 
   // todo: post bank method
   Future<Map<String, dynamic>> postBank(
-    BuildContext context,
-    String libelle,
-  ) async {
+      {required BuildContext context, required Banque banque}) async {
     this.url = this.routes['postBank'].toString(); // set client url
     try {
       this.response = await http.post(
@@ -970,9 +968,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_banque': libelle,
-        },
+        body: Banque.toMap(banque),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -1101,10 +1097,10 @@ class Api {
   }
 
   // todo: post pays method
-  Future<Map<String, dynamic>> postPays(
-    BuildContext context,
-    String libelle,
-  ) async {
+  Future<Map<String, dynamic>> postPays({
+    required BuildContext context,
+    required Pays pays,
+  }) async {
     this.url = this.routes['postPays'].toString(); // set client url
     try {
       this.response = await http.post(
@@ -1116,9 +1112,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_nation': libelle,
-        },
+        body: Pays.toMap(pays),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);

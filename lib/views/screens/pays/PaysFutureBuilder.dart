@@ -1,29 +1,28 @@
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/api.dart';
-import 'package:smartsfv/models/Caisse.dart';
-import 'package:smartsfv/views/components/MyDataTable.dart';
+import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class CaisseFutureBuilder extends StatefulWidget {
-  CaisseFutureBuilder({Key? key}) : super(key: key);
+class PaysFutureBuilder extends StatefulWidget {
+  PaysFutureBuilder({Key? key}) : super(key: key);
 
   @override
-  CaisseFutureBuilderState createState() => CaisseFutureBuilderState();
+  PaysFutureBuilderState createState() => PaysFutureBuilderState();
 }
 
-class CaisseFutureBuilderState extends State<CaisseFutureBuilder> {
+class PaysFutureBuilderState extends State<PaysFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   ScrollController listViewScrollController = new ScrollController();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Caisse>>(
-      future: this.fetchCaisses(),
+    return FutureBuilder<List<Pays>>(
+      future: this.fetchPayss(),
       builder: (dataTableContext, snapshot) {
         if (snapshot.hasData) {
-          // ? Check if the list of caisses is empty or not
+          // ? Check if the list of pays is empty or not
           return (snapshot.data!.isEmpty)
               ? Flex(
                   direction: Axis.vertical,
@@ -36,7 +35,7 @@ class CaisseFutureBuilderState extends State<CaisseFutureBuilder> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset(
-                            'assets/img/icons/sad.png',
+                            'assets/img/icons/no-wifi.png',
                             fit: BoxFit.contain,
                             width: 100,
                             height: 100,
@@ -48,7 +47,7 @@ class CaisseFutureBuilderState extends State<CaisseFutureBuilder> {
                           Flexible(
                             child: MyText(
                               text:
-                                  "Vous n'avez pas encore enregistré de caisse. Remplissez le formulaire d'ajout pour en ajouter.",
+                                  "Nous ne pouvons pas charger les pays pour le moment. Vérifiez votre connexion internet.",
                               textAlign: TextAlign.center,
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(60, 141, 188, 0.5),
@@ -81,18 +80,53 @@ class CaisseFutureBuilderState extends State<CaisseFutureBuilder> {
                                   child: SingleChildScrollView(
                                     controller: this.datatableScrollController,
                                     physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    child: MyDataTable(
-                                      columns: ['N°', 'Libellé', 'Dépôt'],
-                                      rows: [
-                                        for (var caisse in snapshot.data!)
-                                          [
-                                            (snapshot.data!.indexOf(caisse) + 1)
-                                                .toString(),
-                                            caisse.libelle,
-                                            caisse.depot,
-                                          ],
-                                      ],
+                                    scrollDirection: Axis.vertical,
+                                    child: ListView.separated(
+                                      controller: this.listViewScrollController,
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data!.length,
+                                      scrollDirection: Axis
+                                          .vertical, // direction of scrolling
+                                      separatorBuilder:
+                                          (separatorContext, index) =>
+                                              SizedBox(width: 20.0),
+                                      itemBuilder: (itemBuilderContext, index) {
+                                        // other cards
+                                        return ListTile(
+                                          enableFeedback: true,
+                                          onTap: () {
+                                            print(
+                                                snapshot.data![index].libelle +
+                                                    ' on tap !');
+                                          },
+                                          onLongPress: () {
+                                            print(
+                                                snapshot.data![index].libelle +
+                                                    ' long press !');
+                                          },
+                                          leading: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: Color.fromRGBO(
+                                                60, 141, 188, 0.15),
+                                            child: MyText(
+                                              text: (index + 1).toString(),
+                                              color: Color.fromRGBO(
+                                                  60, 141, 188, 1),
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          title: MyText(
+                                            text: snapshot.data![index].libelle,
+                                            //fontWeight: FontWeight.bold,
+                                          ),
+                                          selectedTileColor: Color.fromRGBO(
+                                              60, 141, 188, 0.15),
+                                          focusColor: Color.fromRGBO(
+                                              60, 141, 188, 0.15),
+                                          hoverColor: Color.fromRGBO(
+                                              60, 141, 188, 0.15),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
@@ -108,7 +142,7 @@ class CaisseFutureBuilderState extends State<CaisseFutureBuilder> {
         } else if (snapshot.hasError) {
           functions.errorSnackbar(
             context: context,
-            message: 'Echec de récupération des caisses',
+            message: 'Echec de récupération des pays',
           );
           return MyText(
             text: snapshot.error.toString(),
@@ -122,9 +156,9 @@ class CaisseFutureBuilderState extends State<CaisseFutureBuilder> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               LinearProgressIndicator(
-                color: Color.fromRGBO(221, 75, 57, 1),
+                color: Color.fromRGBO(60, 141, 188, 1),
                 backgroundColor: Colors.transparent,
-                semanticsLabel: 'Chargement des caisses',
+                semanticsLabel: 'Chargement des pays',
               ),
             ],
           ),
@@ -133,12 +167,12 @@ class CaisseFutureBuilderState extends State<CaisseFutureBuilder> {
     );
   }
 
-  Future<List<Caisse>> fetchCaisses() async {
+  Future<List<Pays>> fetchPayss() async {
     // init API instance
     Api api = Api();
-    // call API method getCaisses
-    Future<List<Caisse>> caisses = api.getCaisses(context);
+    // call API method getPayss
+    Future<List<Pays>> pays = api.getPays(context);
     // return results
-    return caisses;
+    return pays;
   }
 }

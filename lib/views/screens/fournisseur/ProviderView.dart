@@ -289,7 +289,7 @@ class ProviderViewState extends State<ProviderView> {
                   //todo: Pays DropDown
                   FutureBuilder<List<Pays>>(
                       future: this.fetchCountries(),
-                      builder: (context, snapshot) {
+                      builder: (paysComboBoxContext, snapshot) {
                         if (snapshot.hasData) {
                           // ? get nations datas from server
                           return MyComboBox(
@@ -429,7 +429,7 @@ class ProviderViewState extends State<ProviderView> {
                   //todo: Banque DropDown
                   FutureBuilder<List<Banque>>(
                     future: this.fetchBanques(),
-                    builder: (context, snapshot) {
+                    builder: (banqueComboBoxContext, snapshot) {
                       if (snapshot.hasData) {
                         // ? get nations datas from server
                         return MyComboBox(

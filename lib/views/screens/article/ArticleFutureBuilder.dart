@@ -20,7 +20,7 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Article>>(
       future: this.fetchArticle(),
-      builder: (context, snapshot) {
+      builder: (dataTablecontext, snapshot) {
         if (snapshot.hasData) {
           return (snapshot.data!.isEmpty)
               ? Flex(

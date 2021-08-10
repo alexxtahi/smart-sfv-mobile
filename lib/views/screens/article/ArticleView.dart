@@ -247,7 +247,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Pays DropDown
                   FutureBuilder<List<Fournisseur>>(
                     future: this.fetchFournisseurs(),
-                    builder: (context, snapshot) {
+                    builder: (fournisseurComboBoxContext, snapshot) {
                       if (snapshot.hasData) {
                         // ? get providers datas from server
                         return MyComboBox(
@@ -332,7 +332,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Category DropDown
                   FutureBuilder<List<Category>>(
                     future: this.fetchCategories(),
-                    builder: (context, snapshot) {
+                    builder: (categoryComboBoxContext, snapshot) {
                       if (snapshot.hasData) {
                         // ? get providers datas from server
                         return MyComboBox(
@@ -408,7 +408,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: SubCategory DropDown
                   FutureBuilder<List<SubCategory>>(
                     future: this.fetchSubCategories(),
-                    builder: (context, snapshot) {
+                    builder: (subCategoryComboBoxContext, snapshot) {
                       if (snapshot.hasData) {
                         // ? get providers datas from server
                         return MyComboBox(
@@ -525,7 +525,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Tva DropDown
                   FutureBuilder<List<Tva>>(
                     future: this.fetchTvas(),
-                    builder: (context, snapshot) {
+                    builder: (tvaComboBoxContext, snapshot) {
                       if (snapshot.hasData) {
                         // ? get providers datas from server
                         return MyComboBox(
