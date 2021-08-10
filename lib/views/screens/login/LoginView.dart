@@ -27,6 +27,7 @@ class LoginViewState extends State<LoginView> {
   // textfield controller
   @override
   Widget build(BuildContext context) {
+    ScreenController.actualView = "LoginView";
     List<double> screenSize = ScreenController.getScreenSize(context);
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(

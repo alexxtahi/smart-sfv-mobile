@@ -2,6 +2,7 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
@@ -27,6 +28,7 @@ class ListTableViewState extends State<ListTableView> {
   TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    ScreenController.actualView = "LisTableView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

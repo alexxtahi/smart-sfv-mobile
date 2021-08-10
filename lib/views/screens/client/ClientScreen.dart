@@ -205,20 +205,6 @@ class ClientScreenState extends State<ClientScreen> {
                                     });
                                   },
                                 ),
-                              /*Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    MyText(text: 'Filtre $i'),
-                                    Checkbox(
-                                      value: true,
-                                      checkColor: Colors.blue,
-                                      onChanged: (checked) {
-                                        print(checked);
-                                      },
-                                    ),
-                                  ],
-                                ),*/
                             ],
                           );
                         },

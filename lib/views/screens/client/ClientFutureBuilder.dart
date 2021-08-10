@@ -83,6 +83,7 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
                                     scrollDirection: Axis.horizontal,
                                     child: MyDataTable(
                                       columns: [
+                                        'N',
                                         'Code',
                                         'Nom du client',
                                         'Contact',
@@ -96,6 +97,8 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
                                       rows: [
                                         for (var client in snapshot.data!)
                                           [
+                                            (snapshot.data!.indexOf(client) + 1)
+                                                .toString(),
                                             client.code,
                                             client.nom,
                                             client.contact,

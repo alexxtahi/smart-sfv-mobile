@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Banque.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/Pays.dart';
@@ -24,6 +25,7 @@ class ProviderViewState extends State<ProviderView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   @override
   Widget build(BuildContext context) {
+    ScreenController.actualView = "ProviderView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

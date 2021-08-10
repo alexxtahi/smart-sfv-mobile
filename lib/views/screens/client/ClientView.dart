@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
@@ -23,6 +24,7 @@ class ClientViewState extends State<ClientView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   @override
   Widget build(BuildContext context) {
+    ScreenController.actualView = "ClientView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

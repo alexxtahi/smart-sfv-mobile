@@ -38,6 +38,7 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenController.actualView = "SplashScreen";
     List<double> screenSize = ScreenController.getScreenSize(context);
     //todo: Load icon and background function of the recent app theme
     // Change system UI properties

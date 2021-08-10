@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Banque.dart';
@@ -66,19 +67,22 @@ class Api {
         // then parse the JSON.
         this.requestSuccess = true;
         //print(this.response.body);
-        // show success snack bar
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Articles chargés !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(231, 57, 0, 1),
-          ),
-        );
+        // ? Show success snack bar
+        if (ScreenController.actualView == "ArticleView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Articles chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(231, 57, 0, 1),
+            ),
+          );
         // ? create list of articles
         List articleResponse = json.decode(this.response.body)['rows'];
         List<Article> articles = [
-          for (var article in articleResponse) Article.fromJson(article),
+          for (var article in articleResponse)
+            // ? take only article created by the actual user
+            if (article['created_by'] == User.id) Article.fromJson(article),
         ];
         // ? return list of articles
         return articles;
@@ -86,11 +90,12 @@ class Api {
         // If the server did not return a 200 OK response,
         // then throw an exception.
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des articles",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "ArticleView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des articles",
+          );
         return <Article>[];
         //throw Exception('Failed to load user datas');
       }
@@ -122,19 +127,22 @@ class Api {
         // then parse the JSON.
         this.requestSuccess = true;
         //print(this.response.body);
-        // show success snack bar
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Clients chargés !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(60, 141, 188, 1),
-          ),
-        );
+        // ? Show success snack bar
+        if (ScreenController.actualView == "ClientView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Clients chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
-          for (var client in clientResponse) Client.fromJson(client),
+          for (var client in clientResponse)
+            // ? take only client created by the actual user
+            if (client['created_by'] == User.id) Client.fromJson(client),
         ];
         // ? return list of clients
         return clients;
@@ -142,11 +150,12 @@ class Api {
         // If the server did not return a 200 OK response,
         // then throw an exception.
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des clients",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "ClientView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des clients",
+          );
         return <Client>[];
         //throw Exception('Failed to load user datas');
       }
@@ -178,15 +187,16 @@ class Api {
         // then parse the JSON.
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
-        // show success snack bar
-        /*functions.showMessageToSnackbar(
-          context: context,
-          message: "Pays chargés !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(60, 141, 188, 1),
-          ),
-        );*/
+        // ? Show success snack bar
+        if (ScreenController.actualView == "PaysView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Pays chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
         // ? create list of countries
         List paysResponse = json.decode(this.response.body)['rows'];
         List<Pays> countries = [
@@ -199,11 +209,12 @@ class Api {
         // If the server did not return a 200 OK response,
         // then throw an exception.
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des pays",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "PaysView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des pays",
+          );
         return <Pays>[];
         //throw Exception('Failed to load user datas');
       }
@@ -231,15 +242,16 @@ class Api {
         // then parse the JSON.
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
-        // show success snack bar
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Régimes chargés !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(60, 141, 188, 1),
-          ),
-        );
+        // ? Show success snack bar
+        if (ScreenController.actualView == "RegimeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Régimes chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
         // ? create list of régimes
         List regimeResponse = json.decode(this.response.body)['rows'];
         List<Regime> regimes = [
@@ -252,11 +264,12 @@ class Api {
         // If the server did not return a 200 OK response,
         // then throw an exception.
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des regime",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "RegimeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des regimes",
+          );
         return <Regime>[];
         //throw Exception('Failed to load user datas');
       }
@@ -282,15 +295,16 @@ class Api {
       if (this.response.statusCode == 200) {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
-        // show success snack bar
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Banques chargées !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(60, 141, 188, 1),
-          ),
-        );
+        // ? Show success snack bar
+        if (ScreenController.actualView == "BanqueView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Banques chargées !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
         // ? create list of countries
         List banqueResponse = json.decode(this.response.body)['rows'];
         List<Banque> banques = [
@@ -301,11 +315,12 @@ class Api {
         return banques;
       } else {
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des banques",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "BanqueView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des banques",
+          );
         return <Banque>[];
         //throw Exception('Failed to load user datas');
       }
@@ -331,15 +346,16 @@ class Api {
       if (this.response.statusCode == 200) {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
-        // show success snack bar
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Taxes chargées !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(60, 141, 188, 1),
-          ),
-        );
+        // ? Show success snack bar
+        if (ScreenController.actualView == "TvaView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Taxes chargées !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
         // ? create list of taxs
         List tvaResponse = json.decode(this.response.body)['rows'];
         List<Tva> tvas = [
@@ -350,11 +366,12 @@ class Api {
         return tvas;
       } else {
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des taxes",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "TvaView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des taxes",
+          );
         return <Tva>[];
       }
     } catch (error) {
@@ -379,15 +396,16 @@ class Api {
       if (this.response.statusCode == 200) {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
-        // show success snack bar
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Catégories chargées !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(60, 141, 188, 1),
-          ),
-        );
+        // ? Show success snack bar
+        if (ScreenController.actualView == "CategoryView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Catégories chargées !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
         // ? create list of taxs
         List categorieResponse = json.decode(this.response.body)['rows'];
         List<Category> categories = [
@@ -399,11 +417,12 @@ class Api {
         return categories;
       } else {
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des catégories",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "CategoryView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des catégories",
+          );
         return <Category>[];
       }
     } catch (error) {
@@ -428,15 +447,16 @@ class Api {
       if (this.response.statusCode == 200) {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
-        // show success snack bar
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Sous catégories chargées !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(60, 141, 188, 1),
-          ),
-        );
+        // ? Show success snack bar
+        if (ScreenController.actualView == "SubCategoryView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Sous catégories chargées !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
         // ? create list of taxs
         List subCategorieResponse = json.decode(this.response.body)['rows'];
         List<SubCategory> subCategories = [
@@ -448,11 +468,12 @@ class Api {
         return subCategories;
       } else {
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des sous catégories",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "SubCategoryView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des sous catégories",
+          );
         return <SubCategory>[];
       }
     } catch (error) {
@@ -462,31 +483,18 @@ class Api {
   }
 
   // todo: get dashboard stats method
-  Future<Map<String, int>> getDashboardStats() async {
+  Future<Map<String, int>> getDashboardStats(BuildContext context) async {
     Map<String, int> dashboardDatas = {};
-    List<String> dashboardCards = [
-      'getClients',
-      'getArticles',
-      'getFournisseurs',
-    ];
     try {
-      // ? getting dashboard datas from url
-      for (var card in dashboardCards) {
-        this.response = await http.get(
-          Uri.parse(this.routes[card].toString()),
-          headers: {
-            // pass access token into the header
-            HttpHeaders.authorizationHeader: User.token,
-          },
-        );
-        // ? Check the response status code
-        if (this.response.statusCode == 200) {
-          this.requestSuccess = true;
-          //print(this.response.body);
-          // ? get the articles number of this account
-          dashboardDatas[card] = json.decode(this.response.body)['total'];
-        }
-      }
+      // ? Get user dashboard datas
+      List<Client> clients = await getClients(context);
+      List<Article> articles = await getArticles(context);
+      List<Fournisseur> fournisseurs = await getFournisseurs(context);
+      //List<Depot> depots = await getDepots(context);
+      // ? Put the number of this datas in the dashboard stats list
+      dashboardDatas['getClients'] = clients.length;
+      dashboardDatas['getArticles'] = articles.length;
+      dashboardDatas['getFournisseurs'] = fournisseurs.length;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
     }
@@ -517,20 +525,23 @@ class Api {
         // then parse the JSON.
         this.requestSuccess = true;
         //print(this.response.body);
-        // show success snack bar
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Fournisseurs chargés !",
-          icon: Icon(
-            Icons.info_rounded,
-            color: Color.fromRGBO(221, 75, 57, 1),
-          ),
-        );
+        // ? Show success snack bar
+        if (ScreenController.actualView == "ProviderView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Fournisseurs chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(221, 75, 57, 1),
+            ),
+          );
         // ? create list of fournisseurs
         List fournisseurResponse = json.decode(this.response.body)['rows'];
         List<Fournisseur> fournisseurs = [
           for (var fournisseur in fournisseurResponse)
-            Fournisseur.fromJson(fournisseur),
+            // ? take only fournisseur created by the actual user
+            if (fournisseur['created_by'] == User.id)
+              Fournisseur.fromJson(fournisseur),
         ];
         // ? return list of fournisseurs
         return fournisseurs;
@@ -538,11 +549,12 @@ class Api {
         // If the server did not return a 200 OK response,
         // then throw an exception.
         this.requestSuccess = false;
-        // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de récupération des fournisseurs",
-        );
+        // ? Show error snack bar
+        if (ScreenController.actualView == "ProviderView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des fournisseurs",
+          );
         return <Fournisseur>[];
         //throw Exception('Failed to load user datas');
       }
@@ -706,11 +718,13 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement du client",
-      );
+      for (var i = 1; i <= 5; i++) print('API ERROR: $error');
+      // ? Show error snack bar
+      if (ScreenController.actualView == "ClientView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement du client",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -741,10 +755,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print('API ERROR: $error');
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement du client",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "ProviderView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement du client",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -804,10 +820,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de l'article",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "ArticleView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de l'article",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -839,10 +857,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de la banque",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "BanqueView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de la banque",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -874,10 +894,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement du regime",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "RegimeView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement du regime",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -909,10 +931,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de la banque",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "TvaView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de la banque",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -945,10 +969,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de la caisse",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "CaisseView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de la caisse",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -980,10 +1006,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement du pays",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "PaysView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement du pays",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1015,10 +1043,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de la catégorie",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "CategoryView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de la catégorie",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1052,10 +1082,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de la sous catégorie",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "SubCategoryView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de la sous catégorie",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1087,10 +1119,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement du moyen de payement",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "MoyenPayementView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement du moyen de payement",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1122,10 +1156,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement du rayon",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "RayonView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement du rayon",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1157,10 +1193,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de la rangée",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "RangeeView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de la rangée",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1192,10 +1230,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement du casier",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "CasierView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement du casier",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1229,10 +1269,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de l'unité",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "UniteView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de l'unité",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1264,10 +1306,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de la taille",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "TailleView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de la taille",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1299,10 +1343,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement du divers",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "DiversView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement du divers",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1334,10 +1380,12 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec d'enregistrement de la catégorie dépense",
-      );
+      // ? Show error snack bar
+      if (ScreenController.actualView == "CategoryDepenseView")
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec d'enregistrement de la catégorie dépense",
+        );
       return {'msg': 'Une erreur est survenue'};
     }
   }

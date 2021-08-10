@@ -27,6 +27,7 @@ class RegimeViewState extends State<RegimeView> {
   bool isNewBankEmpty = false;
   @override
   Widget build(BuildContext context) {
+    ScreenController.actualView = "RegimeView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

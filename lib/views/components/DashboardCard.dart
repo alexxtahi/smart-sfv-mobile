@@ -202,7 +202,7 @@ class DashboardCardState extends State<DashboardCard> {
     // init API instance
     Api api = Api();
     // call API method getDashboardDatas
-    Map<String, int> dashboardDatas = await api.getDashboardStats();
+    Map<String, int> dashboardDatas = await api.getDashboardStats(context);
     // return dashboard datas
     return dashboardDatas;
   }
