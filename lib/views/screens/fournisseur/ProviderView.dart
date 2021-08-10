@@ -97,7 +97,7 @@ class ProviderViewState extends State<ProviderView> {
               if (formKey.currentState!.validate()) {
                 // ? sending datas to API
                 Api api = Api();
-                final Map<String, dynamic> postClientResponse =
+                final Map<String, dynamic> postFournisseurResponse =
                     await api.postFournisseur(
                   context: context,
                   // ? Create Fournisseur instance from Json and pass it to the fucnction
@@ -124,7 +124,7 @@ class ProviderViewState extends State<ProviderView> {
                   }),
                 );
                 // ? check the server response
-                if (postClientResponse['msg'] ==
+                if (postFournisseurResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(

@@ -8,6 +8,7 @@ import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Banque.dart';
+import 'package:smartsfv/models/Caisse.dart';
 import 'package:smartsfv/models/Category.dart';
 import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
@@ -334,8 +335,62 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) ('API ERROR: Banque Model Error -> $error');
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Banque Model Error -> $error');
       return <Banque>[];
+    }
+  }
+
+  // todo: get caisses method
+  Future<List<Caisse>> getCaisses(BuildContext context) async {
+    this.url = this.routes['getCaisses'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "CaisseView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Caisses chargées !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of countries
+        List caisseResponse = json.decode(this.response.body)['rows'];
+        List<Caisse> caisses = [
+          // ? take only caisse created by the actual user
+          for (var caisse in caisseResponse) Caisse.fromJson(caisse), // ! debug
+          //if (caisse['created_by'] == User.id) Caisse.fromJson(caisse), // ! production
+        ];
+        // ? return list of caisses
+        return caisses;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "CaisseView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des caisses",
+          );
+        return <Caisse>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Caisse Model Error -> $error');
+      return <Caisse>[];
     }
   }
 
@@ -1011,11 +1066,10 @@ class Api {
   }
 
   // todo: post caisse method
-  Future<Map<String, dynamic>> postCaisse(
-    BuildContext context,
-    String libelle,
-    int depot,
-  ) async {
+  Future<Map<String, dynamic>> postCaisse({
+    required BuildContext context,
+    required Caisse caisse,
+  }) async {
     this.url = this.routes['postCaisse'].toString(); // set client url
     try {
       this.response = await http.post(
@@ -1027,9 +1081,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_caisse': libelle,
-        },
+        body: Caisse.toMap(caisse),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);

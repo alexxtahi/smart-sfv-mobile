@@ -1,14 +1,14 @@
-import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
-import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/screens/caisse/CaisseFutureBuilder.dart';
+import 'package:smartsfv/functions.dart' as functions;
 
 class CaisseScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -18,8 +18,8 @@ class CaisseScreen extends StatefulWidget {
 }
 
 class CaisseScreenState extends State<CaisseScreen> {
-  ScrollController scrollController = new ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController scrollController = ScrollController();
+  ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
@@ -34,9 +34,6 @@ class CaisseScreenState extends State<CaisseScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    List<String> banklist = [
-      for (var i = 1; i <= 50; i++) 'Caisse $i',
-    ];
     // Return building scaffold
     return AnimatedContainer(
       transform: Matrix4.translationValues(
@@ -155,52 +152,50 @@ class CaisseScreenState extends State<CaisseScreen> {
                 SizedBox(height: 20),
                 //todo: List title
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      radius: 5,
-                      backgroundColor: Color.fromRGBO(60, 141, 188, 1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 5,
+                          backgroundColor: Color.fromRGBO(60, 141, 188, 1),
+                        ),
+                        SizedBox(width: 10),
+                        MyText(
+                          text: 'Liste des caisses',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color.fromRGBO(60, 141, 188, 1),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 10),
-                    MyText(
-                      text: 'Liste des caisses',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Color.fromRGBO(60, 141, 188, 1),
+                    //todo: Reload button
+                    IconButton(
+                      splashColor: Color.fromRGBO(60, 141, 188, 0.15),
+                      tooltip: 'Actualiser',
+                      onPressed: () {
+                        // show refresh message
+                        functions.showMessageToSnackbar(
+                          context: context,
+                          message: "Rechargement...",
+                          icon: CircularProgressIndicator(
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                            strokeWidth: 5,
+                          ),
+                        );
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.refresh_rounded,
+                        color: Color.fromRGBO(60, 141, 188, 1),
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
                 //todo: Scrolling View
-                Expanded(
-                  child: FadingEdgeScrollView.fromSingleChildScrollView(
-                    gradientFractionOnStart: 0.05,
-                    gradientFractionOnEnd: 0.2,
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          //todo: ListView
-                          Row(
-                            children: [
-                              Expanded(
-                                child: MyDataTable(
-                                  columns: ['N°', 'Libellé', 'Dépôt'],
-                                  rows: [
-                                    for (var i = 1; i <= 50; i++)
-                                      [i.toString(), 'Caisse $i', 'Dépôt $i'],
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                CaisseFutureBuilder(),
               ],
             ),
           ),

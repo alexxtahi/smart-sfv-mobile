@@ -280,51 +280,34 @@ class ClientViewState extends State<ClientView> {
                   SizedBox(height: 5),
                   //todo: Pays DropDown
                   FutureBuilder<List<Pays>>(
-                      future: this.fetchCountries(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! != 'Sélectionnez un pays'
-                                  ? null
-                                  : 'Choisissez un pays';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all countries to get the selected countrie id
-                              for (var pays in snapshot.data!) {
-                                if (pays.libelle == value) {
-                                  fieldControllers['pays'] =
-                                      pays.id; // save the new countrie selected
-                                  print(
-                                      "Nouveau pays: $value, ${fieldControllers['pays']}, ${pays.id}");
-                                  break;
-                                }
+                    future: this.fetchCountries(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        // ? get nations datas from server
+                        return MyComboBox(
+                          validator: (value) {
+                            return value! != 'Sélectionnez un pays'
+                                ? null
+                                : 'Choisissez un pays';
+                          },
+                          onChanged: (value) {
+                            // ? Iterate all countries to get the selected countrie id
+                            for (var pays in snapshot.data!) {
+                              if (pays.libelle == value) {
+                                fieldControllers['pays'] =
+                                    pays.id; // save the new countrie selected
+                                print(
+                                    "Nouveau pays: $value, ${fieldControllers['pays']}, ${pays.id}");
+                                break;
                               }
-                            },
-                            initialDropDownValue: 'Sélectionnez un pays',
-                            initialDropDownList: [
-                              'Sélectionnez un pays',
-                              // ? datas integration
-                              for (var pays in snapshot.data!) pays.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/countries.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
+                            }
+                          },
+                          initialDropDownValue: 'Sélectionnez un pays',
+                          initialDropDownList: [
+                            'Sélectionnez un pays',
+                            // ? datas integration
+                            for (var pays in snapshot.data!) pays.libelle,
+                          ],
                           prefixPadding: 10,
                           prefixIcon: Image.asset(
                             'assets/img/icons/countries.png',
@@ -333,15 +316,33 @@ class ClientViewState extends State<ClientView> {
                             height: 15,
                             color: Color.fromRGBO(60, 141, 188, 1),
                           ),
-                          placeholder: 'Sélectionnez un pays',
                           textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                           fillColor: Color.fromRGBO(60, 141, 188, 0.15),
                           borderRadius: Radius.circular(10),
                           focusBorderColor: Colors.transparent,
                           enableBorderColor: Colors.transparent,
                         );
-                      }),
+                      }
+                      // ? on wait the combo with data load empty combo
+                      return MyTextFormField(
+                        prefixPadding: 10,
+                        prefixIcon: Image.asset(
+                          'assets/img/icons/countries.png',
+                          fit: BoxFit.contain,
+                          width: 15,
+                          height: 15,
+                          color: Color.fromRGBO(60, 141, 188, 1),
+                        ),
+                        placeholder: 'Sélectionnez un pays',
+                        textColor: Color.fromRGBO(60, 141, 188, 1),
+                        placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                        fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                        borderRadius: Radius.circular(10),
+                        focusBorderColor: Colors.transparent,
+                        enableBorderColor: Colors.transparent,
+                      );
+                    },
+                  ),
                 ],
               ),
               SizedBox(height: 10),
