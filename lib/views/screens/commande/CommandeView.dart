@@ -74,7 +74,6 @@ class CommandeViewState extends State<CommandeView> {
           CommandeScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
-            username: 'Alexandre TAHI',
             panelController: panelController,
           ),
         ],

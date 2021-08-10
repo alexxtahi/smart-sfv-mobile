@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
+import 'package:smartsfv/views/components/AppName.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/UserAvatar.dart';
-
-import 'AppName.dart';
 
 class MyAppBar extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -94,7 +93,6 @@ class MyAppBarState extends State<MyAppBar> {
           ),
           //todo: User Avatar
           UserAvatar(
-            username: 'Alexandre TAHI',
             avatarRadius: 25,
             onPressed: () {
               widget.panelController.anchor();

@@ -41,7 +41,6 @@ class HomeViewState extends State<HomeView> {
           DashboardScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
-            username: 'Alexandre TAHI',
             panelController: panelController,
           ),
         ],

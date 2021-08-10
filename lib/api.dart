@@ -21,25 +21,25 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = '192.168.10.11:8000'; // local ip adress
-  //String host = '127.0.0.1:8000';
+  String host = 'http://192.168.10.11:8000'; // local ip adress
+  //String host = 'https://smartsfv.smartyacademy.com';
   late Map<String, String> routes;
   //todo: Constructor
   Api() {
     // initialisation of the routes Map
     this.routes = {
-      'login': 'http://${this.host}/api/auth/login',
-      'getArticles': 'http://${this.host}/api/auth/articles',
-      'userinfo': 'http://${this.host}/api/auth/user',
-      'logout': 'http://${this.host}/api/auth/logout',
-      'getRegimes': 'http://${this.host}/api/auth/regimes',
-      'getNations': 'http://${this.host}/api/auth/nations',
-      'postClient': 'http://${this.host}/api/auth/client/store',
-      'getClients': 'http://${this.host}/api/auth/clients',
-      'putClient': 'http://${this.host}/api/auth/client/update/',
-      'deleteClient': 'http://${this.host}/api/auth/clients/delete/',
-      'getFournisseurs': 'http://${this.host}/api/auth/fournisseurs',
-      'postFournisseur': 'http://${this.host}/api/auth/fournisseur/store',
+      'login': '${this.host}/api/auth/login',
+      'getArticles': '${this.host}/api/auth/articles',
+      'userinfo': '${this.host}/api/auth/user',
+      'logout': '${this.host}/api/auth/logout',
+      'getRegimes': '${this.host}/api/auth/regimes',
+      'getNations': '${this.host}/api/auth/nations',
+      'postClient': '${this.host}/api/auth/client/store',
+      'getClients': '${this.host}/api/auth/clients',
+      'putClient': '${this.host}/api/auth/client/update/',
+      'deleteClient': '${this.host}/api/auth/clients/delete/',
+      'getFournisseurs': '${this.host}/api/auth/fournisseurs',
+      'postFournisseur': '${this.host}/api/auth/fournisseur/store',
     };
   }
 
@@ -552,6 +552,49 @@ class Api {
     }
   }
 
+  // todo: get user info method
+  Future<Map<String, dynamic>> getUserInfo(BuildContext context) async {
+    this.url = this.routes['userinfo'].toString(); // set login url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get pays token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        // ? create list for the user datas
+        Map<String, dynamic> userInfos = json.decode(this.response.body);
+        // ? return this list
+        return userInfos;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de récupération des infos de l'utilisateur",
+        );
+        return {'msg': 'no data'};
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print(error);
+      return {'msg': 'no data'};
+    }
+  }
+
   // todo: verify login method
   Future<Map<String, dynamic>> verifyLogin(
       BuildContext context, String login, String password,
@@ -573,7 +616,7 @@ class Api {
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
-      print("Réponse du server: $responseJson");
+
       print(responseJson.runtimeType);
       // ? Login success
       if (responseJson['access_token'] != null) {
@@ -582,6 +625,15 @@ class Api {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', responseJson['access_token']);
         String? token = prefs.getString('access_token');*/
+        // ? get user informations from the server
+        Map<String, dynamic> userInfos = await getUserInfo(context);
+        responseJson['login'] = login;
+        responseJson['password'] = password;
+        responseJson['state'] =
+            (userInfos['statut_compte'] == 1) ? true : false;
+        responseJson['createdAt'] = userInfos['created_at'];
+        responseJson['lastLogin'] = userInfos['updated_at'];
+        print("Réponse du server: $responseJson");
         // ? set user informations
         User.create(responseJson);
         print('get token: ' + User.token);

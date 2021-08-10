@@ -43,7 +43,6 @@ class TvaViewState extends State<TvaView> {
           TvaScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
-            username: 'Alexandre TAHI',
             panelController: panelController,
           ),
         ],

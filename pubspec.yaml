@@ -3,7 +3,7 @@ description: La version mobile de SMART-SFV, l'application de gestion des stock,
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -40,6 +39,7 @@ dependencies:
   slide_drawer: ^1.0.3
   fading_edge_scrollview: ^2.0.0
   transparent_image: ^2.0.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -57,7 +57,6 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -66,108 +65,108 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     # logo
-     - assets/img/logo/smart-sfv.png
+    - assets/img/logo/smart-sfv.png
     # motion design
-     - assets/img/motion-design/warehouse.png
-     - assets/img/motion-design/wholesale.png
+    - assets/img/motion-design/warehouse.png
+    - assets/img/motion-design/wholesale.png
     # motion design
-     - assets/img/backgrounds/stock1.jpg
-     - assets/img/backgrounds/entrepot.jpg
-     - assets/img/backgrounds/entrepot-blur.jpg
-     - assets/img/backgrounds/gestion-stock.jpg
-     - assets/img/backgrounds/gestion-stock-blur.jpg
-     - assets/img/backgrounds/storage-center.jpg
-     - assets/img/backgrounds/storage-center-blur.jpg
+    - assets/img/backgrounds/stock1.jpg
+    - assets/img/backgrounds/entrepot.jpg
+    - assets/img/backgrounds/entrepot-blur.jpg
+    - assets/img/backgrounds/gestion-stock.jpg
+    - assets/img/backgrounds/gestion-stock-blur.jpg
+    - assets/img/backgrounds/storage-center.jpg
+    - assets/img/backgrounds/storage-center-blur.jpg
     # icons
-     - assets/img/icons/key.png
-     - assets/img/icons/account.png
-     - assets/img/icons/bank.png
-     - assets/img/icons/bank-building.png
-     - assets/img/icons/box.png
-     - assets/img/icons/briefcase.png
-     - assets/img/icons/calculator.png
-     - assets/img/icons/credit-card.png
-     - assets/img/icons/credit-cards-payment.png
-     - assets/img/icons/customer.png
-     - assets/img/icons/customer1.png
-     - assets/img/icons/dashboard.png
-     - assets/img/icons/drawer.png
-     - assets/img/icons/down-arrow-in-a-circle.png
-     - assets/img/icons/previous.png
-     - assets/img/icons/house.png
-     - assets/img/icons/mail.png
-     - assets/img/icons/paper.png
-     - assets/img/icons/provider.png
-     - assets/img/icons/stock.png
-     - assets/img/icons/suitcase.png
-     - assets/img/icons/padlock.png
-     - assets/img/icons/settings.png
-     - assets/img/icons/mechanical-gears.png
-     - assets/img/icons/shop.png
-     - assets/img/icons/marketing.png
-     - assets/img/icons/global-network.png
-     - assets/img/icons/backup.png
-     - assets/img/icons/collaboration.png
-     - assets/img/icons/company.png
-     - assets/img/icons/follower.png
-     - assets/img/icons/followers.png
-     - assets/img/icons/no-wifi.png
-     - assets/img/icons/subscribe.png
-     - assets/img/icons/technics.png
-     - assets/img/icons/go-back-arrow.png
-     - assets/img/icons/info.png
-     - assets/img/icons/dollar.png
-     - assets/img/icons/tax.png
-     - assets/img/icons/countries.png
-     - assets/img/icons/cashier.png
-     - assets/img/icons/regim.png
-     - assets/img/icons/category.png
-     - assets/img/icons/sub-category.png
-     - assets/img/icons/wallet.png
-     - assets/img/icons/section.png
-     - assets/img/icons/locker.png
-     - assets/img/icons/above.png
-     - assets/img/icons/package.png
-     - assets/img/icons/more.png
-     - assets/img/icons/unity.png
-     - assets/img/icons/hand.png
-     - assets/img/icons/google-docs.png
-     - assets/img/icons/document.png
-     - assets/img/icons/supplies.png
-     - assets/img/icons/truck.png
-     - assets/img/icons/warehouse.png
-     - assets/img/icons/inventory.png
-     - assets/img/icons/arrows.png
-     - assets/img/icons/unpacking.png
-     - assets/img/icons/packages.png
-     - assets/img/icons/cashier-machine.png
-     - assets/img/icons/exchange.png
-     - assets/img/icons/discount.png
-     - assets/img/icons/spending.png
-     - assets/img/icons/stock-movement.png
-     - assets/img/icons/button.png
-     - assets/img/icons/flag.png
-     - assets/img/icons/price-tag.png
-     - assets/img/icons/molecular.png
-     - assets/img/icons/deposit.png
-     - assets/img/icons/reload.png
-     - assets/img/icons/setting-lines.png
-     - assets/img/icons/spending-movement.png
-     - assets/img/icons/user.png
-     - assets/img/icons/exit.png
-     - assets/img/icons/filter.png
-     - assets/img/icons/filter1.png
-     - assets/img/icons/placeholder.png
-     - assets/img/icons/australia.png
-     - assets/img/icons/sort-az.png
-     - assets/img/icons/barcode.png
-     - assets/img/icons/calendar.png
-     - assets/img/icons/code.png
-     - assets/img/icons/shopping-bag.png
-     - assets/img/icons/shopping-cart.png
-     - assets/img/icons/add-box.png
-     - assets/img/icons/add-user.png
-     - assets/img/icons/sad.png
+    - assets/img/icons/key.png
+    - assets/img/icons/account.png
+    - assets/img/icons/bank.png
+    - assets/img/icons/bank-building.png
+    - assets/img/icons/box.png
+    - assets/img/icons/briefcase.png
+    - assets/img/icons/calculator.png
+    - assets/img/icons/credit-card.png
+    - assets/img/icons/credit-cards-payment.png
+    - assets/img/icons/customer.png
+    - assets/img/icons/customer1.png
+    - assets/img/icons/dashboard.png
+    - assets/img/icons/drawer.png
+    - assets/img/icons/down-arrow-in-a-circle.png
+    - assets/img/icons/previous.png
+    - assets/img/icons/house.png
+    - assets/img/icons/mail.png
+    - assets/img/icons/paper.png
+    - assets/img/icons/provider.png
+    - assets/img/icons/stock.png
+    - assets/img/icons/suitcase.png
+    - assets/img/icons/padlock.png
+    - assets/img/icons/settings.png
+    - assets/img/icons/mechanical-gears.png
+    - assets/img/icons/shop.png
+    - assets/img/icons/marketing.png
+    - assets/img/icons/global-network.png
+    - assets/img/icons/backup.png
+    - assets/img/icons/collaboration.png
+    - assets/img/icons/company.png
+    - assets/img/icons/follower.png
+    - assets/img/icons/followers.png
+    - assets/img/icons/no-wifi.png
+    - assets/img/icons/subscribe.png
+    - assets/img/icons/technics.png
+    - assets/img/icons/go-back-arrow.png
+    - assets/img/icons/info.png
+    - assets/img/icons/dollar.png
+    - assets/img/icons/tax.png
+    - assets/img/icons/countries.png
+    - assets/img/icons/cashier.png
+    - assets/img/icons/regim.png
+    - assets/img/icons/category.png
+    - assets/img/icons/sub-category.png
+    - assets/img/icons/wallet.png
+    - assets/img/icons/section.png
+    - assets/img/icons/locker.png
+    - assets/img/icons/above.png
+    - assets/img/icons/package.png
+    - assets/img/icons/more.png
+    - assets/img/icons/unity.png
+    - assets/img/icons/hand.png
+    - assets/img/icons/google-docs.png
+    - assets/img/icons/document.png
+    - assets/img/icons/supplies.png
+    - assets/img/icons/truck.png
+    - assets/img/icons/warehouse.png
+    - assets/img/icons/inventory.png
+    - assets/img/icons/arrows.png
+    - assets/img/icons/unpacking.png
+    - assets/img/icons/packages.png
+    - assets/img/icons/cashier-machine.png
+    - assets/img/icons/exchange.png
+    - assets/img/icons/discount.png
+    - assets/img/icons/spending.png
+    - assets/img/icons/stock-movement.png
+    - assets/img/icons/button.png
+    - assets/img/icons/flag.png
+    - assets/img/icons/price-tag.png
+    - assets/img/icons/molecular.png
+    - assets/img/icons/deposit.png
+    - assets/img/icons/reload.png
+    - assets/img/icons/setting-lines.png
+    - assets/img/icons/spending-movement.png
+    - assets/img/icons/user.png
+    - assets/img/icons/exit.png
+    - assets/img/icons/filter.png
+    - assets/img/icons/filter1.png
+    - assets/img/icons/placeholder.png
+    - assets/img/icons/australia.png
+    - assets/img/icons/sort-az.png
+    - assets/img/icons/barcode.png
+    - assets/img/icons/calendar.png
+    - assets/img/icons/code.png
+    - assets/img/icons/shopping-bag.png
+    - assets/img/icons/shopping-cart.png
+    - assets/img/icons/add-box.png
+    - assets/img/icons/add-user.png
+    - assets/img/icons/sad.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -181,19 +180,19 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Montserrat
-       fonts:
-         - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
-         - asset: assets/fonts/Montserrat/Montserrat-Medium.ttf
-           weight: 500
-         - asset: assets/fonts/Montserrat/Montserrat-SemiBold.ttf
-           weight: 600
-         - asset: assets/fonts/Montserrat/Montserrat-Bold.ttf
-           weight: 700
-         - asset: assets/fonts/Montserrat/Montserrat-ExtraBold.ttf
-           weight: 800
-         - asset: assets/fonts/Montserrat/Montserrat-Black.ttf
-           weight: 900
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Montserrat/Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Montserrat/Montserrat-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Montserrat/Montserrat-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Montserrat/Montserrat-Black.ttf
+          weight: 900
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -37,7 +37,7 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
                     radius: 40,
                     backgroundColor: Color.fromRGBO(1, 21, 122, 1),
                     backgroundImage:
-                        AssetImage('assets/img/backgrounds/storage-center.jpg'),
+                        AssetImage('assets/img/backgrounds/entrepot.jpg'),
                   ),
                   SizedBox(width: 10),
                   //todo: Username & role

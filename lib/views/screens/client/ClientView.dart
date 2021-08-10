@@ -609,7 +609,6 @@ class ClientViewState extends State<ClientView> {
           ClientScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
-            username: 'Alexandre TAHI',
             panelController: panelController,
           ),
         ],

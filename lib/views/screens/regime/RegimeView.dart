@@ -167,7 +167,6 @@ class RegimeViewState extends State<RegimeView> {
           RegimeScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
-            username: 'Alexandre TAHI',
             panelController: panelController,
           ),
         ],

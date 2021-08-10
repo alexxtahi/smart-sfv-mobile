@@ -856,7 +856,6 @@ class ArticleViewState extends State<ArticleView> {
           ArticleScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
-            username: 'Alexandre TAHI',
             panelController: panelController,
           ),
         ],

@@ -163,7 +163,6 @@ class BanqueViewState extends State<BanqueView> {
           BanqueScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
-            username: 'Alexandre TAHI',
             panelController: panelController,
           ),
         ],

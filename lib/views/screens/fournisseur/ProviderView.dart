@@ -590,7 +590,6 @@ class ProviderViewState extends State<ProviderView> {
           ProviderScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
-            username: 'Alexandre TAHI',
             panelController: panelController,
           ),
         ],
