@@ -139,7 +139,7 @@ class DashboardCardState extends State<DashboardCard> {
                               'Erreur',
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                color: Colors.white,
+                                color: Colors.black,
                                 //color: Colors.black,
                                 fontSize: 40,
                                 fontWeight: FontWeight.w800,

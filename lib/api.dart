@@ -1071,11 +1071,13 @@ class Api {
       List<Client> clients = await getClients(context);
       List<Article> articles = await getArticles(context);
       List<Fournisseur> fournisseurs = await getFournisseurs(context);
+      List<Commande> commandes = await getCommandes(context);
       //List<Depot> depots = await getDepots(context);
       // ? Put the number of this datas in the dashboard stats list
       dashboardDatas['getClients'] = clients.length;
       dashboardDatas['getArticles'] = articles.length;
       dashboardDatas['getFournisseurs'] = fournisseurs.length;
+      dashboardDatas['getCommandes'] = commandes.length;
       // ? Show success snack bar
       if (ScreenController.reloadDashboard) {
         if (ScreenController.actualView == "HomeView")

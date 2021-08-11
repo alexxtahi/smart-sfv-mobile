@@ -104,7 +104,6 @@ class ArticleScreenState extends State<ArticleScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       //todo: Catégories DropDown
-                      //todo: Pays DropDown
                       FutureBuilder<List<Category>>(
                         future: this.fetchCategories(),
                         builder: (comboBoxContext, snapshot) {

@@ -60,6 +60,9 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                           DrawerLayoutController.close();
                         });
                       } else {*/
+                      setState(() {
+                        DrawerLayoutController.close();
+                      });
                       functions.openPage(
                         context,
                         HomeView(),

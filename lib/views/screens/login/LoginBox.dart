@@ -93,9 +93,14 @@ class LoginBoxState extends State<LoginBox> {
                                   ? null
                                   : 'Entrez votre login';
                             },
-                            onSubmitted: (inputValue) {
-                              //FocusScope.of(context).requestFocus(FocusNode());
-                              this.focusNode.requestFocus();
+                            onChanged: (value) {},
+                            onSubmitted: (value) {
+                              // Remove all space in login
+                              this.loginFieldController.text =
+                                  value!.replaceAll(' ', '');
+                              this
+                                  .focusNode
+                                  .requestFocus(); // pass focus to password field
                             },
                           ),
                           SizedBox(height: 15),
@@ -150,16 +155,6 @@ class LoginBoxState extends State<LoginBox> {
                                     mode: 'pushReplacement',
                                   );
                                 }
-                                /*if (this.loginFieldController.text ==
-                                        'Concepteur' &&
-                                    this.loginFieldController.text ==
-                                        'P@ssword@123456') {
-                                  functions.openPage(
-                                    context,
-                                    HomeView(),
-                                    mode: 'pushReplacement',
-                                  );
-                                }*/
                               }
                             },
                             child: Text(
@@ -194,7 +189,6 @@ class LoginBoxState extends State<LoginBox> {
                         ],
                       ),
                     ),
-
                     //todo: Forgotten Password Button
                     TextButton(
                       onPressed: () {

@@ -1,15 +1,17 @@
-import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
-import 'package:smartsfv/views/components/MyDataTable.dart';
+import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/screens/commande/CommandeFutureBuilder.dart';
 
 class CommandeScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
@@ -22,6 +24,8 @@ class CommandeScreenState extends State<CommandeScreen> {
   ScrollController scrollController = new ScrollController();
   ScrollController datatableScrollController = new ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  // init API instance
+  Api api = Api();
   String searchBy = 'Par N° de bon';
   String searchByIcon = 'code';
   //todo: setState function for the childrens
@@ -103,37 +107,82 @@ class CommandeScreenState extends State<CommandeScreen> {
                     childAspectRatio: 3,
                     crossAxisSpacing: 10,
                     children: [
-                      MyOutlinedButton(
-                        onPressed: () {},
-                        backgroundColor: Color.fromRGBO(0, 27, 121, 1),
-                        borderRadius: 15,
-                        borderColor: Colors.transparent,
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/img/icons/provider.png',
-                              width: 20,
-                              height: 20,
-                              fit: BoxFit.contain,
-                              color: Colors.white,
-                            ),
-                            SizedBox(width: 15),
-                            Flexible(
-                              child: MyText(
-                                text: 'Fournisseurs',
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                      //todo: Catégories DropDown
+                      FutureBuilder<List<Fournisseur>>(
+                        future: api.getFournisseurs(context),
+                        builder: (comboBoxContext, snapshot) {
+                          if (snapshot.hasData) {
+                            // ? get nations datas from server
+                            return MyComboBox(
+                              initialDropDownValue: 'Fournisseurs',
+                              initialDropDownList: [
+                                'Fournisseurs',
+                                // ? datas integration
+                                for (var fournisseur in snapshot.data!)
+                                  fournisseur.nom!,
+                              ],
+                              iconSize: 0,
+                              textFontSize: 10,
+                              prefixPadding: 10,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/provider.png',
+                                fit: BoxFit.contain,
+                                width: 20,
+                                height: 20,
+                                color: Color.fromRGBO(0, 27, 121, 1),
                               ),
+                              textColor: Color.fromRGBO(0, 27, 121, 1),
+                              textFontWeight: FontWeight.bold,
+                              fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                              borderRadius: Radius.circular(15),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
+                          } else if (snapshot.hasError) {
+                            functions.errorSnackbar(
+                              context: context,
+                              message: 'Echec de récupération des fournisseurs',
+                            );
+                            return MyText(
+                              text: snapshot.error.toString(),
+                              color: Color.fromRGBO(60, 141, 188, 0.5),
+                            );
+                          }
+                          // ? on wait the combo with data load empty combo
+                          return MyOutlinedButton(
+                            backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                            borderRadius: 15,
+                            borderColor: Colors.transparent,
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/img/icons/provider.png',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.contain,
+                                  color: Color.fromRGBO(0, 27, 121, 1),
+                                ),
+                                SizedBox(width: 15),
+                                Flexible(
+                                  child: MyText(
+                                    text: 'Fournisseurs',
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(0, 27, 121, 1),
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
+                      //todo: Filtres button
                       MyOutlinedButton(
                         onPressed: () {},
-                        backgroundColor: Color.fromRGBO(0, 27, 121, 1),
+                        backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(horizontal: 15),
@@ -142,21 +191,22 @@ class CommandeScreenState extends State<CommandeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset(
-                              'assets/img/icons/filter.png',
+                              'assets/img/icons/filter1.png',
                               width: 20,
                               height: 20,
                               fit: BoxFit.contain,
-                              color: Colors.white,
+                              color: Color.fromRGBO(0, 27, 121, 1),
                             ),
                             SizedBox(width: 15),
                             MyText(
                               text: 'Filtres',
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Color.fromRGBO(0, 27, 121, 1),
                             ),
                           ],
                         ),
                       ),
+                      //todo: Search by button
                       MyOutlinedButton(
                         onPressed: () {
                           setState(() {
@@ -196,7 +246,7 @@ class CommandeScreenState extends State<CommandeScreen> {
                             print('Recherche: ' + this.searchBy);
                           });
                         },
-                        backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                        backgroundColor: Color.fromRGBO(0, 27, 121, 1),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(horizontal: 15),
@@ -209,14 +259,14 @@ class CommandeScreenState extends State<CommandeScreen> {
                               width: 20,
                               height: 20,
                               fit: BoxFit.contain,
-                              color: Color.fromRGBO(0, 27, 121, 1),
+                              color: Colors.white,
                             ),
                             SizedBox(width: 15),
                             Flexible(
                               child: MyText(
                                 text: this.searchBy,
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(0, 27, 121, 1),
+                                color: Colors.white,
                               ),
                             ),
                           ],
@@ -228,74 +278,50 @@ class CommandeScreenState extends State<CommandeScreen> {
                 SizedBox(height: 20),
                 //todo: List title
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      radius: 5,
-                      backgroundColor: Color.fromRGBO(0, 27, 121, 1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 5,
+                          backgroundColor: Color.fromRGBO(0, 27, 121, 1),
+                        ),
+                        SizedBox(width: 10),
+                        MyText(
+                          text: 'Liste des commandes',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color.fromRGBO(0, 27, 121, 1),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 10),
-                    MyText(
-                      text: 'Liste des commandes',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Color.fromRGBO(0, 27, 121, 1),
+                    //todo: Reload button
+                    IconButton(
+                      splashColor: Color.fromRGBO(60, 141, 188, 0.15),
+                      tooltip: 'Actualiser',
+                      onPressed: () {
+                        // show refresh message
+                        functions.showMessageToSnackbar(
+                          context: context,
+                          message: "Rechargement...",
+                          icon: CircularProgressIndicator(
+                            color: Color.fromRGBO(0, 27, 121, 1),
+                            strokeWidth: 5,
+                          ),
+                        );
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.refresh_rounded,
+                        color: Color.fromRGBO(0, 27, 121, 1),
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
                 //todo: Scrolling View
-                Expanded(
-                  child: FadingEdgeScrollView.fromSingleChildScrollView(
-                    gradientFractionOnStart: 0.05,
-                    gradientFractionOnEnd: 0.2,
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          //todo: Table
-                          Row(
-                            children: [
-                              Expanded(
-                                child: FadingEdgeScrollView
-                                    .fromSingleChildScrollView(
-                                  gradientFractionOnStart: 0.2,
-                                  gradientFractionOnEnd: 0.2,
-                                  child: SingleChildScrollView(
-                                    controller: datatableScrollController,
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    child: MyDataTable(
-                                      columns: [
-                                        'Bon',
-                                        'Date',
-                                        'N° bon de commande',
-                                        'Fournisseur',
-                                        'Montant total',
-                                      ],
-                                      rows: [
-                                        for (var i = 1; i < 100; i++)
-                                          [
-                                            '1',
-                                            'Alexandre TAHI',
-                                            '+225 05 84 64 98 25',
-                                            "Côte d'ivoire",
-                                            'Bio',
-                                          ],
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                CommandeFutureBuilder(),
               ],
             ),
           ),

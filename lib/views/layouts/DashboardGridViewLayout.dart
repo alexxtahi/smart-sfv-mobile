@@ -3,6 +3,7 @@ import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/screens/article/ArticleView.dart';
 import 'package:smartsfv/views/screens/client/ClientView.dart';
+import 'package:smartsfv/views/screens/commande/CommandeView.dart';
 import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DashboardCard.dart';
 import 'package:smartsfv/functions.dart' as functions;
@@ -86,18 +87,20 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
             },
           ),
           DashboardCard(
-            text: 'Dépôts',
-            icon: 'assets/img/icons/bank.png',
-            cardName: 'getDepots',
-            iconColor: Color.fromRGBO(0, 77, 0, 1),
-            backgroundColor: Color.fromRGBO(0, 166, 90, 1),
+            text: 'Commandes',
+            icon: 'assets/img/icons/shopping-cart1.png',
+            cardName: 'getCommandes',
+            //iconColor: Color.fromRGBO(60, 141, 188, 1),
+            //backgroundColor: Color.fromRGBO(0, 27, 121, 1),
+            iconColor: Color.fromRGBO(0, 77, 0, 1), // ! old
+            backgroundColor: Color.fromRGBO(0, 166, 90, 1), // ! old
             onPressed: () {
-              /*print('Dashboard card Article appuyé !');
+              print('Dashboard card Commande appuyé !');
               functions.openPage(
                 context,
-                DepotView(),
+                CommandeView(),
                 mode: 'pushReplacement',
-              );*/
+              );
               setState(() {
                 DrawerLayoutController.close();
               });

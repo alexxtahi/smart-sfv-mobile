@@ -2,7 +2,7 @@ class Commande {
   // todo: Properties
   int id;
   String date;
-  int numeroBon;
+  String numeroBon;
   String fournisseur;
   int montant;
   // todo: Constructor
@@ -10,7 +10,7 @@ class Commande {
     this.id = 0,
     this.fournisseur = '',
     this.date = '',
-    this.numeroBon = 0,
+    this.numeroBon = '',
     this.montant = 0,
   });
   // todo: Methods
@@ -19,14 +19,18 @@ class Commande {
     return Commande(
       id: (json['id'] != null) ? json['id'] as int : 0,
       fournisseur:
-          (json['fournisseurs'] != null && json['fournisseurs'].isNotEmpty)
-              ? json['fournisseurs']['full_name_fournisseur'] as String
+          (json['fournisseur'] != null && json['fournisseur'].isNotEmpty)
+              ? json['fournisseur']['full_name_fournisseur'] as String
               : '',
-      date: (json['date_commande'] != null)
-          ? json['date_commande'] as String
+      date: (json['date_bon_commande'] != null)
+          ? json['date_bon_commande']
+              .toString()
+              .replaceAll('T', ' ')
+              .replaceAll('.000000Z', '')
           : '',
-      numeroBon: (json['numeroBon'] != null) ? json['numeroBon'] as int : 0,
-      montant: (json['montant'] != null) ? json['montant'] as int : 0,
+      numeroBon:
+          (json['numero_bon'] != null) ? json['numero_bon'] as String : '',
+      montant: (json['montantBon'] != null) ? json['montantBon'] as int : 0,
     );
   }
 

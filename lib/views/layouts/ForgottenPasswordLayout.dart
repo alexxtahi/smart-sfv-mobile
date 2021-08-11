@@ -18,6 +18,7 @@ class ForgottenPasswordLayout extends StatefulWidget {
 }
 
 class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
+  TextEditingController passwordResetController = TextEditingController();
   @override
   void initState() {
     //todo: Hide panel
@@ -80,7 +81,7 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
               //todo: Email TextField
               MyTextField(
                 focusNode: FocusNode(),
-                textEditingController: TextEditingController(),
+                textEditingController: passwordResetController,
                 borderRadius: Radius.circular(10),
                 textColor: Colors.black,
                 placeholder: 'Votre E-mail pour le lien de récupération',
@@ -104,6 +105,8 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
               //todo: Send Button
               OutlinedButton(
                 onPressed: () {
+                  print('envoi du mail de récupération');
+                  String email = passwordResetController.text;
                   FocusScope.of(context).requestFocus(FocusNode());
                   widget.panelController.hide();
                   functions.showMessageToSnackbar(
@@ -111,7 +114,6 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
                       message: "E-mail envoyé ! vérifiez votre boîte.",
                       duration: 3,
                       icon: Icon(Icons.mail_outlined));
-                  print('envoi du mail de récupération');
                 },
                 child: Text(
                   'Envoyer',
