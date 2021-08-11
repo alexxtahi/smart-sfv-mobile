@@ -141,21 +141,38 @@ class ExpansionTableState extends State<ExpansionTable> {
                       'Sera périmé dans',
                     ],
                     rows: [
-                      for (var article in snapshot.data!)
-                        [
-                          article.libelleDepot,
-                          article.description,
-                          article.libelleUnite,
-                          // get expiration date
-                          dateFormat
-                              .format(DateTime.parse(article.datePeremption)),
-                          // compute difference between expiration date and now
-                          DateTime.parse(article.datePeremption)
-                                  .difference(now)
-                                  .inDays
-                                  .toString() +
-                              ' jours',
-                        ],
+                      if (snapshot.data!.length >= 5)
+                        for (var article in snapshot.data!.getRange(0, 5))
+                          [
+                            article.libelleDepot,
+                            article.description,
+                            article.libelleUnite,
+                            // get expiration date
+                            dateFormat
+                                .format(DateTime.parse(article.datePeremption)),
+                            // compute difference between expiration date and now
+                            DateTime.parse(article.datePeremption)
+                                    .difference(now)
+                                    .inDays
+                                    .toString() +
+                                ' jours',
+                          ],
+                      if (snapshot.data!.length < 5)
+                        for (var article in snapshot.data!)
+                          [
+                            article.libelleDepot,
+                            article.description,
+                            article.libelleUnite,
+                            // get expiration date
+                            dateFormat
+                                .format(DateTime.parse(article.datePeremption)),
+                            // compute difference between expiration date and now
+                            DateTime.parse(article.datePeremption)
+                                    .difference(now)
+                                    .inDays
+                                    .toString() +
+                                ' jours',
+                          ],
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -224,14 +241,24 @@ class ExpansionTableState extends State<ExpansionTable> {
                       'Dépôt',
                     ],
                     rows: [
-                      for (var article in snapshot.data!)
-                        [
-                          article.description,
-                          article.categorie,
-                          article.subCategorie,
-                          article.qteEnStock.toString(),
-                          article.libelleDepot,
-                        ],
+                      if (snapshot.data!.length >= 5)
+                        for (var article in snapshot.data!.getRange(0, 5))
+                          [
+                            article.description,
+                            article.categorie,
+                            article.subCategorie,
+                            article.qteEnStock.toString(),
+                            article.libelleDepot,
+                          ],
+                      if (snapshot.data!.length < 5)
+                        for (var article in snapshot.data!)
+                          [
+                            article.description,
+                            article.categorie,
+                            article.subCategorie,
+                            article.qteEnStock.toString(),
+                            article.libelleDepot,
+                          ],
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -294,12 +321,20 @@ class ExpansionTableState extends State<ExpansionTable> {
                       "Chiffre d'affaires",
                     ],
                     rows: [
-                      for (var client in snapshot.data!)
-                        [
-                          client.nom,
-                          client.contact,
-                          client.chiffreAffaire.toString(),
-                        ],
+                      if (snapshot.data!.length >= 5)
+                        for (var client in snapshot.data!.getRange(0, 5))
+                          [
+                            client.nom,
+                            client.contact,
+                            client.chiffreAffaire.toString(),
+                          ],
+                      if (snapshot.data!.length < 5)
+                        for (var client in snapshot.data!)
+                          [
+                            client.nom,
+                            client.contact,
+                            client.chiffreAffaire.toString(),
+                          ],
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -362,12 +397,20 @@ class ExpansionTableState extends State<ExpansionTable> {
                       "Chiffre d'affaires",
                     ],
                     rows: [
-                      for (var client in snapshot.data!)
-                        [
-                          client.nom,
-                          client.contact,
-                          client.chiffreAffaire.toString(),
-                        ],
+                      if (snapshot.data!.length >= 5)
+                        for (var client in snapshot.data!.getRange(0, 5))
+                          [
+                            client.nom,
+                            client.contact,
+                            client.chiffreAffaire.toString(),
+                          ],
+                      if (snapshot.data!.length < 5)
+                        for (var client in snapshot.data!)
+                          [
+                            client.nom,
+                            client.contact,
+                            client.chiffreAffaire.toString(),
+                          ],
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -430,12 +473,20 @@ class ExpansionTableState extends State<ExpansionTable> {
                       'Montant',
                     ],
                     rows: [
-                      for (var article in snapshot.data!)
-                        [
-                          article.description,
-                          article.qteEnStock.toString(),
-                          article.prixVenteTTC.toString(),
-                        ],
+                      if (snapshot.data!.length >= 5)
+                        for (var article in snapshot.data!.getRange(0, 5))
+                          [
+                            article.description,
+                            article.qteEnStock.toString(),
+                            article.prixVenteTTC.toString(),
+                          ],
+                      if (snapshot.data!.length < 5)
+                        for (var article in snapshot.data!)
+                          [
+                            article.description,
+                            article.qteEnStock.toString(),
+                            article.prixVenteTTC.toString(),
+                          ],
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -498,12 +549,20 @@ class ExpansionTableState extends State<ExpansionTable> {
                       'Montant',
                     ],
                     rows: [
-                      for (var article in snapshot.data!)
-                        [
-                          article.description,
-                          article.qteEnStock.toString(),
-                          article.prixVenteTTC.toString(),
-                        ],
+                      if (snapshot.data!.length >= 5)
+                        for (var article in snapshot.data!.getRange(0, 5))
+                          [
+                            article.description,
+                            article.qteEnStock.toString(),
+                            article.prixVenteTTC.toString(),
+                          ],
+                      if (snapshot.data!.length < 5)
+                        for (var article in snapshot.data!)
+                          [
+                            article.description,
+                            article.qteEnStock.toString(),
+                            article.prixVenteTTC.toString(),
+                          ],
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -569,13 +628,22 @@ class ExpansionTableState extends State<ExpansionTable> {
                       'Montant',
                     ],
                     rows: [
-                      for (var client in snapshot.data!)
-                        [
-                          client.nom,
-                          client.contact,
-                          client.adresse,
-                          client.chiffreAffaire.toString(),
-                        ],
+                      if (snapshot.data!.length >= 5)
+                        for (var client in snapshot.data!.getRange(0, 5))
+                          [
+                            client.nom,
+                            client.contact,
+                            client.adresse,
+                            client.chiffreAffaire.toString(),
+                          ],
+                      if (snapshot.data!.length < 5)
+                        for (var client in snapshot.data!)
+                          [
+                            client.nom,
+                            client.contact,
+                            client.adresse,
+                            client.chiffreAffaire.toString(),
+                          ],
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -629,13 +697,22 @@ class ExpansionTableState extends State<ExpansionTable> {
                       'Montant',
                     ],
                     rows: [
-                      for (var commande in snapshot.data!)
-                        [
-                          commande.date,
-                          commande.numeroBon.toString(),
-                          commande.fournisseur,
-                          commande.montant.toString(),
-                        ],
+                      if (snapshot.data!.length >= 5)
+                        for (var commande in snapshot.data!.getRange(0, 5))
+                          [
+                            commande.date,
+                            commande.numeroBon.toString(),
+                            commande.fournisseur,
+                            commande.montant.toString(),
+                          ],
+                      if (snapshot.data!.length < 5)
+                        for (var commande in snapshot.data!)
+                          [
+                            commande.date,
+                            commande.numeroBon.toString(),
+                            commande.fournisseur,
+                            commande.montant.toString(),
+                          ],
                     ],
                   );
                 } else if (snapshot.hasError) {
