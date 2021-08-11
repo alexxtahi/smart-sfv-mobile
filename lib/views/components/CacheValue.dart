@@ -19,6 +19,7 @@ class CacheValueState extends State<CacheValue> {
     return FutureBuilder(
       future: getCacheDatas(),
       builder: (cacheContext, cache) {
+        // ? When loading is complete
         if (cache.hasData) {
           return MyText(
             text: cache.data.toString(),

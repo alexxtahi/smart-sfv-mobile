@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/models/Cache.dart';
 import 'package:smartsfv/views/components/CacheValue.dart';
 
 class DashboardCard extends StatefulWidget {
@@ -187,11 +188,22 @@ class DashboardCardState extends State<DashboardCard> {
 
   //todo: Get datas from API
   Future<Map<String, int>> getDashboardDatas() async {
-    // init API instance
-    Api api = Api();
-    // call API method getDashboardDatas
-    Map<String, int> dashboardDatas = await api.getDashboardStats(context);
-    // return dashboard datas
-    return dashboardDatas;
+    // ? Load dashboard datas only when the user press reload button
+    if (ScreenController.reloadDashboard) {
+      // init API instance
+      Api api = Api();
+      // call API method getDashboardDatas
+      Map<String, int> dashboardDatas = await api.getDashboardStats(context);
+      // return dashboard datas
+      return dashboardDatas;
+    } else {
+      // ? in another case load the cache datas
+      return {
+        'getClients': Cache.clients!,
+        'getArticles': Cache.articles!,
+        'getFournisseurs': Cache.fournisseurs!,
+        'getCommandes': Cache.commandes!,
+      };
+    }
   }
 }

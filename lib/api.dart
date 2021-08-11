@@ -8,6 +8,7 @@ import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Banque.dart';
+import 'package:smartsfv/models/Cache.dart';
 import 'package:smartsfv/models/Caisse.dart';
 import 'package:smartsfv/models/Category.dart';
 import 'package:smartsfv/models/Client.dart';
@@ -1094,16 +1095,31 @@ class Api {
             isFournisseursSave &&
             isCommandesSave) {
           print("[SUCCESS] Datas has been saved to the phone cache !");
-          List<dynamic> cacheDatas = [
-            prefs.getInt('getClients'),
-            prefs.getInt('getArticles'),
-            prefs.getInt('getFournisseurs'),
-            prefs.getInt('getCommandes'),
-          ];
-          print('TEST getClients -> ${cacheDatas[0]}');
-          print('TEST getArticles -> ${cacheDatas[1]}');
-          print('TEST getFournisseurs -> ${cacheDatas[2]}');
-          print('TEST getCommandes -> ${cacheDatas[3]}');
+          // ? Get cache datas
+          Map<String, int> cacheDatas = {
+            'getClients': prefs.getInt('getClients')!,
+            'getArticles': prefs.getInt('getArticles')!,
+            'getFournisseurs': prefs.getInt('getFournisseurs')!,
+            'getCommandes': prefs.getInt('getCommandes')!,
+          };
+          // ? Set cache datas into the dashboards Map when it is empty
+          if (dashboardDatas.isEmpty) dashboardDatas = cacheDatas;
+          // ? Put key if not exist
+          for (var key in cacheDatas.keys) {
+            dashboardDatas.putIfAbsent(key, () => cacheDatas[key]!);
+          }
+          // ? Put in the on launched cache class
+          Cache.clients = cacheDatas['getClients'];
+          Cache.articles = cacheDatas['getArticles'];
+          Cache.fournisseurs = cacheDatas['getFournisseurs'];
+          Cache.commandes = cacheDatas['getCommandes'];
+          Cache.isCached = true;
+          // ! debug
+          print("TEST getClients -> ${cacheDatas['getClients']}");
+          print("TEST getArticles -> ${cacheDatas['getArticles']}");
+          print("TEST getFournisseurs -> ${cacheDatas['getFournisseurs']}");
+          print("TEST getCommandes -> ${cacheDatas['getCommandes']}");
+          // ! end debug
         } else // or error message
           print("[ERROR] Failed to save data to the phone cache !");
       } catch (e) {}
