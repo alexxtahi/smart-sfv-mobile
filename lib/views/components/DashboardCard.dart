@@ -1,8 +1,10 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/components/CacheValue.dart';
 
 class DashboardCard extends StatefulWidget {
   final String text;
@@ -110,16 +112,7 @@ class DashboardCardState extends State<DashboardCard> {
                           if (snapshot.hasData) {
                             // ? Check if the list of clients is empty or not
                             return (snapshot.data![widget.cardName] == null)
-                                ? Text(
-                                    '0',
-                                    style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      //color: Colors.black,
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  )
+                                ? CacheValue(cardName: widget.cardName)
                                 : Text(
                                     snapshot.data![widget.cardName].toString(),
                                     style: TextStyle(
@@ -135,31 +128,11 @@ class DashboardCardState extends State<DashboardCard> {
                               context: context,
                               message: 'Erreur sur le tableau de bord',
                             );
-                            return Text(
-                              'Erreur',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Colors.black,
-                                //color: Colors.black,
-                                fontSize: 40,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            );
+                            //todo: In snapshot error case get cache datas
+                            return CacheValue(cardName: widget.cardName);
                           }
-
-                          //todo: Loading indicator
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircularProgressIndicator(
-                                  color: Colors.white,
-                                  backgroundColor: Colors.transparent,
-                                  semanticsLabel: 'Chargement des clients',
-                                ),
-                              ],
-                            ),
-                          );
+                          //todo: Loading cache indicator
+                          return CacheValue(cardName: widget.cardName);
                         },
                       ),
                       //todo: Title
@@ -177,31 +150,32 @@ class DashboardCardState extends State<DashboardCard> {
                   ),
                   //todo: See More Button
                   Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          //todo: Text
-                          Text(
-                            'Voir',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: widget.textColor,
-                              fontSize: 14,
-                            ),
+                    bottom: 0,
+                    right: 0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //todo: Text
+                        Text(
+                          'Voir',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: widget.textColor,
+                            fontSize: 14,
                           ),
-                          SizedBox(width: 5),
-                          //todo: Icon
-                          Image.asset(
-                            'assets/img/icons/previous.png',
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.contain,
-                            color: widget.iconColor,
-                          ),
-                        ],
-                      )),
+                        ),
+                        SizedBox(width: 5),
+                        //todo: Icon
+                        Image.asset(
+                          'assets/img/icons/previous.png',
+                          width: 20,
+                          height: 20,
+                          fit: BoxFit.contain,
+                          color: widget.iconColor,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -211,6 +185,7 @@ class DashboardCardState extends State<DashboardCard> {
     );
   }
 
+  //todo: Get datas from API
   Future<Map<String, int>> getDashboardDatas() async {
     // init API instance
     Api api = Api();

@@ -377,9 +377,6 @@ class Api {
   // todo: get clients method
   Future<List<Client>> getClients(BuildContext context) async {
     this.url = this.routes['getClients'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
     //print('get clients token: ' + User.token);
     try {
       // ? getting datas from url
@@ -1078,6 +1075,38 @@ class Api {
       dashboardDatas['getArticles'] = articles.length;
       dashboardDatas['getFournisseurs'] = fournisseurs.length;
       dashboardDatas['getCommandes'] = commandes.length;
+      // ? Try to put datas in the cache
+      try {
+        // load SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        // Put datas into the cache
+        bool isClientsSave = await prefs.setInt(
+            'getClients', dashboardDatas['getClients']!.toInt());
+        bool isArticlesSave = await prefs.setInt(
+            'getArticles', dashboardDatas['getArticles']!.toInt());
+        bool isFournisseursSave = await prefs.setInt(
+            'getFournisseurs', dashboardDatas['getFournisseurs']!.toInt());
+        bool isCommandesSave = await prefs.setInt(
+            'getCommandes', dashboardDatas['getCommandes']!.toInt());
+        // print success message
+        if (isClientsSave &&
+            isArticlesSave &&
+            isFournisseursSave &&
+            isCommandesSave) {
+          print("[SUCCESS] Datas has been saved to the phone cache !");
+          List<dynamic> cacheDatas = [
+            prefs.getInt('getClients'),
+            prefs.getInt('getArticles'),
+            prefs.getInt('getFournisseurs'),
+            prefs.getInt('getCommandes'),
+          ];
+          print('TEST getClients -> ${cacheDatas[0]}');
+          print('TEST getArticles -> ${cacheDatas[1]}');
+          print('TEST getFournisseurs -> ${cacheDatas[2]}');
+          print('TEST getCommandes -> ${cacheDatas[3]}');
+        } else // or error message
+          print("[ERROR] Failed to save data to the phone cache !");
+      } catch (e) {}
       // ? Show success snack bar
       if (ScreenController.reloadDashboard) {
         if (ScreenController.actualView == "HomeView")
