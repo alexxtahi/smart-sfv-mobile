@@ -11,6 +11,7 @@ import 'package:smartsfv/models/Banque.dart';
 import 'package:smartsfv/models/Caisse.dart';
 import 'package:smartsfv/models/Category.dart';
 import 'package:smartsfv/models/Client.dart';
+import 'package:smartsfv/models/Commande.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
@@ -32,16 +33,25 @@ class Api {
     this.routes = {
       'login': '${this.host}/api/auth/login',
       'getArticles': '${this.host}/api/auth/articles',
+      'getBestArticles': '${this.host}/api/auth/articles',
+      'getWorstArticles': '${this.host}/api/auth/articles',
+      'getArticlesPeremption':
+          '${this.host}/api/auth/articles-en-voie-peremption',
+      'getArticlesRupture': '${this.host}/api/auth/articles-en-voie-rupture',
       'userinfo': '${this.host}/api/auth/user',
       'logout': '${this.host}/api/auth/logout',
       'getRegimes': '${this.host}/api/auth/regimes',
       'getNations': '${this.host}/api/auth/nations',
       'postClient': '${this.host}/api/auth/client/store',
       'getClients': '${this.host}/api/auth/clients',
+      'getBestClients': '${this.host}/api/auth/beste-clients',
+      'getDettesClients': '${this.host}/api/auth/beste-clients',
+      'getWorstRentabilityClients': '${this.host}/api/auth/beste-clients',
       'putClient': '${this.host}/api/auth/client/update/',
       'deleteClient': '${this.host}/api/auth/clients/delete/',
       'getFournisseurs': '${this.host}/api/auth/fournisseurs',
       'postFournisseur': '${this.host}/api/auth/fournisseur/store',
+      'getCommandes': '${this.host}/api/auth/commande-en-cours',
     };
   }
 
@@ -108,6 +118,262 @@ class Api {
     }
   }
 
+  // todo: get articles en voie de péremption method
+  Future<List<Article>> getArticlesPeremption(BuildContext context) async {
+    this.url = this.routes['getArticlesPeremption'].toString(); // set login url
+    print(this.url);
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get articles token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Articles en voie de péremption chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of articles
+        List articleResponse = json.decode(this.response.body)['rows'];
+        //print('Liste articles périmés: $articleResponse');
+        List<Article> articles = [
+          for (var article in articleResponse)
+            Article.fromJson(article), // ! debug
+          // ? take only article created by the actual user
+          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+        ];
+        // ? return list of articles
+        return articles;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des articles en voie de péremption",
+          );
+        return <Article>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Articles Peremption Model Error $error');
+      return <Article>[];
+    }
+  }
+
+  // todo: get articles en voie de péremption method
+  Future<List<Article>> getArticlesRupture(BuildContext context) async {
+    this.url = this.routes['getArticlesRupture'].toString(); // set login url
+    print(this.url);
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get articles token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Articles en voie de rupture chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of articles
+        List articleResponse = json.decode(this.response.body)['rows'];
+        //print('Liste articles rupture: $articleResponse');
+        List<Article> articles = [
+          for (var article in articleResponse)
+            Article.fromJson(article), // ! debug
+          // ? take only article created by the actual user
+          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+        ];
+        // ? return list of articles
+        return articles;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des articles en voie de rupture",
+          );
+        return <Article>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Articles Rupture Model Error $error');
+      return <Article>[];
+    }
+  }
+
+  // todo: get articles les plus vendus method
+  Future<List<Article>> getBestArticles(BuildContext context) async {
+    this.url = this.routes['getBestArticles'].toString(); // set login url
+    print(this.url);
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get articles token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Articles les plus vendus chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of articles
+        List articleResponse = json.decode(this.response.body)['rows'];
+        //print('Liste articles rupture: $articleResponse');
+        List<Article> articles = [
+          for (var article in articleResponse)
+            Article.fromJson(article), // ! debug
+          // ? take only article created by the actual user
+          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+        ];
+        // ? return list of articles
+        return articles;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des articles les plus vendus",
+          );
+        return <Article>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Best Articles Model Error $error');
+      return <Article>[];
+    }
+  }
+
+  // todo: get articles les moins vendus method
+  Future<List<Article>> getWorstArticles(BuildContext context) async {
+    this.url = this.routes['getWorstArticles'].toString(); // set login url
+    print(this.url);
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get articles token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Articles les moins vendus chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of articles
+        List articleResponse = json.decode(this.response.body)['rows'];
+        //print('Liste articles rupture: $articleResponse');
+        List<Article> articles = [
+          for (var article in articleResponse)
+            Article.fromJson(article), // ! debug
+          // ? take only article created by the actual user
+          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+        ];
+        // ? return list of articles
+        return articles;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des articles les moins vendus",
+          );
+        return <Article>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Best Articles Model Error $error');
+      return <Article>[];
+    }
+  }
+
   // todo: get clients method
   Future<List<Client>> getClients(BuildContext context) async {
     this.url = this.routes['getClients'].toString(); // set login url
@@ -169,6 +435,252 @@ class Api {
     }
   }
 
+  // todo: get meilleurs clients method
+  Future<List<Client>> getBestClients(BuildContext context) async {
+    this.url = this.routes['getBestClients'].toString(); // set login url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get clients token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Meilleurs clients chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of clients
+        List clientResponse = json.decode(this.response.body)['rows'];
+        List<Client> clients = [
+          for (var client in clientResponse) Client.fromJson(client), // ! debug
+          // ? take only client created by the actual user
+          //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
+        ];
+        // ? return list of clients
+        return clients;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des meilleurs clients",
+          );
+        return <Client>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Best Clients Error -> $error');
+      return <Client>[];
+    }
+  }
+
+  // todo: get pires clients method
+  Future<List<Client>> getDettesClients(BuildContext context) async {
+    this.url = this.routes['getDettesClients'].toString(); // set login url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get clients token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Clients moins rentables chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of clients
+        List clientResponse = json.decode(this.response.body)['rows'];
+        List<Client> clients = [
+          for (var client in clientResponse) Client.fromJson(client), // ! debug
+          // ? take only client created by the actual user
+          //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
+        ];
+        // ? return list of clients
+        return clients;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des clients les moins rentable",
+          );
+        return <Client>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Worst Clients Error -> $error');
+      return <Client>[];
+    }
+  }
+
+  // todo: get pires clients method
+  Future<List<Client>> getWorstRentabilityClients(BuildContext context) async {
+    this.url =
+        this.routes['getWorstRentabilityClients'].toString(); // set login url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get clients token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Clients moins rentables chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of clients
+        List clientResponse = json.decode(this.response.body)['rows'];
+        List<Client> clients = [
+          for (var client in clientResponse) Client.fromJson(client), // ! debug
+          // ? take only client created by the actual user
+          //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
+        ];
+        // ? return list of clients
+        return clients;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "HomeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des clients les moins rentable",
+          );
+        return <Client>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Worst Clients Error -> $error');
+      return <Client>[];
+    }
+  }
+
+  // todo: get commandes method
+  Future<List<Commande>> getCommandes(BuildContext context) async {
+    this.url = this.routes['getCommandes'].toString(); // set login url
+    /*SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // load SharedPreferences
+    String? token = prefs.getString('access_token');*/
+    //print('get commandes token: ' + User.token);
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "CommandeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Commande chargées !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of countries
+        List commandesResponse = json.decode(this.response.body)['rows'];
+        List<Commande> commandes = [
+          for (var commandes in commandesResponse) Commande.fromJson(commandes),
+          // ? take only commande created by the actual user
+          //if (commande['created_by'] == User.id) Commande.fromJson(commande), // ! production
+        ];
+        //print('List: $countries'); // ! debug
+        // ? return list of countries
+        return commandes;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "CommandeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des commandes",
+          );
+        return <Commande>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Get Commande Model Error -> $error');
+      return <Commande>[];
+    }
+  }
+
   // todo: get pays method
   Future<List<Pays>> getPays(BuildContext context) async {
     this.url = this.routes['getNations'].toString(); // set login url
@@ -224,7 +736,7 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Pays Model Error -> $error');
+        print('API ERROR: Get Pays Model Error -> $error');
       return <Pays>[];
     }
   }
@@ -282,7 +794,7 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Regime Model Error -> $error');
+        print('API ERROR: Get Regime Model Error -> $error');
       return <Regime>[];
     }
   }
@@ -335,7 +847,7 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Banque Model Error -> $error');
+        print('API ERROR: Get Banque Model Error -> $error');
       return <Banque>[];
     }
   }
@@ -440,7 +952,7 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Tva Model Error -> $error');
+        print('API ERROR: Get Tva Model Error -> $error');
       return <Tva>[];
     }
   }
@@ -493,7 +1005,7 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Category Model Error -> $error');
+        print('API ERROR: Get Category Model Error -> $error');
       return <Category>[];
     }
   }
@@ -752,7 +1264,8 @@ class Api {
         Map<String, dynamic> userInfos = await getUserInfo(context);
         responseJson['login'] = login;
         responseJson['password'] = password;
-        responseJson['state'] = (userInfos['etat_user'] == 1) ? true : false;
+        responseJson['state'] =
+            (userInfos['statut_compte'] == 1) ? true : false;
         responseJson['createdAt'] =
             userInfos['created_at']; //.replaceAll('T', ' ');
         responseJson['lastLogin'] =
@@ -761,7 +1274,7 @@ class Api {
         // ? set user informations
         User.create(responseJson);
         print('get token: ' + User.token);
-        // show success messag
+        // ? Show success message
         functions.successSnackbar(
           context: context,
           message: responseJson['message'],

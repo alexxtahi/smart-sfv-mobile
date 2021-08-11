@@ -104,7 +104,7 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                             article.codeBarre,
                                             article.description,
                                             article.categorie,
-                                            article.enStock.toString(),
+                                            article.qteEnStock.toString(),
                                             article.prixAchatTTC.toString(),
                                             article.prixAchatHT.toString(),
                                             article.prixVenteTTC.toString(),

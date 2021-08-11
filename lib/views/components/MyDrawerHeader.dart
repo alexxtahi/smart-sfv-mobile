@@ -80,14 +80,14 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
                         TextSpan(text: "Vous n'avez aucun "),
                         TextSpan(
                           text: 'message',
-                          style: TextStyle(color: Colors.yellow[600]),
+                          style: TextStyle(color: Colors.yellow[700]),
                         ),
                       ],
                     ),
                   ),
                   icon: Icon(
                     Icons.mail_rounded,
-                    color: Colors.yellow,
+                    color: Colors.yellow[700],
                   ),
                 );
               },

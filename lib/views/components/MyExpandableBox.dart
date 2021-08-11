@@ -8,7 +8,7 @@ import 'package:smartsfv/views/components/MyText.dart';
 
 class MyExpandableBox extends StatefulWidget {
   final String headerText;
-  final MyDataTable table;
+  final Widget table;
   final String seeMoreBtnText;
   final Icon seeMoreBtnIcon;
   final Function()? seeMoreBtn;

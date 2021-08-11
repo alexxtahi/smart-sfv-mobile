@@ -1,4 +1,3 @@
-
 class User {
   // todo: Properties
   static String login = '';

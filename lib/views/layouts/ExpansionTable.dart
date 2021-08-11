@@ -1,6 +1,14 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Article.dart';
+import 'package:smartsfv/models/Client.dart';
+import 'package:smartsfv/models/Commande.dart';
+import 'package:smartsfv/views/components/MyText.dart';
+import 'package:smartsfv/views/layouts/ErrorLayout.dart';
 import 'package:smartsfv/views/screens/commande/CommandeView.dart';
 import 'package:smartsfv/views/screens/others/ListTableView.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
@@ -16,14 +24,19 @@ class ExpansionTable extends StatefulWidget {
 }
 
 class ExpansionTableState extends State<ExpansionTable> {
-  // textfield controller
+  // init API instance
+  Api api = Api();
+  DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+  DateTime now = DateTime.now();
   @override
   Widget build(BuildContext context) {
+    List<double> screenSize = ScreenController.getScreenSize(context);
     // Return building scaffold
     return ExpandableNotifier(
       // <-- Provides ExpandableController to its children
       child: Column(
         children: [
+          /*
           //todo: Caisses ouvertes
           MyExpandableBox(
             headerText: 'Caisses ouvertes',
@@ -47,22 +60,49 @@ class ExpansionTableState extends State<ExpansionTable> {
                 ],
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Dépôt',
-                'Caisse',
-                "Date d'ouverture",
-                'Ouverte par',
-                "Solde d'ouverture",
-                "Solde actuel",
-              ],
-              /*rows: [
-                ['14', 'Chaise', '53dd5', '23/09/2021', '45 jours'],
-                ['45', 'Paquet de chips', '7728t', '01/05/2021', '17 jours'],
-                ['77', 'Sac à main', '336tf6', '30/12/2021', '23 jours'],
-              ],*/
+            table: FutureBuilder<List<Article>>(
+              //future: api.getArticles(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Dépôt',
+                      'Caisse',
+                      "Date d'ouverture",
+                      'Ouverte par',
+                      "Solde d'ouverture",
+                      "Solde actuel",
+                    ],
+                    rows: [],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
-          ),
+          ),*/
           //todo: Articles en voie de péremption
           MyExpandableBox(
             headerText: 'Articles en voie de péremption',
@@ -88,19 +128,62 @@ class ExpansionTableState extends State<ExpansionTable> {
                 ],
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Dépôt',
-                'Article',
-                'lot',
-                'Date de péremption',
-                'Sera périmé dans',
-              ],
-              /*rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-              ],*/
+            table: FutureBuilder<List<Article>>(
+              future: api.getArticlesPeremption(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Dépôt',
+                      'Article',
+                      'lot',
+                      'Date de péremption',
+                      'Sera périmé dans',
+                    ],
+                    rows: [
+                      for (var article in snapshot.data!)
+                        [
+                          article.libelleDepot,
+                          article.description,
+                          article.libelleUnite,
+                          // get expiration date
+                          dateFormat
+                              .format(DateTime.parse(article.datePeremption)),
+                          // compute difference between expiration date and now
+                          DateTime.parse(article.datePeremption)
+                                  .difference(now)
+                                  .inDays
+                                  .toString() +
+                              ' jours',
+                        ],
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           //todo: Articles en voie de rupture
@@ -128,19 +211,55 @@ class ExpansionTableState extends State<ExpansionTable> {
                 ],
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Article',
-                'Catégorie',
-                'Sous catégorie',
-                'En stock',
-                'Dépôt',
-              ],
-              /*rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-              ],*/
+            table: FutureBuilder<List<Article>>(
+              future: api.getArticlesRupture(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Article',
+                      'Catégorie',
+                      'Sous catégorie',
+                      'En stock',
+                      'Dépôt',
+                    ],
+                    rows: [
+                      for (var article in snapshot.data!)
+                        [
+                          article.description,
+                          article.categorie,
+                          article.subCategorie,
+                          article.qteEnStock.toString(),
+                          article.libelleDepot,
+                        ],
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           //todo: Liste des 5 meilleurs clients
@@ -164,17 +283,51 @@ class ExpansionTableState extends State<ExpansionTable> {
                 ],
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Client',
-                'Contact',
-                "Chiffre d'affaires",
-              ],
-              /*rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-              ],*/
+            table: FutureBuilder<List<Client>>(
+              future: api.getBestClients(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Client',
+                      'Contact',
+                      "Chiffre d'affaires",
+                    ],
+                    rows: [
+                      for (var client in snapshot.data!)
+                        [
+                          client.nom,
+                          client.contact,
+                          client.chiffreAffaire.toString(),
+                        ],
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           //todo: Liste des 5 clients les moins rentables
@@ -198,17 +351,51 @@ class ExpansionTableState extends State<ExpansionTable> {
                 ],
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Client',
-                'Contact',
-                "Chiffre d'affaires",
-              ],
-              /*rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-              ],*/
+            table: FutureBuilder<List<Client>>(
+              future: api.getWorstRentabilityClients(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Client',
+                      'Contact',
+                      "Chiffre d'affaires",
+                    ],
+                    rows: [
+                      for (var client in snapshot.data!)
+                        [
+                          client.nom,
+                          client.contact,
+                          client.chiffreAffaire.toString(),
+                        ],
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           //todo: Liste des 5 articles les plus vendus
@@ -232,17 +419,51 @@ class ExpansionTableState extends State<ExpansionTable> {
                 ],
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Article',
-                'Quantité',
-                'Montant',
-              ],
-              /*rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-              ],*/
+            table: FutureBuilder<List<Article>>(
+              future: api.getBestArticles(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Article',
+                      'Quantité',
+                      'Montant',
+                    ],
+                    rows: [
+                      for (var article in snapshot.data!)
+                        [
+                          article.description,
+                          article.qteEnStock.toString(),
+                          article.prixVenteTTC.toString(),
+                        ],
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           //todo: Liste des 5 articles les moins vendus
@@ -266,17 +487,51 @@ class ExpansionTableState extends State<ExpansionTable> {
                 ],
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Article',
-                'Quantité',
-                'Montant',
-              ],
-              /*rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-              ],*/
+            table: FutureBuilder<List<Article>>(
+              future: api.getWorstArticles(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Article',
+                      'Quantité',
+                      'Montant',
+                    ],
+                    rows: [
+                      for (var article in snapshot.data!)
+                        [
+                          article.description,
+                          article.qteEnStock.toString(),
+                          article.prixVenteTTC.toString(),
+                        ],
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           //todo: Liste des 5 clients les plus endettés
@@ -302,18 +557,53 @@ class ExpansionTableState extends State<ExpansionTable> {
                 ],
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Client',
-                'Contact',
-                'Adresse',
-                'Montant',
-              ],
-              /*rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-              ],*/
+            table: FutureBuilder<List<Client>>(
+              future: api.getDettesClients(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Client',
+                      'Contact',
+                      'Adresse',
+                      'Montant',
+                    ],
+                    rows: [
+                      for (var client in snapshot.data!)
+                        [
+                          client.nom,
+                          client.contact,
+                          client.adresse,
+                          client.chiffreAffaire.toString(),
+                        ],
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           //todo: Commande en cours
@@ -327,18 +617,53 @@ class ExpansionTableState extends State<ExpansionTable> {
                 mode: 'pushReplacement',
               );
             },
-            table: MyDataTable(
-              columns: [
-                'Date commande',
-                'N° Bon',
-                'Fournisseur',
-                'Montant',
-              ],
-              /*rows: [
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-                ['14', 'Sac à main', '18n47b', '23/09/2021', '45 jours'],
-              ],*/
+            table: FutureBuilder<List<Commande>>(
+              future: api.getCommandes(context),
+              builder: (tableContext, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return MyDataTable(
+                    columns: [
+                      'Date commande',
+                      'N° Bon',
+                      'Fournisseur',
+                      'Montant',
+                    ],
+                    rows: [
+                      for (var commande in snapshot.data!)
+                        [
+                          commande.date,
+                          commande.numeroBon.toString(),
+                          commande.fournisseur,
+                          commande.montant.toString(),
+                        ],
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  // ? Get any snapshot error
+                  return ErrorLayout();
+                }
+                //todo: Loading indicator
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: screenSize[0],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyText(text: 'Chargement...'),
+                        SizedBox(height: 5),
+                        LinearProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 0.15),
+                          backgroundColor: Colors.transparent,
+                          semanticsLabel: 'Chargement...',
+                          //backgroundColor: Color.fromRGBO(243, 156, 18, 0.15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],

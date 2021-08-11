@@ -4,6 +4,7 @@ import 'package:smartsfv/api.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/layouts/ErrorLayout.dart';
 
 class PaysFutureBuilder extends StatefulWidget {
   PaysFutureBuilder({Key? key}) : super(key: key);
@@ -24,40 +25,10 @@ class PaysFutureBuilderState extends State<PaysFutureBuilder> {
         if (snapshot.hasData) {
           // ? Check if the list of pays is empty or not
           return (snapshot.data!.isEmpty)
-              ? Flex(
-                  direction: Axis.vertical,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/img/icons/no-wifi.png',
-                            fit: BoxFit.contain,
-                            width: 100,
-                            height: 100,
-                            color: Color.fromRGBO(60, 141, 188, 0.5),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Flexible(
-                            child: MyText(
-                              text:
-                                  "Nous ne pouvons pas charger les pays pour le moment. Vérifiez votre connexion internet.",
-                              textAlign: TextAlign.center,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(60, 141, 188, 0.5),
-                              overflow: TextOverflow.visible,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+              ? ErrorLayout(
+                  image: 'assets/img/icons/no-wifi.png',
+                  message:
+                      "Nous ne pouvons pas charger les pays pour le moment. Vérifiez votre connexion internet.",
                 )
               : Expanded(
                   child: FadingEdgeScrollView.fromSingleChildScrollView(
@@ -144,9 +115,10 @@ class PaysFutureBuilderState extends State<PaysFutureBuilder> {
             context: context,
             message: 'Echec de récupération des pays',
           );
-          return MyText(
-            text: snapshot.error.toString(),
-            color: Color.fromRGBO(221, 75, 57, 0.5),
+          return ErrorLayout(
+            image: 'assets/img/icons/no-wifi.png',
+            message:
+                "Nous ne pouvons pas charger les pays pour le moment. Vérifiez votre connexion internet.",
           );
         }
 

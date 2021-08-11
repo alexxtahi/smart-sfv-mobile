@@ -9,6 +9,7 @@ class Client {
   String adresse;
   String montantPlafond;
   String compteContrib;
+  int chiffreAffaire;
   // todo: Constructor
   Client({
     this.code = '',
@@ -20,6 +21,7 @@ class Client {
     this.adresse = '',
     this.montantPlafond = '',
     this.compteContrib = '',
+    this.chiffreAffaire = 0,
   });
   // todo: Methods
   // get data from json method
@@ -45,6 +47,8 @@ class Client {
       compteContrib: (json['compte_contribuable_client'] != null)
           ? json['compte_contribuable_client'] as String
           : '',
+      chiffreAffaire:
+          (json['sommeTotale'] != null) ? json['sommeTotale'] as int : 0,
     );
   }
 }
