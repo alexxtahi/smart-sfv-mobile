@@ -143,9 +143,8 @@ class Api {
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
-          for (var client in clientResponse)
-            // ? take only client created by the actual user
-            Client.fromJson(client), // ! debug
+          for (var client in clientResponse) Client.fromJson(client), // ! debug
+          // ? take only client created by the actual user
           //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
         ];
         // ? return list of clients
@@ -165,7 +164,7 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Client Model Error -> $error');
+        print('API ERROR: Get Client Model Error -> $error');
       return <Client>[];
     }
   }

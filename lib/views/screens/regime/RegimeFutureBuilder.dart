@@ -2,7 +2,6 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/models/Regime.dart';
-import 'package:smartsfv/models/Tva.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 

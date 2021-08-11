@@ -39,7 +39,6 @@ class DashboardCardState extends State<DashboardCard> {
   }
 
   @override
-  // TODO: implement mounted
   bool get mounted => super.mounted;
 
   @override

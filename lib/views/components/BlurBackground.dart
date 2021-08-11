@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:transparent_image/transparent_image.dart';

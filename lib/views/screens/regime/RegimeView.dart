@@ -1,12 +1,9 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
-import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';

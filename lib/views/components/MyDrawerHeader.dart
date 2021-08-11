@@ -77,10 +77,10 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
                         fontWeight: FontWeight.bold,
                       ),
                       children: [
-                        TextSpan(text: 'Vous avez des '),
+                        TextSpan(text: "Vous n'avez aucun "),
                         TextSpan(
-                          text: 'messages',
-                          style: TextStyle(color: Colors.yellow),
+                          text: 'message',
+                          style: TextStyle(color: Colors.yellow[600]),
                         ),
                       ],
                     ),
