@@ -118,6 +118,7 @@ void successSnackbar({required BuildContext context, required String message}) {
   showMessageToSnackbar(
     context: context,
     message: message,
+    messageColor: Colors.white,
     duration: 5,
     icon: Icon(
       Icons.check_rounded,
@@ -131,6 +132,7 @@ void errorSnackbar({required BuildContext context, required String message}) {
   showMessageToSnackbar(
     context: context,
     message: message,
+    messageColor: Colors.white,
     duration: 5,
     icon: Icon(
       Icons.close_rounded,
@@ -143,31 +145,45 @@ void errorSnackbar({required BuildContext context, required String message}) {
 void showMessageToSnackbar({
   required BuildContext context,
   required var message,
+  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
   int duration = 2,
   var icon = const Icon(
     Icons.info,
     color: Colors.white,
   ),
-  Color backgroundColor = Colors.black,
-  Color messageColor = Colors.white,
+  Color backgroundColor = Colors.white,
+  Color messageColor = Colors.black,
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      behavior: SnackBarBehavior.floating,
+      margin: padding,
       backgroundColor: backgroundColor,
       duration: Duration(seconds: duration),
       content: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          (message is String)
-              ? Flexible(
-                  child: MyText(
-                    text: message,
-                    color: messageColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              : message,
-          icon,
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                (message is String)
+                    ? Flexible(
+                        child: MyText(
+                          text: message,
+                          color: messageColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : message,
+                icon,
+              ],
+            ),
+          ),
         ],
       ),
     ),

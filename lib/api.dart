@@ -19,6 +19,7 @@ import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/models/SubCategory.dart';
 import 'package:smartsfv/models/Tva.dart';
 import 'package:smartsfv/models/User.dart';
+import 'package:smartsfv/views/screens/login/LoginView.dart';
 
 class Api {
   // todo: Properties
@@ -33,6 +34,7 @@ class Api {
     // initialisation of the routes Map
     this.routes = {
       'login': '${this.host}/api/auth/login',
+      'logout': '${this.host}/api/auth/logout',
       'getArticles': '${this.host}/api/auth/articles',
       'getBestArticles': '${this.host}/api/auth/articles',
       'getWorstArticles': '${this.host}/api/auth/articles',
@@ -40,7 +42,6 @@ class Api {
           '${this.host}/api/auth/articles-en-voie-peremption',
       'getArticlesRupture': '${this.host}/api/auth/articles-en-voie-rupture',
       'userinfo': '${this.host}/api/auth/user',
-      'logout': '${this.host}/api/auth/logout',
       'getRegimes': '${this.host}/api/auth/regimes',
       'getNations': '${this.host}/api/auth/nations',
       'postClient': '${this.host}/api/auth/client/store',
@@ -60,10 +61,6 @@ class Api {
   // todo: get articles method
   Future<List<Article>> getArticles(BuildContext context) async {
     this.url = this.routes['getArticles'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get articles token: ' + User.token);
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -122,11 +119,7 @@ class Api {
   // todo: get articles en voie de péremption method
   Future<List<Article>> getArticlesPeremption(BuildContext context) async {
     this.url = this.routes['getArticlesPeremption'].toString(); // set login url
-    print(this.url);
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get articles token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -186,11 +179,7 @@ class Api {
   // todo: get articles en voie de péremption method
   Future<List<Article>> getArticlesRupture(BuildContext context) async {
     this.url = this.routes['getArticlesRupture'].toString(); // set login url
-    print(this.url);
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get articles token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -250,11 +239,7 @@ class Api {
   // todo: get articles les plus vendus method
   Future<List<Article>> getBestArticles(BuildContext context) async {
     this.url = this.routes['getBestArticles'].toString(); // set login url
-    print(this.url);
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get articles token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -314,11 +299,7 @@ class Api {
   // todo: get articles les moins vendus method
   Future<List<Article>> getWorstArticles(BuildContext context) async {
     this.url = this.routes['getWorstArticles'].toString(); // set login url
-    print(this.url);
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get articles token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -436,10 +417,7 @@ class Api {
   // todo: get meilleurs clients method
   Future<List<Client>> getBestClients(BuildContext context) async {
     this.url = this.routes['getBestClients'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get clients token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -497,10 +475,7 @@ class Api {
   // todo: get pires clients method
   Future<List<Client>> getDettesClients(BuildContext context) async {
     this.url = this.routes['getDettesClients'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get clients token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -559,10 +534,7 @@ class Api {
   Future<List<Client>> getWorstRentabilityClients(BuildContext context) async {
     this.url =
         this.routes['getWorstRentabilityClients'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get clients token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -620,10 +592,7 @@ class Api {
   // todo: get commandes method
   Future<List<Commande>> getCommandes(BuildContext context) async {
     this.url = this.routes['getCommandes'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get commandes token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -682,10 +651,7 @@ class Api {
   // todo: get pays method
   Future<List<Pays>> getPays(BuildContext context) async {
     this.url = this.routes['getNations'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get pays token: ' + User.token);
+    //print(this.url); // ! debug
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -1236,10 +1202,6 @@ class Api {
   // todo: get user info method
   Future<Map<String, dynamic>> getUserInfo(BuildContext context) async {
     this.url = this.routes['userinfo'].toString(); // set login url
-    /*SharedPreferences prefs =
-        await SharedPreferences.getInstance(); // load SharedPreferences
-    String? token = prefs.getString('access_token');*/
-    //print('get pays token: ' + User.token);
     try {
       // ? getting datas from url
       this.response = await http.get(
@@ -1302,11 +1264,6 @@ class Api {
       print(responseJson.runtimeType);
       // ? Login success
       if (responseJson['access_token'] != null) {
-        // create new user instance and save his token
-        /*User user = User.fromJson(jsonDecode(this.response.body));
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('token', responseJson['access_token']);
-        String? token = prefs.getString('access_token');*/
         // ? get user informations from the server
         Map<String, dynamic> userInfos = await getUserInfo(context);
         responseJson['login'] = login;
@@ -1317,10 +1274,15 @@ class Api {
             userInfos['created_at']; //.replaceAll('T', ' ');
         responseJson['lastLogin'] =
             userInfos['updated_at']; //.replaceAll('T', ' ');
-        print("Réponse du server: $responseJson");
+        //print("Réponse du server: $responseJson");
+        print("User informations: $userInfos");
         // ? set user informations
         User.create(responseJson);
-        print('get token: ' + User.token);
+        // ? Save token to the cache
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', responseJson['access_token']);
+        prefs.setString('tokenExpDate', responseJson['expires_at']);
+        //print('Cache token -> ' + prefs.getString('token')!); // ! debug
         // ? Show success message
         functions.successSnackbar(
           context: context,
@@ -1347,11 +1309,55 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++) print('API ERROR: Login Error -> $error');
-      functions.errorSnackbar(
+      functions.showMessageToSnackbar(
         context: context,
-        message: "Echec d'envoi des identifiants",
+        message: "Une erreur est survenue",
+        icon: Icon(
+          Icons.wifi_off_rounded,
+          color: Colors.yellow[700],
+        ),
       );
       return {"access_token": null}; // return to know login state
+    }
+  }
+
+  // todo: Logout method
+  Future<void> logout(BuildContext context) async {
+    this.url = this.routes['logout'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        // ? Delete user access token
+        // load SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        User.token = '';
+        prefs.clear();
+        prefs.remove('token');
+        // ? Return to LoginView
+        functions.openPage(context, LoginView(), mode: 'pushReplacement');
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // show error snack bar
+        functions.errorSnackbar(
+          context: context,
+          message: "Echec de déconnexion",
+        );
+      }
+    } catch (error) {
+      for (var i = 1; i <= 5; i++) print('API ERROR: Logout Error -> $error');
     }
   }
 

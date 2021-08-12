@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class User {
   // todo: Properties
   static String login = '';
@@ -12,6 +14,7 @@ class User {
   static bool state = false;
   static DateTime lastLogin = DateTime.now();
   static DateTime createdAt = DateTime.now();
+  static GlobalKey globalKey = GlobalKey();
   // todo: Methods
   static void create(Map<String, dynamic> json) {
     User.login = json['login'];

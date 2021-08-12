@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/User.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
-import 'package:smartsfv/views/screens/login/LoginView.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:intl/intl.dart';
 
@@ -342,7 +342,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                       ),
                       //todo: logout button
                       MyOutlinedButton(
-                        text: 'Deconnexion',
+                        text: 'Déconnexion',
                         textColor: Color.fromRGBO(221, 75, 57, 1),
                         width: screenSize[0] / 2.27,
                         height: 50,
@@ -350,10 +350,20 @@ class ProfileLayoutState extends State<ProfileLayout> {
                         borderColor: Color.fromRGBO(221, 75, 57, 1),
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         onPressed: () {
-                          functions.openPage(
+                          // ? Show confirmation dialog
+                          functions.showFormDialog(
                             context,
-                            LoginView(),
-                            mode: 'pushReplacement',
+                            GlobalKey<FormState>(),
+                            hasHeaderIcon: false,
+                            hasSnackbar: false,
+                            title: "Voulez-vous vraiment vous déconnecter ?",
+                            confirmBtnText: 'Se déconnecter',
+                            cancelBtnText: 'Annuler',
+                            onValidate: () {
+                              // ? Logout
+                              Api api = Api(); // Load API instance
+                              api.logout(context);
+                            },
                           );
                         },
                       ),

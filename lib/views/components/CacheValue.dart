@@ -21,12 +21,20 @@ class CacheValueState extends State<CacheValue> {
       builder: (cacheContext, cache) {
         // ? When loading is complete
         if (cache.hasData) {
-          return MyText(
-            text: cache.data.toString(),
-            color: Colors.white,
-            fontSize: 40,
-            fontWeight: FontWeight.w800,
-          );
+          if (cache.data != null &&
+              cache.data != 'null' &&
+              cache.data.toString() != 'null') {
+            return MyText(
+              text: cache.data.toString(),
+              color: Colors.white,
+              fontSize: 40,
+              fontWeight: FontWeight.w800,
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            );
+          }
         }
         // ? In loading case...
         return MyText(
@@ -53,7 +61,7 @@ class CacheValueState extends State<CacheValue> {
     } catch (e) {
       print('Get Cache Data Error -> $e');
 
-      return '000';
+      return '0';
     }
   }
 }
