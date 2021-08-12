@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Article.dart';
@@ -1242,7 +1243,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: User.token,
+          HttpHeaders.authorizationHeader: User.token.replaceAll('Bearer ', ''),
         },
       );
       // ? Check the response status code
@@ -1275,6 +1276,7 @@ class Api {
     } catch (error) {
       print(
           'API ERROR: Get User Infos Error -> ${error.runtimeType} -> $error');
+      print(error);
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       // show error snack bar
@@ -1389,6 +1391,8 @@ class Api {
         User.token = '';
         prefs.clear();
         prefs.remove('token');
+        // Reset drawer animation
+        DrawerLayoutController.close();
         // ? Return to LoginView
         functions.openPage(context, LoginView(), mode: 'pushReplacement');
       } else {
@@ -1398,13 +1402,18 @@ class Api {
         // show error snack bar
         functions.errorSnackbar(
           context: context,
-          message: "Echec de déconnexion",
+          message: "Echec de déconnexion, vérifiez votre connexion internet",
         );
       }
     } catch (error) {
       print('API ERROR: Logout Error -> ${error.runtimeType} -> $error');
-      if (error is SocketException || error is FormatException)
-        functions.socketErrorSnackbar(context: context);
+      if (error is SocketException || error is FormatException) {
+        Navigator.pop(context);
+        functions.socketErrorSnackbar(
+          context: context,
+          message: "Echec de déconnexion, vérifiez votre connexion internet",
+        );
+      }
     }
   }
 

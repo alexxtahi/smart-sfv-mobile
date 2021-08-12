@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/User.dart';
 import 'package:smartsfv/views/screens/login/LoginView.dart';
 import 'package:smartsfv/views/components/DrawerBlurBackground.dart';
 import 'package:smartsfv/views/components/MyDrawerHeader.dart';
@@ -80,11 +82,18 @@ class DrawerLayoutState extends State<DrawerLayout> {
                             textColor: Colors.white,
                             backgroundColor: Colors.white.withOpacity(0.2),
                             onPressed: () {
-                              functions.openPage(
-                                context,
-                                LoginView(),
-                                mode: 'pushReplacement',
-                              );
+                              if (User.isConnected) {
+                                // ? Show confirmation dialog
+                                functions.logout(
+                                  context,
+                                  onValidate: () {
+                                    // ? Logout
+                                    Api api = Api(); // Load API instance
+                                    api.logout(context);
+                                    User.isConnected = false;
+                                  },
+                                );
+                              }
                             },
                           ),
                         ],

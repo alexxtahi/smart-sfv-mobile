@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/User.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
 Future<void> showFormDialog(
@@ -15,12 +16,15 @@ Future<void> showFormDialog(
   String cancelBtnText = 'Annuler',
   bool hasHeaderIcon = true,
   bool hasHeaderTitle = true,
+  bool hasValidationButton = true,
   bool hasCancelButton = true,
   bool hasSnackbar = true,
   final void Function()? onValidate,
+  bool barrierDismissible = true,
 }) async {
   //GlobalKey<FormState> formKey = GlobalKey<FormState>();
   return await showDialog(
+    barrierDismissible: barrierDismissible,
     context: context,
     builder: (context) {
       return StatefulBuilder(
@@ -63,49 +67,48 @@ Future<void> showFormDialog(
               ),
             ),
             actions: <Widget>[
-              //todo: Save button
-              TextButton(
-                onPressed: onValidate,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    MyText(
-                      text: confirmBtnText,
-                      color: Color.fromRGBO(60, 141, 188, 1),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    SizedBox(width: 5),
-                    Icon(
-                      Icons.check,
-                      color: Color.fromRGBO(60, 141, 188, 1),
-                    ),
-                  ],
-                ),
-              ),
-              (hasCancelButton)
-                  ?
-                  //todo: Cancel button
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          MyText(
-                            text: cancelBtnText,
-                            color: Color.fromRGBO(221, 75, 57, 1),
-                            fontWeight: FontWeight.bold,
-                          ),
-                          SizedBox(width: 5),
-                          Icon(
-                            Icons.close,
-                            color: Color.fromRGBO(221, 75, 57, 1),
-                          ),
-                        ],
+              if (hasValidationButton)
+                //todo: Save button
+                TextButton(
+                  onPressed: onValidate,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      MyText(
+                        text: confirmBtnText,
+                        color: Color.fromRGBO(60, 141, 188, 1),
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
-                  : Container(),
+                      SizedBox(width: 5),
+                      Icon(
+                        Icons.check,
+                        color: Color.fromRGBO(60, 141, 188, 1),
+                      ),
+                    ],
+                  ),
+                ),
+              if (hasCancelButton)
+                //todo: Cancel button
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      MyText(
+                        text: cancelBtnText,
+                        color: Color.fromRGBO(221, 75, 57, 1),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      SizedBox(width: 5),
+                      Icon(
+                        Icons.close,
+                        color: Color.fromRGBO(221, 75, 57, 1),
+                      ),
+                    ],
+                  ),
+                )
             ],
           );
         },
@@ -153,7 +156,7 @@ void socketErrorSnackbar(
     duration: 5,
     icon: Icon(
       Icons.wifi_off_rounded,
-      color: Colors.yellow[800],
+      color: Colors.red,
     ),
   );
 }
@@ -226,4 +229,78 @@ void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
 
       print('Old View: $oldView & NewView: $newView');
   }
+}
+
+void logout(BuildContext context, {Function()? onValidate}) {
+  showMessageToSnackbar(
+    context: context,
+    message: "Déconnexion en cours...",
+    icon: CircularProgressIndicator(
+      color: Colors.red,
+      backgroundColor: Colors.red.withOpacity(0.5),
+    ),
+  );
+  showFormDialog(
+    context,
+    GlobalKey<FormState>(),
+    barrierDismissible: false,
+    headerIcon: 'assets/img/icons/info.png',
+    headerIconColor: Colors.red,
+    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+    //hasHeaderIcon: false,
+    hasSnackbar: false,
+    hasHeaderTitle: false,
+    hasCancelButton: false,
+    hasValidationButton: false,
+    confirmBtnText: 'Se déconnecter',
+    cancelBtnText: 'Annuler',
+    formElements: [
+      Wrap(
+        children: [
+          MyText(
+            text: 'Voulez-vous vraiment vous déconnecter ?',
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            overflow: TextOverflow.visible,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+      SizedBox(height: 15),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          //todo: Exit button
+          InkWell(
+            onTap: onValidate,
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.red,
+              child: Icon(
+                Icons.exit_to_app,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          SizedBox(width: 20),
+          //todo: Cancel button
+          InkWell(
+            onTap: () {
+              // Quit logout AlertDialog
+              if (User.isConnected) Navigator.pop(context);
+            },
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.green,
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ],
+    onValidate: onValidate,
+  );
 }

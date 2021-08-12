@@ -352,18 +352,13 @@ class ProfileLayoutState extends State<ProfileLayout> {
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         onPressed: () {
                           // ? Show confirmation dialog
-                          functions.showFormDialog(
+                          functions.logout(
                             context,
-                            GlobalKey<FormState>(),
-                            hasHeaderIcon: false,
-                            hasSnackbar: false,
-                            title: "Voulez-vous vraiment vous déconnecter ?",
-                            confirmBtnText: 'Se déconnecter',
-                            cancelBtnText: 'Annuler',
                             onValidate: () {
                               // ? Logout
                               Api api = Api(); // Load API instance
                               api.logout(context);
+                              User.isConnected = false;
                             },
                           );
                         },

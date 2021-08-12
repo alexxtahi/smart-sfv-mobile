@@ -14,6 +14,7 @@ class User {
   static bool accountState = false;
   static DateTime lastLogin = DateTime.now();
   static DateTime createdAt = DateTime.now();
+  static bool isConnected = false;
   // todo: Methods
   static void create(Map<String, dynamic> json) {
     // ? Login
@@ -47,11 +48,14 @@ class User {
         json['statut_compte'] != 'null' &&
         json['statut_compte'] == 1) User.accountState = true;
     // ? Last login
-    if (json['updated_at'] != null && json['updated_at'] != null)
+    if (json['updated_at'] != null && json['updated_at'] != 'null')
       User.lastLogin = DateTime.parse(json['updated_at']);
     // ? Created at
-    if (json['created_at'] != null && json['created_at'] != null)
+    if (json['created_at'] != null && json['created_at'] != 'null')
       User.createdAt = DateTime.parse(json['created_at']);
+    // ? Is Connected
+    /*if (json['is_connected'] != null && json['is_connected'] != 'null')
+      User.isConnected = true;*/
 
     //print('createdAt: ' + DateFormat("yyyy-MM-dd HH:mm:ss").format(User.lastLogin)); // ! debug
   }

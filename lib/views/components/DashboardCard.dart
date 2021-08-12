@@ -5,6 +5,7 @@ import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/models/Cache.dart';
 import 'package:smartsfv/views/components/CacheValue.dart';
+import 'package:smartsfv/views/components/MyText.dart';
 
 class DashboardCard extends StatefulWidget {
   final String text;
@@ -111,17 +112,20 @@ class DashboardCardState extends State<DashboardCard> {
                         builder: (cardContext, snapshot) {
                           if (snapshot.hasData) {
                             // ? Check the server dashboard datas
+                            if (Cache.isCached)
+                              print('[CACHE] Cache datas get successfully !');
+                            else
+                              print(
+                                  '[SERVER] Dashboard datas getting from the server');
+
                             return (snapshot.data![widget.cardName] == null)
                                 ? CacheValue(cardName: widget.cardName)
-                                : Text(
-                                    snapshot.data![widget.cardName].toString(),
-                                    style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      //color: Colors.black,
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.w800,
-                                    ),
+                                : MyText(
+                                    text: snapshot.data![widget.cardName]
+                                        .toString(),
+                                    color: Colors.white,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w800,
                                   );
                           } else if (snapshot.hasError) {
                             functions.errorSnackbar(
@@ -194,11 +198,13 @@ class DashboardCardState extends State<DashboardCard> {
       Api api = Api();
       // call API method getDashboardDatas
       Map<String, int> dashboardDatas = await api.getDashboardStats(context);
+      Cache.isCached = false;
       // return dashboard datas
       return dashboardDatas;
     } else {
       // ? in another case load the cache datas
       print('Getting cache datas for the dashboard cards...');
+      Cache.isCached = true;
       return {
         'getClients': Cache.clients!,
         'getArticles': Cache.articles!,
