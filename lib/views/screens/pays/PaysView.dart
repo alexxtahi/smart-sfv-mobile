@@ -23,6 +23,7 @@ class PaysViewState extends State<PaysView> {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController paysController = TextEditingController();
   bool isNewPaysEmpty = false;
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "PaysView";
@@ -43,6 +44,7 @@ class PaysViewState extends State<PaysView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         isExtended: true,
         elevation: 5,

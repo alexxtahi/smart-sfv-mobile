@@ -24,6 +24,8 @@ class CaisseViewState extends State<CaisseView> {
   bool isNewBankEmpty = false;
   String dropDownValue = 'Sélectionner un dépôt';
   List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
+  GlobalKey scaffold = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "CaisseView";
@@ -44,6 +46,7 @@ class CaisseViewState extends State<CaisseView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         isExtended: true,
         elevation: 5,

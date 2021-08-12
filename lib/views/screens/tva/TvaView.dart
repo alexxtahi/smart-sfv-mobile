@@ -17,6 +17,7 @@ class TvaViewState extends State<TvaView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
   bool isNewBankEmpty = false;
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "TvaView";
@@ -37,6 +38,7 @@ class TvaViewState extends State<TvaView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       body: Stack(
         children: [
           //todo: Drawer Screen

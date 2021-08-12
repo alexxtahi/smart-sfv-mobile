@@ -26,6 +26,7 @@ class ListTableViewState extends State<ListTableView> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "LisTableView";
@@ -46,6 +47,7 @@ class ListTableViewState extends State<ListTableView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         elevation: 5,
         onPressed: () {},

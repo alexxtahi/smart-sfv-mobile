@@ -27,6 +27,7 @@ class ClientViewState extends State<ClientView> {
 
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "ClientView";
@@ -47,6 +48,7 @@ class ClientViewState extends State<ClientView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         elevation: 5,
         hoverElevation: 10,

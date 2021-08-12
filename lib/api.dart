@@ -111,7 +111,11 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Articles Model Error $error');
+        print(
+            'API ERROR: Get Articles Model Error ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+
       return <Article>[];
     }
   }
@@ -136,7 +140,8 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView")
+        if (ScreenController.actualView == "HomeView" &&
+            ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
             message: "Articles en voie de péremption chargés !",
@@ -171,7 +176,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Articles Peremption Model Error $error');
+        print(
+            'API ERROR: Get Articles Peremption Model Error ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Article>[];
     }
   }
@@ -196,7 +204,8 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView")
+        if (ScreenController.actualView == "HomeView" &&
+            ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
             message: "Articles en voie de rupture chargés !",
@@ -231,7 +240,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Articles Rupture Model Error $error');
+        print(
+            'API ERROR: Get Articles Rupture Model Error ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Article>[];
     }
   }
@@ -256,7 +268,8 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView")
+        if (ScreenController.actualView == "HomeView" &&
+            ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
             message: "Articles les plus vendus chargés !",
@@ -291,7 +304,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Best Articles Model Error $error');
+        print(
+            'API ERROR: Get Best Articles Model Error ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Article>[];
     }
   }
@@ -316,7 +332,8 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView")
+        if (ScreenController.actualView == "HomeView" &&
+            ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
             message: "Articles les moins vendus chargés !",
@@ -351,7 +368,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Best Articles Model Error $error');
+        print(
+            'API ERROR: Get Best Articles Model Error ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Article>[];
     }
   }
@@ -409,7 +429,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Client Model Error -> $error');
+        print(
+            'API ERROR: Get Client Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Client>[];
     }
   }
@@ -434,7 +457,8 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView")
+        if (ScreenController.actualView == "HomeView" &&
+            ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
             message: "Meilleurs clients chargés !",
@@ -467,7 +491,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Best Clients Error -> $error');
+        print(
+            'API ERROR: Get Best Clients Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Client>[];
     }
   }
@@ -492,7 +519,8 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView")
+        if (ScreenController.actualView == "HomeView" &&
+            ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
             message: "Clients moins rentables chargés !",
@@ -525,7 +553,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Worst Clients Error -> $error');
+        print(
+            'API ERROR: Get Worst Clients Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Client>[];
     }
   }
@@ -551,7 +582,8 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView")
+        if (ScreenController.actualView == "HomeView" &&
+            ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
             message: "Clients moins rentables chargés !",
@@ -584,7 +616,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Worst Clients Error -> $error');
+        print(
+            'API ERROR: Get Worst Clients Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Client>[];
     }
   }
@@ -609,7 +644,8 @@ class Api {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "CommandeView")
+        if (ScreenController.actualView == "CommandeView" &&
+            ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
             message: "Commande chargées !",
@@ -643,7 +679,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Commande Model Error -> $error');
+        print(
+            'API ERROR: Get Commande Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Commande>[];
     }
   }
@@ -700,7 +739,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Pays Model Error -> $error');
+        print(
+            'API ERROR: Get Pays Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Pays>[];
     }
   }
@@ -758,7 +800,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Regime Model Error -> $error');
+        print(
+            'API ERROR: Get Regime Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Regime>[];
     }
   }
@@ -811,7 +856,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Banque Model Error -> $error');
+        print(
+            'API ERROR: Get Banque Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Banque>[];
     }
   }
@@ -864,7 +912,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Caisse Model Error -> $error');
+        print(
+            'API ERROR: Get Caisse Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Caisse>[];
     }
   }
@@ -916,7 +967,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Tva Model Error -> $error');
+        print(
+            'API ERROR: Get Tva Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Tva>[];
     }
   }
@@ -969,7 +1023,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get Category Model Error -> $error');
+        print(
+            'API ERROR: Get Category Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Category>[];
     }
   }
@@ -1022,7 +1079,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: SubCategory Model Error -> $error');
+        print(
+            'API ERROR: SubCategory Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <SubCategory>[];
     }
   }
@@ -1104,20 +1164,12 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Dashboard Error -> $error');
+        print('API ERROR: Dashboard Error -> ${error.runtimeType} -> $error');
       // ? Get Socket errors
-      if (error is SocketException) {
+      if (error is SocketException || error is FormatException) {
         // ? Show internet error snack bar
         if (ScreenController.actualView == "HomeView")
-          functions.showMessageToSnackbar(
-            context: context,
-            message:
-                "Une erreur réseau est survenue.. Veuillez vérifier votre connexion internet.",
-            icon: Icon(
-              Icons.warning_amber_rounded,
-              color: Colors.yellow[900],
-            ),
-          );
+          functions.socketErrorSnackbar(context: context);
       } else {
         // ? Get all others errors
         // ? Show warning snack bar
@@ -1194,7 +1246,10 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Fournisseur Model Error -> $error');
+        print(
+            'API ERROR: Get Fournisseur Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return <Fournisseur>[];
     }
   }
@@ -1218,6 +1273,12 @@ class Api {
         this.requestSuccess = true;
         // ? create list for the user datas
         Map<String, dynamic> userInfos = json.decode(this.response.body);
+        // ? Get user password from cache in the null case
+        if (userInfos['password'] == null || userInfos['password'] == 'null') {
+          // load SharedPreferences and get last login password
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          userInfos['password'] = prefs.getString('password');
+        }
         // ? return this list
         return userInfos;
       } else {
@@ -1234,7 +1295,15 @@ class Api {
       }
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Get User Infos Error -> $error');
+        print(
+            'API ERROR: Get User Infos Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      // show error snack bar
+      functions.errorSnackbar(
+        context: context,
+        message: "Echec de récupération des infos de l'utilisateur",
+      );
       return {'msg': 'no data'};
     }
   }
@@ -1268,20 +1337,24 @@ class Api {
         Map<String, dynamic> userInfos = await getUserInfo(context);
         responseJson['login'] = login;
         responseJson['password'] = password;
-        responseJson['state'] =
+        responseJson['statut_compte'] =
             (userInfos['statut_compte'] == 1) ? true : false;
-        responseJson['createdAt'] =
+        responseJson['created_at'] =
             userInfos['created_at']; //.replaceAll('T', ' ');
-        responseJson['lastLogin'] =
+        responseJson['updated_at'] =
             userInfos['updated_at']; //.replaceAll('T', ' ');
         //print("Réponse du server: $responseJson");
         print("User informations: $userInfos");
         // ? set user informations
         User.create(responseJson);
         // ? Save token to the cache
+        // load SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('token', responseJson['access_token']);
-        prefs.setString('tokenExpDate', responseJson['expires_at']);
+        prefs.setString('token', responseJson['access_token']); // save token
+        prefs.setString('tokenExpDate',
+            responseJson['expires_at']); // save token expiration date
+        prefs.setString('password', password); // save password
+        // get password from cache in the null case
         //print('Cache token -> ' + prefs.getString('token')!); // ! debug
         // ? Show success message
         functions.successSnackbar(
@@ -1308,15 +1381,10 @@ class Api {
         return responseJson; // return to know lodin state
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print('API ERROR: Login Error -> $error');
-      functions.showMessageToSnackbar(
-        context: context,
-        message: "Une erreur est survenue",
-        icon: Icon(
-          Icons.wifi_off_rounded,
-          color: Colors.yellow[700],
-        ),
-      );
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Login Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
       return {"access_token": null}; // return to know login state
     }
   }
@@ -1357,7 +1425,10 @@ class Api {
         );
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print('API ERROR: Logout Error -> $error');
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Logout Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
     }
   }
 
@@ -1405,13 +1476,18 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print('API ERROR: Post Client Model $error');
+      for (var i = 1; i <= 5; i++)
+        print('API ERROR: Post Client Model ${error.runtimeType} -> $error');
       // ? Show error snack bar
-      if (ScreenController.actualView == "ClientView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement du client",
-        );
+      if (ScreenController.actualView == "ClientView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement du client",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1442,13 +1518,18 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Post Fournisseur Model Error -> $error');
+        print(
+            'API ERROR: Post Fournisseur Model Error -> ${error.runtimeType} -> $error');
       // ? Show error snack bar
-      if (ScreenController.actualView == "ProviderView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement du client",
-        );
+      if (ScreenController.actualView == "ProviderView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement du client",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1508,13 +1589,18 @@ class Api {
       return responseJson;
     } catch (error) {
       for (var i = 1; i <= 5; i++)
-        print('API ERROR: Post Article Error -> $error');
+        print(
+            'API ERROR: Post Article Error -> ${error.runtimeType} -> $error');
       // ? Show error snack bar
-      if (ScreenController.actualView == "ArticleView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de l'article",
-        );
+      if (ScreenController.actualView == "ArticleView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de l'article",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1543,11 +1629,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "BanqueView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de la banque",
-        );
+      if (ScreenController.actualView == "BanqueView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de la banque",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1580,11 +1670,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "RegimeView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement du regime",
-        );
+      if (ScreenController.actualView == "RegimeView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement du regime",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1617,11 +1711,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "TvaView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de la taxe",
-        );
+      if (ScreenController.actualView == "TvaView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de la taxe",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1652,11 +1750,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "CaisseView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de la caisse",
-        );
+      if (ScreenController.actualView == "CaisseView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de la caisse",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1687,11 +1789,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "PaysView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement du pays",
-        );
+      if (ScreenController.actualView == "PaysView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement du pays",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1724,11 +1830,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "CategoryView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de la catégorie",
-        );
+      if (ScreenController.actualView == "CategoryView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de la catégorie",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1763,11 +1873,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "SubCategoryView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de la sous catégorie",
-        );
+      if (ScreenController.actualView == "SubCategoryView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de la sous catégorie",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1800,11 +1914,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "MoyenPayementView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement du moyen de payement",
-        );
+      if (ScreenController.actualView == "MoyenPayementView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement du moyen de payement",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1837,11 +1955,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "RayonView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement du rayon",
-        );
+      if (ScreenController.actualView == "RayonView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement du rayon",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1874,11 +1996,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "RangeeView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de la rangée",
-        );
+      if (ScreenController.actualView == "RangeeView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de la rangée",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1911,11 +2037,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "CasierView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement du casier",
-        );
+      if (ScreenController.actualView == "CasierView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement du casier",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1950,11 +2080,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "UniteView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de l'unité",
-        );
+      if (ScreenController.actualView == "UniteView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de l'unité",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -1987,11 +2121,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "TailleView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de la taille",
-        );
+      if (ScreenController.actualView == "TailleView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de la taille",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2024,11 +2162,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "DiversView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement du divers",
-        );
+      if (ScreenController.actualView == "DiversView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement du divers",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2061,11 +2203,15 @@ class Api {
     } catch (error) {
       for (var i = 1; i <= 5; i++) print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "CategoryDepenseView")
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec d'enregistrement de la catégorie dépense",
-        );
+      if (ScreenController.actualView == "CategoryDepenseView") {
+        if (error is SocketException || error is FormatException)
+          functions.socketErrorSnackbar(context: context);
+        else
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec d'enregistrement de la catégorie dépense",
+          );
+      }
       return {'msg': 'Une erreur est survenue'};
     }
   }

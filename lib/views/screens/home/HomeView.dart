@@ -15,6 +15,7 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "HomeView";
@@ -35,6 +36,7 @@ class HomeViewState extends State<HomeView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       body: Stack(
         children: [
           //todo: Drawer Screen

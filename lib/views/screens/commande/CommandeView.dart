@@ -15,6 +15,7 @@ class CommandeView extends StatefulWidget {
 class CommandeViewState extends State<CommandeView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "CommandeView";
@@ -35,6 +36,7 @@ class CommandeViewState extends State<CommandeView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         //mini: true,
         //splashColor: Colors.red,

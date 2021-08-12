@@ -22,6 +22,7 @@ class RegimeViewState extends State<RegimeView> {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController regimeController = TextEditingController();
   bool isNewBankEmpty = false;
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "RegimeView";
@@ -42,6 +43,7 @@ class RegimeViewState extends State<RegimeView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         isExtended: true,
         elevation: 5,

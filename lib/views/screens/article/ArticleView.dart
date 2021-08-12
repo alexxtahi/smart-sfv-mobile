@@ -24,6 +24,7 @@ class ArticleView extends StatefulWidget {
 class ArticleViewState extends State<ArticleView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "ArticleView";
@@ -44,6 +45,7 @@ class ArticleViewState extends State<ArticleView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         //mini: true,
         //splashColor: Colors.red,
@@ -138,7 +140,9 @@ class ArticleViewState extends State<ArticleView> {
                 // ? check the server response
                 if (postArticleResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
-                  Navigator.of(context).pop();
+                  Navigator.of(
+                    context,
+                  ).pop();
                   functions.successSnackbar(
                     context: context,
                     message: 'Nouvel article ajouté !',

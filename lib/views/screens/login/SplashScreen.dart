@@ -40,14 +40,17 @@ class SplashScreenState extends State<SplashScreen> {
           tokenExpDate == null) {
         // if the token is expired.. show the LoginView
         print('[AUTO CONNECTION] The last login token has expired !');
-        Api api = Api();
-        api.getUserInfo(User.globalKey.currentContext!);
         return false;
       } else {
         // showing HomeView
         print('Last token -> $token');
         print('[AUTO CONNECTION] Loading home page...');
-        User.token = (token != null) ? token : '';
+        User.token = (token != null) ? token : 'no token';
+        // ? Get last user informations
+        Api api = Api();
+        Map<String, dynamic> userInfos = await api.getUserInfo(context);
+        User.create(userInfos);
+        print('Last user infos -> $userInfos'); // ! debug
         return true;
       }
     } catch (e) {
@@ -65,6 +68,7 @@ class SplashScreenState extends State<SplashScreen> {
     super.didChangeDependencies();
   }
 
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "SplashScreen";
@@ -87,6 +91,7 @@ class SplashScreenState extends State<SplashScreen> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
@@ -176,7 +181,7 @@ class SplashScreenState extends State<SplashScreen> {
                               ),
                               SizedBox(height: 5),
                               MyText(
-                                text: 'Lancemenet de la page de connexion...',
+                                text: 'Lancement de la page de connexion...',
                                 color: Color.fromRGBO(204, 204, 204, 1),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w800,

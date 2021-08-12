@@ -18,6 +18,8 @@ class BanqueView extends StatefulWidget {
 }
 
 class BanqueViewState extends State<BanqueView> {
+  GlobalKey scaffold = GlobalKey();
+
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
@@ -43,6 +45,7 @@ class BanqueViewState extends State<BanqueView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         isExtended: true,
         elevation: 5,

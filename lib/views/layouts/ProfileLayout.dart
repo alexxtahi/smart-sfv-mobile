@@ -51,6 +51,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
     super.didChangeDependencies();
   }
 
+  Api api = Api();
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
@@ -1020,60 +1021,77 @@ class ProfileLayoutState extends State<ProfileLayout> {
                             ),
                             SizedBox(height: 10),
                             //todo: Account state
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                MyText(
-                                  text: "Etat du compte:",
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                SizedBox(width: 10),
-                                MyText(
-                                  text: (User.state) ? 'Actif' : 'Inactif',
-                                  color:
-                                      (User.state) ? Colors.green : Colors.red,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            //todo: Created at
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                MyText(
-                                  text: "Inscrit le:",
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                SizedBox(width: 10),
-                                Flexible(
-                                  child: MyText(
-                                    text:
-                                        this.dateFormat.format(User.createdAt),
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            //todo: Last login
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                MyText(
-                                  text: "Dernière connexion:",
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                SizedBox(width: 10),
-                                Flexible(
-                                  child: MyText(
-                                    text:
-                                        this.dateFormat.format(User.lastLogin),
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
+                            FutureBuilder<Map<String, dynamic>>(
+                              future: api.getUserInfo(context),
+                              builder: (accountContext, account) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        MyText(
+                                          text: "Etat du compte:",
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        SizedBox(width: 10),
+                                        MyText(
+                                          text: (User.accountState)
+                                              ? 'Actif'
+                                              : 'Inactif',
+                                          color: (User.accountState)
+                                              ? Colors.green
+                                              : Colors.red,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    //todo: Created at
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        MyText(
+                                          text: "Inscrit le:",
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Flexible(
+                                          child: MyText(
+                                            text: this
+                                                .dateFormat
+                                                .format(User.createdAt),
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    //todo: Last login
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        MyText(
+                                          text: "Dernière connexion:",
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Flexible(
+                                          child: MyText(
+                                            text: this
+                                                .dateFormat
+                                                .format(User.lastLogin),
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                           ],
                         ),

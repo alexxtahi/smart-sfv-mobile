@@ -23,6 +23,7 @@ class ProviderView extends StatefulWidget {
 class ProviderViewState extends State<ProviderView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     ScreenController.actualView = "ProviderView";
@@ -43,6 +44,7 @@ class ProviderViewState extends State<ProviderView> {
     ]);
     // Return building scaffold
     return Scaffold(
+      key: scaffold,
       floatingActionButton: FloatingActionButton(
         isExtended: true,
         backgroundColor: Color.fromRGBO(221, 75, 57, 1),

@@ -142,6 +142,22 @@ void errorSnackbar({required BuildContext context, required String message}) {
   );
 }
 
+void socketErrorSnackbar(
+    {required BuildContext context,
+    String message = 'Erreur de réseau, Vérifiez votre connexion internet.'}) {
+  showMessageToSnackbar(
+    context: context,
+    message: message,
+    messageColor: Colors.black,
+    backgroundColor: Colors.white,
+    duration: 5,
+    icon: Icon(
+      Icons.wifi_off_rounded,
+      color: Colors.yellow[800],
+    ),
+  );
+}
+
 void showMessageToSnackbar({
   required BuildContext context,
   required var message,
@@ -151,8 +167,8 @@ void showMessageToSnackbar({
     Icons.info,
     color: Colors.white,
   ),
-  Color backgroundColor = Colors.white,
-  Color messageColor = Colors.black,
+  Color backgroundColor = Colors.black,
+  Color messageColor = Colors.white,
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
