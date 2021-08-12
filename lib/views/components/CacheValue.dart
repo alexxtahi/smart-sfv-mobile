@@ -16,7 +16,7 @@ class CacheValue extends StatefulWidget {
 class CacheValueState extends State<CacheValue> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<String>(
       future: getCacheDatas(),
       builder: (cacheContext, cache) {
         // ? When loading is complete
@@ -54,13 +54,12 @@ class CacheValueState extends State<CacheValue> {
       // load SharedPreferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
       // Get actual card data from the cache
-      String cacheData = prefs.getInt(widget.cardName).toString();
-      print('Get Cache Data -> ' + widget.cardName + ' -> $cacheData');
+      int? cacheData = prefs.getInt(widget.cardName);
+      print('[Cache] Get Cache Data -> ' + widget.cardName + ' -> $cacheData');
       // Return it
-      return cacheData;
+      return cacheData.toString();
     } catch (e) {
-      print('Get Cache Data Error -> $e');
-
+      print('[Cache] Get Cache Data Error -> $e');
       return '0';
     }
   }

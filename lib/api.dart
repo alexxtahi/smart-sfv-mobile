@@ -110,9 +110,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Articles Model Error ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Articles Model Error ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
 
@@ -175,9 +174,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Articles Peremption Model Error ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Articles Peremption Model Error ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Article>[];
@@ -239,9 +237,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Articles Rupture Model Error ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Articles Rupture Model Error ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Article>[];
@@ -303,9 +300,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Best Articles Model Error ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Best Articles Model Error ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Article>[];
@@ -367,9 +363,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Best Articles Model Error ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Best Articles Model Error ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Article>[];
@@ -428,9 +423,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Client Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Client Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Client>[];
@@ -490,9 +484,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Best Clients Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Best Clients Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Client>[];
@@ -552,9 +545,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Worst Clients Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Worst Clients Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Client>[];
@@ -615,9 +607,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Worst Clients Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Worst Clients Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Client>[];
@@ -678,9 +669,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Commande Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Commande Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Commande>[];
@@ -738,9 +728,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Pays Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Pays Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Pays>[];
@@ -799,9 +788,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Regime Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Regime Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Regime>[];
@@ -855,9 +843,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Banque Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Banque Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Banque>[];
@@ -911,9 +898,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Caisse Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Caisse Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Caisse>[];
@@ -966,9 +952,7 @@ class Api {
         return <Tva>[];
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Tva Model Error -> ${error.runtimeType} -> $error');
+      print('API ERROR: Get Tva Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Tva>[];
@@ -1022,9 +1006,8 @@ class Api {
         return <Category>[];
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Category Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Category Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Category>[];
@@ -1078,9 +1061,8 @@ class Api {
         return <SubCategory>[];
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: SubCategory Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: SubCategory Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <SubCategory>[];
@@ -1141,13 +1123,17 @@ class Api {
           Cache.commandes = cacheDatas['getCommandes'];
           Cache.isCached = true;
           // ! debug
-          print("TEST getClients -> ${cacheDatas['getClients']}");
-          print("TEST getArticles -> ${cacheDatas['getArticles']}");
-          print("TEST getFournisseurs -> ${cacheDatas['getFournisseurs']}");
-          print("TEST getCommandes -> ${cacheDatas['getCommandes']}");
+          print("TEST getClients -> ${Cache.clients}");
+          print("TEST getArticles -> ${Cache.articles}");
+          print("TEST getFournisseurs -> ${Cache.fournisseurs}");
+          print("TEST getCommandes -> ${Cache.commandes}");
           // ! end debug
-        } else // or error message
+          ScreenController.reloadDashboard = false;
+        } else {
+          // or error message
           print("[ERROR] Failed to save data to the phone cache !");
+          ScreenController.reloadDashboard = false;
+        }
       } catch (e) {}
       // ? Show success snack bar
       if (ScreenController.reloadDashboard) {
@@ -1163,8 +1149,7 @@ class Api {
         ScreenController.reloadDashboard = false;
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print('API ERROR: Dashboard Error -> ${error.runtimeType} -> $error');
+      print('API ERROR: Dashboard Error -> ${error.runtimeType} -> $error');
       // ? Get Socket errors
       if (error is SocketException || error is FormatException) {
         // ? Show internet error snack bar
@@ -1174,16 +1159,11 @@ class Api {
         // ? Get all others errors
         // ? Show warning snack bar
         if (ScreenController.actualView == "HomeView")
-          functions.showMessageToSnackbar(
-            context: context,
-            message: "Une erreur est survenue",
-            icon: Icon(
-              Icons.warning_amber_rounded,
-              color: Colors.yellow[900],
-            ),
-          );
+          functions.socketErrorSnackbar(context: context);
       }
+      ScreenController.reloadDashboard = false;
     }
+    ScreenController.reloadDashboard = false;
     // ? Return dashboard statistics
     return dashboardDatas;
   }
@@ -1245,9 +1225,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get Fournisseur Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get Fournisseur Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Fournisseur>[];
@@ -1294,9 +1273,8 @@ class Api {
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Get User Infos Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Get User Infos Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       // show error snack bar
@@ -1381,8 +1359,7 @@ class Api {
         return responseJson; // return to know lodin state
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print('API ERROR: Login Error -> ${error.runtimeType} -> $error');
+      print('API ERROR: Login Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return {"access_token": null}; // return to know login state
@@ -1425,8 +1402,7 @@ class Api {
         );
       }
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print('API ERROR: Logout Error -> ${error.runtimeType} -> $error');
+      print('API ERROR: Logout Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
     }
@@ -1476,8 +1452,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print('API ERROR: Post Client Model ${error.runtimeType} -> $error');
+      print('API ERROR: Post Client Model ${error.runtimeType} -> $error');
       // ? Show error snack bar
       if (ScreenController.actualView == "ClientView") {
         if (error is SocketException || error is FormatException)
@@ -1517,9 +1492,8 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Post Fournisseur Model Error -> ${error.runtimeType} -> $error');
+      print(
+          'API ERROR: Post Fournisseur Model Error -> ${error.runtimeType} -> $error');
       // ? Show error snack bar
       if (ScreenController.actualView == "ProviderView") {
         if (error is SocketException || error is FormatException)
@@ -1588,9 +1562,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++)
-        print(
-            'API ERROR: Post Article Error -> ${error.runtimeType} -> $error');
+      print('API ERROR: Post Article Error -> ${error.runtimeType} -> $error');
       // ? Show error snack bar
       if (ScreenController.actualView == "ArticleView") {
         if (error is SocketException || error is FormatException)
@@ -1627,7 +1599,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "BanqueView") {
         if (error is SocketException || error is FormatException)
@@ -1668,7 +1640,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "RegimeView") {
         if (error is SocketException || error is FormatException)
@@ -1709,7 +1681,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "TvaView") {
         if (error is SocketException || error is FormatException)
@@ -1748,7 +1720,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "CaisseView") {
         if (error is SocketException || error is FormatException)
@@ -1787,7 +1759,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "PaysView") {
         if (error is SocketException || error is FormatException)
@@ -1828,7 +1800,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "CategoryView") {
         if (error is SocketException || error is FormatException)
@@ -1871,7 +1843,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "SubCategoryView") {
         if (error is SocketException || error is FormatException)
@@ -1912,7 +1884,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "MoyenPayementView") {
         if (error is SocketException || error is FormatException)
@@ -1953,7 +1925,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "RayonView") {
         if (error is SocketException || error is FormatException)
@@ -1994,7 +1966,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "RangeeView") {
         if (error is SocketException || error is FormatException)
@@ -2035,7 +2007,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "CasierView") {
         if (error is SocketException || error is FormatException)
@@ -2078,7 +2050,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "UniteView") {
         if (error is SocketException || error is FormatException)
@@ -2119,7 +2091,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "TailleView") {
         if (error is SocketException || error is FormatException)
@@ -2160,7 +2132,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "DiversView") {
         if (error is SocketException || error is FormatException)
@@ -2201,7 +2173,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      for (var i = 1; i <= 5; i++) print(error);
+      print(error);
       // ? Show error snack bar
       if (ScreenController.actualView == "CategoryDepenseView") {
         if (error is SocketException || error is FormatException)

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
@@ -37,7 +36,8 @@ class SplashScreenState extends State<SplashScreen> {
       // check if the expiration date is arrive or passed
       if ((tokenExpDate != null &&
               DateTime.now().compareTo(DateTime.parse(tokenExpDate)) >= 0) ||
-          tokenExpDate == null) {
+          tokenExpDate == null ||
+          tokenExpDate == 'null') {
         // if the token is expired.. show the LoginView
         print('[AUTO CONNECTION] The last login token has expired !');
         return false;
@@ -50,7 +50,7 @@ class SplashScreenState extends State<SplashScreen> {
         Api api = Api();
         Map<String, dynamic> userInfos = await api.getUserInfo(context);
         User.create(userInfos);
-        print('Last user infos -> $userInfos'); // ! debug
+        print('Last user infos -> ${User.toMap()}'); // ! debug
         return true;
       }
     } catch (e) {
@@ -124,7 +124,8 @@ class SplashScreenState extends State<SplashScreen> {
                     future: verifyLastLogin(),
                     builder: (verifyContext, snapshot) {
                       if (snapshot.hasData) {
-                        if (snapshot.data!) {
+                        // ? If the user is not disconnected
+                        if (snapshot.data! == true) {
                           //todo: Start timer
                           Timer(
                             Duration(seconds: 10),
@@ -156,6 +157,7 @@ class SplashScreenState extends State<SplashScreen> {
                               ),
                             ],
                           );
+                          // ? If the user is previously disconnected
                         } else {
                           //todo: Start timer
                           Timer(

@@ -110,7 +110,7 @@ class DashboardCardState extends State<DashboardCard> {
                         future: this.getDashboardDatas(),
                         builder: (cardContext, snapshot) {
                           if (snapshot.hasData) {
-                            // ? Check if the list of clients is empty or not
+                            // ? Check the server dashboard datas
                             return (snapshot.data![widget.cardName] == null)
                                 ? CacheValue(cardName: widget.cardName)
                                 : Text(
@@ -189,6 +189,7 @@ class DashboardCardState extends State<DashboardCard> {
   Future<Map<String, int>> getDashboardDatas() async {
     // ? Load dashboard datas only when the user press reload button
     if (ScreenController.reloadDashboard) {
+      print('Getting server datas for the dashboard cards...');
       // init API instance
       Api api = Api();
       // call API method getDashboardDatas
@@ -197,6 +198,7 @@ class DashboardCardState extends State<DashboardCard> {
       return dashboardDatas;
     } else {
       // ? in another case load the cache datas
+      print('Getting cache datas for the dashboard cards...');
       return {
         'getClients': Cache.clients!,
         'getArticles': Cache.articles!,
