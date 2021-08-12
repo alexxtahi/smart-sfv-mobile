@@ -122,70 +122,72 @@ class CaisseViewState extends State<CaisseView> {
               ),
               SizedBox(height: 10),
               //todo: Dépot DropDownButton
-              FutureBuilder<List<Caisse>>(
-                future: this.fetchCaisses(),
-                builder: (caisseComboBoxContext, snapshot) {
-                  if (snapshot.hasData) {
-                    // ? get nations datas from server
-                    return MyComboBox(
-                      validator: (value) {
-                        return value! != 'Sélectionnez une caisse'
-                            ? null
-                            : 'Choisissez une caisse';
-                      },
-                      onChanged: (value) {
-                        // ? Iterate all caisses to get the selected caisse id
-                        for (var caisse in snapshot.data!) {
-                          if (caisse.libelle == value) {
-                            fieldControllers['depot'] =
-                                caisse.id; // save the new caisse selected
-                            print(
-                                "Nouveau caisse: $value, ${fieldControllers['depot']}, ${caisse.id}");
-                            break;
-                          }
+              (ScreenController.actualView != "LoginView")
+                  ? FutureBuilder<List<Caisse>>(
+                      future: this.fetchCaisses(),
+                      builder: (caisseComboBoxContext, snapshot) {
+                        if (snapshot.hasData) {
+                          // ? get nations datas from server
+                          return MyComboBox(
+                            validator: (value) {
+                              return value! != 'Sélectionnez une caisse'
+                                  ? null
+                                  : 'Choisissez une caisse';
+                            },
+                            onChanged: (value) {
+                              // ? Iterate all caisses to get the selected caisse id
+                              for (var caisse in snapshot.data!) {
+                                if (caisse.libelle == value) {
+                                  fieldControllers['depot'] =
+                                      caisse.id; // save the new caisse selected
+                                  print(
+                                      "Nouveau caisse: $value, ${fieldControllers['depot']}, ${caisse.id}");
+                                  break;
+                                }
+                              }
+                            },
+                            initialDropDownValue: 'Sélectionnez une caisse',
+                            initialDropDownList: [
+                              'Sélectionnez une caisse',
+                              // ? datas integration
+                              for (var caisse in snapshot.data!) caisse.libelle,
+                            ],
+                            prefixPadding: 10,
+                            prefixIcon: Image.asset(
+                              'assets/img/icons/cashier.png',
+                              fit: BoxFit.contain,
+                              width: 15,
+                              height: 15,
+                              color: Color.fromRGBO(60, 141, 188, 1),
+                            ),
+                            textColor: Color.fromRGBO(60, 141, 188, 1),
+                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                            borderRadius: Radius.circular(10),
+                            focusBorderColor: Colors.transparent,
+                            enableBorderColor: Colors.transparent,
+                          );
                         }
+                        // ? on wait the combo with data load empty combo
+                        return MyTextFormField(
+                          prefixPadding: 10,
+                          prefixIcon: Image.asset(
+                            'assets/img/icons/cashier.png',
+                            fit: BoxFit.contain,
+                            width: 15,
+                            height: 15,
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                          ),
+                          placeholder: 'Sélectionnez une caisse',
+                          textColor: Color.fromRGBO(60, 141, 188, 1),
+                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                          borderRadius: Radius.circular(10),
+                          focusBorderColor: Colors.transparent,
+                          enableBorderColor: Colors.transparent,
+                        );
                       },
-                      initialDropDownValue: 'Sélectionnez une caisse',
-                      initialDropDownList: [
-                        'Sélectionnez une caisse',
-                        // ? datas integration
-                        for (var caisse in snapshot.data!) caisse.libelle,
-                      ],
-                      prefixPadding: 10,
-                      prefixIcon: Image.asset(
-                        'assets/img/icons/cashier.png',
-                        fit: BoxFit.contain,
-                        width: 15,
-                        height: 15,
-                        color: Color.fromRGBO(60, 141, 188, 1),
-                      ),
-                      textColor: Color.fromRGBO(60, 141, 188, 1),
-                      fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                      borderRadius: Radius.circular(10),
-                      focusBorderColor: Colors.transparent,
-                      enableBorderColor: Colors.transparent,
-                    );
-                  }
-                  // ? on wait the combo with data load empty combo
-                  return MyTextFormField(
-                    prefixPadding: 10,
-                    prefixIcon: Image.asset(
-                      'assets/img/icons/cashier.png',
-                      fit: BoxFit.contain,
-                      width: 15,
-                      height: 15,
-                      color: Color.fromRGBO(60, 141, 188, 1),
-                    ),
-                    placeholder: 'Sélectionnez une caisse',
-                    textColor: Color.fromRGBO(60, 141, 188, 1),
-                    placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                    fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                    borderRadius: Radius.circular(10),
-                    focusBorderColor: Colors.transparent,
-                    enableBorderColor: Colors.transparent,
-                  );
-                },
-              ),
+                    )
+                  : Container(),
             ],
           );
         },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
 class CacheValue extends StatefulWidget {
@@ -16,35 +17,37 @@ class CacheValue extends StatefulWidget {
 class CacheValueState extends State<CacheValue> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: getCacheDatas(),
-      builder: (cacheContext, cache) {
-        // ? When loading is complete
-        if (cache.hasData) {
-          if (cache.data != null &&
-              cache.data != 'null' &&
-              cache.data.toString() != 'null') {
-            return MyText(
-              text: cache.data.toString(),
-              color: Colors.white,
-              fontSize: 40,
-              fontWeight: FontWeight.w800,
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(color: Colors.white),
-            );
-          }
-        }
-        // ? In loading case...
-        return MyText(
-          text: '0',
-          color: Colors.white,
-          fontSize: 40,
-          fontWeight: FontWeight.w800,
-        );
-      },
-    );
+    return (ScreenController.actualView != "LoginView")
+        ? FutureBuilder<String>(
+            future: getCacheDatas(),
+            builder: (cacheContext, cache) {
+              // ? When loading is complete
+              if (cache.hasData) {
+                if (cache.data != null &&
+                    cache.data != 'null' &&
+                    cache.data.toString() != 'null') {
+                  return MyText(
+                    text: cache.data.toString(),
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w800,
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  );
+                }
+              }
+              // ? In loading case...
+              return MyText(
+                text: '0',
+                color: Colors.white,
+                fontSize: 40,
+                fontWeight: FontWeight.w800,
+              );
+            },
+          )
+        : Container();
   }
 
   //todo: Get datas from cache

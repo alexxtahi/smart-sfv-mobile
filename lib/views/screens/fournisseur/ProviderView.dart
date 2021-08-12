@@ -289,71 +289,73 @@ class ProviderViewState extends State<ProviderView> {
                   ),
                   SizedBox(height: 5),
                   //todo: Pays DropDown
-                  FutureBuilder<List<Pays>>(
-                      future: this.fetchCountries(),
-                      builder: (paysComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! != 'Sélectionnez un pays'
-                                  ? null
-                                  : 'Choisissez un pays';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all countries to get the selected countrie id
-                              for (var pays in snapshot.data!) {
-                                if (pays.libelle == value) {
-                                  fieldControllers['pays'] =
-                                      pays.id; // save the new countrie selected
-                                  print(
-                                      "Nouveau pays: $value, ${fieldControllers['pays']}, ${pays.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue: 'Sélectionnez un pays',
-                            initialDropDownList: [
-                              'Sélectionnez un pays',
-                              // ? datas integration
-                              for (var pays in snapshot.data!) pays.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/countries.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(221, 75, 57, 1),
-                            ),
-                            textColor: Color.fromRGBO(221, 75, 57, 1),
-                            fillColor: Color.fromRGBO(221, 75, 57, 0.15),
-                            errorColor: Colors.yellow.shade800,
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/countries.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(221, 75, 57, 1),
-                          ),
-                          placeholder: 'Sélectionnez un pays',
-                          textColor: Color.fromRGBO(221, 75, 57, 1),
-                          placeholderColor: Color.fromRGBO(221, 75, 57, 1),
-                          fillColor: Color.fromRGBO(221, 75, 57, 0.15),
-                          errorColor: Colors.yellow.shade800,
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      }),
+                  (ScreenController.actualView != "LoginView")
+                      ? FutureBuilder<List<Pays>>(
+                          future: this.fetchCountries(),
+                          builder: (paysComboBoxContext, snapshot) {
+                            if (snapshot.hasData) {
+                              // ? get nations datas from server
+                              return MyComboBox(
+                                validator: (value) {
+                                  return value! != 'Sélectionnez un pays'
+                                      ? null
+                                      : 'Choisissez un pays';
+                                },
+                                onChanged: (value) {
+                                  // ? Iterate all countries to get the selected countrie id
+                                  for (var pays in snapshot.data!) {
+                                    if (pays.libelle == value) {
+                                      fieldControllers['pays'] = pays
+                                          .id; // save the new countrie selected
+                                      print(
+                                          "Nouveau pays: $value, ${fieldControllers['pays']}, ${pays.id}");
+                                      break;
+                                    }
+                                  }
+                                },
+                                initialDropDownValue: 'Sélectionnez un pays',
+                                initialDropDownList: [
+                                  'Sélectionnez un pays',
+                                  // ? datas integration
+                                  for (var pays in snapshot.data!) pays.libelle,
+                                ],
+                                prefixPadding: 10,
+                                prefixIcon: Image.asset(
+                                  'assets/img/icons/countries.png',
+                                  fit: BoxFit.contain,
+                                  width: 15,
+                                  height: 15,
+                                  color: Color.fromRGBO(221, 75, 57, 1),
+                                ),
+                                textColor: Color.fromRGBO(221, 75, 57, 1),
+                                fillColor: Color.fromRGBO(221, 75, 57, 0.15),
+                                errorColor: Colors.yellow.shade800,
+                                borderRadius: Radius.circular(10),
+                                focusBorderColor: Colors.transparent,
+                                enableBorderColor: Colors.transparent,
+                              );
+                            }
+                            // ? on wait the combo with data load empty combo
+                            return MyTextFormField(
+                              prefixPadding: 10,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/countries.png',
+                                fit: BoxFit.contain,
+                                width: 15,
+                                height: 15,
+                                color: Color.fromRGBO(221, 75, 57, 1),
+                              ),
+                              placeholder: 'Sélectionnez un pays',
+                              textColor: Color.fromRGBO(221, 75, 57, 1),
+                              placeholderColor: Color.fromRGBO(221, 75, 57, 1),
+                              fillColor: Color.fromRGBO(221, 75, 57, 0.15),
+                              errorColor: Colors.yellow.shade800,
+                              borderRadius: Radius.circular(10),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
+                          })
+                      : Container(),
                 ],
               ),
               SizedBox(height: 10),
@@ -429,67 +431,70 @@ class ProviderViewState extends State<ProviderView> {
                   ),
                   SizedBox(height: 5),
                   //todo: Banque DropDown
-                  FutureBuilder<List<Banque>>(
-                    future: this.fetchBanques(),
-                    builder: (banqueComboBoxContext, snapshot) {
-                      if (snapshot.hasData) {
-                        // ? get nations datas from server
-                        return MyComboBox(
-                          onChanged: (value) {
-                            // ? Iterate all bank to get the selected banque id
-                            for (var banque in snapshot.data!) {
-                              if (banque.libelle == value) {
-                                // if the regime name match with the selected
-                                fieldControllers['banque'] =
-                                    banque.id; // save the new banque selected
-                                print(
-                                    "Nouvelle banque: $value, ${fieldControllers['banque']}, ${banque.id}");
+                  (ScreenController.actualView != "LoginView")
+                      ? FutureBuilder<List<Banque>>(
+                          future: this.fetchBanques(),
+                          builder: (banqueComboBoxContext, snapshot) {
+                            if (snapshot.hasData) {
+                              // ? get nations datas from server
+                              return MyComboBox(
+                                onChanged: (value) {
+                                  // ? Iterate all bank to get the selected banque id
+                                  for (var banque in snapshot.data!) {
+                                    if (banque.libelle == value) {
+                                      // if the regime name match with the selected
+                                      fieldControllers['banque'] = banque
+                                          .id; // save the new banque selected
+                                      print(
+                                          "Nouvelle banque: $value, ${fieldControllers['banque']}, ${banque.id}");
 
-                                break;
-                              }
+                                      break;
+                                    }
+                                  }
+                                },
+                                initialDropDownValue: 'Sélectionnez une banque',
+                                initialDropDownList: [
+                                  'Sélectionnez une banque',
+                                  // ? datas integration
+                                  for (var regime in snapshot.data!)
+                                    regime.libelle,
+                                ],
+                                prefixPadding: 10,
+                                prefixIcon: Image.asset(
+                                  'assets/img/icons/bank-building.png',
+                                  fit: BoxFit.contain,
+                                  width: 15,
+                                  height: 15,
+                                  color: Color.fromRGBO(221, 75, 57, 1),
+                                ),
+                                textColor: Color.fromRGBO(221, 75, 57, 1),
+                                fillColor: Color.fromRGBO(221, 75, 57, 0.15),
+                                borderRadius: Radius.circular(10),
+                                focusBorderColor: Colors.transparent,
+                                enableBorderColor: Colors.transparent,
+                              );
                             }
+                            // ? on wait the combo with data load empty combo
+                            return MyTextFormField(
+                              prefixPadding: 10,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/bank-building.png',
+                                fit: BoxFit.contain,
+                                width: 15,
+                                height: 15,
+                                color: Color.fromRGBO(221, 75, 57, 1),
+                              ),
+                              placeholder: 'Sélectionnez une banque',
+                              textColor: Color.fromRGBO(221, 75, 57, 1),
+                              placeholderColor: Color.fromRGBO(221, 75, 57, 1),
+                              fillColor: Color.fromRGBO(221, 75, 57, 0.15),
+                              borderRadius: Radius.circular(10),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
                           },
-                          initialDropDownValue: 'Sélectionnez une banque',
-                          initialDropDownList: [
-                            'Sélectionnez une banque',
-                            // ? datas integration
-                            for (var regime in snapshot.data!) regime.libelle,
-                          ],
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/bank-building.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(221, 75, 57, 1),
-                          ),
-                          textColor: Color.fromRGBO(221, 75, 57, 1),
-                          fillColor: Color.fromRGBO(221, 75, 57, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      }
-                      // ? on wait the combo with data load empty combo
-                      return MyTextFormField(
-                        prefixPadding: 10,
-                        prefixIcon: Image.asset(
-                          'assets/img/icons/bank-building.png',
-                          fit: BoxFit.contain,
-                          width: 15,
-                          height: 15,
-                          color: Color.fromRGBO(221, 75, 57, 1),
-                        ),
-                        placeholder: 'Sélectionnez une banque',
-                        textColor: Color.fromRGBO(221, 75, 57, 1),
-                        placeholderColor: Color.fromRGBO(221, 75, 57, 1),
-                        fillColor: Color.fromRGBO(221, 75, 57, 0.15),
-                        borderRadius: Radius.circular(10),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
-                      );
-                    },
-                  ),
+                        )
+                      : Container(),
                 ],
               ),
               SizedBox(height: 10),

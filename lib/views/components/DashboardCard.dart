@@ -107,38 +107,42 @@ class DashboardCardState extends State<DashboardCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //todo: Value
-                      FutureBuilder<Map<String, int>>(
-                        future: this.getDashboardDatas(),
-                        builder: (cardContext, snapshot) {
-                          if (snapshot.hasData) {
-                            // ? Check the server dashboard datas
-                            if (Cache.isCached)
-                              print('[CACHE] Cache datas get successfully !');
-                            else
-                              print(
-                                  '[SERVER] Dashboard datas getting from the server');
+                      (ScreenController.actualView != "LoginView")
+                          ? FutureBuilder<Map<String, int>>(
+                              future: this.getDashboardDatas(),
+                              builder: (cardContext, snapshot) {
+                                if (snapshot.hasData) {
+                                  // ? Check the server dashboard datas
+                                  if (Cache.isCached)
+                                    print(
+                                        '[CACHE] Cache datas get successfully !');
+                                  else
+                                    print(
+                                        '[SERVER] Dashboard datas getting from the server');
 
-                            return (snapshot.data![widget.cardName] == null)
-                                ? CacheValue(cardName: widget.cardName)
-                                : MyText(
-                                    text: snapshot.data![widget.cardName]
-                                        .toString(),
-                                    color: Colors.white,
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w800,
+                                  return (snapshot.data![widget.cardName] ==
+                                          null)
+                                      ? CacheValue(cardName: widget.cardName)
+                                      : MyText(
+                                          text: snapshot.data![widget.cardName]
+                                              .toString(),
+                                          color: Colors.white,
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.w800,
+                                        );
+                                } else if (snapshot.hasError) {
+                                  functions.errorSnackbar(
+                                    context: context,
+                                    message: 'Erreur sur le tableau de bord',
                                   );
-                          } else if (snapshot.hasError) {
-                            functions.errorSnackbar(
-                              context: context,
-                              message: 'Erreur sur le tableau de bord',
-                            );
-                            //todo: In snapshot error case get cache datas
-                            return CacheValue(cardName: widget.cardName);
-                          }
-                          //todo: Loading cache indicator
-                          return CacheValue(cardName: widget.cardName);
-                        },
-                      ),
+                                  //todo: In snapshot error case get cache datas
+                                  return CacheValue(cardName: widget.cardName);
+                                }
+                                //todo: Loading cache indicator
+                                return CacheValue(cardName: widget.cardName);
+                              },
+                            )
+                          : Container(),
                       //todo: Title
                       Text(
                         widget.text,
@@ -192,25 +196,29 @@ class DashboardCardState extends State<DashboardCard> {
   //todo: Get datas from API
   Future<Map<String, int>> getDashboardDatas() async {
     // ? Load dashboard datas only when the user press reload button
-    if (ScreenController.reloadDashboard) {
-      print('Getting server datas for the dashboard cards...');
-      // init API instance
-      Api api = Api();
-      // call API method getDashboardDatas
-      Map<String, int> dashboardDatas = await api.getDashboardStats(context);
-      Cache.isCached = false;
-      // return dashboard datas
-      return dashboardDatas;
+    if (ScreenController.actualView != "LoginView") {
+      if (ScreenController.reloadDashboard) {
+        print('Getting server datas for the dashboard cards...');
+        // init API instance
+        Api api = Api();
+        // call API method getDashboardDatas
+        Map<String, int> dashboardDatas = await api.getDashboardStats(context);
+        Cache.isCached = false;
+        // return dashboard datas
+        return dashboardDatas;
+      } else {
+        // ? in another case load the cache datas
+        print('Getting cache datas for the dashboard cards...');
+        Cache.isCached = true;
+        return {
+          'getClients': Cache.clients!,
+          'getArticles': Cache.articles!,
+          'getFournisseurs': Cache.fournisseurs!,
+          'getCommandes': Cache.commandes!,
+        };
+      }
     } else {
-      // ? in another case load the cache datas
-      print('Getting cache datas for the dashboard cards...');
-      Cache.isCached = true;
-      return {
-        'getClients': Cache.clients!,
-        'getArticles': Cache.articles!,
-        'getFournisseurs': Cache.fournisseurs!,
-        'getCommandes': Cache.commandes!,
-      };
+      return {};
     }
   }
 }

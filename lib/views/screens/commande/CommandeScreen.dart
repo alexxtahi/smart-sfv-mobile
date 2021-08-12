@@ -108,77 +108,83 @@ class CommandeScreenState extends State<CommandeScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       //todo: Catégories DropDown
-                      FutureBuilder<List<Fournisseur>>(
-                        future: api.getFournisseurs(context),
-                        builder: (comboBoxContext, snapshot) {
-                          if (snapshot.hasData) {
-                            // ? get nations datas from server
-                            return MyComboBox(
-                              initialDropDownValue: 'Fournisseurs',
-                              initialDropDownList: [
-                                'Fournisseurs',
-                                // ? datas integration
-                                for (var fournisseur in snapshot.data!)
-                                  fournisseur.nom!,
-                              ],
-                              iconSize: 0,
-                              textFontSize: 10,
-                              prefixPadding: 10,
-                              prefixIcon: Image.asset(
-                                'assets/img/icons/provider.png',
-                                fit: BoxFit.contain,
-                                width: 20,
-                                height: 20,
-                                color: Color.fromRGBO(0, 27, 121, 1),
-                              ),
-                              textColor: Color.fromRGBO(0, 27, 121, 1),
-                              textFontWeight: FontWeight.bold,
-                              fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                              borderRadius: Radius.circular(15),
-                              focusBorderColor: Colors.transparent,
-                              enableBorderColor: Colors.transparent,
-                            );
-                          } else if (snapshot.hasError) {
-                            functions.errorSnackbar(
-                              context: context,
-                              message: 'Echec de récupération des fournisseurs',
-                            );
-                            return MyText(
-                              text: snapshot.error.toString(),
-                              color: Color.fromRGBO(60, 141, 188, 0.5),
-                            );
-                          }
-                          // ? on wait the combo with data load empty combo
-                          return MyOutlinedButton(
-                            backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: 15,
-                            borderColor: Colors.transparent,
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/img/icons/provider.png',
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.contain,
-                                  color: Color.fromRGBO(0, 27, 121, 1),
-                                ),
-                                SizedBox(width: 15),
-                                Flexible(
-                                  child: MyText(
-                                    text: 'Fournisseurs',
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(0, 27, 121, 1),
-                                    fontSize: 10,
+                      (ScreenController.actualView != "LoginView")
+                          ? FutureBuilder<List<Fournisseur>>(
+                              future: api.getFournisseurs(context),
+                              builder: (comboBoxContext, snapshot) {
+                                if (snapshot.hasData) {
+                                  // ? get nations datas from server
+                                  return MyComboBox(
+                                    initialDropDownValue: 'Fournisseurs',
+                                    initialDropDownList: [
+                                      'Fournisseurs',
+                                      // ? datas integration
+                                      for (var fournisseur in snapshot.data!)
+                                        fournisseur.nom!,
+                                    ],
+                                    iconSize: 0,
+                                    textFontSize: 10,
+                                    prefixPadding: 10,
+                                    prefixIcon: Image.asset(
+                                      'assets/img/icons/provider.png',
+                                      fit: BoxFit.contain,
+                                      width: 20,
+                                      height: 20,
+                                      color: Color.fromRGBO(0, 27, 121, 1),
+                                    ),
+                                    textColor: Color.fromRGBO(0, 27, 121, 1),
+                                    textFontWeight: FontWeight.bold,
+                                    fillColor:
+                                        Color.fromRGBO(60, 141, 188, 0.15),
+                                    borderRadius: Radius.circular(15),
+                                    focusBorderColor: Colors.transparent,
+                                    enableBorderColor: Colors.transparent,
+                                  );
+                                } else if (snapshot.hasError) {
+                                  functions.errorSnackbar(
+                                    context: context,
+                                    message:
+                                        'Echec de récupération des fournisseurs',
+                                  );
+                                  return MyText(
+                                    text: snapshot.error.toString(),
+                                    color: Color.fromRGBO(60, 141, 188, 0.5),
+                                  );
+                                }
+                                // ? on wait the combo with data load empty combo
+                                return MyOutlinedButton(
+                                  backgroundColor:
+                                      Color.fromRGBO(60, 141, 188, 0.15),
+                                  borderRadius: 15,
+                                  borderColor: Colors.transparent,
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/img/icons/provider.png',
+                                        width: 30,
+                                        height: 30,
+                                        fit: BoxFit.contain,
+                                        color: Color.fromRGBO(0, 27, 121, 1),
+                                      ),
+                                      SizedBox(width: 15),
+                                      Flexible(
+                                        child: MyText(
+                                          text: 'Fournisseurs',
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                                );
+                              },
+                            )
+                          : Container(),
                       //todo: Filtres button
                       MyOutlinedButton(
                         onPressed: () {},

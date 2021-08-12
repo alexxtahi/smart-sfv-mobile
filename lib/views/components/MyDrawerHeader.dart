@@ -106,11 +106,12 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
                     ),
                   ),
                   //todo: Alert dot
-                  FutureBuilder<List<String>>(
-                    future: this.getAlerts(),
-                    builder: (alertContext, snapshot) {
-                      if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                        /*
+                  (ScreenController.actualView != "LoginView")
+                      ? FutureBuilder<List<String>>(
+                          future: this.getAlerts(),
+                          builder: (alertContext, snapshot) {
+                            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                              /*
                         functions.showMessageToSnackbar(
                           context: context,
                           //message: 'Vous avez des messages',
@@ -137,18 +138,19 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
                           ),
                         );
                         */
-                        return Positioned(
-                          top: 0,
-                          right: 0,
-                          child: CircleAvatar(
-                            radius: 5,
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                      return Container();
-                    },
-                  ),
+                              return Positioned(
+                                top: 0,
+                                right: 0,
+                                child: CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                            return Container();
+                          },
+                        )
+                      : Container(),
                 ],
               ),
             ),

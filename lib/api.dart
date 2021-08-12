@@ -1400,19 +1400,23 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // show error snack bar
-        functions.errorSnackbar(
-          context: context,
-          message: "Echec de déconnexion, vérifiez votre connexion internet",
-        );
+        if (ScreenController.actualView != "LoginView") {
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de déconnexion, vérifiez votre connexion internet",
+          );
+        }
       }
     } catch (error) {
       print('API ERROR: Logout Error -> ${error.runtimeType} -> $error');
-      if (error is SocketException || error is FormatException) {
-        Navigator.pop(context);
-        functions.socketErrorSnackbar(
-          context: context,
-          message: "Echec de déconnexion, vérifiez votre connexion internet",
-        );
+      if (ScreenController.actualView != "LoginView") {
+        if (error is SocketException || error is FormatException) {
+          Navigator.pop(context);
+          functions.socketErrorSnackbar(
+            context: context,
+            message: "Echec de déconnexion, vérifiez votre connexion internet",
+          );
+        }
       }
     }
   }

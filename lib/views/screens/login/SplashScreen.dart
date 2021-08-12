@@ -120,83 +120,86 @@ class SplashScreenState extends State<SplashScreen> {
               //todo: Loading bar
               Positioned(
                 bottom: 50,
-                child: FutureBuilder<bool>(
-                    future: verifyLastLogin(),
-                    builder: (verifyContext, snapshot) {
-                      if (snapshot.hasData) {
-                        // ? If the user is not disconnected
-                        if (snapshot.data! == true) {
-                          //todo: Start timer
-                          Timer(
-                            Duration(seconds: 10),
-                            () {
-                              print('Showing home view !');
-                              functions.openPage(context, HomeView(),
-                                  mode: 'pushReplacement');
-                            },
+                child: (ScreenController.actualView != "LoginView")
+                    ? FutureBuilder<bool>(
+                        future: verifyLastLogin(),
+                        builder: (verifyContext, snapshot) {
+                          if (snapshot.hasData) {
+                            // ? If the user is not disconnected
+                            if (snapshot.data! == true) {
+                              //todo: Start timer
+                              Timer(
+                                Duration(seconds: 10),
+                                () {
+                                  print('Showing home view !');
+                                  functions.openPage(context, HomeView(),
+                                      mode: 'pushReplacement');
+                                },
+                              );
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    child: CircularProgressIndicator(
+                                      backgroundColor:
+                                          Color.fromRGBO(60, 141, 188, 0.15),
+                                      color: Color.fromRGBO(60, 141, 188, 1),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  MyText(
+                                    text: 'Auto connexion...',
+                                    color: Color.fromRGBO(204, 204, 204, 1),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ],
+                              );
+                              // ? If the user is previously disconnected
+                            } else {
+                              //todo: Start timer
+                              Timer(
+                                Duration(seconds: 10),
+                                () {
+                                  print('Showing login view !');
+                                  functions.openPage(context, LoginView(),
+                                      mode: 'pushReplacement');
+                                },
+                              );
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    child: CircularProgressIndicator(
+                                      backgroundColor:
+                                          Color.fromRGBO(60, 141, 188, 0.15),
+                                      color: Color.fromRGBO(60, 141, 188, 1),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  MyText(
+                                    text:
+                                        'Lancement de la page de connexion...',
+                                    color: Color.fromRGBO(204, 204, 204, 1),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ],
+                              );
+                            }
+                          }
+                          return CircularProgressIndicator(
+                            backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                            color: Color.fromRGBO(60, 141, 188, 1),
                           );
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 30,
-                                height: 30,
-                                child: CircularProgressIndicator(
-                                  backgroundColor:
-                                      Color.fromRGBO(60, 141, 188, 0.15),
-                                  color: Color.fromRGBO(60, 141, 188, 1),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              MyText(
-                                text: 'Auto connexion...',
-                                color: Color.fromRGBO(204, 204, 204, 1),
-                                fontSize: 10,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ],
-                          );
-                          // ? If the user is previously disconnected
-                        } else {
-                          //todo: Start timer
-                          Timer(
-                            Duration(seconds: 10),
-                            () {
-                              print('Showing login view !');
-                              functions.openPage(context, LoginView(),
-                                  mode: 'pushReplacement');
-                            },
-                          );
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 30,
-                                height: 30,
-                                child: CircularProgressIndicator(
-                                  backgroundColor:
-                                      Color.fromRGBO(60, 141, 188, 0.15),
-                                  color: Color.fromRGBO(60, 141, 188, 1),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              MyText(
-                                text: 'Lancement de la page de connexion...',
-                                color: Color.fromRGBO(204, 204, 204, 1),
-                                fontSize: 10,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ],
-                          );
-                        }
-                      }
-                      return CircularProgressIndicator(
-                        backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
-                        color: Color.fromRGBO(60, 141, 188, 1),
-                      );
-                    }),
+                        })
+                    : Container(),
               ),
               //todo: Signature
               Positioned(

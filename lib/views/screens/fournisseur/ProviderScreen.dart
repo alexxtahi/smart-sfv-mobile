@@ -104,73 +104,78 @@ class ProviderScreenState extends State<ProviderScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       //todo: Pays DropDown
-                      //todo: Pays DropDown
-                      FutureBuilder<List<Pays>>(
-                        future: this.fetchCountries(),
-                        builder: (paysComboBoxContext, snapshot) {
-                          if (snapshot.hasData) {
-                            // ? get nations datas from server
-                            return MyComboBox(
-                              initialDropDownValue: 'Pays',
-                              initialDropDownList: [
-                                'Pays',
-                                // ? datas integration
-                                for (var pays in snapshot.data!) pays.libelle,
-                              ],
-                              iconSize: 0,
-                              prefixPadding: 10,
-                              prefixIcon: Image.asset(
-                                'assets/img/icons/countries.png',
-                                fit: BoxFit.contain,
-                                width: 20,
-                                height: 20,
-                                color: Color.fromRGBO(187, 0, 0, 1),
-                              ),
-                              textColor: Color.fromRGBO(187, 0, 0, 1),
-                              textFontWeight: FontWeight.bold,
-                              fillColor: Color.fromRGBO(221, 75, 57, 0.15),
-                              borderRadius: Radius.circular(15),
-                              focusBorderColor: Colors.transparent,
-                              enableBorderColor: Colors.transparent,
-                            );
-                          } else if (snapshot.hasError) {
-                            functions.errorSnackbar(
-                              context: context,
-                              message: 'Echec de récupération des pays',
-                            );
-                            return MyText(
-                              text: snapshot.error.toString(),
-                              color: Color.fromRGBO(60, 141, 188, 0.5),
-                            );
-                          }
-                          // ? on wait the combo with data load empty combo
-                          return MyOutlinedButton(
-                            backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
-                            borderRadius: 15,
-                            borderColor: Colors.transparent,
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/img/icons/countries.png',
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.contain,
-                                  color: Color.fromRGBO(187, 0, 0, 1),
-                                ),
-                                SizedBox(width: 15),
-                                MyText(
-                                  text: 'Pays',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(187, 0, 0, 1),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                      (ScreenController.actualView != "LoginView")
+                          ? FutureBuilder<List<Pays>>(
+                              future: this.fetchCountries(),
+                              builder: (paysComboBoxContext, snapshot) {
+                                if (snapshot.hasData) {
+                                  // ? get nations datas from server
+                                  return MyComboBox(
+                                    initialDropDownValue: 'Pays',
+                                    initialDropDownList: [
+                                      'Pays',
+                                      // ? datas integration
+                                      for (var pays in snapshot.data!)
+                                        pays.libelle,
+                                    ],
+                                    iconSize: 0,
+                                    prefixPadding: 10,
+                                    prefixIcon: Image.asset(
+                                      'assets/img/icons/countries.png',
+                                      fit: BoxFit.contain,
+                                      width: 20,
+                                      height: 20,
+                                      color: Color.fromRGBO(187, 0, 0, 1),
+                                    ),
+                                    textColor: Color.fromRGBO(187, 0, 0, 1),
+                                    textFontWeight: FontWeight.bold,
+                                    fillColor:
+                                        Color.fromRGBO(221, 75, 57, 0.15),
+                                    borderRadius: Radius.circular(15),
+                                    focusBorderColor: Colors.transparent,
+                                    enableBorderColor: Colors.transparent,
+                                  );
+                                } else if (snapshot.hasError) {
+                                  functions.errorSnackbar(
+                                    context: context,
+                                    message: 'Echec de récupération des pays',
+                                  );
+                                  return MyText(
+                                    text: snapshot.error.toString(),
+                                    color: Color.fromRGBO(60, 141, 188, 0.5),
+                                  );
+                                }
+                                // ? on wait the combo with data load empty combo
+                                return MyOutlinedButton(
+                                  backgroundColor:
+                                      Color.fromRGBO(221, 75, 57, 0.15),
+                                  borderRadius: 15,
+                                  borderColor: Colors.transparent,
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/img/icons/countries.png',
+                                        width: 30,
+                                        height: 30,
+                                        fit: BoxFit.contain,
+                                        color: Color.fromRGBO(187, 0, 0, 1),
+                                      ),
+                                      SizedBox(width: 15),
+                                      MyText(
+                                        text: 'Pays',
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(187, 0, 0, 1),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(),
                       //todo: Filtres Button
                       MyOutlinedButton(
                         onPressed: () {

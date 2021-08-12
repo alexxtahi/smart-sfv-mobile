@@ -249,67 +249,70 @@ class ArticleViewState extends State<ArticleView> {
                   ),
                   SizedBox(height: 5),
                   //todo: Pays DropDown
-                  FutureBuilder<List<Fournisseur>>(
-                    future: this.fetchFournisseurs(),
-                    builder: (fournisseurComboBoxContext, snapshot) {
-                      if (snapshot.hasData) {
-                        // ? get providers datas from server
-                        return MyComboBox(
-                          onChanged: (value) {
-                            // ? Iterate all providers to get the selected provider id
-                            for (var fournisseur in snapshot.data!) {
-                              if (fournisseur.nom == value) {
-                                fieldControllers['fournisseur'] = fournisseur
-                                    .id; // save the new countrie selected
-                                print(
-                                    "Nouveau fournisseur: $value, ${fieldControllers['fournisseur']}, ${fournisseur.id}");
-                                break;
-                              }
+                  (ScreenController.actualView != "LoginView")
+                      ? FutureBuilder<List<Fournisseur>>(
+                          future: this.fetchFournisseurs(),
+                          builder: (fournisseurComboBoxContext, snapshot) {
+                            if (snapshot.hasData) {
+                              // ? get providers datas from server
+                              return MyComboBox(
+                                onChanged: (value) {
+                                  // ? Iterate all providers to get the selected provider id
+                                  for (var fournisseur in snapshot.data!) {
+                                    if (fournisseur.nom == value) {
+                                      fieldControllers['fournisseur'] = fournisseur
+                                          .id; // save the new countrie selected
+                                      print(
+                                          "Nouveau fournisseur: $value, ${fieldControllers['fournisseur']}, ${fournisseur.id}");
+                                      break;
+                                    }
+                                  }
+                                },
+                                initialDropDownValue:
+                                    'Sélectionnez un fournisseur',
+                                initialDropDownList: [
+                                  'Sélectionnez un fournisseur',
+                                  // ? datas integration
+                                  for (var fournisseur in snapshot.data!)
+                                    fournisseur.nom.toString(),
+                                ],
+                                prefixPadding: 10,
+                                prefixIcon: Image.asset(
+                                  'assets/img/icons/provider.png',
+                                  fit: BoxFit.contain,
+                                  width: 15,
+                                  height: 15,
+                                  color: Color.fromRGBO(231, 57, 0, 1),
+                                ),
+                                textColor: Color.fromRGBO(231, 57, 0, 1),
+                                fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                                borderRadius: Radius.circular(10),
+                                focusBorderColor: Colors.transparent,
+                                enableBorderColor: Colors.transparent,
+                              );
                             }
+                            // ? on wait the combo with data load empty combo
+                            return MyTextFormField(
+                              prefixPadding: 10,
+                              keyboardType: TextInputType.text,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/provider.png',
+                                fit: BoxFit.contain,
+                                width: 15,
+                                height: 15,
+                                color: Color.fromRGBO(231, 57, 0, 1),
+                              ),
+                              placeholder: 'Sélectionnez un fournisseur',
+                              textColor: Color.fromRGBO(231, 57, 0, 1),
+                              placeholderColor: Color.fromRGBO(231, 57, 0, 1),
+                              fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                              borderRadius: Radius.circular(10),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
                           },
-                          initialDropDownValue: 'Sélectionnez un fournisseur',
-                          initialDropDownList: [
-                            'Sélectionnez un fournisseur',
-                            // ? datas integration
-                            for (var fournisseur in snapshot.data!)
-                              fournisseur.nom.toString(),
-                          ],
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/provider.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(231, 57, 0, 1),
-                          ),
-                          textColor: Color.fromRGBO(231, 57, 0, 1),
-                          fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      }
-                      // ? on wait the combo with data load empty combo
-                      return MyTextFormField(
-                        prefixPadding: 10,
-                        keyboardType: TextInputType.text,
-                        prefixIcon: Image.asset(
-                          'assets/img/icons/provider.png',
-                          fit: BoxFit.contain,
-                          width: 15,
-                          height: 15,
-                          color: Color.fromRGBO(231, 57, 0, 1),
-                        ),
-                        placeholder: 'Sélectionnez un fournisseur',
-                        textColor: Color.fromRGBO(231, 57, 0, 1),
-                        placeholderColor: Color.fromRGBO(231, 57, 0, 1),
-                        fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                        borderRadius: Radius.circular(10),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
-                      );
-                    },
-                  ),
+                        )
+                      : Container(),
                 ],
               ),
               SizedBox(height: 10),
@@ -334,67 +337,70 @@ class ArticleViewState extends State<ArticleView> {
                   ),
                   SizedBox(height: 5),
                   //todo: Category DropDown
-                  FutureBuilder<List<Category>>(
-                    future: this.fetchCategories(),
-                    builder: (categoryComboBoxContext, snapshot) {
-                      if (snapshot.hasData) {
-                        // ? get providers datas from server
-                        return MyComboBox(
-                          onChanged: (value) {
-                            // ? Iterate all providers to get the selected provider id
-                            for (var categorie in snapshot.data!) {
-                              if (categorie.libelle == value) {
-                                fieldControllers['categorie'] = categorie
-                                    .id; // save the new countrie selected
-                                print(
-                                    "Nouvelle catégorie: $value, ${fieldControllers['categorie']}, ${categorie.id}");
-                                break;
-                              }
+                  (ScreenController.actualView != "LoginView")
+                      ? FutureBuilder<List<Category>>(
+                          future: this.fetchCategories(),
+                          builder: (categoryComboBoxContext, snapshot) {
+                            if (snapshot.hasData) {
+                              // ? get providers datas from server
+                              return MyComboBox(
+                                onChanged: (value) {
+                                  // ? Iterate all providers to get the selected provider id
+                                  for (var categorie in snapshot.data!) {
+                                    if (categorie.libelle == value) {
+                                      fieldControllers['categorie'] = categorie
+                                          .id; // save the new countrie selected
+                                      print(
+                                          "Nouvelle catégorie: $value, ${fieldControllers['categorie']}, ${categorie.id}");
+                                      break;
+                                    }
+                                  }
+                                },
+                                initialDropDownValue:
+                                    'Sélectionnez une catégorie',
+                                initialDropDownList: [
+                                  'Sélectionnez une catégorie',
+                                  // ? datas integration
+                                  for (var categorie in snapshot.data!)
+                                    categorie.libelle,
+                                ],
+                                prefixPadding: 10,
+                                prefixIcon: Image.asset(
+                                  'assets/img/icons/category.png',
+                                  fit: BoxFit.contain,
+                                  width: 15,
+                                  height: 15,
+                                  color: Color.fromRGBO(231, 57, 0, 1),
+                                ),
+                                textColor: Color.fromRGBO(231, 57, 0, 1),
+                                fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                                borderRadius: Radius.circular(10),
+                                focusBorderColor: Colors.transparent,
+                                enableBorderColor: Colors.transparent,
+                              );
                             }
+                            // ? on wait the combo with data load empty combo
+                            return MyTextFormField(
+                              keyboardType: TextInputType.text,
+                              prefixPadding: 10,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/category.png',
+                                fit: BoxFit.contain,
+                                width: 15,
+                                height: 15,
+                                color: Color.fromRGBO(231, 57, 0, 1),
+                              ),
+                              placeholder: 'Sélectionnez une catégorie',
+                              textColor: Color.fromRGBO(231, 57, 0, 1),
+                              placeholderColor: Color.fromRGBO(231, 57, 0, 1),
+                              fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                              borderRadius: Radius.circular(10),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
                           },
-                          initialDropDownValue: 'Sélectionnez une catégorie',
-                          initialDropDownList: [
-                            'Sélectionnez une catégorie',
-                            // ? datas integration
-                            for (var categorie in snapshot.data!)
-                              categorie.libelle,
-                          ],
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/category.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(231, 57, 0, 1),
-                          ),
-                          textColor: Color.fromRGBO(231, 57, 0, 1),
-                          fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      }
-                      // ? on wait the combo with data load empty combo
-                      return MyTextFormField(
-                        keyboardType: TextInputType.text,
-                        prefixPadding: 10,
-                        prefixIcon: Image.asset(
-                          'assets/img/icons/category.png',
-                          fit: BoxFit.contain,
-                          width: 15,
-                          height: 15,
-                          color: Color.fromRGBO(231, 57, 0, 1),
-                        ),
-                        placeholder: 'Sélectionnez une catégorie',
-                        textColor: Color.fromRGBO(231, 57, 0, 1),
-                        placeholderColor: Color.fromRGBO(231, 57, 0, 1),
-                        fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                        borderRadius: Radius.circular(10),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
-                      );
-                    },
-                  ),
+                        )
+                      : Container(),
                 ],
               ),
               SizedBox(height: 10),
@@ -410,68 +416,71 @@ class ArticleViewState extends State<ArticleView> {
                   ),
                   SizedBox(height: 5),
                   //todo: SubCategory DropDown
-                  FutureBuilder<List<SubCategory>>(
-                    future: this.fetchSubCategories(),
-                    builder: (subCategoryComboBoxContext, snapshot) {
-                      if (snapshot.hasData) {
-                        // ? get providers datas from server
-                        return MyComboBox(
-                          onChanged: (value) {
-                            // ? Iterate all providers to get the selected provider id
-                            for (var subCategorie in snapshot.data!) {
-                              if (subCategorie.libelle == value) {
-                                fieldControllers['subCategorie'] = subCategorie
-                                    .id; // save the new countrie selected
-                                print(
-                                    "Nouvelle catégorie: $value, ${fieldControllers['subCategorie']}, ${subCategorie.id}");
-                                break;
-                              }
+                  (ScreenController.actualView != "LoginView")
+                      ? FutureBuilder<List<SubCategory>>(
+                          future: this.fetchSubCategories(),
+                          builder: (subCategoryComboBoxContext, snapshot) {
+                            if (snapshot.hasData) {
+                              // ? get providers datas from server
+                              return MyComboBox(
+                                onChanged: (value) {
+                                  // ? Iterate all providers to get the selected provider id
+                                  for (var subCategorie in snapshot.data!) {
+                                    if (subCategorie.libelle == value) {
+                                      fieldControllers['subCategorie'] =
+                                          subCategorie
+                                              .id; // save the new countrie selected
+                                      print(
+                                          "Nouvelle catégorie: $value, ${fieldControllers['subCategorie']}, ${subCategorie.id}");
+                                      break;
+                                    }
+                                  }
+                                },
+                                initialDropDownValue:
+                                    'Sélectionnez une sous catégorie',
+                                initialDropDownList: [
+                                  'Sélectionnez une sous catégorie',
+                                  // ? datas integration
+                                  for (var subCategorie in snapshot.data!)
+                                    subCategorie.libelle,
+                                ],
+                                prefixPadding: 10,
+                                prefixIcon: Image.asset(
+                                  'assets/img/icons/sub-category.png',
+                                  fit: BoxFit.contain,
+                                  width: 15,
+                                  height: 15,
+                                  color: Color.fromRGBO(231, 57, 0, 1),
+                                ),
+                                textColor: Color.fromRGBO(231, 57, 0, 1),
+                                fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                                borderRadius: Radius.circular(10),
+                                focusBorderColor: Colors.transparent,
+                                enableBorderColor: Colors.transparent,
+                              );
                             }
+                            // ? on wait the combo with data load empty combo
+                            return MyTextFormField(
+                              keyboardType: TextInputType.text,
+                              prefixPadding: 10,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/sub-category.png',
+                                fit: BoxFit.contain,
+                                width: 15,
+                                height: 15,
+                                color: Color.fromRGBO(231, 57, 0, 1),
+                              ),
+                              placeholder: 'Sélectionnez une sous catégorie',
+                              textColor: Color.fromRGBO(231, 57, 0, 1),
+                              placeholderColor: Color.fromRGBO(231, 57, 0, 1),
+                              fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                              borderRadius: Radius.circular(10),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
                           },
-                          initialDropDownValue:
-                              'Sélectionnez une sous catégorie',
-                          initialDropDownList: [
-                            'Sélectionnez une sous catégorie',
-                            // ? datas integration
-                            for (var subCategorie in snapshot.data!)
-                              subCategorie.libelle,
-                          ],
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/sub-category.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(231, 57, 0, 1),
-                          ),
-                          textColor: Color.fromRGBO(231, 57, 0, 1),
-                          fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      }
-                      // ? on wait the combo with data load empty combo
-                      return MyTextFormField(
-                        keyboardType: TextInputType.text,
-                        prefixPadding: 10,
-                        prefixIcon: Image.asset(
-                          'assets/img/icons/sub-category.png',
-                          fit: BoxFit.contain,
-                          width: 15,
-                          height: 15,
-                          color: Color.fromRGBO(231, 57, 0, 1),
-                        ),
-                        placeholder: 'Sélectionnez une sous catégorie',
-                        textColor: Color.fromRGBO(231, 57, 0, 1),
-                        placeholderColor: Color.fromRGBO(231, 57, 0, 1),
-                        fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                        borderRadius: Radius.circular(10),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
-                      );
-                    },
-                  ),
+                        )
+                      : Container(),
                 ],
               ),
               SizedBox(height: 10),
@@ -527,67 +536,69 @@ class ArticleViewState extends State<ArticleView> {
                   ),
                   SizedBox(height: 5),
                   //todo: Tva DropDown
-                  FutureBuilder<List<Tva>>(
-                    future: this.fetchTvas(),
-                    builder: (tvaComboBoxContext, snapshot) {
-                      if (snapshot.hasData) {
-                        // ? get providers datas from server
-                        return MyComboBox(
-                          onChanged: (value) {
-                            // ? Iterate all providers to get the selected provider id
-                            for (var tva in snapshot.data!) {
-                              if (tva.percent.toString() == value) {
-                                fieldControllers['tva'] =
-                                    tva.id; // save the new countrie selected
-                                print(
-                                    "Nouvelle catégorie: $value, ${fieldControllers['tva']}, ${tva.id}");
-                                break;
-                              }
+                  (ScreenController.actualView != "LoginView")
+                      ? FutureBuilder<List<Tva>>(
+                          future: this.fetchTvas(),
+                          builder: (tvaComboBoxContext, snapshot) {
+                            if (snapshot.hasData) {
+                              // ? get providers datas from server
+                              return MyComboBox(
+                                onChanged: (value) {
+                                  // ? Iterate all providers to get the selected provider id
+                                  for (var tva in snapshot.data!) {
+                                    if (tva.percent.toString() == value) {
+                                      fieldControllers['tva'] = tva
+                                          .id; // save the new countrie selected
+                                      print(
+                                          "Nouvelle catégorie: $value, ${fieldControllers['tva']}, ${tva.id}");
+                                      break;
+                                    }
+                                  }
+                                },
+                                initialDropDownValue: 'Sélectionnez une taxe',
+                                initialDropDownList: [
+                                  'Sélectionnez une taxe',
+                                  // ? datas integration
+                                  for (var tva in snapshot.data!)
+                                    tva.percent.toString(),
+                                ],
+                                prefixPadding: 10,
+                                prefixIcon: Image.asset(
+                                  'assets/img/icons/tax.png',
+                                  fit: BoxFit.contain,
+                                  width: 15,
+                                  height: 15,
+                                  color: Color.fromRGBO(231, 57, 0, 1),
+                                ),
+                                textColor: Color.fromRGBO(231, 57, 0, 1),
+                                fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                                borderRadius: Radius.circular(10),
+                                focusBorderColor: Colors.transparent,
+                                enableBorderColor: Colors.transparent,
+                              );
                             }
+                            // ? on wait the combo with data load empty combo
+                            return MyTextFormField(
+                              prefixPadding: 10,
+                              keyboardType: TextInputType.number,
+                              prefixIcon: Image.asset(
+                                'assets/img/icons/tax.png',
+                                fit: BoxFit.contain,
+                                width: 15,
+                                height: 15,
+                                color: Color.fromRGBO(231, 57, 0, 1),
+                              ),
+                              placeholder: 'Sélectionnez une taxe',
+                              textColor: Color.fromRGBO(231, 57, 0, 1),
+                              placeholderColor: Color.fromRGBO(231, 57, 0, 1),
+                              fillColor: Color.fromRGBO(243, 156, 18, 0.15),
+                              borderRadius: Radius.circular(10),
+                              focusBorderColor: Colors.transparent,
+                              enableBorderColor: Colors.transparent,
+                            );
                           },
-                          initialDropDownValue: 'Sélectionnez une taxe',
-                          initialDropDownList: [
-                            'Sélectionnez une taxe',
-                            // ? datas integration
-                            for (var tva in snapshot.data!)
-                              tva.percent.toString(),
-                          ],
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/tax.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(231, 57, 0, 1),
-                          ),
-                          textColor: Color.fromRGBO(231, 57, 0, 1),
-                          fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      }
-                      // ? on wait the combo with data load empty combo
-                      return MyTextFormField(
-                        prefixPadding: 10,
-                        keyboardType: TextInputType.number,
-                        prefixIcon: Image.asset(
-                          'assets/img/icons/tax.png',
-                          fit: BoxFit.contain,
-                          width: 15,
-                          height: 15,
-                          color: Color.fromRGBO(231, 57, 0, 1),
-                        ),
-                        placeholder: 'Sélectionnez une taxe',
-                        textColor: Color.fromRGBO(231, 57, 0, 1),
-                        placeholderColor: Color.fromRGBO(231, 57, 0, 1),
-                        fillColor: Color.fromRGBO(243, 156, 18, 0.15),
-                        borderRadius: Radius.circular(10),
-                        focusBorderColor: Colors.transparent,
-                        enableBorderColor: Colors.transparent,
-                      );
-                    },
-                  ),
+                        )
+                      : Container(),
                 ],
               ),
               SizedBox(height: 10),
