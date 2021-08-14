@@ -43,6 +43,9 @@ dependencies:
   flutter_automation: ^2.0.0
   sqflite: ^2.0.0+3
   path: ^1.8.0
+  path_provider: ^2.0.2
+  pdf: ^3.4.2
+  printing: ^5.5.0
 
 dev_dependencies:
   flutter_test:

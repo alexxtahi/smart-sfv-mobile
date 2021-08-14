@@ -141,27 +141,30 @@ class SplashScreenState extends State<SplashScreen> {
                                   );
                                 },
                               );
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: CircularProgressIndicator(
-                                      backgroundColor:
-                                          Color.fromRGBO(60, 141, 188, 0.15),
-                                      color: Color.fromRGBO(60, 141, 188, 1),
+                              return DelayedDisplay(
+                                fadingDuration: Duration(milliseconds: 500),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                        backgroundColor:
+                                            Color.fromRGBO(60, 141, 188, 0.15),
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  MyText(
-                                    text: 'Auto connexion...',
-                                    color: Color.fromRGBO(204, 204, 204, 1),
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ],
+                                    SizedBox(height: 5),
+                                    MyText(
+                                      text: 'Auto connexion...',
+                                      color: Color.fromRGBO(204, 204, 204, 1),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ],
+                                ),
                               );
                               // ? If the user is previously disconnected
                             } else {
@@ -177,34 +180,41 @@ class SplashScreenState extends State<SplashScreen> {
                                   );
                                 },
                               );
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: CircularProgressIndicator(
-                                      backgroundColor:
-                                          Color.fromRGBO(60, 141, 188, 0.15),
-                                      color: Color.fromRGBO(60, 141, 188, 1),
+                              return DelayedDisplay(
+                                fadingDuration: Duration(milliseconds: 500),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: CircularProgressIndicator(
+                                        backgroundColor:
+                                            Color.fromRGBO(60, 141, 188, 0.15),
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  MyText(
-                                    text:
-                                        'Lancement de la page de connexion...',
-                                    color: Color.fromRGBO(204, 204, 204, 1),
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ],
+                                    SizedBox(height: 5),
+                                    MyText(
+                                      text:
+                                          'Lancement de la page de connexion...',
+                                      color: Color.fromRGBO(204, 204, 204, 1),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ],
+                                ),
                               );
                             }
                           }
-                          return CircularProgressIndicator(
-                            backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            color: Color.fromRGBO(60, 141, 188, 1),
+                          return DelayedDisplay(
+                            fadingDuration: Duration(milliseconds: 500),
+                            child: CircularProgressIndicator(
+                              backgroundColor:
+                                  Color.fromRGBO(60, 141, 188, 0.15),
+                              color: Color.fromRGBO(60, 141, 188, 1),
+                            ),
                           );
                         })
                     : Container(),
