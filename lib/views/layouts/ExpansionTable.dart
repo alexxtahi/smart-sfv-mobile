@@ -108,7 +108,8 @@ class ExpansionTableState extends State<ExpansionTable> {
             headerText: 'Articles en voie de péremption',
             seeMoreBtn: () {
               openListTableView(
-                title: 'Article en voie de péremption',
+                title: 'Articles en voie de péremption',
+                listName: 'getArticlesPeremption',
                 columns: [
                   'Dépôt',
                   'Article',
@@ -210,7 +211,8 @@ class ExpansionTableState extends State<ExpansionTable> {
             headerText: 'Articles en voie de rupture',
             seeMoreBtn: () {
               openListTableView(
-                title: 'Article en voie de rupture',
+                title: 'Articles en voie de rupture',
+                listName: 'getArticlesRupture',
                 columns: [
                   'Article',
                   'Catégorie',
@@ -299,6 +301,7 @@ class ExpansionTableState extends State<ExpansionTable> {
             seeMoreBtn: () {
               openListTableView(
                 title: 'Liste des 5 meilleurs clients',
+                listName: 'getBestClients',
                 columns: [
                   'Client',
                   'Contact',
@@ -377,6 +380,7 @@ class ExpansionTableState extends State<ExpansionTable> {
             seeMoreBtn: () {
               openListTableView(
                 title: 'Liste des 5 clients les moins rentables',
+                listName: 'getWorstRentabilityClients',
                 columns: [
                   'Client',
                   'Contact',
@@ -455,6 +459,7 @@ class ExpansionTableState extends State<ExpansionTable> {
             seeMoreBtn: () {
               openListTableView(
                 title: 'Liste des 5 articles les plus vendus',
+                listName: 'getBestArticles',
                 columns: [
                   'Article',
                   'Quantité',
@@ -533,6 +538,7 @@ class ExpansionTableState extends State<ExpansionTable> {
             seeMoreBtn: () {
               openListTableView(
                 title: 'Liste des 5 articles les moins vendus',
+                listName: 'getWorstArticles',
                 columns: [
                   'Article',
                   'Quantité',
@@ -610,7 +616,8 @@ class ExpansionTableState extends State<ExpansionTable> {
             headerText: 'Liste des 5 clients les plus endettés',
             seeMoreBtn: () {
               openListTableView(
-                title: 'Liste des 5 clients les plus endettés',
+                title: 'Liste des clients les plus endettés',
+                listName: 'getDettesClients',
                 columns: [
                   'Client',
                   'Contact',
@@ -696,7 +703,7 @@ class ExpansionTableState extends State<ExpansionTable> {
               functions.openPage(
                 context,
                 CommandeView(),
-                mode: 'pushReplacement',
+                //mode: 'pushReplacement',
               );
             },
             table: (ScreenController.actualView != "LoginView")
@@ -765,16 +772,19 @@ class ExpansionTableState extends State<ExpansionTable> {
     );
   }
 
-  void openListTableView(
-      {String title: 'Nouvelle liste 1',
-      List<String> columns: const [],
-      List<List<String>> rows: const [],
-      debugMessage: ''}) {
+  void openListTableView({
+    String title: 'Nouvelle liste 1',
+    String listName: 'Nouvelle liste 1',
+    List<String> columns: const [],
+    List<List<String>> rows: const [],
+    debugMessage: '',
+  }) {
     print(debugMessage);
     functions.openPage(
       context,
       ListTableView(
         title: title,
+        listName: listName,
         columns: columns,
         rows: rows,
       ),

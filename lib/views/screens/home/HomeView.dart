@@ -26,7 +26,8 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "HomeView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "HomeView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

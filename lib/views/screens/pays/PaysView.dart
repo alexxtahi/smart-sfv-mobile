@@ -26,7 +26,8 @@ class PaysViewState extends State<PaysView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "PaysView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "PaysView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

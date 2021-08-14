@@ -27,7 +27,8 @@ class ArticleViewState extends State<ArticleView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "ArticleView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "ArticleView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

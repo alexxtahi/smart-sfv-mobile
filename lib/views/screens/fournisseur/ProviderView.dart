@@ -26,7 +26,8 @@ class ProviderViewState extends State<ProviderView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "ProviderView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "ProviderView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

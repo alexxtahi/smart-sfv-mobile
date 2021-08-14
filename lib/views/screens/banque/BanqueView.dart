@@ -27,7 +27,8 @@ class BanqueViewState extends State<BanqueView> {
   bool isNewBankEmpty = false;
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "BanqueView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "BanqueView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

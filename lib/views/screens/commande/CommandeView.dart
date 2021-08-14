@@ -18,7 +18,8 @@ class CommandeViewState extends State<CommandeView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "CommandeView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "CommandeView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

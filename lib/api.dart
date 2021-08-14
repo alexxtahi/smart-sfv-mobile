@@ -64,6 +64,7 @@ class Api {
     this.url = this.routes['getArticles'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -126,6 +127,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -189,6 +191,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -252,6 +255,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -315,6 +319,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -378,6 +383,7 @@ class Api {
     //print('get clients token: ' + User.token);
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -438,6 +444,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -499,6 +506,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -561,6 +569,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -622,6 +631,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -684,6 +694,7 @@ class Api {
     //print(this.url); // ! debug
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -742,6 +753,7 @@ class Api {
     this.url = this.routes['getRegimes'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -802,6 +814,7 @@ class Api {
     this.url = this.routes['getBanques'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -857,6 +870,7 @@ class Api {
     this.url = this.routes['getCaisses'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -912,6 +926,7 @@ class Api {
     this.url = this.routes['getTvas'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -965,6 +980,7 @@ class Api {
     this.url = this.routes['getCategories'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -1020,6 +1036,7 @@ class Api {
     this.url = this.routes['getSubCategories'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -1179,6 +1196,7 @@ class Api {
     //print('get articles token: ' + User.token);
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -1239,11 +1257,13 @@ class Api {
     this.url = this.routes['userinfo'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: User.token.replaceAll('Bearer ', ''),
+          HttpHeaders.authorizationHeader:
+              User.token, //.replaceAll('Bearer ', ''),
         },
       );
       // ? Check the response status code
@@ -1251,6 +1271,7 @@ class Api {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         this.requestSuccess = true;
+        print('User datas get successfuly !');
         // ? create list for the user datas
         Map<String, dynamic> userInfos = json.decode(this.response.body);
         // ? Get user password from cache in the null case
@@ -1265,6 +1286,7 @@ class Api {
         // If the server did not return a 200 OK response,
         // then throw an exception.
         this.requestSuccess = false;
+        print('Failed to get user datas..');
         // show error snack bar
         functions.errorSnackbar(
           context: context,
@@ -1294,6 +1316,7 @@ class Api {
       {bool remember = false}) async {
     this.url = this.routes['login'].toString(); // set login url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1358,6 +1381,7 @@ class Api {
           context: context,
           message: responseJson['message'],
         );
+        ScreenController.actualView = "HomeView";
         return responseJson; // return to know lodin state
       }
     } catch (error) {
@@ -1373,6 +1397,7 @@ class Api {
     this.url = this.routes['logout'].toString(); // set login url
     try {
       // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
@@ -1437,6 +1462,7 @@ class Api {
   }) async {
     this.url = this.routes['postClient'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1488,6 +1514,7 @@ class Api {
     this.url = this.routes['postFournisseur'].toString(); // set client url
     print('Post Fournisseur: ' + Fournisseur.toMap(fournisseur).toString());
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1542,6 +1569,7 @@ class Api {
   }) async {
     this.url = this.routes['postArticle'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1595,6 +1623,7 @@ class Api {
       {required BuildContext context, required Banque banque}) async {
     this.url = this.routes['postBank'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1634,6 +1663,7 @@ class Api {
   ) async {
     this.url = this.routes['postRegime'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1675,6 +1705,7 @@ class Api {
   ) async {
     this.url = this.routes['postTva'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1716,6 +1747,7 @@ class Api {
   }) async {
     this.url = this.routes['postCaisse'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1755,6 +1787,7 @@ class Api {
   }) async {
     this.url = this.routes['postPays'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1794,6 +1827,7 @@ class Api {
   ) async {
     this.url = this.routes['postCategory'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1836,6 +1870,7 @@ class Api {
   ) async {
     this.url = this.routes['postSubCategory'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1878,6 +1913,7 @@ class Api {
   ) async {
     this.url = this.routes['postMoyenPayement'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1919,6 +1955,7 @@ class Api {
   ) async {
     this.url = this.routes['postRayon'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -1960,6 +1997,7 @@ class Api {
   ) async {
     this.url = this.routes['postRangee'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -2001,6 +2039,7 @@ class Api {
   ) async {
     this.url = this.routes['postCasier'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -2043,6 +2082,7 @@ class Api {
   ) async {
     this.url = this.routes['postUnite'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -2085,6 +2125,7 @@ class Api {
   ) async {
     this.url = this.routes['postTaille'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -2126,6 +2167,7 @@ class Api {
   ) async {
     this.url = this.routes['postDivers'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {
@@ -2167,6 +2209,7 @@ class Api {
   ) async {
     this.url = this.routes['postCategoryDepense'].toString(); // set client url
     try {
+      print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
         Uri.parse(this.url),
         headers: {

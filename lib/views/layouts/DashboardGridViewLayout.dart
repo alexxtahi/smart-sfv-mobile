@@ -61,7 +61,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               functions.openPage(
                 context,
                 ClientView(),
-                mode: 'pushReplacement',
+                //mode: 'pushReplacement',
               );
               setState(() {
                 DrawerLayoutController.close();
@@ -79,7 +79,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               functions.openPage(
                 context,
                 ArticleView(),
-                mode: 'pushReplacement',
+                //mode: 'pushReplacement',
               );
               setState(() {
                 DrawerLayoutController.close();
@@ -99,7 +99,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               functions.openPage(
                 context,
                 CommandeView(),
-                mode: 'pushReplacement',
+                //mode: 'pushReplacement',
               );
               setState(() {
                 DrawerLayoutController.close();
@@ -117,7 +117,7 @@ class DashboardGridViewLayoutState extends State<DashboardGridViewLayout> {
               functions.openPage(
                 context,
                 ProviderView(),
-                mode: 'pushReplacement',
+                //mode: 'pushReplacement',
               );
               setState(() {
                 DrawerLayoutController.close();

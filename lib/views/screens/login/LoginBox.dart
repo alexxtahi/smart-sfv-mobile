@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/home/HomeView.dart';
 import 'package:smartsfv/functions.dart' as functions;
@@ -149,9 +150,10 @@ class LoginBoxState extends State<LoginBox> {
                                 String? token = loginResponse["access_token"];
                                 // ? Open the home page when the server give access token
                                 if (token != null) {
+                                  ScreenController.actualView = "HomeView";
                                   functions.openPage(
                                     context,
-                                    HomeView(),
+                                    HomeView(), // ? Go to home view
                                     mode: 'pushReplacement',
                                   );
                                 }

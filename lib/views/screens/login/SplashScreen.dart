@@ -71,7 +71,8 @@ class SplashScreenState extends State<SplashScreen> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "SplashScreen";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "SplashScreen";
     List<double> screenSize = ScreenController.getScreenSize(context);
     //todo: Load icon and background function of the recent app theme
     // Change system UI properties
@@ -127,13 +128,17 @@ class SplashScreenState extends State<SplashScreen> {
                           if (snapshot.hasData) {
                             // ? If the user is not disconnected
                             if (snapshot.data! == true) {
+                              ScreenController.actualView = "HomeView";
                               //todo: Start timer
                               Timer(
                                 Duration(seconds: 10),
                                 () {
                                   print('Showing home view !');
-                                  functions.openPage(context, HomeView(),
-                                      mode: 'pushReplacement');
+                                  functions.openPage(
+                                    context,
+                                    HomeView(),
+                                    mode: 'pushReplacement',
+                                  );
                                 },
                               );
                               return Column(
@@ -165,8 +170,11 @@ class SplashScreenState extends State<SplashScreen> {
                                 Duration(seconds: 10),
                                 () {
                                   print('Showing login view !');
-                                  functions.openPage(context, LoginView(),
-                                      mode: 'pushReplacement');
+                                  functions.openPage(
+                                    context,
+                                    LoginView(),
+                                    mode: 'pushReplacement',
+                                  );
                                 },
                               );
                               return Column(

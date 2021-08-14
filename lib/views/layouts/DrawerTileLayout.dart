@@ -56,11 +56,6 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                     headerTextSize: 16,
                     headerTextWeight: FontWeight.bold,
                     onPressed: () {
-                      /*if (ScreenController.actualView == "HomeView") {
-                        setState(() {
-                          DrawerLayoutController.close();
-                        });
-                      } else {*/
                       setState(() {
                         DrawerLayoutController.close();
                       });
@@ -117,7 +112,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                           functions.openPage(
                             context,
                             BanqueView(),
-                            mode: 'pushReplacement',
+                            //mode: 'pushReplacement',
                           );
                           setState(() {
                             DrawerLayoutController.close();
@@ -250,7 +245,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                           functions.openPage(
                             context,
                             CommandeView(),
-                            mode: 'pushReplacement',
+                            //mode: 'pushReplacement',
                           );
                         },
                       },

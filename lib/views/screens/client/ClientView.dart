@@ -30,7 +30,8 @@ class ClientViewState extends State<ClientView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "ClientView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "ClientView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

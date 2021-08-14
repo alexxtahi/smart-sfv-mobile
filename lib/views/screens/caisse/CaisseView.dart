@@ -28,7 +28,8 @@ class CaisseViewState extends State<CaisseView> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "CaisseView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "CaisseView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

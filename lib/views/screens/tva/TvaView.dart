@@ -20,7 +20,8 @@ class TvaViewState extends State<TvaView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "TvaView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "TvaView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

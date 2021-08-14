@@ -25,7 +25,8 @@ class RegimeViewState extends State<RegimeView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    ScreenController.actualView = "RegimeView";
+    if (ScreenController.actualView != "LoginView")
+      ScreenController.actualView = "RegimeView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
