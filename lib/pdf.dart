@@ -5,79 +5,90 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 //create pdf file
-Future<void> generatePDF(
+Future<String> generatePDF(
     String titre, List<String> columns, List<List<String>> tableData) async {
-  final pw.PageTheme pageTheme = await myPageTheme(PdfPageFormat.a4);
-  final header = await pdfHeader(titre);
-  final pw.Document pdf = pw.Document();
-  pdf.addPage(
-    pw.MultiPage(
-      maxPages: 500,
-      pageTheme: pageTheme,
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      header: (pw.Context pdfContext) {
-        if (pdfContext.pageNumber == 1) {
+  try {
+    final pw.PageTheme pageTheme = await myPageTheme(PdfPageFormat.a4);
+    final header = await pdfHeader(titre);
+    final pw.Document pdf = pw.Document();
+    pdf.addPage(
+      pw.MultiPage(
+        maxPages: 500,
+        pageTheme: pageTheme,
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        header: (pw.Context pdfContext) {
+          if (pdfContext.pageNumber == 1) {
+            return pw.Container();
+          }
           return pw.Container();
-        }
-        return pw.Container();
-      },
-      footer: (pw.Context pdfContext) {
-        return pw.Container(
-          alignment: pw.Alignment.centerRight,
-          margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-          child: pw.Text(
-            'Page ${pdfContext.pageNumber} / ${pdfContext.pagesCount}',
+        },
+        footer: (pw.Context pdfContext) {
+          return pw.Container(
+            alignment: pw.Alignment.centerRight,
+            margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+            child: pw.Text(
+              'Page ${pdfContext.pageNumber} / ${pdfContext.pagesCount}',
+            ),
+          );
+        },
+        build: (pw.Context pdfContext) => <pw.Widget>[
+          pw.Header(
+            level: 0,
+            child: header,
           ),
-        );
-      },
-      build: (pw.Context pdfContext) => <pw.Widget>[
-        pw.Header(
-          level: 0,
-          child: header,
-        ),
-        pw.Align(
-          alignment: pw.Alignment.topCenter,
-          child: pw.Table.fromTextArray(
-            context: pdfContext,
-            border: null,
-            headerAlignment: pw.Alignment.centerLeft,
-            cellAlignment: pw.Alignment.centerLeft,
-            headerDecoration: pw.BoxDecoration(),
-            headerHeight: 25,
-            cellHeight: 30,
-            headerStyle: pw.TextStyle(
-              fontSize: 10,
-              fontWeight: pw.FontWeight.bold,
-            ),
-            cellStyle: const pw.TextStyle(
-              fontSize: 10,
-            ),
-            rowDecoration: pw.BoxDecoration(),
-            headers: List<String>.generate(
-              columns.length,
-              (col) {
-                return columns[col];
-              },
-            ),
-            data: List<List<String>>.generate(
-              tableData.length,
-              (row) => List<String>.generate(
+          pw.Align(
+            alignment: pw.Alignment.topCenter,
+            child: pw.Table.fromTextArray(
+              context: pdfContext,
+              border: null,
+              headerAlignment: pw.Alignment.centerLeft,
+              cellAlignment: pw.Alignment.centerLeft,
+              headerDecoration: pw.BoxDecoration(),
+              headerHeight: 25,
+              cellHeight: 30,
+              headerStyle: pw.TextStyle(
+                fontSize: 10,
+                fontWeight: pw.FontWeight.bold,
+              ),
+              cellStyle: const pw.TextStyle(
+                fontSize: 10,
+              ),
+              rowDecoration: pw.BoxDecoration(),
+              headers: List<String>.generate(
                 columns.length,
                 (col) {
-                  return tableData[row][col];
+                  return columns[col];
                 },
+              ),
+              data: List<List<String>>.generate(
+                tableData.length,
+                (row) => List<String>.generate(
+                  columns.length,
+                  (col) {
+                    return tableData[row][col];
+                  },
+                ),
               ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-
-  await Printing.layoutPdf(
-    name: titre + " - SMART-SFV",
-    onLayout: (PdfPageFormat format) async => pdf.save(),
-  );
+        ],
+      ),
+    );
+    // ? Show preview of the document
+    bool isDocSaved = await Printing.layoutPdf(
+      name: titre + " - SMART-SFV",
+      onLayout: (PdfPageFormat format) async => pdf.save(),
+    );
+    // ? Check if the user has saved the document or not
+    if (isDocSaved) {
+      return "Document enregistré";
+    } else {
+      return "Enregistrement annulé";
+    }
+  } catch (error) {
+    print("PDF Error -> $error");
+    return "Erreur";
+  }
 }
 
 //pdf document theme

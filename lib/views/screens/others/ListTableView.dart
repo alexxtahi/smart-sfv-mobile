@@ -68,18 +68,62 @@ class ListTableViewState extends State<ListTableView> {
       floatingActionButton: FloatingActionButton(
         elevation: 5,
         onPressed: () async {
-          // ? Showing loading message
-          functions.showMessageToSnackbar(
-            context: context,
-            message: "Génération du document PDF",
-            icon: CircularProgressIndicator(
-              color: Color.fromRGBO(60, 141, 188, 1),
-              backgroundColor: Colors.white.withOpacity(0.1),
-              strokeWidth: 5,
-            ),
+          // ? Show loading dialog
+          functions.showFormDialog(
+            context,
+            GlobalKey<FormState>(),
+            hasCancelButton: false,
+            hasHeaderIcon: false,
+            hasHeaderTitle: false,
+            hasSnackbar: false,
+            hasValidationButton: false,
+            barrierDismissible: false,
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            formElements: [
+              Image.asset(
+                'assets/img/icons/document.png',
+                fit: BoxFit.contain,
+                width: 70,
+                height: 70,
+              ),
+              SizedBox(height: 10),
+              MyText(text: "Génération du PDF en cours..."),
+              SizedBox(height: 20),
+              Container(
+                width: 30,
+                height: 30,
+                child: CircularProgressIndicator(
+                  color: Color.fromRGBO(60, 141, 188, 1),
+                  backgroundColor: Color.fromRGBO(60, 141, 188, 0.1),
+                ),
+              )
+            ],
           );
           // ? Call generate PDF method
-          pdf.generatePDF(widget.title, widget.columns, this.docDatas);
+          String result = await pdf.generatePDF(
+              widget.title, widget.columns, this.docDatas);
+          // ? Check result to give response to the user
+          Navigator.of(context).pop(); // remove the AlertDialog to the screen
+          if (result == "Document enregistré") {
+            functions.successSnackbar(
+              context: context,
+              message: "Document PDF enregistré !",
+            );
+          } else if (result == "Enregistrement annulé") {
+            functions.showMessageToSnackbar(
+              context: context,
+              message: "Enregistrement annulé",
+              icon: Icon(
+                Icons.file_download_off_rounded,
+                color: Colors.red,
+              ),
+            );
+          } else {
+            functions.errorSnackbar(
+              context: context,
+              message: "Une erreur s'est produite lors de la génération du PDF",
+            );
+          }
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
@@ -362,169 +406,5 @@ class ListTableViewState extends State<ListTableView> {
     }
     // return results
     return list;
-  }
-
-  //todo: Method to print a PDF document
-  Future<void> printPDF() async {
-    try {
-      // PDF instance
-      // ? Get assets fonts for the document
-      final Map<String, pw.TtfFont> montserrat = {
-        'regular': await fontFromAssetBundle(
-            'assets/fonts/Montserrat/Montserrat-Regular.ttf'),
-        'semibold': await fontFromAssetBundle(
-            'assets/fonts/Montserrat/Montserrat-SemiBold.ttf'),
-        'bold': await fontFromAssetBundle(
-            'assets/fonts/Montserrat/Montserrat-Bold.ttf'),
-        'extrabold': await fontFromAssetBundle(
-            'assets/fonts/Montserrat/Montserrat-ExtraBold.ttf'),
-      };
-
-      // ? Create the pdf document with the actual datas
-      final pdf = pw.Document(title: widget.title + " - SMART-SFV");
-      // ? Adding page
-      pdf.addPage(
-        pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (pw.Context pdfContext) {
-            return pw.Column(
-              children: <pw.Widget>[
-                //todo: App name
-                pw.Row(
-                  children: [
-                    pw.Text(
-                      "SMART-",
-                      textAlign: pw.TextAlign.center,
-                      style: pw.TextStyle(
-                        color: PdfColor(0.5, 0.5, 0.5),
-                        font: montserrat['regular'],
-                        fontSize: 18,
-                      ),
-                    ),
-                    pw.Text(
-                      "SFV",
-                      textAlign: pw.TextAlign.center,
-                      style: pw.TextStyle(
-                        color: PdfColor(0.5, 0.5, 0.5),
-                        font: montserrat['bold'],
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-                pw.SizedBox(height: 10),
-                //todo: Doc title
-                pw.Text(
-                  widget.title,
-                  textAlign: pw.TextAlign.center,
-                  style: pw.TextStyle(
-                      color: PdfColor(0, 0, 0),
-                      font: montserrat['regular'],
-                      fontSize: 24,
-                      decoration: pw.TextDecoration.underline),
-                ),
-                pw.SizedBox(height: 10),
-                //todo: Table
-                pw.Table(
-                  defaultVerticalAlignment:
-                      pw.TableCellVerticalAlignment.middle,
-                  border: pw.TableBorder(
-                    //todo: Outside borders
-                    top: pw.BorderSide(
-                      width: 2,
-                      color: PdfColor(0, 0, 0),
-                    ),
-                    left: pw.BorderSide(
-                      width: 2,
-                      color: PdfColor(0, 0, 0),
-                    ),
-                    right: pw.BorderSide(
-                      width: 2,
-                      color: PdfColor(0, 0, 0),
-                    ),
-                    bottom: pw.BorderSide(
-                      width: 2,
-                      color: PdfColor(0, 0, 0),
-                    ),
-                    //todo: Inside borders
-                    horizontalInside: pw.BorderSide(
-                      width: 2,
-                      color: PdfColor(0, 0, 0),
-                    ),
-                    verticalInside: pw.BorderSide(
-                      width: 2,
-                      color: PdfColor(0, 0, 0),
-                    ),
-                  ),
-                  children: <pw.TableRow>[
-                    //todo: Table head
-                    pw.TableRow(
-                      verticalAlignment: pw.TableCellVerticalAlignment.middle,
-                      children: <pw.Widget>[
-                        for (var headText in widget.columns)
-                          pw.Text(
-                            headText,
-                            textAlign: pw.TextAlign.center,
-                            style: pw.TextStyle(
-                              color: PdfColor(0, 0, 0),
-                              font: montserrat['bold'],
-                              fontSize: 20,
-                            ),
-                          ),
-                      ],
-                    ),
-                    //todo: Content
-                    pw.TableRow(
-                      verticalAlignment: pw.TableCellVerticalAlignment.middle,
-                      children: <pw.Widget>[
-                        for (var headText in widget.columns)
-                          pw.Text(
-                            headText,
-                            textAlign: pw.TextAlign.center,
-                            style: pw.TextStyle(
-                              color: PdfColor(0, 0, 0),
-                              font: montserrat['bold'],
-                              fontSize: 20,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
-        ),
-      );
-      // ? Launch request to save the document
-      bool isDocSaved = await Printing.layoutPdf(
-        name: widget.title + " - SMART-SFV",
-        onLayout: (PdfPageFormat format) async => pdf.save(),
-      );
-      // ? Check if the user has been save the doc or not
-      if (isDocSaved) {
-        print("PDF created and saved successfuly !");
-        functions.successSnackbar(
-          context: context,
-          message: "Document PDF Enregistré",
-        );
-      } else {
-        print("PDF Cancel save...");
-        functions.showMessageToSnackbar(
-          context: context,
-          message: "Enregistrement du document annulé",
-          icon: Icon(
-            Icons.save_alt_rounded,
-            color: Colors.red,
-          ),
-        );
-      }
-    } catch (error) {
-      print("PDF Error -> $error");
-      functions.errorSnackbar(
-        context: context,
-        message: "Echec de génération du PDF",
-      );
-    }
   }
 }
