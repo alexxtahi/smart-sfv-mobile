@@ -22,7 +22,6 @@ class DrawerLayoutState extends State<DrawerLayout> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    // Return building scaffold
     return Container(
       width: screenSize[0],
       height: screenSize[1],

@@ -34,7 +34,7 @@ class CaisseScreenState extends State<CaisseScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    // Return building scaffold
+    GlobalKey scaffold = GlobalKey();
     return AnimatedContainer(
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
@@ -177,7 +177,7 @@ class CaisseScreenState extends State<CaisseScreen> {
                       onPressed: () {
                         // show refresh message
                         functions.showMessageToSnackbar(
-                          context: context,
+                          context: scaffold.currentContext,
                           message: "Rechargement...",
                           icon: CircularProgressIndicator(
                             color: Color.fromRGBO(60, 141, 188, 1),

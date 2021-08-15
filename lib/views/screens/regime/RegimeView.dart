@@ -22,7 +22,6 @@ class RegimeViewState extends State<RegimeView> {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController regimeController = TextEditingController();
   bool isNewBankEmpty = false;
-  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     if (ScreenController.actualView != "LoginView")
@@ -42,7 +41,7 @@ class RegimeViewState extends State<RegimeView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
+    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(
@@ -52,7 +51,7 @@ class RegimeViewState extends State<RegimeView> {
         onPressed: () {
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
-            context,
+            scaffold.currentContext,
             formKey,
             headerIcon: 'assets/img/icons/regim.png',
             title: 'Ajouter un régime',
@@ -65,7 +64,7 @@ class RegimeViewState extends State<RegimeView> {
                 Api api = Api();
                 final Map<String, dynamic> postRegimeResponse =
                     await api.postRegime(
-                  context,
+                  scaffold.currentContext,
                   libelle,
                 );
                 // ? check the server response
@@ -73,12 +72,12 @@ class RegimeViewState extends State<RegimeView> {
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Nouveau régime ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Un problème est survenu',
                   );
                 }

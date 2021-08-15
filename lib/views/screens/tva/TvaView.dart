@@ -17,7 +17,6 @@ class TvaViewState extends State<TvaView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
   bool isNewBankEmpty = false;
-  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     if (ScreenController.actualView != "LoginView")
@@ -37,7 +36,7 @@ class TvaViewState extends State<TvaView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
+    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       body: Stack(

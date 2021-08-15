@@ -16,7 +16,6 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
-  GlobalKey scaffold = GlobalKey();
 
   @override
   void initState() {
@@ -26,6 +25,7 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey scaffold = GlobalKey();
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "HomeView";
     // Change system UI properties
@@ -43,7 +43,6 @@ class HomeViewState extends State<HomeView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
     return Scaffold(
       key: scaffold,
       body: Stack(

@@ -46,7 +46,7 @@ class LoginViewState extends State<LoginView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
+    GlobalKey scaffold = GlobalKey();
     return Stack(
       children: [
         Container(
@@ -62,7 +62,7 @@ class LoginViewState extends State<LoginView> {
             ),
           ),
           child: Scaffold(
-            //backgroundColor: Color.fromRGBO(155, 155, 155, 1),
+            key: scaffold,
             backgroundColor: Colors.transparent,
             body: Stack(
               alignment: Alignment.center,

@@ -36,7 +36,7 @@ class TvaScreenState extends State<TvaScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    // Return building scaffold
+    GlobalKey scaffold = GlobalKey();
     return AnimatedContainer(
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
@@ -99,7 +99,7 @@ class TvaScreenState extends State<TvaScreen> {
                           Api api = Api();
                           final Map<String, dynamic> postTvaResponse =
                               await api.postTva(
-                            context,
+                            scaffold.currentContext,
                             tva,
                           );
                           // ? check the server response
@@ -107,12 +107,12 @@ class TvaScreenState extends State<TvaScreen> {
                               'Enregistrement effectué avec succès.') {
                             Navigator.of(context).pop();
                             functions.successSnackbar(
-                              context: context,
+                              context: scaffold.currentContext,
                               message: 'Nouvelle taxe ajoutée !',
                             );
                           } else {
                             functions.errorSnackbar(
-                              context: context,
+                              context: scaffold.currentContext,
                               message: 'Veuillez saisir un pourcentage',
                             );
                           }
@@ -218,7 +218,7 @@ class TvaScreenState extends State<TvaScreen> {
                       onPressed: () {
                         // show refresh message
                         functions.showMessageToSnackbar(
-                          context: context,
+                          context: scaffold.currentContext,
                           message: "Rechargement...",
                           icon: CircularProgressIndicator(
                             color: Color.fromRGBO(60, 141, 188, 1),

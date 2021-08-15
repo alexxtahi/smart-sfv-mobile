@@ -37,13 +37,13 @@ class ListTableViewState extends State<ListTableView> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
-  GlobalKey scaffold = GlobalKey();
   DateFormat dateFormat = DateFormat('yyyy-MM-dd');
   DateTime now = DateTime.now();
   List<List<String>> docDatas = [];
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey scaffold = GlobalKey();
     List<double> screenSize = ScreenController.getScreenSize(context);
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "ListTableView";
@@ -70,7 +70,7 @@ class ListTableViewState extends State<ListTableView> {
         onPressed: () async {
           // ? Show loading dialog
           functions.showFormDialog(
-            context,
+            scaffold.currentContext,
             GlobalKey<FormState>(),
             hasCancelButton: false,
             hasHeaderIcon: false,
@@ -106,12 +106,12 @@ class ListTableViewState extends State<ListTableView> {
           Navigator.of(context).pop(); // remove the AlertDialog to the screen
           if (result == "Document enregistré") {
             functions.successSnackbar(
-              context: context,
+              context: scaffold.currentContext,
               message: "Document PDF enregistré !",
             );
           } else if (result == "Enregistrement annulé") {
             functions.showMessageToSnackbar(
-              context: context,
+              context: scaffold.currentContext,
               message: "Enregistrement annulé",
               icon: Icon(
                 Icons.file_download_off_rounded,
@@ -120,7 +120,7 @@ class ListTableViewState extends State<ListTableView> {
             );
           } else {
             functions.errorSnackbar(
-              context: context,
+              context: scaffold.currentContext,
               message: "Une erreur s'est produite lors de la génération du PDF",
             );
           }

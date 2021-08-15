@@ -24,10 +24,10 @@ class CaisseViewState extends State<CaisseView> {
   bool isNewBankEmpty = false;
   String dropDownValue = 'Sélectionner un dépôt';
   List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
-  GlobalKey scaffold = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey scaffold = GlobalKey();
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "CaisseView";
     // Change system UI properties
@@ -45,7 +45,6 @@ class CaisseViewState extends State<CaisseView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(
@@ -60,7 +59,7 @@ class CaisseViewState extends State<CaisseView> {
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
-            context,
+            scaffold.currentContext,
             formKey,
             headerIcon: 'assets/img/icons/cashier.png',
             title: 'Ajouter une nouvelle caisse',
@@ -72,7 +71,7 @@ class CaisseViewState extends State<CaisseView> {
                 Api api = Api();
                 final Map<String, dynamic> postCaisseResponse =
                     await api.postCaisse(
-                  context: context,
+                  context: scaffold.currentContext,
                   // ? Create Caisse instance from Json and pass it to the fucnction
                   caisse: Caisse.fromJson({
                     'libelle_caisse': fieldControllers['libelle']
@@ -86,12 +85,12 @@ class CaisseViewState extends State<CaisseView> {
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Nouvelle caisse ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Un problème est survenu',
                   );
                 }

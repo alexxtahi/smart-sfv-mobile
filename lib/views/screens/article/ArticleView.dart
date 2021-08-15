@@ -24,7 +24,6 @@ class ArticleView extends StatefulWidget {
 class ArticleViewState extends State<ArticleView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
-  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     if (ScreenController.actualView != "LoginView")
@@ -44,7 +43,7 @@ class ArticleViewState extends State<ArticleView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
+    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(
@@ -74,7 +73,7 @@ class ArticleViewState extends State<ArticleView> {
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
-            context,
+            scaffold.currentContext,
             formKey,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             headerIcon: 'assets/img/icons/box.png',
@@ -121,7 +120,7 @@ class ArticleViewState extends State<ArticleView> {
                 Api api = Api();
                 final Map<String, dynamic> postArticleResponse =
                     await api.postArticle(
-                  context,
+                  scaffold.currentContext,
                   codeBarre: codeBarre,
                   designation: designation,
                   fournisseur: fournisseur,
@@ -142,15 +141,15 @@ class ArticleViewState extends State<ArticleView> {
                 if (postArticleResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(
-                    context,
+                    scaffold.currentContext!,
                   ).pop();
                   functions.successSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Nouvel article ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Un problème est survenu',
                   );
                 }

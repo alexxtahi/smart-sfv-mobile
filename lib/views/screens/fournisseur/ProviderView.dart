@@ -90,7 +90,7 @@ class ProviderViewState extends State<ProviderView> {
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
-            context,
+            scaffold.currentContext,
             formKey,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             headerIcon: 'assets/img/icons/provider.png',
@@ -102,7 +102,7 @@ class ProviderViewState extends State<ProviderView> {
                 Api api = Api();
                 final Map<String, dynamic> postFournisseurResponse =
                     await api.postFournisseur(
-                  context: context,
+                  context: scaffold.currentContext,
                   // ? Create Fournisseur instance from Json and pass it to the fucnction
                   fournisseur: Fournisseur.fromJson({
                     'id': 0,
@@ -131,12 +131,12 @@ class ProviderViewState extends State<ProviderView> {
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Nouveau fournisseur ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Un problème est survenu',
                   );
                 }

@@ -60,7 +60,7 @@ class Api {
 
   // ! App context methods
   // todo: get articles method
-  Future<List<Article>> getArticles(BuildContext context) async {
+  Future<List<Article>> getArticles(var context) async {
     this.url = this.routes['getArticles'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -122,7 +122,7 @@ class Api {
   }
 
   // todo: get articles en voie de péremption method
-  Future<List<Article>> getArticlesPeremption(BuildContext context) async {
+  Future<List<Article>> getArticlesPeremption(var context) async {
     this.url = this.routes['getArticlesPeremption'].toString(); // set login url
     //print(this.url); // ! debug
     try {
@@ -186,7 +186,7 @@ class Api {
   }
 
   // todo: get articles en voie de péremption method
-  Future<List<Article>> getArticlesRupture(BuildContext context) async {
+  Future<List<Article>> getArticlesRupture(var context) async {
     this.url = this.routes['getArticlesRupture'].toString(); // set login url
     //print(this.url); // ! debug
     try {
@@ -250,7 +250,7 @@ class Api {
   }
 
   // todo: get articles les plus vendus method
-  Future<List<Article>> getBestArticles(BuildContext context) async {
+  Future<List<Article>> getBestArticles(var context) async {
     this.url = this.routes['getBestArticles'].toString(); // set login url
     //print(this.url); // ! debug
     try {
@@ -314,7 +314,7 @@ class Api {
   }
 
   // todo: get articles les moins vendus method
-  Future<List<Article>> getWorstArticles(BuildContext context) async {
+  Future<List<Article>> getWorstArticles(var context) async {
     this.url = this.routes['getWorstArticles'].toString(); // set login url
     //print(this.url); // ! debug
     try {
@@ -378,7 +378,7 @@ class Api {
   }
 
   // todo: get clients method
-  Future<List<Client>> getClients(BuildContext context) async {
+  Future<List<Client>> getClients(var context) async {
     this.url = this.routes['getClients'].toString(); // set login url
     //print('get clients token: ' + User.token);
     try {
@@ -439,7 +439,7 @@ class Api {
   }
 
   // todo: get meilleurs clients method
-  Future<List<Client>> getBestClients(BuildContext context) async {
+  Future<List<Client>> getBestClients(var context) async {
     this.url = this.routes['getBestClients'].toString(); // set login url
     //print(this.url); // ! debug
     try {
@@ -501,7 +501,7 @@ class Api {
   }
 
   // todo: get pires clients method
-  Future<List<Client>> getDettesClients(BuildContext context) async {
+  Future<List<Client>> getDettesClients(var context) async {
     this.url = this.routes['getDettesClients'].toString(); // set login url
     //print(this.url); // ! debug
     try {
@@ -563,7 +563,7 @@ class Api {
   }
 
   // todo: get pires clients method
-  Future<List<Client>> getWorstRentabilityClients(BuildContext context) async {
+  Future<List<Client>> getWorstRentabilityClients(var context) async {
     this.url =
         this.routes['getWorstRentabilityClients'].toString(); // set login url
     //print(this.url); // ! debug
@@ -626,7 +626,7 @@ class Api {
   }
 
   // todo: get commandes method
-  Future<List<Commande>> getCommandes(BuildContext context) async {
+  Future<List<Commande>> getCommandes(var context) async {
     this.url = this.routes['getCommandes'].toString(); // set login url
     //print(this.url); // ! debug
     try {
@@ -689,7 +689,7 @@ class Api {
   }
 
   // todo: get pays method
-  Future<List<Pays>> getPays(BuildContext context) async {
+  Future<List<Pays>> getPays(var context) async {
     this.url = this.routes['getNations'].toString(); // set login url
     //print(this.url); // ! debug
     try {
@@ -749,7 +749,7 @@ class Api {
   }
 
   // todo: get regimes method
-  Future<List<Regime>> getRegimes(BuildContext context) async {
+  Future<List<Regime>> getRegimes(var context) async {
     this.url = this.routes['getRegimes'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -810,7 +810,7 @@ class Api {
   }
 
   // todo: get banques method
-  Future<List<Banque>> getBanques(BuildContext context) async {
+  Future<List<Banque>> getBanques(var context) async {
     this.url = this.routes['getBanques'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -866,7 +866,7 @@ class Api {
   }
 
   // todo: get caisses method
-  Future<List<Caisse>> getCaisses(BuildContext context) async {
+  Future<List<Caisse>> getCaisses(var context) async {
     this.url = this.routes['getCaisses'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -922,7 +922,7 @@ class Api {
   }
 
   // todo: get taxes method
-  Future<List<Tva>> getTvas(BuildContext context) async {
+  Future<List<Tva>> getTvas(var context) async {
     this.url = this.routes['getTvas'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -976,7 +976,7 @@ class Api {
   }
 
   // todo: get catégories method
-  Future<List<Category>> getCategories(BuildContext context) async {
+  Future<List<Category>> getCategories(var context) async {
     this.url = this.routes['getCategories'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -1032,7 +1032,7 @@ class Api {
   }
 
   // todo: get sous catégories method
-  Future<List<SubCategory>> getSubCategories(BuildContext context) async {
+  Future<List<SubCategory>> getSubCategories(var context) async {
     this.url = this.routes['getSubCategories'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -1088,7 +1088,7 @@ class Api {
   }
 
   // todo: get dashboard stats method
-  Future<Map<String, int>> getDashboardStats(BuildContext context) async {
+  Future<Map<String, int>> getDashboardStats(var context) async {
     Map<String, int> dashboardDatas = {};
     try {
       // ? Get user dashboard datas
@@ -1187,7 +1187,7 @@ class Api {
   }
 
   // todo: get fournisseurs method
-  Future<List<Fournisseur>> getFournisseurs(BuildContext context) async {
+  Future<List<Fournisseur>> getFournisseurs(var context) async {
     this.url =
         this.routes['getFournisseurs'].toString(); // set get fournisseurs url
     /*SharedPreferences prefs =
@@ -1253,7 +1253,7 @@ class Api {
   }
 
   // todo: get user info method
-  Future<Map<String, dynamic>> getUserInfo(BuildContext context) async {
+  Future<Map<String, dynamic>> getUserInfo(var context) async {
     this.url = this.routes['userinfo'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -1312,7 +1312,7 @@ class Api {
 
   // todo: verify login method
   Future<Map<String, dynamic>> verifyLogin(
-      BuildContext context, String login, String password,
+      var context, String login, String password,
       {bool remember = false}) async {
     this.url = this.routes['login'].toString(); // set login url
     try {
@@ -1393,7 +1393,7 @@ class Api {
   }
 
   // todo: Logout method
-  Future<void> logout(BuildContext context) async {
+  Future<void> logout(var context) async {
     this.url = this.routes['logout'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -1448,7 +1448,7 @@ class Api {
 
   // todo: post client method
   Future<Map<String, dynamic>> postClient(
-    BuildContext context,
+    var context,
     String name,
     String contact,
     String pays,
@@ -1508,7 +1508,7 @@ class Api {
 
   // todo: post provider method
   Future<Map<String, dynamic>> postFournisseur({
-    required BuildContext context,
+    required var context,
     required Fournisseur fournisseur,
   }) async {
     this.url = this.routes['postFournisseur'].toString(); // set client url
@@ -1550,7 +1550,7 @@ class Api {
 
   // todo: post article method
   Future<Map<String, dynamic>> postArticle(
-    BuildContext context, {
+    var context, {
     String codeBarre = '',
     String designation = '',
     String fournisseur = '',
@@ -1620,7 +1620,7 @@ class Api {
 
   // todo: post bank method
   Future<Map<String, dynamic>> postBank(
-      {required BuildContext context, required Banque banque}) async {
+      {required var context, required Banque banque}) async {
     this.url = this.routes['postBank'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -1658,7 +1658,7 @@ class Api {
 
   // todo: post regime method
   Future<Map<String, dynamic>> postRegime(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postRegime'].toString(); // set client url
@@ -1700,7 +1700,7 @@ class Api {
 
   // todo: post TVA method
   Future<Map<String, dynamic>> postTva(
-    BuildContext context,
+    var context,
     String tva,
   ) async {
     this.url = this.routes['postTva'].toString(); // set client url
@@ -1742,7 +1742,7 @@ class Api {
 
   // todo: post caisse method
   Future<Map<String, dynamic>> postCaisse({
-    required BuildContext context,
+    required var context,
     required Caisse caisse,
   }) async {
     this.url = this.routes['postCaisse'].toString(); // set client url
@@ -1782,7 +1782,7 @@ class Api {
 
   // todo: post pays method
   Future<Map<String, dynamic>> postPays({
-    required BuildContext context,
+    required var context,
     required Pays pays,
   }) async {
     this.url = this.routes['postPays'].toString(); // set client url
@@ -1822,7 +1822,7 @@ class Api {
 
   // todo: post catégories method
   Future<Map<String, dynamic>> postCategory(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postCategory'].toString(); // set client url
@@ -1864,7 +1864,7 @@ class Api {
 
   // todo: post sous catégorie method
   Future<Map<String, dynamic>> postSubCategory(
-    BuildContext context,
+    var context,
     String libelle,
     int categorie,
   ) async {
@@ -1908,7 +1908,7 @@ class Api {
 
   // todo: post moyen payement method
   Future<Map<String, dynamic>> postMoyenPayement(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postMoyenPayement'].toString(); // set client url
@@ -1950,7 +1950,7 @@ class Api {
 
   // todo: post rayon method
   Future<Map<String, dynamic>> postRayon(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postRayon'].toString(); // set client url
@@ -1992,7 +1992,7 @@ class Api {
 
   // todo: post rangee method
   Future<Map<String, dynamic>> postRangee(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postRangee'].toString(); // set client url
@@ -2034,7 +2034,7 @@ class Api {
 
   // todo: post casier method
   Future<Map<String, dynamic>> postCasier(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postCasier'].toString(); // set client url
@@ -2076,7 +2076,7 @@ class Api {
 
   // todo: post unité method
   Future<Map<String, dynamic>> postUnite(
-    BuildContext context,
+    var context,
     String libelle,
     int quantite,
   ) async {
@@ -2120,7 +2120,7 @@ class Api {
 
   // todo: post taille method
   Future<Map<String, dynamic>> postTaille(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postTaille'].toString(); // set client url
@@ -2162,7 +2162,7 @@ class Api {
 
   // todo: post divers method
   Future<Map<String, dynamic>> postDivers(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postDivers'].toString(); // set client url
@@ -2204,7 +2204,7 @@ class Api {
 
   // todo: post catégorie dépense method
   Future<Map<String, dynamic>> postCategoryDepense(
-    BuildContext context,
+    var context,
     String libelle,
   ) async {
     this.url = this.routes['postCategoryDepense'].toString(); // set client url

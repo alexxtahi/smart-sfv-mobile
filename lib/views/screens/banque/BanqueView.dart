@@ -18,8 +18,6 @@ class BanqueView extends StatefulWidget {
 }
 
 class BanqueViewState extends State<BanqueView> {
-  GlobalKey scaffold = GlobalKey();
-
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
@@ -44,7 +42,7 @@ class BanqueViewState extends State<BanqueView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
+    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(
@@ -54,7 +52,7 @@ class BanqueViewState extends State<BanqueView> {
         onPressed: () {
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
-            context,
+            scaffold.currentContext,
             formKey,
             headerIcon: 'assets/img/icons/bank-building.png',
             title: 'Ajouter une banque',
@@ -64,7 +62,7 @@ class BanqueViewState extends State<BanqueView> {
                 Api api = Api();
                 final Map<String, dynamic> postBankResponse =
                     await api.postBank(
-                  context: context,
+                  context: scaffold.currentContext,
                   // ? Create Banque instance from Json and pass it to the fucnction
                   banque: Banque.fromJson({
                     'libelle_banque': bankController.text,
@@ -73,14 +71,14 @@ class BanqueViewState extends State<BanqueView> {
                 // ? check the server response
                 if (postBankResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
-                  Navigator.of(context).pop();
+                  Navigator.of(scaffold.currentContext!).pop();
                   functions.successSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Nouvelle banque ajoutée !',
                   );
                 } else {
                   functions.errorSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Un problème est survenu',
                   );
                 }

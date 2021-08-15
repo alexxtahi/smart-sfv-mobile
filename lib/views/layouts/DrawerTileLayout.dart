@@ -31,7 +31,6 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
   ExpandableController expandableController = ExpandableController();
   @override
   Widget build(BuildContext context) {
-    // Return building scaffold
     return Expanded(
       child: FadingEdgeScrollView.fromSingleChildScrollView(
         gradientFractionOnStart: 0.1,

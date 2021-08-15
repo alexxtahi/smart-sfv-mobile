@@ -31,7 +31,6 @@ class ExpansionTableState extends State<ExpansionTable> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    // Return building scaffold
     return ExpandableNotifier(
       // <-- Provides ExpandableController to its children
       child: Column(

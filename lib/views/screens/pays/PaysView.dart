@@ -23,7 +23,6 @@ class PaysViewState extends State<PaysView> {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController paysController = TextEditingController();
   bool isNewPaysEmpty = false;
-  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
     if (ScreenController.actualView != "LoginView")
@@ -43,7 +42,7 @@ class PaysViewState extends State<PaysView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
+    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(
@@ -53,7 +52,7 @@ class PaysViewState extends State<PaysView> {
         onPressed: () {
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
-            context,
+            scaffold.currentContext,
             formKey,
             headerIcon: 'assets/img/icons/countries.png',
             title: 'Ajouter un pays',
@@ -63,7 +62,7 @@ class PaysViewState extends State<PaysView> {
                 Api api = Api();
                 final Map<String, dynamic> postPaysResponse =
                     await api.postPays(
-                  context: context,
+                  context: scaffold.currentContext,
                   // ? Create Pays instance from Json and pass it to the fucnction
                   pays: Pays.fromJson({
                     'libelle_nation': paysController.text,
@@ -74,12 +73,12 @@ class PaysViewState extends State<PaysView> {
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Nouveau pays ajoutée !',
                   );
                 } else {
                   functions.errorSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Un problème est survenu',
                   );
                 }

@@ -35,7 +35,6 @@ class CommandeViewState extends State<CommandeView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Return building scaffold
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(

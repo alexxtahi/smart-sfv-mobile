@@ -27,9 +27,9 @@ class ClientViewState extends State<ClientView> {
 
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
-  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    GlobalKey scaffold = GlobalKey();
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "ClientView";
     // Change system UI properties
@@ -69,7 +69,7 @@ class ClientViewState extends State<ClientView> {
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
-            context,
+            scaffold.currentContext,
             formKey,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             headerIcon: 'assets/img/icons/customer.png',
@@ -109,7 +109,7 @@ class ClientViewState extends State<ClientView> {
                 Api api = Api();
                 final Map<String, dynamic> postClientResponse =
                     await api.postClient(
-                  context,
+                  scaffold.currentContext,
                   name,
                   contact,
                   pays,
@@ -126,12 +126,12 @@ class ClientViewState extends State<ClientView> {
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Nouveau client ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
-                    context: context,
+                    context: scaffold.currentContext,
                     message: 'Un problème est survenu',
                   );
                 }

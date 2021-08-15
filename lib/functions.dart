@@ -4,7 +4,7 @@ import 'package:smartsfv/models/User.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
 Future<void> showFormDialog(
-  BuildContext context,
+  var context,
   GlobalKey<FormState> formKey, {
   EdgeInsets padding = const EdgeInsets.all(10),
   String headerIcon = 'assets/img/icons/cashier.png',
@@ -117,7 +117,7 @@ Future<void> showFormDialog(
   );
 }
 
-void successSnackbar({required BuildContext context, required String message}) {
+void successSnackbar({required var context, required String message}) {
   showMessageToSnackbar(
     context: context,
     message: message,
@@ -131,7 +131,7 @@ void successSnackbar({required BuildContext context, required String message}) {
   );
 }
 
-void errorSnackbar({required BuildContext context, required String message}) {
+void errorSnackbar({required var context, required String message}) {
   showMessageToSnackbar(
     context: context,
     message: message,
@@ -146,7 +146,7 @@ void errorSnackbar({required BuildContext context, required String message}) {
 }
 
 void socketErrorSnackbar(
-    {required BuildContext context,
+    {required var context,
     String message = 'Erreur de réseau, Vérifiez votre connexion internet.'}) {
   showMessageToSnackbar(
     context: context,
@@ -162,7 +162,7 @@ void socketErrorSnackbar(
 }
 
 void showMessageToSnackbar({
-  required BuildContext context,
+  required var context,
   required var message,
   EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
   int duration = 2,
@@ -209,19 +209,19 @@ void showMessageToSnackbar({
   );
 }
 
-void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
+void openPage(var context, Widget view, {String mode = 'push'}) {
   String oldView = ScreenController.actualView;
   switch (mode) {
     case 'pushReplacement':
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (BuildContext context) => view),
+        MaterialPageRoute(builder: (var context) => view),
       );
       break;
     case 'push':
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (BuildContext context) => view),
+        MaterialPageRoute(builder: (var context) => view),
       );
       break;
     default:
@@ -231,7 +231,7 @@ void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
   }
 }
 
-void logout(BuildContext context, {Function()? onValidate}) {
+void logout(var context, {Function()? onValidate}) {
   showMessageToSnackbar(
     context: context,
     message: "Déconnexion en cours...",
