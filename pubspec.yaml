@@ -75,7 +75,8 @@ flutter:
     # motion design
     - assets/img/motion-design/warehouse.png
     - assets/img/motion-design/wholesale.png
-    # motion design
+    - assets/img/motion-design/avatar-image.png
+    # backgrounds
     - assets/img/backgrounds/stock1.jpg
     - assets/img/backgrounds/entrepot.jpg
     - assets/img/backgrounds/entrepot-blur.jpg

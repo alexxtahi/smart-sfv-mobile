@@ -209,7 +209,7 @@ void showMessageToSnackbar({
   );
 }
 
-void openPage(var context, Widget view, {String mode = 'push'}) {
+void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
   String oldView = ScreenController.actualView;
   switch (mode) {
     case 'pushReplacement':
@@ -232,14 +232,7 @@ void openPage(var context, Widget view, {String mode = 'push'}) {
 }
 
 void logout(var context, {Function()? onValidate}) {
-  showMessageToSnackbar(
-    context: context,
-    message: "Déconnexion en cours...",
-    icon: CircularProgressIndicator(
-      color: Colors.red,
-      backgroundColor: Colors.red.withOpacity(0.5),
-    ),
-  );
+  // ? Show logout form
   showFormDialog(
     context,
     GlobalKey<FormState>(),

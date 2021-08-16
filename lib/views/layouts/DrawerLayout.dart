@@ -4,7 +4,6 @@ import 'package:smartsfv/api.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/User.dart';
-import 'package:smartsfv/views/screens/login/LoginView.dart';
 import 'package:smartsfv/views/components/DrawerBlurBackground.dart';
 import 'package:smartsfv/views/components/MyDrawerHeader.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
@@ -86,6 +85,16 @@ class DrawerLayoutState extends State<DrawerLayout> {
                                 functions.logout(
                                   context,
                                   onValidate: () {
+                                    // ? Show proceess indicator
+                                    functions.showMessageToSnackbar(
+                                      context: context,
+                                      message: "Déconnexion en cours...",
+                                      icon: CircularProgressIndicator(
+                                        color: Colors.red,
+                                        backgroundColor:
+                                            Colors.red.withOpacity(0.5),
+                                      ),
+                                    );
                                     // ? Logout
                                     Api api = Api(); // Load API instance
                                     api.logout(context);

@@ -2,7 +2,6 @@ import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
-import 'package:smartsfv/models/User.dart';
 import 'package:smartsfv/views/screens/article/ArticleView.dart';
 import 'package:smartsfv/views/screens/banque/BanqueView.dart';
 import 'package:smartsfv/views/screens/caisse/CaisseView.dart';

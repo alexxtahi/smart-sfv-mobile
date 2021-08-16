@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
-import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 
 class ForgottenPasswordLayout extends StatefulWidget {
   final String title;
@@ -19,6 +20,7 @@ class ForgottenPasswordLayout extends StatefulWidget {
 
 class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
   TextEditingController passwordResetController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
     //todo: Hide panel
@@ -78,68 +80,114 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
                 ),
               ),
               SizedBox(height: 10),
-              //todo: Email TextField
-              MyTextField(
-                focusNode: FocusNode(),
-                textEditingController: passwordResetController,
-                borderRadius: Radius.circular(10),
-                textColor: Colors.black,
-                placeholder: 'Votre E-mail pour le lien de récupération',
-                placeholderSize: 13,
-                placeholderColor: Color.fromRGBO(0, 0, 0, 0.5),
-                suffixIcon: 'assets/img/icons/mail.png',
-                cursorColor: Colors.black,
-                onTap: () {
-                  // Expand the panel
-                  widget.panelController.expand();
-                  //print('Hidding panel'); // ! debug
-                },
-                onEditingComplete: () {
-                  // Hiding keyboard
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  // Move the panel to anchor position
-                  widget.panelController.anchor();
-                },
-              ),
-              SizedBox(height: 10),
-              //todo: Send Button
-              OutlinedButton(
-                onPressed: () {
-                  print('envoi du mail de récupération');
-                  String email = passwordResetController.text;
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  widget.panelController.hide();
-                  functions.showMessageToSnackbar(
-                      context: context,
-                      message: "E-mail envoyé ! vérifiez votre boîte.",
-                      duration: 3,
-                      icon: Icon(Icons.mail_outlined));
-                },
-                child: Text(
-                  'Envoyer',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    color: Color.fromRGBO(60, 141, 188, 1),
-                    //color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                style: ButtonStyle(
-                  /*padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal: 0, vertical: 0)),*/
-                  minimumSize: MaterialStateProperty.all<Size>(Size(20, 20)),
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Color.fromRGBO(60, 141, 188, 0.15)),
-                  fixedSize:
-                      MaterialStateProperty.all<Size>(Size(screenSize[0], 50)),
-                  side: MaterialStateProperty.all<BorderSide>(
-                      BorderSide(color: Color.fromRGBO(60, 141, 188, 1))),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+              //todo: Reset password form
+              Form(
+                key: this.formKey,
+                child: Column(
+                  children: [
+                    //todo: Email TextField
+                    MyTextFormField(
+                      focusNode: FocusNode(),
+                      textEditingController: passwordResetController,
+                      borderRadius: Radius.circular(10),
+                      textColor: Colors.black,
+                      placeholder: 'Votre E-mail pour le lien de récupération',
+                      placeholderSize: 13,
+                      placeholderColor: Color.fromRGBO(0, 0, 0, 0.5),
+                      suffixIcon: 'assets/img/icons/mail.png',
+                      cursorColor: Colors.black,
+                      validator: (value) {
+                        return value!.isNotEmpty
+                            ? null
+                            : 'Entrez votre adresse mail';
+                      },
+                      onTap: () {
+                        // Expand the panel
+                        widget.panelController.expand();
+                        //print('Hidding panel'); // ! debug
+                      },
+                      onEditingComplete: () {
+                        // Hiding keyboard
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        // Move the panel to anchor position
+                        widget.panelController.anchor();
+                      },
                     ),
-                  ),
+                    SizedBox(height: 10),
+                    //todo: Send Button
+                    OutlinedButton(
+                      onPressed: () async {
+                        if (this.formKey.currentState!.validate()) {
+                          // ? Get the email that user has type
+                          String email = passwordResetController.text;
+                          // ? Send it to the API
+                          Api api = Api();
+                          await api.resetPassword(email).then(
+                            (response) {
+                              if (response['code'] == 1) {
+                                // when the operation return success
+                                print('envoi du mail de récupération');
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                widget.panelController.hide();
+                                // ? Show success message
+                                functions.successSnackbar(
+                                  context: context,
+                                  message:
+                                      "E-mail envoyé ! vérifiez votre boîte.",
+                                );
+                              } else if (response['code'] == -1) {
+                                print("Reset pass Error -> ${response['msg']}");
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                widget.panelController.hide();
+                                // ? Show error message
+                                functions.errorSnackbar(
+                                  context: context,
+                                  message: "Une erreur est survenue.",
+                                );
+                              } else {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                widget.panelController.hide();
+                                // ? Show error message
+                                functions.errorSnackbar(
+                                  context: context,
+                                  message: response['msg'].toString(),
+                                );
+                              }
+                            },
+                          );
+                        }
+                      },
+                      child: Text(
+                        'Envoyer',
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Color.fromRGBO(60, 141, 188, 1),
+                          //color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        minimumSize:
+                            MaterialStateProperty.all<Size>(Size(20, 20)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color.fromRGBO(60, 141, 188, 0.15)),
+                        fixedSize: MaterialStateProperty.all<Size>(
+                            Size(screenSize[0], 50)),
+                        side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(color: Color.fromRGBO(60, 141, 188, 1))),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 20),

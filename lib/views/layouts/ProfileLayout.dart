@@ -98,7 +98,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                 radius: 70,
                 backgroundColor: Color.fromRGBO(60, 141, 188, 0.3),
                 backgroundImage:
-                    AssetImage('assets/img/backgrounds/entrepot.jpg'),
+                    AssetImage('assets/img/motion-design/avatar-image.png'),
               ),
               SizedBox(height: 15),
               //todo: Username
@@ -355,6 +355,15 @@ class ProfileLayoutState extends State<ProfileLayout> {
                           functions.logout(
                             context,
                             onValidate: () {
+                              // ? Show proceess indicator
+                              functions.showMessageToSnackbar(
+                                context: context,
+                                message: "Déconnexion en cours...",
+                                icon: CircularProgressIndicator(
+                                  color: Colors.red,
+                                  backgroundColor: Colors.red.withOpacity(0.5),
+                                ),
+                              );
                               // ? Logout
                               Api api = Api(); // Load API instance
                               api.logout(context);
@@ -1114,7 +1123,6 @@ class ProfileLayoutState extends State<ProfileLayout> {
       onStatusChanged: (dragging) {
         // If the dragging direction is dragging down
         if (dragging.index == 1) {
-          FocusScope.of(context).requestFocus(FocusNode());
           widget.panelController.hide();
           //print("zaza"); // ! debug
         }

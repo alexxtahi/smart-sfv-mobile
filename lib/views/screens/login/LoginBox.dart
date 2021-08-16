@@ -137,6 +137,18 @@ class LoginBoxState extends State<LoginBox> {
                               // ! End test mode
                               */
                               if (this.formKey.currentState!.validate()) {
+                                // ? Show loading message
+                                functions.showMessageToSnackbar(
+                                  context: context,
+                                  duration: 5,
+                                  message: "Connexion en cours...",
+                                  icon: CircularProgressIndicator(
+                                    color: Color.fromRGBO(60, 141, 188, 1),
+                                    backgroundColor:
+                                        Colors.white.withOpacity(0.1),
+                                    strokeWidth: 5,
+                                  ),
+                                );
                                 // ? Get the login inputs value
                                 String login = this.loginFieldController.text;
                                 String password =

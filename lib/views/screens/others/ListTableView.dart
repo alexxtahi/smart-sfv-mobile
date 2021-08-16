@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +12,6 @@ import 'package:smartsfv/pdf.dart' as pdf;
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/layouts/ErrorLayout.dart';
-// PDF packages
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
 class ListTableView extends StatefulWidget {
   final String title;
@@ -99,31 +97,34 @@ class ListTableViewState extends State<ListTableView> {
               )
             ],
           );
-          // ? Call generate PDF method
-          String result = await pdf.generatePDF(
-              widget.title, widget.columns, this.docDatas);
-          // ? Check result to give response to the user
-          Navigator.of(context).pop(); // remove the AlertDialog to the screen
-          if (result == "Document enregistré") {
-            functions.successSnackbar(
-              context: scaffold.currentContext,
-              message: "Document PDF enregistré !",
-            );
-          } else if (result == "Enregistrement annulé") {
-            functions.showMessageToSnackbar(
-              context: scaffold.currentContext,
-              message: "Enregistrement annulé",
-              icon: Icon(
-                Icons.file_download_off_rounded,
-                color: Colors.red,
-              ),
-            );
-          } else {
-            functions.errorSnackbar(
-              context: scaffold.currentContext,
-              message: "Une erreur s'est produite lors de la génération du PDF",
-            );
-          }
+          Timer(Duration(seconds: 1), () async {
+            // ? Call generate PDF method
+            String result = await pdf.generatePDF(
+                widget.title, widget.columns, this.docDatas);
+            // ? Check result to give response to the user
+            Navigator.of(context).pop(); // remove the AlertDialog to the screen
+            if (result == "Document enregistré") {
+              functions.successSnackbar(
+                context: scaffold.currentContext,
+                message: "Document PDF enregistré !",
+              );
+            } else if (result == "Enregistrement annulé") {
+              functions.showMessageToSnackbar(
+                context: scaffold.currentContext,
+                message: "Enregistrement annulé",
+                icon: Icon(
+                  Icons.file_download_off_rounded,
+                  color: Colors.red,
+                ),
+              );
+            } else {
+              functions.errorSnackbar(
+                context: scaffold.currentContext,
+                message:
+                    "Une erreur s'est produite lors de la génération du PDF",
+              );
+            }
+          });
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(

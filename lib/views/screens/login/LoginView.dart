@@ -19,6 +19,7 @@ class LoginView extends StatefulWidget {
 
 class LoginViewState extends State<LoginView> {
   LoginBox loginBox = LoginBox();
+  GlobalKey scaffold = GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -46,7 +47,6 @@ class LoginViewState extends State<LoginView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    GlobalKey scaffold = GlobalKey();
     return Stack(
       children: [
         Container(

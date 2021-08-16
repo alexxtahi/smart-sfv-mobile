@@ -70,7 +70,6 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey scaffold = GlobalKey();
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "SplashScreen";
     List<double> screenSize = ScreenController.getScreenSize(context);
@@ -90,6 +89,7 @@ class SplashScreenState extends State<SplashScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       backgroundColor: Colors.white,
@@ -134,7 +134,7 @@ class SplashScreenState extends State<SplashScreen> {
                                 () {
                                   print('Showing home view !');
                                   functions.openPage(
-                                    scaffold.currentContext,
+                                    context,
                                     HomeView(),
                                     mode: 'pushReplacement',
                                   );
@@ -173,7 +173,7 @@ class SplashScreenState extends State<SplashScreen> {
                                 () {
                                   print('Showing login view !');
                                   functions.openPage(
-                                    scaffold.currentContext,
+                                    context,
                                     LoginView(),
                                     mode: 'pushReplacement',
                                   );

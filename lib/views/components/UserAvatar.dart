@@ -24,7 +24,8 @@ class UserAvatarState extends State<UserAvatar> {
       onTap: widget.onPressed,
       child: CircleAvatar(
         radius: widget.avatarRadius,
-        backgroundImage: AssetImage('assets/img/backgrounds/entrepot.jpg'),
+        backgroundImage:
+            AssetImage('assets/img/motion-design/avatar-image.png'),
       ),
     );
   }

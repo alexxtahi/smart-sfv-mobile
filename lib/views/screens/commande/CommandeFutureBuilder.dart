@@ -4,7 +4,6 @@ import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Commande.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
-import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/views/layouts/ErrorLayout.dart';
 

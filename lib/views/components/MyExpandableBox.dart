@@ -3,7 +3,6 @@ import 'package:expandable/expandable.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
 class MyExpandableBox extends StatefulWidget {

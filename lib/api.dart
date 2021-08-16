@@ -27,24 +27,28 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  //String host = 'http://192.168.10.11:8000'; // local ip adress
-  String host = 'https://smartsfv.smartyacademy.com';
+  String host = 'http://192.168.1.9:8000'; // local ip adress // ! local
+  //String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
   Api() {
     // initialisation of the routes Map
     this.routes = {
+      // Routes user
       'login': '${this.host}/api/auth/login',
       'logout': '${this.host}/api/auth/logout',
+      'userinfo': '${this.host}/api/auth/user',
+      'resetPassword': '${this.host}/api/auth/reset-password',
+      // Routes articles
       'getArticles': '${this.host}/api/auth/articles',
       'getBestArticles': '${this.host}/api/auth/articles',
       'getWorstArticles': '${this.host}/api/auth/articles',
       'getArticlesPeremption':
           '${this.host}/api/auth/articles-en-voie-peremption',
       'getArticlesRupture': '${this.host}/api/auth/articles-en-voie-rupture',
-      'userinfo': '${this.host}/api/auth/user',
       'getRegimes': '${this.host}/api/auth/regimes',
       'getNations': '${this.host}/api/auth/nations',
+      // Routes clients
       'postClient': '${this.host}/api/auth/client/store',
       'getClients': '${this.host}/api/auth/clients',
       'getBestClients': '${this.host}/api/auth/beste-clients',
@@ -52,8 +56,10 @@ class Api {
       'getWorstRentabilityClients': '${this.host}/api/auth/beste-clients',
       'putClient': '${this.host}/api/auth/client/update/',
       'deleteClient': '${this.host}/api/auth/clients/delete/',
+      // Routes fournisseurs
       'getFournisseurs': '${this.host}/api/auth/fournisseurs',
       'postFournisseur': '${this.host}/api/auth/fournisseur/store',
+      // Routes commandes
       'getCommandes': '${this.host}/api/auth/commande-en-cours',
     };
   }
@@ -92,9 +98,10 @@ class Api {
         List articleResponse = json.decode(this.response.body)['rows'];
         List<Article> articles = [
           for (var article in articleResponse)
+            //Article.fromJson(article), // ! debug
             // ? take only article created by the actual user
-            Article.fromJson(article), // ! debug
-          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+            if (article['created_by'] == User.id)
+              Article.fromJson(article), // ! production
         ];
         // ? return list of articles
         return articles;
@@ -157,9 +164,10 @@ class Api {
         //print('Liste articles périmés: $articleResponse');
         List<Article> articles = [
           for (var article in articleResponse)
-            Article.fromJson(article), // ! debug
-          // ? take only article created by the actual user
-          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+            //Article.fromJson(article), // ! debug
+            // ? take only article created by the actual user
+            if (article['created_by'] == User.id)
+              Article.fromJson(article), // ! production
         ];
         // ? return list of articles
         return articles;
@@ -221,9 +229,10 @@ class Api {
         //print('Liste articles rupture: $articleResponse');
         List<Article> articles = [
           for (var article in articleResponse)
-            Article.fromJson(article), // ! debug
-          // ? take only article created by the actual user
-          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+            //Article.fromJson(article), // ! debug
+            // ? take only article created by the actual user
+            if (article['created_by'] == User.id)
+              Article.fromJson(article), // ! production
         ];
         // ? return list of articles
         return articles;
@@ -285,9 +294,10 @@ class Api {
         //print('Liste articles rupture: $articleResponse');
         List<Article> articles = [
           for (var article in articleResponse)
-            Article.fromJson(article), // ! debug
-          // ? take only article created by the actual user
-          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+            //Article.fromJson(article), // ! debug
+            // ? take only article created by the actual user
+            if (article['created_by'] == User.id)
+              Article.fromJson(article), // ! production
         ];
         // ? return list of articles
         return articles;
@@ -349,9 +359,10 @@ class Api {
         //print('Liste articles rupture: $articleResponse');
         List<Article> articles = [
           for (var article in articleResponse)
-            Article.fromJson(article), // ! debug
-          // ? take only article created by the actual user
-          //if (article['created_by'] == User.id) Article.fromJson(article), // ! production
+            //Article.fromJson(article), // ! debug
+            // ? take only article created by the actual user
+            if (article['created_by'] == User.id)
+              Article.fromJson(article), // ! production
         ];
         // ? return list of articles
         return articles;
@@ -410,9 +421,11 @@ class Api {
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
-          for (var client in clientResponse) Client.fromJson(client), // ! debug
-          // ? take only client created by the actual user
-          //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
+          for (var client
+              in clientResponse) //Client.fromJson(client), // ! debug
+            // ? take only client created by the actual user
+            if (client['created_by'] == User.id)
+              Client.fromJson(client), // ! production
         ];
         // ? return list of clients
         return clients;
@@ -472,9 +485,11 @@ class Api {
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
-          for (var client in clientResponse) Client.fromJson(client), // ! debug
-          // ? take only client created by the actual user
-          //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
+          for (var client
+              in clientResponse) //Client.fromJson(client), // ! debug
+            // ? take only client created by the actual user
+            if (client['created_by'] == User.id)
+              Client.fromJson(client), // ! production
         ];
         // ? return list of clients
         return clients;
@@ -534,9 +549,11 @@ class Api {
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
-          for (var client in clientResponse) Client.fromJson(client), // ! debug
-          // ? take only client created by the actual user
-          //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
+          for (var client
+              in clientResponse) //Client.fromJson(client), // ! debug
+            // ? take only client created by the actual user
+            if (client['created_by'] == User.id)
+              Client.fromJson(client), // ! production
         ];
         // ? return list of clients
         return clients;
@@ -597,9 +614,11 @@ class Api {
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
-          for (var client in clientResponse) Client.fromJson(client), // ! debug
-          // ? take only client created by the actual user
-          //if (client['created_by'] == User.id) Client.fromJson(client), // ! production
+          for (var client
+              in clientResponse) //Client.fromJson(client), // ! debug
+            // ? take only client created by the actual user
+            if (client['created_by'] == User.id)
+              Client.fromJson(client), // ! production
         ];
         // ? return list of clients
         return clients;
@@ -659,9 +678,10 @@ class Api {
         // ? create list of countries
         List commandesResponse = json.decode(this.response.body)['rows'];
         List<Commande> commandes = [
-          for (var commandes in commandesResponse) Commande.fromJson(commandes),
-          // ? take only commande created by the actual user
-          //if (commande['created_by'] == User.id) Commande.fromJson(commande), // ! production
+          for (var commande in commandesResponse) //Commande.fromJson(commande),
+            // ? take only commande created by the actual user
+            if (commande['created_by'] == User.id)
+              Commande.fromJson(commande), // ! production
         ];
         //print('List: $countries'); // ! debug
         // ? return list of countries
@@ -781,8 +801,10 @@ class Api {
         List regimeResponse = json.decode(this.response.body)['rows'];
         List<Regime> regimes = [
           // ? take only regime created by the actual user
-          for (var regime in regimeResponse) Regime.fromJson(regime), // ! debug
-          //if (regime['created_by'] == User.id) Regime.fromJson(regime), // ! production
+          for (var regime
+              in regimeResponse) //Regime.fromJson(regime), // ! debug
+            if (regime['created_by'] == User.id)
+              Regime.fromJson(regime), // ! production
         ];
         //print('List: $régimes'); // ! debug
         // ? return list of régimes
@@ -840,8 +862,10 @@ class Api {
         List banqueResponse = json.decode(this.response.body)['rows'];
         List<Banque> banques = [
           // ? take only banque created by the actual user
-          for (var banque in banqueResponse) Banque.fromJson(banque), // ! debug
-          //if (banque['created_by'] == User.id) Banque.fromJson(banque), // ! production
+          for (var banque
+              in banqueResponse) //Banque.fromJson(banque), // ! debug
+            if (banque['created_by'] == User.id)
+              Banque.fromJson(banque), // ! production
         ];
         // ? return list of banques
         return banques;
@@ -896,8 +920,10 @@ class Api {
         List caisseResponse = json.decode(this.response.body)['rows'];
         List<Caisse> caisses = [
           // ? take only caisse created by the actual user
-          for (var caisse in caisseResponse) Caisse.fromJson(caisse), // ! debug
-          //if (caisse['created_by'] == User.id) Caisse.fromJson(caisse), // ! production
+          for (var caisse
+              in caisseResponse) //Caisse.fromJson(caisse), // ! debug
+            if (caisse['created_by'] == User.id)
+              Caisse.fromJson(caisse), // ! production
         ];
         // ? return list of caisses
         return caisses;
@@ -952,8 +978,8 @@ class Api {
         List tvaResponse = json.decode(this.response.body)['rows'];
         List<Tva> tvas = [
           // ? take only tva created by the actual user
-          for (var tva in tvaResponse) Tva.fromJson(tva), // ! debug
-          //if (tva['created_by'] == User.id) Tva.fromJson(tva), // ! production
+          for (var tva in tvaResponse) //Tva.fromJson(tva), // ! debug
+            if (tva['created_by'] == User.id) Tva.fromJson(tva), // ! production
         ];
         // ? return list of taxs
         return tvas;
@@ -1007,8 +1033,9 @@ class Api {
         List<Category> categories = [
           // ? take only categorie created by the actual user
           for (var categorie in categorieResponse)
-            Category.fromJson(categorie), // ! debug
-          //if (categorie['created_by'] == User.id) Category.fromJson(categorie), // ! production
+            //Category.fromJson(categorie), // ! debug
+            if (categorie['created_by'] == User.id)
+              Category.fromJson(categorie), // ! production
         ];
         // ? return list of categories
         return categories;
@@ -1063,8 +1090,9 @@ class Api {
         List<SubCategory> subCategories = [
           // ? take only subCategorie created by the actual user
           for (var subCategorie in subCategorieResponse)
-            SubCategory.fromJson(subCategorie), // ! debug
-          //if (subCategorie['created_by'] == User.id) SubCategory.fromJson(subCategorie), // ! production
+            //SubCategory.fromJson(subCategorie), // ! debug
+            if (subCategorie['created_by'] == User.id)
+              SubCategory.fromJson(subCategorie), // ! production
         ];
         // ? return list of sous categories
         return subCategories;
@@ -1224,9 +1252,10 @@ class Api {
         List fournisseurResponse = json.decode(this.response.body)['rows'];
         List<Fournisseur> fournisseurs = [
           for (var fournisseur in fournisseurResponse)
-            Fournisseur.fromJson(fournisseur),
-          // ? take only fournisseur created by the actual user
-          //if (fournisseur['created_by'] == User.id) Fournisseur.fromJson(fournisseur),
+            //Fournisseur.fromJson(fournisseur),
+            // ? take only fournisseur created by the actual user
+            if (fournisseur['created_by'] == User.id)
+              Fournisseur.fromJson(fournisseur),
         ];
         // ? return list of fournisseurs
         return fournisseurs;
@@ -1377,6 +1406,7 @@ class Api {
         return responseJson; // return to know login state
         // ? Login failed
       } else {
+        print("Login error -> ${responseJson['message']}");
         functions.errorSnackbar(
           context: context,
           message: responseJson['message'],
@@ -1401,6 +1431,9 @@ class Api {
       this.response = await http.get(
         Uri.parse(this.url),
         headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
@@ -1443,6 +1476,39 @@ class Api {
           );
         }
       }
+    }
+  }
+
+  // todo: reset password automatically method
+  Future<Map<String, dynamic>> resetPassword(String email) async {
+    this.url = this.routes['resetPassword'].toString(); // set url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: {'email': email},
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print(responseJson.runtimeType);
+      // ? Save new password to the cache
+      // load SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('password', 'zozo33'); // save password
+      return responseJson; // return to know if the password has been reset
+      // ? Login failed
+    } catch (error) {
+      print(
+          'API ERROR: Reset Password Error -> ${error.runtimeType} -> $error');
+      return json.decode(
+          this.response.body); // return to know if the password has been reset
     }
   }
 
