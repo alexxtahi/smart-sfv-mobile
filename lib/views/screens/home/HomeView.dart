@@ -26,6 +26,8 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    // ! Configs
+    ScreenController.isChildView = false;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "HomeView";
     // Change system UI properties

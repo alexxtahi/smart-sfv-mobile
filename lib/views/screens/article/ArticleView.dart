@@ -24,8 +24,11 @@ class ArticleView extends StatefulWidget {
 class ArticleViewState extends State<ArticleView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    // ! Configs
+    ScreenController.isChildView = true;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "ArticleView";
     // Change system UI properties
@@ -43,7 +46,7 @@ class ArticleViewState extends State<ArticleView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    GlobalKey scaffold = GlobalKey();
+    // Return building Scaffold
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(

@@ -17,8 +17,11 @@ class TvaViewState extends State<TvaView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
   bool isNewBankEmpty = false;
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    // ! Configs
+    ScreenController.isChildView = true;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "TvaView";
     // Change system UI properties
@@ -36,7 +39,6 @@ class TvaViewState extends State<TvaView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       body: Stack(

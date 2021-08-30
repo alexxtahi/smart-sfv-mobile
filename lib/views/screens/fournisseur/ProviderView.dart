@@ -26,6 +26,8 @@ class ProviderViewState extends State<ProviderView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    // ! Configs
+    ScreenController.isChildView = true;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "ProviderView";
     // Change system UI properties

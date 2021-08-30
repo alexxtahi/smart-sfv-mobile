@@ -85,6 +85,7 @@ class LoginBoxState extends State<LoginBox> {
                       child: Column(
                         children: [
                           MyTextFormField(
+                            keyboardType: TextInputType.emailAddress,
                             placeholder: 'Login',
                             suffixIcon: 'assets/img/icons/account.png',
                             textEditingController: this.loginFieldController,

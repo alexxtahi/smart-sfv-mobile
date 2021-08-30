@@ -24,10 +24,12 @@ class CaisseViewState extends State<CaisseView> {
   bool isNewBankEmpty = false;
   String dropDownValue = 'Sélectionner un dépôt';
   List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
+  GlobalKey scaffold = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey scaffold = GlobalKey();
+    // ! Configs
+    ScreenController.isChildView = true;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "CaisseView";
     // Change system UI properties

@@ -22,8 +22,11 @@ class RegimeViewState extends State<RegimeView> {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController regimeController = TextEditingController();
   bool isNewBankEmpty = false;
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    // ! Configs
+    ScreenController.isChildView = false;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "RegimeView";
     // Change system UI properties
@@ -41,7 +44,6 @@ class RegimeViewState extends State<RegimeView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(

@@ -23,8 +23,11 @@ class BanqueViewState extends State<BanqueView> {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController bankController = TextEditingController();
   bool isNewBankEmpty = false;
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    // ! Configs
+    ScreenController.isChildView = true;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "BanqueView";
     // Change system UI properties
@@ -42,7 +45,7 @@ class BanqueViewState extends State<BanqueView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    GlobalKey scaffold = GlobalKey();
+    // Return building Scaffold
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(

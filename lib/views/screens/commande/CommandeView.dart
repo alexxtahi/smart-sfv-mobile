@@ -18,6 +18,8 @@ class CommandeViewState extends State<CommandeView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    // ! Configs
+    ScreenController.isChildView = true;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "CommandeView";
     // Change system UI properties
@@ -35,6 +37,7 @@ class CommandeViewState extends State<CommandeView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    // Return building Scaffold
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(

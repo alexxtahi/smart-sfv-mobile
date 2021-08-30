@@ -23,8 +23,11 @@ class PaysViewState extends State<PaysView> {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController paysController = TextEditingController();
   bool isNewPaysEmpty = false;
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    // ! Configs
+    ScreenController.isChildView = false;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "PaysView";
     // Change system UI properties
@@ -42,7 +45,6 @@ class PaysViewState extends State<PaysView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    GlobalKey scaffold = GlobalKey();
     return Scaffold(
       key: scaffold,
       floatingActionButton: FloatingActionButton(

@@ -87,6 +87,7 @@ class ForgottenPasswordLayoutState extends State<ForgottenPasswordLayout> {
                   children: [
                     //todo: Email TextField
                     MyTextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       focusNode: FocusNode(),
                       textEditingController: passwordResetController,
                       borderRadius: Radius.circular(10),

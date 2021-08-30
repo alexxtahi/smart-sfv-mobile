@@ -27,9 +27,11 @@ class ClientViewState extends State<ClientView> {
 
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
+  GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    GlobalKey scaffold = GlobalKey();
+    // ! Configs
+    ScreenController.isChildView = true;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "ClientView";
     // Change system UI properties
