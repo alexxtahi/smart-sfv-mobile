@@ -20,16 +20,20 @@ class LoginView extends StatefulWidget {
 class LoginViewState extends State<LoginView> {
   LoginBox loginBox = LoginBox();
   GlobalKey scaffold = GlobalKey();
+  //todo: Method called when the view is launching
   @override
   void initState() {
     super.initState();
+    // ? Launching configs
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "LoginView";
+      ScreenController.isChildView = false;
+    }
   }
 
   // textfield controller
   @override
   Widget build(BuildContext context) {
-    if (ScreenController.actualView != "LoginView")
-      ScreenController.actualView = "LoginView";
     print("Actual view -> " + ScreenController.actualView);
     List<double> screenSize = ScreenController.getScreenSize(context);
     // Change system UI properties

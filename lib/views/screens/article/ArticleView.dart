@@ -22,15 +22,33 @@ class ArticleView extends StatefulWidget {
 }
 
 class ArticleViewState extends State<ArticleView> {
+  //todo: Method called when the view is launching
+  @override
+  void initState() {
+    super.initState();
+    // ? Launching configs
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "ArticleView";
+      ScreenController.isChildView = true;
+    }
+  }
+
+  //todo: Method called when the view is closing
+  @override
+  void dispose() {
+    // ? Set actualView to "HomeView"
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "HomeView";
+      ScreenController.isChildView = false;
+    }
+    super.dispose();
+  }
+
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    // ! Configs
-    ScreenController.isChildView = true;
-    if (ScreenController.actualView != "LoginView")
-      ScreenController.actualView = "ArticleView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

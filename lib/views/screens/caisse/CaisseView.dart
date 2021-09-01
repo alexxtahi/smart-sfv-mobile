@@ -18,6 +18,28 @@ class CaisseView extends StatefulWidget {
 }
 
 class CaisseViewState extends State<CaisseView> {
+  //todo: Method called when the view is launching
+  @override
+  void initState() {
+    super.initState();
+    // ? Launching configs
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "CaisseView";
+      ScreenController.isChildView = true;
+    }
+  }
+
+  //todo: Method called when the view is closing
+  @override
+  void dispose() {
+    // ? Set actualView to "HomeView"
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "HomeView";
+      ScreenController.isChildView = false;
+    }
+    super.dispose();
+  }
+
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
@@ -28,10 +50,6 @@ class CaisseViewState extends State<CaisseView> {
 
   @override
   Widget build(BuildContext context) {
-    // ! Configs
-    ScreenController.isChildView = true;
-    if (ScreenController.actualView != "LoginView")
-      ScreenController.actualView = "CaisseView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

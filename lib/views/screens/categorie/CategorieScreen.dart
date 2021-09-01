@@ -54,7 +54,7 @@ class CategorieScreenState extends State<CategorieScreen> {
                 MyAppBar(
                   parentSetState: setstate,
                   panelController: widget.panelController,
-                  icon: 'assets/img/icons/cashier.png',
+                  icon: 'assets/img/icons/category.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
                   title: 'Categories',
                 ),
@@ -64,7 +64,7 @@ class CategorieScreenState extends State<CategorieScreen> {
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
-                  placeholder: 'Rechercher une caisse',
+                  placeholder: 'Rechercher une catégorie',
                   textColor: Color.fromRGBO(60, 141, 188, 1),
                   placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                   cursorColor: Colors.black,
@@ -163,7 +163,7 @@ class CategorieScreenState extends State<CategorieScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Liste des caisses',
+                          text: 'Liste des catégories',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),

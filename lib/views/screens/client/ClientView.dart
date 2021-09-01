@@ -20,9 +20,26 @@ class ClientView extends StatefulWidget {
 }
 
 class ClientViewState extends State<ClientView> {
+  //todo: Method called when the view is launching
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    // ? Launching configs
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "ClientView";
+      ScreenController.isChildView = true;
+    }
+  }
+
+  //todo: Method called when the view is closing
+  @override
+  void dispose() {
+    // ? Set actualView to "HomeView"
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "HomeView";
+      ScreenController.isChildView = false;
+    }
+    super.dispose();
   }
 
   ///The controller of sliding up panel
@@ -30,10 +47,6 @@ class ClientViewState extends State<ClientView> {
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    // ! Configs
-    ScreenController.isChildView = true;
-    if (ScreenController.actualView != "LoginView")
-      ScreenController.actualView = "ClientView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

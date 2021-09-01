@@ -13,15 +13,33 @@ class CommandeView extends StatefulWidget {
 }
 
 class CommandeViewState extends State<CommandeView> {
+  //todo: Method called when the view is launching
+  @override
+  void initState() {
+    super.initState();
+    // ? Launching configs
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "CommandeView";
+      ScreenController.isChildView = true;
+    }
+  }
+
+  //todo: Method called when the view is closing
+  @override
+  void dispose() {
+    // ? Set actualView to "HomeView"
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "HomeView";
+      ScreenController.isChildView = false;
+    }
+    super.dispose();
+  }
+
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   GlobalKey scaffold = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    // ! Configs
-    ScreenController.isChildView = true;
-    if (ScreenController.actualView != "LoginView")
-      ScreenController.actualView = "CommandeView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

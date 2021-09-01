@@ -18,18 +18,20 @@ class HomeViewState extends State<HomeView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   GlobalKey scaffold = GlobalKey();
 
+  //todo: Method called when the view is launching
   @override
   void initState() {
     super.initState();
     User.isConnected = true;
+    // ? Launching configs
+    if (ScreenController.actualView != "LoginView") {
+      ScreenController.actualView = "HomeView";
+      ScreenController.isChildView = false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // ! Configs
-    ScreenController.isChildView = false;
-    if (ScreenController.actualView != "LoginView")
-      ScreenController.actualView = "HomeView";
     // Change system UI properties
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

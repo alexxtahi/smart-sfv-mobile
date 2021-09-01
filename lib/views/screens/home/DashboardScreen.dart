@@ -21,11 +21,6 @@ class DashboardScreenState extends State<DashboardScreen> {
   ScrollController scrollController = new ScrollController();
   ScrollController gridViewScrollController = new ScrollController();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
