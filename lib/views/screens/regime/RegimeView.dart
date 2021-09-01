@@ -26,7 +26,7 @@ class RegimeViewState extends State<RegimeView> {
   @override
   Widget build(BuildContext context) {
     // ! Configs
-    ScreenController.isChildView = false;
+    ScreenController.isChildView = true;
     if (ScreenController.actualView != "LoginView")
       ScreenController.actualView = "RegimeView";
     // Change system UI properties

@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/Category.dart';
+import 'package:smartsfv/models/Categorie.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
-import 'package:smartsfv/models/SubCategory.dart';
+import 'package:smartsfv/models/SousCategorie.dart';
 import 'package:smartsfv/models/Tva.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyText.dart';
@@ -319,11 +319,11 @@ class ArticleViewState extends State<ArticleView> {
                 ],
               ),
               SizedBox(height: 10),
-              //todo: Category Field
+              //todo: Categorie Field
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //todo: Category label
+                  //todo: Categorie label
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -339,9 +339,9 @@ class ArticleViewState extends State<ArticleView> {
                     ],
                   ),
                   SizedBox(height: 5),
-                  //todo: Category DropDown
+                  //todo: Categorie DropDown
                   (ScreenController.actualView != "LoginView")
-                      ? FutureBuilder<List<Category>>(
+                      ? FutureBuilder<List<Categorie>>(
                           future: this.fetchCategories(),
                           builder: (categoryComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
@@ -407,22 +407,22 @@ class ArticleViewState extends State<ArticleView> {
                 ],
               ),
               SizedBox(height: 10),
-              //todo: SubCategory Field
+              //todo: SousCategorie Field
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //todo: SubCategory label
+                  //todo: SousCategorie label
                   MyText(
                     text: 'Sous catégorie',
                     color: Color.fromRGBO(231, 57, 0, 1),
                     fontWeight: FontWeight.bold,
                   ),
                   SizedBox(height: 5),
-                  //todo: SubCategory DropDown
+                  //todo: SousCategorie DropDown
                   (ScreenController.actualView != "LoginView")
-                      ? FutureBuilder<List<SubCategory>>(
-                          future: this.fetchSubCategories(),
-                          builder: (subCategoryComboBoxContext, snapshot) {
+                      ? FutureBuilder<List<SousCategorie>>(
+                          future: this.fetchSousCategories(),
+                          builder: (sousCategorieComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get providers datas from server
                               return MyComboBox(
@@ -961,20 +961,20 @@ class ArticleViewState extends State<ArticleView> {
     return fournisseurs;
   }
 
-  Future<List<Category>> fetchCategories() async {
+  Future<List<Categorie>> fetchCategories() async {
     // init API instance
     Api api = Api();
     // call API method getCategories
-    Future<List<Category>> categories = api.getCategories(context);
+    Future<List<Categorie>> categories = api.getCategories(context);
     // return results
     return categories;
   }
 
-  Future<List<SubCategory>> fetchSubCategories() async {
+  Future<List<SousCategorie>> fetchSousCategories() async {
     // init API instance
     Api api = Api();
-    // call API method getSubCategories
-    Future<List<SubCategory>> subcategories = api.getSubCategories(context);
+    // call API method getSousCategories
+    Future<List<SousCategorie>> subcategories = api.getSousCategories(context);
     // return results
     return subcategories;
   }

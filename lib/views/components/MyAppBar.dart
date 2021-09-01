@@ -49,6 +49,8 @@ class MyAppBarState extends State<MyAppBar> {
               borderColor: Color.fromRGBO(60, 141, 188, 1),
               backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
               onPressed: () {
+                print("isChildView -> " +
+                    ScreenController.isChildView.toString()); // ! debug
                 // ? If actual view have drawer
                 if (!ScreenController.isChildView)
                   widget.parentSetState(() {
@@ -56,8 +58,8 @@ class MyAppBarState extends State<MyAppBar> {
                   });
                 // ? Else if actual view haven't drawer
                 if (ScreenController.isChildView) {
-                  ScreenController.isChildView = false;
                   Navigator.of(context).pop();
+                  ScreenController.isChildView = false;
                 }
               },
             )

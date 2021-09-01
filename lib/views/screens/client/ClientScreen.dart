@@ -21,8 +21,8 @@ class ClientScreen extends StatefulWidget {
 }
 
 class ClientScreenState extends State<ClientScreen> {
-  ScrollController scrollController = new ScrollController();
-  ScrollController datatableScrollController = new ScrollController();
+  ScrollController scrollController = ScrollController();
+  ScrollController datatableScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
   bool filterChecked = true;
   List<bool> filtres = [

@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
+import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
+import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/screens/categorie/CategorieFutureBuilder.dart';
 import 'package:smartsfv/functions.dart' as functions;
-import 'package:smartsfv/views/screens/pays/PaysFutureBuilder.dart';
 
-class PaysScreen extends StatefulWidget {
+class CategorieScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
-  PaysScreen({Key? key, required this.panelController}) : super(key: key);
+  CategorieScreen({Key? key, required this.panelController}) : super(key: key);
   @override
-  PaysScreenState createState() => PaysScreenState();
+  CategorieScreenState createState() => CategorieScreenState();
 }
 
-class PaysScreenState extends State<PaysScreen> {
+class CategorieScreenState extends State<CategorieScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
@@ -31,6 +33,8 @@ class PaysScreenState extends State<PaysScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<double> screenSize = ScreenController.getScreenSize(context);
+    GlobalKey scaffold = GlobalKey();
     return AnimatedContainer(
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
@@ -50,9 +54,9 @@ class PaysScreenState extends State<PaysScreen> {
                 MyAppBar(
                   parentSetState: setstate,
                   panelController: widget.panelController,
-                  icon: 'assets/img/icons/countries.png',
+                  icon: 'assets/img/icons/cashier.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'Pays',
+                  title: 'Categories',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
@@ -60,7 +64,7 @@ class PaysScreenState extends State<PaysScreen> {
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
-                  placeholder: 'Rechercher un pays',
+                  placeholder: 'Rechercher une caisse',
                   textColor: Color.fromRGBO(60, 141, 188, 1),
                   placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                   cursorColor: Colors.black,
@@ -87,6 +91,65 @@ class PaysScreenState extends State<PaysScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
+                //todo: Countries & Filters
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: screenSize[0]),
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    childAspectRatio: 4,
+                    crossAxisSpacing: 10,
+                    children: [
+                      MyOutlinedButton(
+                        onPressed: () {},
+                        backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                        borderRadius: 15,
+                        borderColor: Colors.transparent,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.edit_rounded,
+                              color: Color.fromRGBO(0, 27, 121, 1),
+                            ),
+                            SizedBox(width: 15),
+                            MyText(
+                              text: 'Modifier',
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(0, 27, 121, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                      MyOutlinedButton(
+                        onPressed: () {},
+                        backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
+                        borderRadius: 15,
+                        borderColor: Colors.transparent,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.delete_outline_rounded,
+                              color: Color.fromRGBO(187, 0, 0, 1),
+                            ),
+                            SizedBox(width: 15),
+                            MyText(
+                              text: 'Supprimer',
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(187, 0, 0, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
                 //todo: List title
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,7 +163,7 @@ class PaysScreenState extends State<PaysScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Liste des pays',
+                          text: 'Liste des caisses',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),
@@ -114,7 +177,7 @@ class PaysScreenState extends State<PaysScreen> {
                       onPressed: () {
                         // show refresh message
                         functions.showMessageToSnackbar(
-                          context: context,
+                          context: scaffold.currentContext,
                           message: "Rechargement...",
                           icon: CircularProgressIndicator(
                             color: Color.fromRGBO(60, 141, 188, 1),
@@ -132,7 +195,7 @@ class PaysScreenState extends State<PaysScreen> {
                 ),
                 SizedBox(height: 10),
                 //todo: Scrolling View
-                PaysFutureBuilder(),
+                CategorieFutureBuilder(),
               ],
             ),
           ),

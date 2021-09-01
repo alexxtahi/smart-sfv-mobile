@@ -3,7 +3,7 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/Category.dart';
+import 'package:smartsfv/models/Categorie.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
@@ -104,7 +104,7 @@ class ArticleScreenState extends State<ArticleScreen> {
                     children: [
                       //todo: Catégories DropDown
                       (ScreenController.actualView != "LoginView")
-                          ? FutureBuilder<List<Category>>(
+                          ? FutureBuilder<List<Categorie>>(
                               future: this.fetchCategories(),
                               builder: (comboBoxContext, snapshot) {
                                 if (snapshot.hasData) {
@@ -357,11 +357,11 @@ class ArticleScreenState extends State<ArticleScreen> {
     );
   }
 
-  Future<List<Category>> fetchCategories() async {
+  Future<List<Categorie>> fetchCategories() async {
     // init API instance
     Api api = Api();
     // call API method getCategories
-    Future<List<Category>> categories = api.getCategories(context);
+    Future<List<Categorie>> categories = api.getCategories(context);
     // return results
     return categories;
   }

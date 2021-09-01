@@ -11,13 +11,14 @@ import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Banque.dart';
 import 'package:smartsfv/models/Cache.dart';
 import 'package:smartsfv/models/Caisse.dart';
-import 'package:smartsfv/models/Category.dart';
+import 'package:smartsfv/models/Categorie.dart';
 import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Commande.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
+import 'package:smartsfv/models/MoyenPayement.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
-import 'package:smartsfv/models/SubCategory.dart';
+import 'package:smartsfv/models/SousCategorie.dart';
 import 'package:smartsfv/models/Tva.dart';
 import 'package:smartsfv/models/User.dart';
 import 'package:smartsfv/views/screens/login/LoginView.dart';
@@ -27,7 +28,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  //String host = 'http://192.168.1.100:8000'; // local ip adress // ! local
+  //String host = 'http://192.168.1.15:8000'; // local ip adress // ! local
   String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
@@ -995,7 +996,7 @@ class Api {
   }
 
   // todo: get catégories method
-  Future<List<Category>> getCategories(var context) async {
+  Future<List<Categorie>> getCategories(var context) async {
     this.url = this.routes['getCategories'].toString(); // set login url
     try {
       // ? getting datas from url
@@ -1012,7 +1013,7 @@ class Api {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "CategoryView")
+        if (ScreenController.actualView == "CategorieView")
           functions.showMessageToSnackbar(
             context: context,
             message: "Catégories chargées !",
@@ -1023,37 +1024,37 @@ class Api {
           );
         // ? create list of taxs
         List categorieResponse = json.decode(this.response.body)['rows'];
-        List<Category> categories = [
+        List<Categorie> categories = [
           // ? take only categorie created by the actual user
           for (var categorie in categorieResponse)
-            Category.fromJson(categorie), // ! debug
+            Categorie.fromJson(categorie), // ! debug
           //if (categorie['created_by'] == User.id)
-          //Category.fromJson(categorie), // ! production
+          //Categorie.fromJson(categorie), // ! production
         ];
         // ? return list of categories
         return categories;
       } else {
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "CategoryView")
+        if (ScreenController.actualView == "CategorieView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des catégories",
           );
-        return <Category>[];
+        return <Categorie>[];
       }
     } catch (error) {
       print(
-          'API ERROR: Get Category Model Error -> ${error.runtimeType} -> $error');
+          'API ERROR: Get Categorie Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
-      return <Category>[];
+      return <Categorie>[];
     }
   }
 
   // todo: get sous catégories method
-  Future<List<SubCategory>> getSubCategories(var context) async {
-    this.url = this.routes['getSubCategories'].toString(); // set login url
+  Future<List<SousCategorie>> getSousCategories(var context) async {
+    this.url = this.routes['getSousCategories'].toString(); // set login url
     try {
       // ? getting datas from url
       print("Actual view -> " + ScreenController.actualView);
@@ -1069,7 +1070,7 @@ class Api {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "SubCategoryView")
+        if (ScreenController.actualView == "SousCategorieView")
           functions.showMessageToSnackbar(
             context: context,
             message: "Sous catégories chargées !",
@@ -1080,31 +1081,88 @@ class Api {
           );
         // ? create list of taxs
         List subCategorieResponse = json.decode(this.response.body)['rows'];
-        List<SubCategory> subCategories = [
+        List<SousCategorie> subCategories = [
           // ? take only subCategorie created by the actual user
           for (var subCategorie in subCategorieResponse)
-            SubCategory.fromJson(subCategorie), // ! debug
+            SousCategorie.fromJson(subCategorie), // ! debug
           //if (subCategorie['created_by'] == User.id)
-          //SubCategory.fromJson(subCategorie), // ! production
+          //SousCategorie.fromJson(subCategorie), // ! production
         ];
         // ? return list of sous categories
         return subCategories;
       } else {
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "SubCategoryView")
+        if (ScreenController.actualView == "SousCategorieView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des sous catégories",
           );
-        return <SubCategory>[];
+        return <SousCategorie>[];
       }
     } catch (error) {
       print(
-          'API ERROR: SubCategory Model Error -> ${error.runtimeType} -> $error');
+          'API ERROR: SousCategorie Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
-      return <SubCategory>[];
+      return <SousCategorie>[];
+    }
+  }
+
+  // todo: get catégories method
+  Future<List<MoyenPayement>> getMoyenPayements(var context) async {
+    this.url = this.routes['getMoyenPayements'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "MoyenPayementView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Moyens de payement chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of taxs
+        List moyenPayementResponse = json.decode(this.response.body)['rows'];
+        List<MoyenPayement> moyenPayements = [
+          // ? take only moyenPayement created by the actual user
+          for (var moyenPayement in moyenPayementResponse)
+            MoyenPayement.fromJson(moyenPayement), // ! debug
+          //if (moyenPayement['created_by'] == User.id)
+          //MoyenPayement.fromJson(moyenPayement), // ! production
+        ];
+        // ? return list of moyenPayements
+        return moyenPayements;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "MoyenPayementView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des catégories",
+          );
+        return <MoyenPayement>[];
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get MoyenPayement Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <MoyenPayement>[];
     }
   }
 
@@ -1880,11 +1938,11 @@ class Api {
   }
 
   // todo: post catégories method
-  Future<Map<String, dynamic>> postCategory(
-    var context,
-    String libelle,
-  ) async {
-    this.url = this.routes['postCategory'].toString(); // set client url
+  Future<Map<String, dynamic>> postCategorie({
+    required var context,
+    required Categorie categorie,
+  }) async {
+    this.url = this.routes['postCategorie'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
@@ -1896,9 +1954,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_categorie': libelle,
-        },
+        body: Categorie.toMap(categorie),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -1908,7 +1964,7 @@ class Api {
     } catch (error) {
       print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "CategoryView") {
+      if (ScreenController.actualView == "CategorieView") {
         if (error is SocketException || error is FormatException)
           functions.socketErrorSnackbar(context: context);
         else
@@ -1922,12 +1978,11 @@ class Api {
   }
 
   // todo: post sous catégorie method
-  Future<Map<String, dynamic>> postSubCategory(
-    var context,
-    String libelle,
-    int categorie,
-  ) async {
-    this.url = this.routes['postSubCategory'].toString(); // set client url
+  Future<Map<String, dynamic>> postSousCategorie({
+    required var context,
+    required SousCategorie sousCategorie,
+  }) async {
+    this.url = this.routes['postSousCategorie'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
@@ -1939,10 +1994,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_sous_categorie': libelle,
-          'categorie_id': categorie,
-        },
+        body: SousCategorie.toMap(sousCategorie),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -1952,7 +2004,7 @@ class Api {
     } catch (error) {
       print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "SubCategoryView") {
+      if (ScreenController.actualView == "SousCategorieView") {
         if (error is SocketException || error is FormatException)
           functions.socketErrorSnackbar(context: context);
         else
@@ -1965,11 +2017,11 @@ class Api {
     }
   }
 
-  // todo: post moyen payement method
-  Future<Map<String, dynamic>> postMoyenPayement(
-    var context,
-    String libelle,
-  ) async {
+  // todo: post catégories method
+  Future<Map<String, dynamic>> postMoyenPayement({
+    required var context,
+    required MoyenPayement moyenPayement,
+  }) async {
     this.url = this.routes['postMoyenPayement'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -1982,9 +2034,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_moyen_payement': libelle,
-        },
+        body: MoyenPayement.toMap(moyenPayement),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -1994,13 +2044,13 @@ class Api {
     } catch (error) {
       print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "MoyenPayementView") {
+      if (ScreenController.actualView == "CategorieView") {
         if (error is SocketException || error is FormatException)
           functions.socketErrorSnackbar(context: context);
         else
           functions.errorSnackbar(
             context: context,
-            message: "Echec d'enregistrement du moyen de payement",
+            message: "Echec d'enregistrement de la catégorie",
           );
       }
       return {'msg': 'Une erreur est survenue'};
@@ -2262,11 +2312,11 @@ class Api {
   }
 
   // todo: post catégorie dépense method
-  Future<Map<String, dynamic>> postCategoryDepense(
+  Future<Map<String, dynamic>> postCategorieDepense(
     var context,
     String libelle,
   ) async {
-    this.url = this.routes['postCategoryDepense'].toString(); // set client url
+    this.url = this.routes['postCategorieDepense'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
@@ -2290,7 +2340,7 @@ class Api {
     } catch (error) {
       print(error);
       // ? Show error snack bar
-      if (ScreenController.actualView == "CategoryDepenseView") {
+      if (ScreenController.actualView == "CategorieDepenseView") {
         if (error is SocketException || error is FormatException)
           functions.socketErrorSnackbar(context: context);
         else

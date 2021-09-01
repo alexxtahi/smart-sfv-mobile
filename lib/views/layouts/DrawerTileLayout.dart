@@ -5,9 +5,11 @@ import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/views/screens/article/ArticleView.dart';
 import 'package:smartsfv/views/screens/banque/BanqueView.dart';
 import 'package:smartsfv/views/screens/caisse/CaisseView.dart';
+import 'package:smartsfv/views/screens/categorie/CategorieView.dart';
 import 'package:smartsfv/views/screens/client/ClientView.dart';
 import 'package:smartsfv/views/screens/commande/CommandeView.dart';
 import 'package:smartsfv/views/screens/home/HomeView.dart';
+import 'package:smartsfv/views/screens/moyen-payement/MoyenPayementView.dart';
 import 'package:smartsfv/views/screens/others/ListTableView.dart';
 import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
@@ -15,6 +17,7 @@ import 'package:smartsfv/views/components/MyDrawerTile.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/views/screens/pays/PaysView.dart';
 import 'package:smartsfv/views/screens/regime/RegimeView.dart';
+import 'package:smartsfv/views/screens/sous-categorie/SousCategorieView.dart';
 import 'package:smartsfv/views/screens/tva/TvaView.dart';
 
 class DrawerTileLayout extends StatefulWidget {
@@ -190,14 +193,44 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       {
                         'icon': 'assets/img/icons/category.png',
                         'headerText': 'Catégorie',
+                        'onPressed': () {
+                          print('Catégorie appuyé !');
+                          functions.openPage(
+                            context,
+                            CategorieView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/sub-category.png',
                         'headerText': 'Sous catégorie',
+                        'onPressed': () {
+                          print('Sous Catégorie appuyé !');
+                          functions.openPage(
+                            context,
+                            SousCategorieView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/wallet.png',
                         'headerText': 'Moyen de paiement',
+                        'onPressed': () {
+                          print('Sous Catégorie appuyé !');
+                          functions.openPage(
+                            context,
+                            MoyenPayementView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/section.png',
