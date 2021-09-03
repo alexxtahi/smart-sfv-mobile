@@ -28,7 +28,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  //String host = 'http://192.168.1.15:8000'; // local ip adress // ! local
+  //$$String host = 'http://192.168.1.100:8000'; // local ip adress // ! local
   String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor

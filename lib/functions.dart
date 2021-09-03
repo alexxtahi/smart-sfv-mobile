@@ -247,53 +247,72 @@ void logout(var context, {Function()? onValidate}) {
     hasValidationButton: false,
     confirmBtnText: 'Se déconnecter',
     cancelBtnText: 'Annuler',
-    formElements: [
-      Wrap(
-        children: [
-          MyText(
-            text: 'Voulez-vous vraiment vous déconnecter ?',
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            overflow: TextOverflow.visible,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-      SizedBox(height: 15),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          //todo: Exit button
-          InkWell(
-            onTap: onValidate,
-            child: CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.red,
-              child: Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-              ),
+    formElements: (User.isConnected == true)
+        ? [
+            Wrap(
+              children: [
+                MyText(
+                  text: 'Voulez-vous vraiment vous déconnecter ?',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  overflow: TextOverflow.visible,
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
-          ),
-          SizedBox(width: 20),
-          //todo: Cancel button
-          InkWell(
-            onTap: () {
-              // Quit logout AlertDialog
-              if (User.isConnected) Navigator.pop(context);
-            },
-            child: CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.green,
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
+            SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //todo: Exit button
+                InkWell(
+                  onTap: onValidate,
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.red,
+                    child: Icon(
+                      Icons.exit_to_app,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20),
+                //todo: Cancel button
+                InkWell(
+                  onTap: () {
+                    // ? Quit logout AlertDialog
+                    if (User.isConnected) Navigator.pop(context);
+                  },
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.green,
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    ],
+          ]
+        : [
+            Column(
+              children: [
+                //todo: Progress bar
+                CircularProgressIndicator(
+                  color: Color.fromRGBO(60, 141, 188, 1),
+                  backgroundColor: Colors.white.withOpacity(0.1),
+                  strokeWidth: 5,
+                ),
+                SizedBox(height: 15),
+                //todo: Logout text
+                MyText(
+                  text: 'Déconnexion en cours...',
+                  fontSize: 16,
+                ),
+              ],
+            ),
+          ],
     onValidate: onValidate,
   );
 }

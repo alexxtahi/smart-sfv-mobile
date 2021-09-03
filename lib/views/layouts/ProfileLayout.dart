@@ -351,25 +351,58 @@ class ProfileLayoutState extends State<ProfileLayout> {
                         borderColor: Color.fromRGBO(221, 75, 57, 1),
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         onPressed: () {
-                          // ? Show confirmation dialog
-                          functions.logout(
-                            context,
-                            onValidate: () {
-                              // ? Show proceess indicator
-                              functions.showMessageToSnackbar(
-                                context: context,
-                                message: "Déconnexion en cours...",
-                                icon: CircularProgressIndicator(
-                                  color: Colors.red,
-                                  backgroundColor: Colors.red.withOpacity(0.5),
-                                ),
-                              );
-                              // ? Logout
-                              Api api = Api(); // Load API instance
-                              api.logout(context);
-                              User.isConnected = false;
-                            },
-                          );
+                          if (User.isConnected) {
+                            // ? Show confirmation dialog
+                            functions.logout(
+                              context,
+                              onValidate: () {
+                                // Pop previous Dialog
+                                Navigator.pop(context);
+                                // ? Show loading AlertDialog
+                                functions.showFormDialog(
+                                  context,
+                                  GlobalKey<FormState>(),
+                                  barrierDismissible: false,
+                                  headerIconColor: Colors.red,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 20),
+                                  hasHeaderIcon: false,
+                                  hasSnackbar: false,
+                                  hasHeaderTitle: false,
+                                  hasCancelButton: false,
+                                  hasValidationButton: false,
+                                  formElements: [
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          //todo: Progress bar
+                                          CircularProgressIndicator(
+                                            color:
+                                                Color.fromRGBO(60, 141, 188, 1),
+                                            backgroundColor:
+                                                Colors.white.withOpacity(0.1),
+                                            strokeWidth: 5,
+                                          ),
+                                          SizedBox(height: 15),
+                                          //todo: Logout text
+                                          MyText(
+                                            text: 'Déconnexion en cours...',
+                                            fontSize: 16,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                );
+                                // ? Logout
+                                Api api = Api(); // Load API instance
+                                // Call logout method
+                                api.logout(context).then((value) {
+                                  User.isConnected = false;
+                                });
+                              },
+                            );
+                          }
                         },
                       ),
                     ],
