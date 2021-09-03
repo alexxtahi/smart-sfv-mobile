@@ -1416,7 +1416,14 @@ class Api {
       print(responseJson.runtimeType);
       // ? Login success
       if (responseJson['access_token'] != null) {
-        // ? get user informations from the server
+        // ? Save token to the cache
+        // load SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', responseJson['access_token']); // save token
+        prefs.setString('tokenExpDate',
+            responseJson['expires_at']); // save token expiration date
+        prefs.setString('password', password); // save password
+        // ? Get user informations from the server
         Map<String, dynamic> userInfos = await getUserInfo(context);
         responseJson['login'] = login;
         responseJson['password'] = password;
@@ -1426,18 +1433,11 @@ class Api {
             userInfos['created_at']; //.replaceAll('T', ' ');
         responseJson['updated_at'] =
             userInfos['updated_at']; //.replaceAll('T', ' ');
-        //print("Réponse du server: $responseJson");
+        print("Réponse du server: $responseJson");
         print("User informations: $userInfos");
         // ? set user informations
         User.create(responseJson);
-        // ? Save token to the cache
-        // load SharedPreferences
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('token', responseJson['access_token']); // save token
-        prefs.setString('tokenExpDate',
-            responseJson['expires_at']); // save token expiration date
-        prefs.setString('password', password); // save password
-        // get password from cache in the null case
+        print('User token -> ' + responseJson['access_token']!); // ! debug
         //print('Cache token -> ' + prefs.getString('token')!); // ! debug
         // ? Show success message
         functions.successSnackbar(
