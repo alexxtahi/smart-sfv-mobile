@@ -47,6 +47,7 @@ class HomeViewState extends State<HomeView> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    // Return building Scaffold
     return Scaffold(
       key: scaffold,
       body: Stack(
