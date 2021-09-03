@@ -150,7 +150,7 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView" &&
+        /*if (ScreenController.actualView == "HomeView" &&
             ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
@@ -159,7 +159,7 @@ class Api {
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
-          );
+          );*/
         // ? create list of articles
         List articleResponse = json.decode(this.response.body)['rows'];
         //print('Liste articles périmés: $articleResponse');
@@ -177,11 +177,11 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "HomeView")
+        /*if (ScreenController.actualView == "HomeView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des articles en voie de péremption",
-          );
+          );*/
         return <Article>[];
         //throw Exception('Failed to load user datas');
       }
@@ -215,7 +215,7 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView" &&
+        /*if (ScreenController.actualView == "HomeView" &&
             ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
@@ -224,7 +224,7 @@ class Api {
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
-          );
+          );*/
         // ? create list of articles
         List articleResponse = json.decode(this.response.body)['rows'];
         //print('Liste articles rupture: $articleResponse');
@@ -242,11 +242,11 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "HomeView")
+        /*if (ScreenController.actualView == "HomeView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des articles en voie de rupture",
-          );
+          );*/
         return <Article>[];
         //throw Exception('Failed to load user datas');
       }
@@ -280,7 +280,7 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView" &&
+        /*if (ScreenController.actualView == "HomeView" &&
             ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
@@ -289,7 +289,7 @@ class Api {
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
-          );
+          );*/
         // ? create list of articles
         List articleResponse = json.decode(this.response.body)['rows'];
         //print('Liste articles rupture: $articleResponse');
@@ -307,11 +307,11 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "HomeView")
+        /*if (ScreenController.actualView == "HomeView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des articles les plus vendus",
-          );
+          );*/
         return <Article>[];
         //throw Exception('Failed to load user datas');
       }
@@ -345,7 +345,7 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView" &&
+        /*if (ScreenController.actualView == "HomeView" &&
             ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
@@ -354,7 +354,7 @@ class Api {
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
-          );
+          );*/
         // ? create list of articles
         List articleResponse = json.decode(this.response.body)['rows'];
         //print('Liste articles rupture: $articleResponse');
@@ -372,11 +372,11 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "HomeView")
+        /*if (ScreenController.actualView == "HomeView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des articles les moins vendus",
-          );
+          );*/
         return <Article>[];
         //throw Exception('Failed to load user datas');
       }
@@ -434,11 +434,11 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "ClientView")
+        /*if (ScreenController.actualView == "ClientView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des clients",
-          );
+          );*/
         return <Client>[];
         //throw Exception('Failed to load user datas');
       }
@@ -472,7 +472,7 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView" &&
+        /*if (ScreenController.actualView == "HomeView" &&
             ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
@@ -481,7 +481,7 @@ class Api {
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
-          );
+          );*/
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
@@ -497,11 +497,11 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "HomeView")
+        /*if (ScreenController.actualView == "HomeView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des meilleurs clients",
-          );
+          );*/
         return <Client>[];
         //throw Exception('Failed to load user datas');
       }
@@ -535,7 +535,7 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView" &&
+        /*if (ScreenController.actualView == "HomeView" &&
             ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
@@ -544,7 +544,7 @@ class Api {
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
-          );
+          );*/
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
@@ -560,11 +560,11 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "HomeView")
+        /*if (ScreenController.actualView == "HomeView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des clients les moins rentable",
-          );
+          );*/
         return <Client>[];
         //throw Exception('Failed to load user datas');
       }
@@ -599,7 +599,7 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "HomeView" &&
+        /*if (ScreenController.actualView == "HomeView" &&
             ScreenController.reloadDashboard)
           functions.showMessageToSnackbar(
             context: context,
@@ -608,7 +608,7 @@ class Api {
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
-          );
+          );*/
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
@@ -624,11 +624,11 @@ class Api {
         // then throw an exception.
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "HomeView")
+        /*if (ScreenController.actualView == "HomeView")
           functions.errorSnackbar(
             context: context,
             message: "Echec de récupération des clients les moins rentable",
-          );
+          );*/
         return <Client>[];
         //throw Exception('Failed to load user datas');
       }
@@ -1153,7 +1153,7 @@ class Api {
         if (ScreenController.actualView == "MoyenPayementView")
           functions.errorSnackbar(
             context: context,
-            message: "Echec de récupération des catégories",
+            message: "Echec de récupération des moyens de payement",
           );
         return <MoyenPayement>[];
       }
@@ -1372,7 +1372,7 @@ class Api {
           context: context,
           message: "Echec de récupération des infos de l'utilisateur",
         );
-        return {'msg': 'no data'};
+        return {'msg': 'failed to get user datas'};
         //throw Exception('Failed to load user datas');
       }
     } catch (error) {
@@ -1386,7 +1386,7 @@ class Api {
         context: context,
         message: "Echec de récupération des infos de l'utilisateur",
       );
-      return {'msg': 'no data'};
+      return {'msg': 'API error'};
     }
   }
 

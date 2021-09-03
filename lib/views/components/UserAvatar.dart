@@ -23,9 +23,14 @@ class UserAvatarState extends State<UserAvatar> {
     return InkWell(
       onTap: widget.onPressed,
       child: CircleAvatar(
+        //backgroundColor: Color.fromRGBO(60, 141, 188, 0.3),
         radius: widget.avatarRadius,
-        backgroundImage:
-            AssetImage('assets/img/motion-design/avatar-image.png'),
+        child: Icon(
+          Icons.account_circle_outlined,
+          size: 50,
+          color: Colors.white,
+          //color: Color.fromRGBO(60, 141, 188, 1),
+        ),
       ),
     );
   }
