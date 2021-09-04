@@ -47,6 +47,8 @@ class CaisseViewState extends State<CaisseView> {
   String dropDownValue = 'Sélectionner un dépôt';
   List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +98,7 @@ class CaisseViewState extends State<CaisseView> {
                   caisse: Caisse.fromJson({
                     'libelle_caisse': fieldControllers['libelle']
                         .text, // get libelle  // ! required
-                    'depot_id': fieldControllers['contact']
+                    'depot_id': fieldControllers['depot']
                         .text, // get depot_id // ! required
                   }),
                 );
@@ -144,7 +146,7 @@ class CaisseViewState extends State<CaisseView> {
               //todo: Dépot DropDownButton
               (ScreenController.actualView != "LoginView")
                   ? FutureBuilder<List<Caisse>>(
-                      future: this.fetchCaisses(),
+                      future: api.getCaisses(context),
                       builder: (caisseComboBoxContext, snapshot) {
                         if (snapshot.hasData) {
                           // ? get nations datas from server
@@ -235,8 +237,6 @@ class CaisseViewState extends State<CaisseView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           CaisseScreen(panelController: panelController),
           //todo: Profile Layout
@@ -246,14 +246,5 @@ class CaisseViewState extends State<CaisseView> {
         ],
       ),
     );
-  }
-
-  Future<List<Caisse>> fetchCaisses() async {
-    // init API instance
-    Api api = Api();
-    // call API method getCaisses
-    Future<List<Caisse>> caisses = api.getCaisses(context);
-    // return results
-    return caisses;
   }
 }

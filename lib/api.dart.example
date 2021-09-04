@@ -1963,9 +1963,18 @@ class Api {
   }
 
   // todo: post client method
-  Future<Map<String, dynamic>> postClient({
-    required var context,
-    required Client client,
+  Future<Map<String, dynamic>> postClient(
+    var context,
+    String name,
+    String contact,
+    String pays,
+    String regime, {
+    String email = '',
+    String geoAdr = '',
+    String postalAdr = '',
+    String montantPlafond = '',
+    String compteContrib = '',
+    String fax = '',
   }) async {
     this.url = this.routes['postClient'].toString(); // set client url
     try {
@@ -1979,7 +1988,18 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: Client.toMap(client),
+        body: {
+          'full_name_client': name, // ! required
+          'contact_client': contact, // ! required
+          'email_client': email,
+          'nation_id': pays, // ! required
+          'adresse_client': geoAdr,
+          'boite_postale_client': postalAdr,
+          'plafond_client': montantPlafond,
+          'regime_id': regime, // ! required
+          'fax_client': fax,
+          'compte_contribuable_client': compteContrib,
+        },
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2045,9 +2065,23 @@ class Api {
   }
 
   // todo: post article method
-  Future<Map<String, dynamic>> postArticle({
-    required var context,
-    required Article article,
+  Future<Map<String, dynamic>> postArticle(
+    var context, {
+    String codeBarre = '',
+    String designation = '',
+    String fournisseur = '',
+    String categorie = '',
+    String subCategorie = '',
+    String stockMin = '',
+    int tva = 0,
+    int prixAchatTTC = 0,
+    int prixAchatHT = 0,
+    int tauxMargeAchat = 0,
+    int prixVenteTTC = 0,
+    int prixVenteHT = 0,
+    int tauxMargeVente = 0,
+    String imageArticle = '',
+    bool stockable = true,
   }) async {
     this.url = this.routes['postArticle'].toString(); // set client url
     try {
@@ -2061,7 +2095,23 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: Article.toMap(article),
+        body: {
+          'codeBarre': codeBarre,
+          'designation': designation,
+          'fournisseur': fournisseur,
+          'categorie': categorie,
+          'subCategorie': subCategorie,
+          'stockMin': stockMin,
+          'tva': tva,
+          'prixAchatTTC': prixAchatTTC,
+          'prixAchatHT': prixAchatHT,
+          'tauxMargeAchat': tauxMargeAchat,
+          'prixVenteTTC': prixVenteTTC,
+          'prixVenteHT': prixVenteHT,
+          'tauxMargeVente': tauxMargeVente,
+          'imageArticle': imageArticle,
+          'stockable': stockable.toString(),
+        },
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2165,10 +2215,10 @@ class Api {
   }
 
   // todo: post TVA method
-  Future<Map<String, dynamic>> postTva({
-    required var context,
-    required Tva tva,
-  }) async {
+  Future<Map<String, dynamic>> postTva(
+    var context,
+    String tva,
+  ) async {
     this.url = this.routes['postTva'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2181,7 +2231,9 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: Tva.toMap(tva),
+        body: {
+          'montant_tva': int.parse(tva),
+        },
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);

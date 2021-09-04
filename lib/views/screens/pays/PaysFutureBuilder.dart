@@ -17,12 +17,15 @@ class PaysFutureBuilder extends StatefulWidget {
 class PaysFutureBuilderState extends State<PaysFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Pays>>(
-            future: this.fetchPayss(),
+            future: api.getPays(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of pays is empty or not
@@ -111,7 +114,6 @@ class PaysFutureBuilderState extends State<PaysFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -147,14 +149,5 @@ class PaysFutureBuilderState extends State<PaysFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Pays>> fetchPayss() async {
-    // init API instance
-    Api api = Api();
-    // call API method getPayss
-    Future<List<Pays>> pays = api.getPays(context);
-    // return results
-    return pays;
   }
 }

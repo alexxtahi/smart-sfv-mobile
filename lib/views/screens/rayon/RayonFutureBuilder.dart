@@ -16,12 +16,15 @@ class RayonFutureBuilder extends StatefulWidget {
 class RayonFutureBuilderState extends State<RayonFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Rayon>>(
-            future: this.fetchRayons(),
+            future: api.getRayons(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of rayon is empty or not
@@ -140,7 +143,6 @@ class RayonFutureBuilderState extends State<RayonFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -167,7 +169,7 @@ class RayonFutureBuilderState extends State<RayonFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des rayons',
+                      semanticsLabel: 'Chargement des rayons...',
                     ),
                   ],
                 ),
@@ -175,14 +177,5 @@ class RayonFutureBuilderState extends State<RayonFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Rayon>> fetchRayons() async {
-    // init API instance
-    Api api = Api();
-    // call API method getRayons
-    Future<List<Rayon>> rayons = api.getRayons(context);
-    // return results
-    return rayons;
   }
 }

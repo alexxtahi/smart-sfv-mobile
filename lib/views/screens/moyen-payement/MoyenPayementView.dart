@@ -43,9 +43,6 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
 
   @override
@@ -75,15 +72,14 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'libelle': TextEditingController(),
-            'depot': '',
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             scaffold.currentContext,
             formKey,
-            headerIcon: 'assets/img/icons/cashier.png',
+            headerIcon: 'assets/img/icons/wallet.png',
             title: 'Ajouter un nouveau moyen de payement',
-            successMessage: 'Nouvelle moyen de payement ajouté !',
+            successMessage: 'Nouveau moyen de payement ajouté !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
@@ -119,6 +115,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
             formElements: [
               //todo: TextFormField
               MyTextFormField(
+                keyboardType: TextInputType.text,
                 textEditingController: fieldControllers['libelle'],
                 validator: (value) {
                   return value!.isNotEmpty
@@ -138,83 +135,12 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
                 focusBorderColor: Colors.transparent,
                 enableBorderColor: Colors.transparent,
               ),
-              SizedBox(height: 10),
-              //todo: Dépot DropDownButton
-              (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<MoyenPayement>>(
-                      future: this.fetchMoyenPayements(),
-                      builder: (moyenPayementComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! !=
-                                      'Sélectionnez un moyen de payement'
-                                  ? null
-                                  : 'Choisissez un moyen de payement';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all moyen de payements to get the selected moyen de payement id
-                              for (var moyenPayement in snapshot.data!) {
-                                if (moyenPayement.libelle == value) {
-                                  fieldControllers['depot'] = moyenPayement
-                                      .id; // save the new moyenPayement selected
-                                  print(
-                                      "Nouveau moyen de payement: $value, ${fieldControllers['depot']}, ${moyenPayement.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue:
-                                'Sélectionnez un moyen de payement',
-                            initialDropDownList: [
-                              'Sélectionnez un moyen de payement',
-                              // ? datas integration
-                              for (var moyenPayement in snapshot.data!)
-                                moyenPayement.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/cashier.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),
-                          placeholder: 'Sélectionnez un moyen de payement',
-                          textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      },
-                    )
-                  : Container(),
             ],
           );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter un moyen de payement',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -236,8 +162,6 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           MoyenPayementScreen(panelController: panelController),
           //todo: Profile Layout
@@ -247,14 +171,5 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
         ],
       ),
     );
-  }
-
-  Future<List<MoyenPayement>> fetchMoyenPayements() async {
-    // init API instance
-    Api api = Api();
-    // call API method getMoyenPayements
-    Future<List<MoyenPayement>> moyenPayements = api.getMoyenPayements(context);
-    // return results
-    return moyenPayements;
   }
 }

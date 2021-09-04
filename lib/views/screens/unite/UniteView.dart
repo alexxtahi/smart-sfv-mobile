@@ -43,10 +43,9 @@ class UniteViewState extends State<UniteView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +74,15 @@ class UniteViewState extends State<UniteView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'libelle': TextEditingController(),
-            'depot': '',
+            'qte': TextEditingController(),
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             scaffold.currentContext,
             formKey,
-            headerIcon: 'assets/img/icons/cashier.png',
-            title: 'Ajouter une nouvelle caisse',
-            successMessage: 'Nouvelle caisse ajouté !',
+            headerIcon: 'assets/img/icons/unity.png',
+            title: 'Ajouter une nouvelle unité',
+            successMessage: 'Nouvelle unité ajoutée !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
@@ -94,7 +93,9 @@ class UniteViewState extends State<UniteView> {
                   context: scaffold.currentContext,
                   // ? Create Unite instance from Json and pass it to the fucnction
                   unite: Unite.fromJson({
-                    'libelle_caisse': fieldControllers['libelle']
+                    'libelle_unité': fieldControllers['libelle']
+                        .text, // get libelle  // ! required
+                    'qte_unité': fieldControllers['qte']
                         .text, // get libelle  // ! required
                   }),
                 );
@@ -104,7 +105,7 @@ class UniteViewState extends State<UniteView> {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: scaffold.currentContext,
-                    message: 'Nouvelle caisse ajouté !',
+                    message: 'Nouvelle unité ajoutée !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -112,20 +113,19 @@ class UniteViewState extends State<UniteView> {
                     message: 'Un problème est survenu',
                   );
                 }
-                // ? Refresh caisse list
+                // ? Refresh unité list
                 setState(() {});
               }
             },
             formElements: [
-              //todo: TextFormField
+              //todo: Libellé TextFormField
               MyTextFormField(
+                keyboardType: TextInputType.text,
                 textEditingController: fieldControllers['libelle'],
                 validator: (value) {
-                  return value!.isNotEmpty
-                      ? null
-                      : 'Saisissez un nom de caisse';
+                  return value!.isNotEmpty ? null : "Saisissez un nom d'unité";
                 },
-                placeholder: 'Libellé de la caisse',
+                placeholder: "Libellé de l'unité",
                 prefixPadding: 10,
                 prefixIcon: Icon(
                   Icons.sort_by_alpha,
@@ -139,79 +139,32 @@ class UniteViewState extends State<UniteView> {
                 enableBorderColor: Colors.transparent,
               ),
               SizedBox(height: 10),
-              //todo: Dépot DropDownButton
-              (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<Unite>>(
-                      future: this.fetchUnites(),
-                      builder: (caisseComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! != 'Sélectionnez une caisse'
-                                  ? null
-                                  : 'Choisissez une caisse';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all caisses to get the selected caisse id
-                              for (var caisse in snapshot.data!) {
-                                if (caisse.libelle == value) {
-                                  fieldControllers['depot'] =
-                                      caisse.id; // save the new caisse selected
-                                  print(
-                                      "Nouveau caisse: $value, ${fieldControllers['depot']}, ${caisse.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue: 'Sélectionnez une caisse',
-                            initialDropDownList: [
-                              'Sélectionnez une caisse',
-                              // ? datas integration
-                              for (var caisse in snapshot.data!) caisse.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/cashier.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),
-                          placeholder: 'Sélectionnez une caisse',
-                          textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      },
-                    )
-                  : Container(),
+              //todo: Quantité TextFormField
+              MyTextFormField(
+                keyboardType: TextInputType.number,
+                textEditingController: fieldControllers['qte'],
+                validator: (value) {
+                  return value!.isNotEmpty ? null : "Saisissez une quantité";
+                },
+                placeholder: "Quantité de l'unité",
+                prefixPadding: 10,
+                prefixIcon: Icon(
+                  Icons.sort_by_alpha,
+                  color: Color.fromRGBO(60, 141, 188, 1),
+                ),
+                textColor: Color.fromRGBO(60, 141, 188, 1),
+                placeholderColor: Color.fromRGBO(60, 141, 188, 1),
+                fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                borderRadius: Radius.circular(10),
+                focusBorderColor: Colors.transparent,
+                enableBorderColor: Colors.transparent,
+              ),
             ],
           );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter une unité',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -233,8 +186,6 @@ class UniteViewState extends State<UniteView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           UniteScreen(panelController: panelController),
           //todo: Profile Layout
@@ -244,14 +195,5 @@ class UniteViewState extends State<UniteView> {
         ],
       ),
     );
-  }
-
-  Future<List<Unite>> fetchUnites() async {
-    // init API instance
-    Api api = Api();
-    // call API method getUnites
-    Future<List<Unite>> caisses = api.getUnites(context);
-    // return results
-    return caisses;
   }
 }

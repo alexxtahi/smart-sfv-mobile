@@ -43,9 +43,6 @@ class RangeeViewState extends State<RangeeView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
 
   @override
@@ -75,7 +72,6 @@ class RangeeViewState extends State<RangeeView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'libelle': TextEditingController(),
-            'depot': '',
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
@@ -104,7 +100,7 @@ class RangeeViewState extends State<RangeeView> {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: scaffold.currentContext,
-                    message: 'Nouveau rangee ajouté !',
+                    message: 'Nouvelle rangée ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -119,13 +115,14 @@ class RangeeViewState extends State<RangeeView> {
             formElements: [
               //todo: TextFormField
               MyTextFormField(
+                keyboardType: TextInputType.text,
                 textEditingController: fieldControllers['libelle'],
                 validator: (value) {
                   return value!.isNotEmpty
                       ? null
-                      : 'Saisissez un nom de rangee';
+                      : 'Saisissez un nom de rangée';
                 },
-                placeholder: 'Libellé du rangee',
+                placeholder: 'Libellé de la rangée',
                 prefixPadding: 10,
                 prefixIcon: Icon(
                   Icons.sort_by_alpha,
@@ -138,80 +135,12 @@ class RangeeViewState extends State<RangeeView> {
                 focusBorderColor: Colors.transparent,
                 enableBorderColor: Colors.transparent,
               ),
-              SizedBox(height: 10),
-              //todo: Dépot DropDownButton
-              (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<Rangee>>(
-                      future: this.fetchRangees(),
-                      builder: (rangeeComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! != 'Sélectionnez un rangee'
-                                  ? null
-                                  : 'Choisissez un rangee';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all rangees to get the selected rangee id
-                              for (var rangee in snapshot.data!) {
-                                if (rangee.libelle == value) {
-                                  fieldControllers['depot'] =
-                                      rangee.id; // save the new rangee selected
-                                  print(
-                                      "Nouveau rangee: $value, ${fieldControllers['depot']}, ${rangee.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue: 'Sélectionnez un rangee',
-                            initialDropDownList: [
-                              'Sélectionnez un rangee',
-                              // ? datas integration
-                              for (var rangee in snapshot.data!) rangee.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/above.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),
-                          placeholder: 'Sélectionnez un rangee',
-                          textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      },
-                    )
-                  : Container(),
             ],
           );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter une rangée',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -233,8 +162,6 @@ class RangeeViewState extends State<RangeeView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           RangeeScreen(panelController: panelController),
           //todo: Profile Layout
@@ -244,14 +171,5 @@ class RangeeViewState extends State<RangeeView> {
         ],
       ),
     );
-  }
-
-  Future<List<Rangee>> fetchRangees() async {
-    // init API instance
-    Api api = Api();
-    // call API method getRangees
-    Future<List<Rangee>> rangees = api.getRangees(context);
-    // return results
-    return rangees;
   }
 }

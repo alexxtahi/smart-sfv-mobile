@@ -55,17 +55,18 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
                 MyAppBar(
                   parentSetState: setstate,
                   panelController: widget.panelController,
-                  icon: 'assets/img/icons/above.png',
+                  icon: 'assets/img/icons/hand.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'CategorieDepenses',
+                  title: 'Catégories de dépenses',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
-                  placeholder: 'Rechercher un categorieDepense',
+                  placeholder: 'Rechercher une catégorie de dépenses',
                   textColor: Color.fromRGBO(60, 141, 188, 1),
                   placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                   cursorColor: Colors.black,
@@ -164,7 +165,7 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Liste des categorieDepenses',
+                          text: 'Les catégories de dépenses',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),

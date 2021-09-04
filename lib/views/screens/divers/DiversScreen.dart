@@ -54,13 +54,14 @@ class DiversScreenState extends State<DiversScreen> {
                 MyAppBar(
                   parentSetState: setstate,
                   panelController: widget.panelController,
-                  icon: 'assets/img/icons/above.png',
+                  icon: 'assets/img/icons/more.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'Diverss',
+                  title: 'Divers',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
@@ -163,7 +164,7 @@ class DiversScreenState extends State<DiversScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Liste des diverss',
+                          text: 'Liste des divers',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),

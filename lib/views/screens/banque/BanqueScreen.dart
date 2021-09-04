@@ -55,11 +55,12 @@ class BanqueScreenState extends State<BanqueScreen> {
                   panelController: widget.panelController,
                   icon: 'assets/img/icons/bank-building.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'Banque',
+                  title: 'Banques',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
@@ -182,11 +183,8 @@ class BanqueScreenState extends State<BanqueScreen> {
                             color: Color.fromRGBO(60, 141, 188, 1),
                             strokeWidth: 5,
                           ),
-                          /*Icon(
-                            Icons.refresh_rounded,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),*/
                         );
+                        // Launch relaoding
                         setState(() {});
                       },
                       icon: Icon(

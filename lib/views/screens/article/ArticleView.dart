@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Categorie.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/SousCategorie.dart';
@@ -47,6 +48,8 @@ class ArticleViewState extends State<ArticleView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
   @override
   Widget build(BuildContext context) {
     // Change system UI properties
@@ -103,60 +106,46 @@ class ArticleViewState extends State<ArticleView> {
             onValidate: () async {
               if (formKey.currentState!.validate()) {
                 // ? get fields datas
-                String codeBarre = (fieldControllers['codeBarre'].text)
-                    ? fieldControllers['codeBarre'].text
-                    : ''; // get code barre
-                String designation = fieldControllers['designation']
-                    .text; // get designation // ! required
-                String fournisseur =
-                    (fieldControllers['fournisseur'].text != null)
-                        ? fieldControllers['fournisseur'].text
-                        : ''; // get fournisseur
-                String categorie = fieldControllers['categorie']
-                    .toString(); // get categorie // ! required
-                String subCategorie = fieldControllers['subCategorie']
-                    .toString(); // get subCategorie
-                String stockMin = (fieldControllers['stockMin'].text != null)
-                    ? fieldControllers['stockMin'].text
-                    : ''; // get stockMin
-                int tva = fieldControllers['tva']; // get tva // ! required
-                int prixAchatTTC = int.parse(fieldControllers['prixAchatTTC']
-                    .text); // get prixAchatTTC // ! required
-                int prixAchatHT = int.parse(
-                    fieldControllers['prixAchatHT'].text); // get prixAchatTTC
-                int tauxMargeAchat = int.parse(
-                    fieldControllers['tauxMargeAchat']
-                        .text); // get tauxMargeAchat
-                int prixVenteTTC = int.parse(
-                    fieldControllers['prixVenteTTC'].text); // get prixVenteTTC
-                int prixVenteHT = int.parse(
-                    fieldControllers['prixVenteHT'].text); // get prixVenteTTC
-                int tauxMargeVente = int.parse(
-                    fieldControllers['tauxMargeVente']
-                        .text); // get tauxMargeVente
-                String imageArticle =
-                    fieldControllers['imageArticle'].text; // get imageArticle
-                bool stockable = fieldControllers['stockable']; // get stockable
+                Map<String, dynamic> articleDatas = {
+                  'code_barre': (fieldControllers['codeBarre'].text)
+                      ? fieldControllers['codeBarre'].text
+                      : '', // get code barre
+                  'designation': fieldControllers['designation']
+                      .text, // get designation // ! required
+                  'fournisseur': (fieldControllers['fournisseur'].text != null)
+                      ? fieldControllers['fournisseur'].text
+                      : '', // get fournisseur
+                  'categorie': fieldControllers['categorie']
+                      .toString(), // get categorie // ! required
+                  'sous_categorie': fieldControllers['subCategorie']
+                      .toString(), // get subCategorie
+                  'stock_mini': (fieldControllers['stockMin'].text != null)
+                      ? fieldControllers['stockMin'].text
+                      : '', // get stockMin
+                  'param_tva': fieldControllers['tva'], // get tva // ! required
+                  'prix_achat_ttc': int.parse(fieldControllers['prixAchatTTC']
+                      .text), // get prixAchatTTC // ! required
+                  'prix_achat_ht': int.parse(
+                      fieldControllers['prixAchatHT'].text), // get prixAchatTTC
+                  'tauxMargeAchat': int.parse(fieldControllers['tauxMargeAchat']
+                      .text), // get tauxMargeAchat
+                  'prix_vente_ttc_base': int.parse(
+                      fieldControllers['prixVenteTTC']
+                          .text), // get prixVenteTTC
+                  'prix_vente_ht': int.parse(
+                      fieldControllers['prixVenteHT'].text), // get prixVenteTTC
+                  'tauxMargeVente': int.parse(fieldControllers['tauxMargeVente']
+                      .text), // get tauxMargeVente
+                  'image':
+                      fieldControllers['imageArticle'].text, // get imageArticle
+                  'stockable': fieldControllers['stockable'], // get stockable
+                };
                 // ? sending datas to API
                 Api api = Api();
                 final Map<String, dynamic> postArticleResponse =
                     await api.postArticle(
-                  scaffold.currentContext,
-                  codeBarre: codeBarre,
-                  designation: designation,
-                  fournisseur: fournisseur,
-                  categorie: categorie,
-                  subCategorie: subCategorie,
-                  stockMin: stockMin,
-                  tva: tva,
-                  prixAchatTTC: prixAchatTTC,
-                  prixAchatHT: prixAchatHT,
-                  tauxMargeAchat: tauxMargeAchat,
-                  prixVenteTTC: prixVenteTTC,
-                  prixVenteHT: prixVenteHT,
-                  tauxMargeVente: tauxMargeVente,
-                  imageArticle: imageArticle,
-                  stockable: stockable,
+                  context: scaffold.currentContext,
+                  article: Article.fromJson(articleDatas),
                 );
                 // ? check the server response
                 if (postArticleResponse['msg'] ==
@@ -272,7 +261,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Pays DropDown
                   (ScreenController.actualView != "LoginView")
                       ? FutureBuilder<List<Fournisseur>>(
-                          future: this.fetchFournisseurs(),
+                          future: api.getFournisseurs(context),
                           builder: (fournisseurComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get providers datas from server
@@ -360,7 +349,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Categorie DropDown
                   (ScreenController.actualView != "LoginView")
                       ? FutureBuilder<List<Categorie>>(
-                          future: this.fetchCategories(),
+                          future: api.getCategories(context),
                           builder: (categoryComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get providers datas from server
@@ -439,7 +428,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: SousCategorie DropDown
                   (ScreenController.actualView != "LoginView")
                       ? FutureBuilder<List<SousCategorie>>(
-                          future: this.fetchSousCategories(),
+                          future: api.getSousCategories(context),
                           builder: (sousCategorieComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get providers datas from server
@@ -559,7 +548,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Tva DropDown
                   (ScreenController.actualView != "LoginView")
                       ? FutureBuilder<List<Tva>>(
-                          future: this.fetchTvas(),
+                          future: api.getTvas(context),
                           builder: (tvaComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get providers datas from server
@@ -957,8 +946,6 @@ class ArticleViewState extends State<ArticleView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           ArticleScreen(panelController: panelController),
           //todo: Profile Layout
@@ -968,41 +955,5 @@ class ArticleViewState extends State<ArticleView> {
         ],
       ),
     );
-  }
-
-  Future<List<Fournisseur>> fetchFournisseurs() async {
-    // init API instance
-    Api api = Api();
-    // call API method getFournisseurs
-    Future<List<Fournisseur>> fournisseurs = api.getFournisseurs(context);
-    // return results
-    return fournisseurs;
-  }
-
-  Future<List<Categorie>> fetchCategories() async {
-    // init API instance
-    Api api = Api();
-    // call API method getCategories
-    Future<List<Categorie>> categories = api.getCategories(context);
-    // return results
-    return categories;
-  }
-
-  Future<List<SousCategorie>> fetchSousCategories() async {
-    // init API instance
-    Api api = Api();
-    // call API method getSousCategories
-    Future<List<SousCategorie>> subcategories = api.getSousCategories(context);
-    // return results
-    return subcategories;
-  }
-
-  Future<List<Tva>>? fetchTvas() async {
-    // init API instance
-    Api api = Api();
-    // call API method getTvas
-    Future<List<Tva>> tvas = api.getTvas(context);
-    // return results
-    return tvas;
   }
 }

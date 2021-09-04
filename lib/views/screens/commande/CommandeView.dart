@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/views/screens/commande/CommandeScreen.dart';
 
@@ -93,8 +92,6 @@ class CommandeViewState extends State<CommandeView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           CommandeScreen(panelController: panelController),
           //todo: Profile Layout

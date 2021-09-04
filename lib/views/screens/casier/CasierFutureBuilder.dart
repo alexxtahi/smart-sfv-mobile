@@ -16,12 +16,14 @@ class CasierFutureBuilder extends StatefulWidget {
 class CasierFutureBuilderState extends State<CasierFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Casier>>(
-            future: this.fetchCasiers(),
+            future: api.getCasiers(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of casier is empty or not
@@ -140,7 +142,6 @@ class CasierFutureBuilderState extends State<CasierFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -167,7 +168,7 @@ class CasierFutureBuilderState extends State<CasierFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des casiers',
+                      semanticsLabel: 'Chargement des casiers...',
                     ),
                   ],
                 ),
@@ -175,14 +176,5 @@ class CasierFutureBuilderState extends State<CasierFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Casier>> fetchCasiers() async {
-    // init API instance
-    Api api = Api();
-    // call API method getCasiers
-    Future<List<Casier>> casiers = api.getCasiers(context);
-    // return results
-    return casiers;
   }
 }

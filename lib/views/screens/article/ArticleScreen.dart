@@ -24,6 +24,8 @@ class ArticleScreenState extends State<ArticleScreen> {
   TextEditingController textEditingController = TextEditingController();
   String searchBy = 'Par nom';
   String searchByIcon = 'sort-az';
+  // init API instance
+  Api api = Api();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -63,6 +65,7 @@ class ArticleScreenState extends State<ArticleScreen> {
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
@@ -105,7 +108,7 @@ class ArticleScreenState extends State<ArticleScreen> {
                       //todo: Catégories DropDown
                       (ScreenController.actualView != "LoginView")
                           ? FutureBuilder<List<Categorie>>(
-                              future: this.fetchCategories(),
+                              future: api.getCategories(context),
                               builder: (comboBoxContext, snapshot) {
                                 if (snapshot.hasData) {
                                   // ? get nations datas from server
@@ -355,14 +358,5 @@ class ArticleScreenState extends State<ArticleScreen> {
         ),
       ),
     );
-  }
-
-  Future<List<Categorie>> fetchCategories() async {
-    // init API instance
-    Api api = Api();
-    // call API method getCategories
-    Future<List<Categorie>> categories = api.getCategories(context);
-    // return results
-    return categories;
   }
 }

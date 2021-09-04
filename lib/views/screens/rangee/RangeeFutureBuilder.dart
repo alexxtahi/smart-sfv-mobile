@@ -16,12 +16,15 @@ class RangeeFutureBuilder extends StatefulWidget {
 class RangeeFutureBuilderState extends State<RangeeFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Rangee>>(
-            future: this.fetchRangees(),
+            future: api.getRangees(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of rangee is empty or not
@@ -49,7 +52,7 @@ class RangeeFutureBuilderState extends State<RangeeFutureBuilder> {
                                 Flexible(
                                   child: MyText(
                                     text:
-                                        "Vous n'avez pas encore enregistré de rangées. Remplissez le formulaire d'ajout pour en ajouter.",
+                                        "Vous n'avez pas encore enregistré de rangée. Remplissez le formulaire d'ajout pour en ajouter.",
                                     textAlign: TextAlign.center,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(60, 141, 188, 0.5),
@@ -140,7 +143,6 @@ class RangeeFutureBuilderState extends State<RangeeFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -167,7 +169,7 @@ class RangeeFutureBuilderState extends State<RangeeFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des rangées',
+                      semanticsLabel: 'Chargement des rangées...',
                     ),
                   ],
                 ),
@@ -175,14 +177,5 @@ class RangeeFutureBuilderState extends State<RangeeFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Rangee>> fetchRangees() async {
-    // init API instance
-    Api api = Api();
-    // call API method getRangees
-    Future<List<Rangee>> rangees = api.getRangees(context);
-    // return results
-    return rangees;
   }
 }

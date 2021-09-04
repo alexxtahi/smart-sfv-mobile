@@ -16,12 +16,14 @@ class CategorieFutureBuilder extends StatefulWidget {
 class CategorieFutureBuilderState extends State<CategorieFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Categorie>>(
-            future: this.fetchCategories(),
+            future: api.getCategories(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of caisses is empty or not
@@ -140,7 +142,6 @@ class CategorieFutureBuilderState extends State<CategorieFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -151,7 +152,7 @@ class CategorieFutureBuilderState extends State<CategorieFutureBuilder> {
               } else if (snapshot.hasError) {
                 functions.errorSnackbar(
                   context: context,
-                  message: 'Echec de récupération des caisses',
+                  message: 'Echec de récupération des catégories',
                 );
                 return MyText(
                   text: snapshot.error.toString(),
@@ -167,7 +168,7 @@ class CategorieFutureBuilderState extends State<CategorieFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des caisses',
+                      semanticsLabel: 'Chargement des catégories...',
                     ),
                   ],
                 ),
@@ -175,14 +176,5 @@ class CategorieFutureBuilderState extends State<CategorieFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Categorie>> fetchCategories() async {
-    // init API instance
-    Api api = Api();
-    // call API method getCategories
-    Future<List<Categorie>> caisses = api.getCategories(context);
-    // return results
-    return caisses;
   }
 }

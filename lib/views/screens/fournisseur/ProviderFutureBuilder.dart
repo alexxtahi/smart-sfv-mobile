@@ -17,11 +17,13 @@ class ProviderFutureBuilder extends StatefulWidget {
 class ProviderFutureBuilderState extends State<ProviderFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Fournisseur>>(
-            future: this.fetchFournisseurs(),
+            future: api.getFournisseurs(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of clients is empty or not
@@ -49,7 +51,7 @@ class ProviderFutureBuilderState extends State<ProviderFutureBuilder> {
                                 Flexible(
                                   child: MyText(
                                     text:
-                                        "Vous n'avez pas encore de fournisseurs. Remplissez le formulaire d'ajout pour en ajouter.",
+                                        "Vous n'avez pas encore de fournisseur. Remplissez le formulaire d'ajout pour en ajouter.",
                                     textAlign: TextAlign.center,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(187, 0, 0, 0.5),
@@ -129,7 +131,6 @@ class ProviderFutureBuilderState extends State<ProviderFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -156,7 +157,7 @@ class ProviderFutureBuilderState extends State<ProviderFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des fournisseurs',
+                      semanticsLabel: 'Chargement des fournisseurs...',
                     ),
                   ],
                 ),
@@ -164,14 +165,5 @@ class ProviderFutureBuilderState extends State<ProviderFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Fournisseur>>? fetchFournisseurs() async {
-    // init API instance
-    Api api = Api();
-    // call API method getFournisseurs
-    Future<List<Fournisseur>> fournisseurs = api.getFournisseurs(context);
-    // return results
-    return fournisseurs;
   }
 }

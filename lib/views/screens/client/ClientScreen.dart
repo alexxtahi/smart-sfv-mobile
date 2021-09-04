@@ -28,6 +28,8 @@ class ClientScreenState extends State<ClientScreen> {
   List<bool> filtres = [
     for (var i = 0; i < 10; i++) true,
   ];
+  // init API instance
+  Api api = Api();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -67,6 +69,7 @@ class ClientScreenState extends State<ClientScreen> {
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
@@ -109,7 +112,7 @@ class ClientScreenState extends State<ClientScreen> {
                       //todo: Pays DropDown
                       (ScreenController.actualView != "LoginView")
                           ? FutureBuilder<List<Pays>>(
-                              future: this.fetchCountries(),
+                              future: api.getPays(context),
                               builder: (paysComboBoxContext, snapshot) {
                                 if (snapshot.hasData) {
                                   // ? get nations datas from server
@@ -294,14 +297,5 @@ class ClientScreenState extends State<ClientScreen> {
         ),
       ),
     );
-  }
-
-  Future<List<Pays>> fetchCountries() async {
-    // init API instance
-    Api api = Api();
-    // call API method getPays
-    Future<List<Pays>> countries = api.getPays(context);
-    // return results
-    return countries;
   }
 }

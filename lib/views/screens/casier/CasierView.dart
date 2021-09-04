@@ -40,13 +40,12 @@ class CasierViewState extends State<CasierView> {
     super.dispose();
   }
 
-  ///The controller of sliding up panel
+  //The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -139,79 +138,12 @@ class CasierViewState extends State<CasierView> {
                 enableBorderColor: Colors.transparent,
               ),
               SizedBox(height: 10),
-              //todo: Dépot DropDownButton
-              (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<Casier>>(
-                      future: this.fetchCasiers(),
-                      builder: (casierComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! != 'Sélectionnez un casier'
-                                  ? null
-                                  : 'Choisissez un casier';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all casiers to get the selected casier id
-                              for (var casier in snapshot.data!) {
-                                if (casier.libelle == value) {
-                                  fieldControllers['depot'] =
-                                      casier.id; // save the new casier selected
-                                  print(
-                                      "Nouveau casier: $value, ${fieldControllers['depot']}, ${casier.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue: 'Sélectionnez un casier',
-                            initialDropDownList: [
-                              'Sélectionnez un casier',
-                              // ? datas integration
-                              for (var casier in snapshot.data!) casier.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/locker.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),
-                          placeholder: 'Sélectionnez un casier',
-                          textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      },
-                    )
-                  : Container(),
             ],
           );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter un casier',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -233,8 +165,6 @@ class CasierViewState extends State<CasierView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           CasierScreen(panelController: panelController),
           //todo: Profile Layout
@@ -244,14 +174,5 @@ class CasierViewState extends State<CasierView> {
         ],
       ),
     );
-  }
-
-  Future<List<Casier>> fetchCasiers() async {
-    // init API instance
-    Api api = Api();
-    // call API method getCasiers
-    Future<List<Casier>> casiers = api.getCasiers(context);
-    // return results
-    return casiers;
   }
 }

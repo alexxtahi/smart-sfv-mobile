@@ -61,6 +61,7 @@ class RayonScreenState extends State<RayonScreen> {
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
@@ -163,7 +164,7 @@ class RayonScreenState extends State<RayonScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Les rayons',
+                          text: 'Liste des rayons',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),

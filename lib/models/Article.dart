@@ -1,55 +1,70 @@
+import 'package:smartsfv/models/Categorie.dart';
+import 'package:smartsfv/models/Fournisseur.dart';
+import 'package:smartsfv/models/SousCategorie.dart';
+
 class Article {
   // todo: Properties
+  int id;
   String codeBarre;
   String description;
-  String categorie;
-  String subCategorie;
+  String designation;
+  Categorie categorie;
+  SousCategorie? sousCategorie;
   int qteEnStock;
   int prixAchatTTC;
   int prixAchatHT;
+  int tauxMargeAchat;
   int prixVenteTTC;
   int prixVenteHT;
-  String fournisseur;
+  int tauxMargeVente;
+  Fournisseur? fournisseur;
   int tva;
   int stockMin;
   String datePeremption;
   String libelleDepot;
   String libelleUnite;
   String datePeremptions;
+  String image;
+  bool stockable;
   // todo: Constructor
   Article({
+    this.id = 0,
     this.codeBarre = '',
     this.description = '',
-    this.categorie = '',
-    this.subCategorie = '',
+    this.designation = '',
+    required this.categorie,
+    this.sousCategorie,
     this.qteEnStock = 0,
     this.prixAchatTTC = 0,
     this.prixAchatHT = 0,
+    this.tauxMargeAchat = 0,
     this.prixVenteTTC = 0,
     this.prixVenteHT = 0,
-    this.fournisseur = '',
+    this.tauxMargeVente = 0,
+    this.fournisseur,
     this.tva = 0,
     this.stockMin = 0,
     this.datePeremption = '',
     this.libelleDepot = '',
     this.libelleUnite = '',
     this.datePeremptions = '',
+    this.image = '',
+    this.stockable = true,
   });
   // todo: Methods
   // get data from json method
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
+      id: (json['id'] != null) ? json['id'] as int : 0,
       codeBarre:
           (json['code_barre'] != null) ? json['code_barre'] as String : '',
       description: (json['description_article'] != null)
           ? json['description_article'] as String
           : '',
       categorie: (json['categorie'] != null)
-          ? json['categorie']['libelle_categorie'] as String
-          : '',
-      subCategorie: (json['sous_categorie'] != null)
-          ? json['sous_categorie']['libelle_sous_categorie'] as String
-          : '',
+          ? Categorie.fromJson(json['categorie'])
+          : Categorie(),
+      sousCategorie: SousCategorie.fromJson(json['sous_categorie']), // nullable
       qteEnStock: (json['quantite_en_stock'] != null)
           ? json['quantite_en_stock'] as int
           : 0,
@@ -60,10 +75,7 @@ class Article {
           ? json['prix_vente_ttc_base'] as int
           : 0,
       //prixVenteHT: json[''] as int,
-      fournisseur:
-          (json['fournisseurs'] != null && json['fournisseurs'][0] != null)
-              ? json['fournisseurs'][0]['full_name_fournisseur'] as String
-              : '',
+      fournisseur: Fournisseur.fromJson(json['fournisseurs'][0]),
       //tva: json['param_tva'] as int,
       stockMin: (json['stock_mini'] != null) ? json['stock_mini'] as int : 0,
       datePeremption: (json['date_peremption'] != null)
@@ -83,5 +95,26 @@ class Article {
               .replaceAll('T00:00:00.000000Z', '')
           : '',
     );
+  }
+  // return to Map
+  static Map<String, dynamic> toMap(Article article) {
+    return <String, dynamic>{
+      //'id': 0,
+      'code_barre': article.codeBarre,
+      'designation': article.designation,
+      'fournisseur': article.fournisseur,
+      'categorie': article.categorie,
+      'subCategorie': article.sousCategorie,
+      'stockMin': article.stockMin,
+      'tva': article.tva,
+      'prixAchatTTC': article.prixAchatTTC,
+      'prixAchatHT': article.prixAchatHT,
+      'tauxMargeAchat': article.tauxMargeAchat,
+      'prixVenteTTC': article.prixVenteTTC,
+      'prixVenteHT': article.prixVenteHT,
+      'tauxMargeVente': article.tauxMargeVente,
+      'imageArticle': article.image,
+      'stockable': article.stockable.toString(),
+    };
   }
 }

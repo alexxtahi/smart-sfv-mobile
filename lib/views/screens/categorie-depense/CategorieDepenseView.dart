@@ -43,10 +43,9 @@ class CategorieDepenseViewState extends State<CategorieDepenseView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +74,14 @@ class CategorieDepenseViewState extends State<CategorieDepenseView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'libelle': TextEditingController(),
-            'depot': '',
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             scaffold.currentContext,
             formKey,
-            headerIcon: 'assets/img/icons/above.png',
-            title: 'Ajouter une nouvelle categorieDepense',
-            successMessage: 'Nouvelle categorieDepense ajouté !',
+            headerIcon: 'assets/img/icons/hand.png',
+            title: 'Ajouter une nouvelle catégorie de dépenses',
+            successMessage: 'Nouvelle catégorie de dépenses ajoutée !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
@@ -104,7 +102,7 @@ class CategorieDepenseViewState extends State<CategorieDepenseView> {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: scaffold.currentContext,
-                    message: 'Nouveau categorieDepense ajouté !',
+                    message: 'Nouvelle catégorie de dépenses ajoutée !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -123,9 +121,9 @@ class CategorieDepenseViewState extends State<CategorieDepenseView> {
                 validator: (value) {
                   return value!.isNotEmpty
                       ? null
-                      : 'Saisissez un nom de categorieDepense';
+                      : 'Saisissez un nom de catégorie de dépenses';
                 },
-                placeholder: 'Libellé du categorieDepense',
+                placeholder: 'Libellé de la catégorie de dépenses',
                 prefixPadding: 10,
                 prefixIcon: Icon(
                   Icons.sort_by_alpha,
@@ -139,82 +137,12 @@ class CategorieDepenseViewState extends State<CategorieDepenseView> {
                 enableBorderColor: Colors.transparent,
               ),
               SizedBox(height: 10),
-              //todo: Dépot DropDownButton
-              (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<CategorieDepense>>(
-                      future: this.fetchCategorieDepenses(),
-                      builder: (categorieDepenseComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! !=
-                                      'Sélectionnez un categorieDepense'
-                                  ? null
-                                  : 'Choisissez un categorieDepense';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all categorieDepenses to get the selected categorieDepense id
-                              for (var categorieDepense in snapshot.data!) {
-                                if (categorieDepense.libelle == value) {
-                                  fieldControllers['depot'] = categorieDepense
-                                      .id; // save the new categorieDepense selected
-                                  print(
-                                      "Nouveau categorieDepense: $value, ${fieldControllers['depot']}, ${categorieDepense.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue:
-                                'Sélectionnez un categorieDepense',
-                            initialDropDownList: [
-                              'Sélectionnez un categorieDepense',
-                              // ? datas integration
-                              for (var categorieDepense in snapshot.data!)
-                                categorieDepense.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/above.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),
-                          placeholder: 'Sélectionnez un categorieDepense',
-                          textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      },
-                    )
-                  : Container(),
             ],
           );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter une catégorie de dépenses',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -236,8 +164,6 @@ class CategorieDepenseViewState extends State<CategorieDepenseView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           CategorieDepenseScreen(panelController: panelController),
           //todo: Profile Layout
@@ -247,15 +173,5 @@ class CategorieDepenseViewState extends State<CategorieDepenseView> {
         ],
       ),
     );
-  }
-
-  Future<List<CategorieDepense>> fetchCategorieDepenses() async {
-    // init API instance
-    Api api = Api();
-    // call API method getCategorieDepenses
-    Future<List<CategorieDepense>> categorieDepenses =
-        api.getCategorieDepenses(context);
-    // return results
-    return categorieDepenses;
   }
 }

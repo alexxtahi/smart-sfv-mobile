@@ -54,17 +54,18 @@ class UniteScreenState extends State<UniteScreen> {
                 MyAppBar(
                   parentSetState: setstate,
                   panelController: widget.panelController,
-                  icon: 'assets/img/icons/sub-category.png',
+                  icon: 'assets/img/icons/unity.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'Unites',
+                  title: 'Unités',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
-                  placeholder: 'Rechercher une sous catégorie',
+                  placeholder: 'Rechercher une unité',
                   textColor: Color.fromRGBO(60, 141, 188, 1),
                   placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                   cursorColor: Colors.black,
@@ -163,7 +164,7 @@ class UniteScreenState extends State<UniteScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Liste des sous catégories',
+                          text: 'Liste des unités',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),

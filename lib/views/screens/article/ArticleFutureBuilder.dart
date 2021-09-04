@@ -17,11 +17,13 @@ class ArticleFutureBuilder extends StatefulWidget {
 class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Article>>(
-            future: this.fetchArticle(),
+            future: api.getArticles(context),
             builder: (dataTablecontext, snapshot) {
               if (snapshot.hasData) {
                 return (snapshot.data!.isEmpty)
@@ -108,7 +110,7 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                                       .toString(),
                                                   article.codeBarre,
                                                   article.description,
-                                                  article.categorie,
+                                                  article.categorie.libelle,
                                                   article.qteEnStock.toString(),
                                                   article.prixAchatTTC
                                                       .toString(),
@@ -118,7 +120,8 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                                       .toString(),
                                                   article.prixVenteHT
                                                       .toString(),
-                                                  article.fournisseur,
+                                                  article.fournisseur!.nom
+                                                      .toString(),
                                                   article.tva.toString(),
                                                   article.stockMin.toString(),
                                                 ],
@@ -127,7 +130,6 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -164,14 +166,5 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Article>>? fetchArticle() async {
-    // init API instance
-    Api api = Api();
-    // call API method getArticles
-    Future<List<Article>> articles = api.getArticles(context);
-    // return results
-    return articles;
   }
 }

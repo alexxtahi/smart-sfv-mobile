@@ -9,7 +9,6 @@ import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
-import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/views/screens/fournisseur/ProviderScreen.dart';
 import 'package:smartsfv/functions.dart' as functions;
@@ -46,6 +45,9 @@ class ProviderViewState extends State<ProviderView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     // Change system UI properties
@@ -125,7 +127,7 @@ class ProviderViewState extends State<ProviderView> {
                   context: scaffold.currentContext,
                   // ? Create Fournisseur instance from Json and pass it to the fucnction
                   fournisseur: Fournisseur.fromJson({
-                    'id': 0,
+                    //'id': 0,
                     'full_name_fournisseur': fieldControllers['name']
                         .text, // get name  // ! required
                     'contact_fournisseur': fieldControllers['contact']
@@ -312,7 +314,7 @@ class ProviderViewState extends State<ProviderView> {
                   //todo: Pays DropDown
                   (ScreenController.actualView != "LoginView")
                       ? FutureBuilder<List<Pays>>(
-                          future: this.fetchCountries(),
+                          future: api.getPays(context),
                           builder: (paysComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get nations datas from server
@@ -454,7 +456,7 @@ class ProviderViewState extends State<ProviderView> {
                   //todo: Banque DropDown
                   (ScreenController.actualView != "LoginView")
                       ? FutureBuilder<List<Banque>>(
-                          future: this.fetchBanques(),
+                          future: api.getBanques(context),
                           builder: (banqueComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get nations datas from server
@@ -614,8 +616,6 @@ class ProviderViewState extends State<ProviderView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           ProviderScreen(panelController: panelController),
           //todo: Profile Layout
@@ -625,23 +625,5 @@ class ProviderViewState extends State<ProviderView> {
         ],
       ),
     );
-  }
-
-  Future<List<Pays>> fetchCountries() async {
-    // init API instance
-    Api api = Api();
-    // call API method getPays
-    Future<List<Pays>> countries = api.getPays(context);
-    // return results
-    return countries;
-  }
-
-  Future<List<Banque>> fetchBanques() async {
-    // init API instance
-    Api api = Api();
-    // call API method getBanques
-    Future<List<Banque>> banques = api.getBanques(context);
-    // return results
-    return banques;
   }
 }

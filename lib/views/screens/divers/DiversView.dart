@@ -43,10 +43,9 @@ class DiversViewState extends State<DiversView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +74,14 @@ class DiversViewState extends State<DiversView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'libelle': TextEditingController(),
-            'depot': '',
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             scaffold.currentContext,
             formKey,
-            headerIcon: 'assets/img/icons/above.png',
-            title: 'Ajouter une nouvelle ranéee',
-            successMessage: 'Nouvelle divers ajouté !',
+            headerIcon: 'assets/img/icons/more.png',
+            title: 'Ajouter un nouveau divers',
+            successMessage: 'Nouveau divers ajouté !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
@@ -138,80 +136,12 @@ class DiversViewState extends State<DiversView> {
                 focusBorderColor: Colors.transparent,
                 enableBorderColor: Colors.transparent,
               ),
-              SizedBox(height: 10),
-              //todo: Dépot DropDownButton
-              (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<Divers>>(
-                      future: this.fetchDiverss(),
-                      builder: (diversComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! != 'Sélectionnez un divers'
-                                  ? null
-                                  : 'Choisissez un divers';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all diverss to get the selected divers id
-                              for (var divers in snapshot.data!) {
-                                if (divers.libelle == value) {
-                                  fieldControllers['depot'] =
-                                      divers.id; // save the new divers selected
-                                  print(
-                                      "Nouveau divers: $value, ${fieldControllers['depot']}, ${divers.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue: 'Sélectionnez un divers',
-                            initialDropDownList: [
-                              'Sélectionnez un divers',
-                              // ? datas integration
-                              for (var divers in snapshot.data!) divers.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/above.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),
-                          placeholder: 'Sélectionnez un divers',
-                          textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      },
-                    )
-                  : Container(),
             ],
           );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter un divers',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -233,8 +163,6 @@ class DiversViewState extends State<DiversView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           DiversScreen(panelController: panelController),
           //todo: Profile Layout
@@ -244,14 +172,5 @@ class DiversViewState extends State<DiversView> {
         ],
       ),
     );
-  }
-
-  Future<List<Divers>> fetchDiverss() async {
-    // init API instance
-    Api api = Api();
-    // call API method getDiverss
-    Future<List<Divers>> diverss = api.getDivers(context);
-    // return results
-    return diverss;
   }
 }

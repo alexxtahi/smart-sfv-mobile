@@ -17,11 +17,13 @@ class BanqueFutureBuilderState extends State<BanqueFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   ScrollController listViewScrollController = new ScrollController();
+  // init API instance
+  Api api = Api();
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Banque>>(
-            future: this.fetchBanques(),
+            future: api.getBanques(context),
             builder: (listViewContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of banques is empty or not
@@ -140,7 +142,6 @@ class BanqueFutureBuilderState extends State<BanqueFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -167,7 +168,7 @@ class BanqueFutureBuilderState extends State<BanqueFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des banques',
+                      semanticsLabel: 'Chargement des banques...',
                     ),
                   ],
                 ),
@@ -175,14 +176,5 @@ class BanqueFutureBuilderState extends State<BanqueFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Banque>> fetchBanques() async {
-    // init API instance
-    Api api = Api();
-    // call API method getBanques
-    Future<List<Banque>> banques = api.getBanques(context);
-    // return results
-    return banques;
   }
 }

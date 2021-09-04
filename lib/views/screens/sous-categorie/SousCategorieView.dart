@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Categorie.dart';
 import 'package:smartsfv/models/SousCategorie.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
@@ -44,9 +45,16 @@ class SousCategorieViewState extends State<SousCategorieView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
   bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
+  String dropDownValue = 'Sélectionner une catégorie';
+  List<String> depotlist = [
+    'Sélectionner une catégorie',
+    'Two',
+    'Free',
+    'Four',
+  ];
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -81,9 +89,9 @@ class SousCategorieViewState extends State<SousCategorieView> {
           functions.showFormDialog(
             scaffold.currentContext,
             formKey,
-            headerIcon: 'assets/img/icons/cashier.png',
-            title: 'Ajouter une nouvelle caisse',
-            successMessage: 'Nouvelle caisse ajouté !',
+            headerIcon: 'assets/img/icons/sub-category.png',
+            title: 'Ajouter une nouvelle sous catégorie',
+            successMessage: 'Nouvelle sous catégorie ajouté !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
@@ -94,7 +102,7 @@ class SousCategorieViewState extends State<SousCategorieView> {
                   context: scaffold.currentContext,
                   // ? Create SousCategorie instance from Json and pass it to the fucnction
                   sousCategorie: SousCategorie.fromJson({
-                    'libelle_caisse': fieldControllers['libelle']
+                    'libelle_sous_categorie': fieldControllers['libelle']
                         .text, // get libelle  // ! required
                   }),
                 );
@@ -104,7 +112,7 @@ class SousCategorieViewState extends State<SousCategorieView> {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: scaffold.currentContext,
-                    message: 'Nouvelle caisse ajouté !',
+                    message: 'Nouvelle sous catégorie ajoutée !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -112,20 +120,21 @@ class SousCategorieViewState extends State<SousCategorieView> {
                     message: 'Un problème est survenu',
                   );
                 }
-                // ? Refresh caisse list
+                // ? Refresh sous catégorie list
                 setState(() {});
               }
             },
             formElements: [
               //todo: TextFormField
               MyTextFormField(
+                keyboardType: TextInputType.text,
                 textEditingController: fieldControllers['libelle'],
                 validator: (value) {
                   return value!.isNotEmpty
                       ? null
-                      : 'Saisissez un nom de caisse';
+                      : 'Saisissez un nom de sous catégorie';
                 },
-                placeholder: 'Libellé de la caisse',
+                placeholder: 'Libellé de la sous catégorie',
                 prefixPadding: 10,
                 prefixIcon: Icon(
                   Icons.sort_by_alpha,
@@ -139,40 +148,41 @@ class SousCategorieViewState extends State<SousCategorieView> {
                 enableBorderColor: Colors.transparent,
               ),
               SizedBox(height: 10),
-              //todo: Dépot DropDownButton
+              //todo: Catégorie DropDownButton
               (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<SousCategorie>>(
-                      future: this.fetchSousCategories(),
-                      builder: (caisseComboBoxContext, snapshot) {
+                  ? FutureBuilder<List<Categorie>>(
+                      future: api.getCategories(context),
+                      builder: (sousCategorieComboBoxContext, snapshot) {
                         if (snapshot.hasData) {
                           // ? get nations datas from server
                           return MyComboBox(
                             validator: (value) {
-                              return value! != 'Sélectionnez une caisse'
+                              return value! != 'Sélectionnez une catégorie'
                                   ? null
-                                  : 'Choisissez une caisse';
+                                  : 'Choisissez une catégorie';
                             },
                             onChanged: (value) {
-                              // ? Iterate all caisses to get the selected caisse id
-                              for (var caisse in snapshot.data!) {
-                                if (caisse.libelle == value) {
-                                  fieldControllers['depot'] =
-                                      caisse.id; // save the new caisse selected
+                              // ? Iterate all catégories to get the selected catégorie id
+                              for (var categorie in snapshot.data!) {
+                                if (categorie.libelle == value) {
+                                  fieldControllers['categorie'] = categorie
+                                      .id; // save the new catégorie selected
                                   print(
-                                      "Nouveau caisse: $value, ${fieldControllers['depot']}, ${caisse.id}");
+                                      "Nouveau catégorie: $value, ${fieldControllers['categorie']}, ${categorie.id}");
                                   break;
                                 }
                               }
                             },
-                            initialDropDownValue: 'Sélectionnez une caisse',
+                            initialDropDownValue: 'Sélectionnez une catégorie',
                             initialDropDownList: [
-                              'Sélectionnez une caisse',
+                              'Sélectionnez une catégorie',
                               // ? datas integration
-                              for (var caisse in snapshot.data!) caisse.libelle,
+                              for (var categorie in snapshot.data!)
+                                categorie.libelle,
                             ],
                             prefixPadding: 10,
                             prefixIcon: Image.asset(
-                              'assets/img/icons/cashier.png',
+                              'assets/img/icons/category.png',
                               fit: BoxFit.contain,
                               width: 15,
                               height: 15,
@@ -189,13 +199,13 @@ class SousCategorieViewState extends State<SousCategorieView> {
                         return MyTextFormField(
                           prefixPadding: 10,
                           prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
+                            'assets/img/icons/category.png',
                             fit: BoxFit.contain,
                             width: 15,
                             height: 15,
                             color: Color.fromRGBO(60, 141, 188, 1),
                           ),
-                          placeholder: 'Sélectionnez une caisse',
+                          placeholder: 'Sélectionnez une catégorie',
                           textColor: Color.fromRGBO(60, 141, 188, 1),
                           placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                           fillColor: Color.fromRGBO(60, 141, 188, 0.15),
@@ -211,7 +221,7 @@ class SousCategorieViewState extends State<SousCategorieView> {
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter une sous catégorie',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -233,8 +243,6 @@ class SousCategorieViewState extends State<SousCategorieView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           SousCategorieScreen(panelController: panelController),
           //todo: Profile Layout
@@ -244,14 +252,5 @@ class SousCategorieViewState extends State<SousCategorieView> {
         ],
       ),
     );
-  }
-
-  Future<List<SousCategorie>> fetchSousCategories() async {
-    // init API instance
-    Api api = Api();
-    // call API method getSousCategories
-    Future<List<SousCategorie>> caisses = api.getSousCategories(context);
-    // return results
-    return caisses;
   }
 }

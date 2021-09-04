@@ -17,12 +17,15 @@ class UniteFutureBuilder extends StatefulWidget {
 class UniteFutureBuilderState extends State<UniteFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Unite>>(
-            future: this.fetchUnites(),
+            future: api.getUnites(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of sous categories is empty or not
@@ -106,7 +109,6 @@ class UniteFutureBuilderState extends State<UniteFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -117,7 +119,7 @@ class UniteFutureBuilderState extends State<UniteFutureBuilder> {
               } else if (snapshot.hasError) {
                 functions.errorSnackbar(
                   context: context,
-                  message: 'Echec de récupération des sous categories',
+                  message: 'Echec de récupération des unités',
                 );
                 return MyText(
                   text: snapshot.error.toString(),
@@ -133,7 +135,7 @@ class UniteFutureBuilderState extends State<UniteFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des sous categories',
+                      semanticsLabel: 'Chargement des unités...',
                     ),
                   ],
                 ),
@@ -141,14 +143,5 @@ class UniteFutureBuilderState extends State<UniteFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Unite>> fetchUnites() async {
-    // init API instance
-    Api api = Api();
-    // call API method getUnites
-    Future<List<Unite>> unites = api.getUnites(context);
-    // return results
-    return unites;
   }
 }

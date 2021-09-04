@@ -16,12 +16,15 @@ class DiversFutureBuilder extends StatefulWidget {
 class DiversFutureBuilderState extends State<DiversFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Divers>>(
-            future: this.fetchDiverss(),
+            future: api.getDivers(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of divers is empty or not
@@ -49,7 +52,7 @@ class DiversFutureBuilderState extends State<DiversFutureBuilder> {
                                 Flexible(
                                   child: MyText(
                                     text:
-                                        "Vous n'avez pas encore enregistré de diverss. Remplissez le formulaire d'ajout pour en ajouter.",
+                                        "Vous n'avez pas encore enregistré de divers. Remplissez le formulaire d'ajout pour en ajouter.",
                                     textAlign: TextAlign.center,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(60, 141, 188, 0.5),
@@ -140,7 +143,6 @@ class DiversFutureBuilderState extends State<DiversFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -151,7 +153,7 @@ class DiversFutureBuilderState extends State<DiversFutureBuilder> {
               } else if (snapshot.hasError) {
                 functions.errorSnackbar(
                   context: context,
-                  message: 'Echec de récupération des diverss',
+                  message: 'Echec de récupération des divers',
                 );
                 return MyText(
                   text: snapshot.error.toString(),
@@ -167,7 +169,7 @@ class DiversFutureBuilderState extends State<DiversFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des diverss',
+                      semanticsLabel: 'Chargement des divers',
                     ),
                   ],
                 ),
@@ -175,14 +177,5 @@ class DiversFutureBuilderState extends State<DiversFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Divers>> fetchDiverss() async {
-    // init API instance
-    Api api = Api();
-    // call API method getDiverss
-    Future<List<Divers>> diverss = api.getDivers(context);
-    // return results
-    return diverss;
   }
 }

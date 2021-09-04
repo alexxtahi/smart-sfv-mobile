@@ -3,6 +3,7 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Tva.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
@@ -65,8 +66,8 @@ class TvaScreenState extends State<TvaScreen> {
                 Form(
                   key: formKey,
                   child: MyTextFormField(
-                    focusNode: FocusNode(),
                     keyboardType: TextInputType.number,
+                    focusNode: FocusNode(),
                     textEditingController: this.textEditingController,
                     borderRadius: Radius.circular(20),
                     placeholder: 'Ajouter une taxe',
@@ -91,16 +92,16 @@ class TvaScreenState extends State<TvaScreen> {
                         FocusScope.of(context).requestFocus(FocusNode());
                         // ? Add new tax when validator is ok
                         if (formKey.currentState!.validate()) {
-                          // ? get fields datas
-                          String tva = this
-                              .textEditingController
-                              .text; // get tva  // ! required
                           // ? sending datas to API
                           Api api = Api();
                           final Map<String, dynamic> postTvaResponse =
                               await api.postTva(
-                            scaffold.currentContext,
-                            tva,
+                            context: scaffold.currentContext,
+                            tva: Tva.fromJson({
+                              'montant_tva': this
+                                  .textEditingController
+                                  .text, // get tva  // ! required
+                            }),
                           );
                           // ? check the server response
                           if (postTvaResponse['msg'] ==

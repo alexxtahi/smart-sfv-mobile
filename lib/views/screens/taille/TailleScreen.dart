@@ -54,17 +54,18 @@ class TailleScreenState extends State<TailleScreen> {
                 MyAppBar(
                   parentSetState: setstate,
                   panelController: widget.panelController,
-                  icon: 'assets/img/icons/above.png',
+                  icon: 'assets/img/icons/package.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
                   title: 'Tailles',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
-                  placeholder: 'Rechercher un taille',
+                  placeholder: 'Rechercher une taille',
                   textColor: Color.fromRGBO(60, 141, 188, 1),
                   placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                   cursorColor: Colors.black,

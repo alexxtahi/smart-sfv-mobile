@@ -43,8 +43,10 @@ class RegimeViewState extends State<RegimeView> {
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
   TextEditingController regimeController = TextEditingController();
-  bool isNewBankEmpty = false;
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     // Change system UI properties
@@ -181,8 +183,6 @@ class RegimeViewState extends State<RegimeView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           RegimeScreen(panelController: panelController),
           //todo: Profile Layout

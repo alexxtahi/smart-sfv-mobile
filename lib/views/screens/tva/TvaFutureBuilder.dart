@@ -16,12 +16,15 @@ class TvaFutureBuilder extends StatefulWidget {
 class TvaFutureBuilderState extends State<TvaFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Tva>>(
-            future: this.fetchTvas(),
+            future: api.getTvas(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of Tvas is empty or not
@@ -143,7 +146,6 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -170,7 +172,7 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(60, 141, 188, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des taxes',
+                      semanticsLabel: 'Chargement des taxes...',
                     ),
                   ],
                 ),
@@ -178,14 +180,5 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Tva>>? fetchTvas() async {
-    // init API instance
-    Api api = Api();
-    // call API method getTvas
-    Future<List<Tva>> tvas = api.getTvas(context);
-    // return results
-    return tvas;
   }
 }

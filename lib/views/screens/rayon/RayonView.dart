@@ -43,9 +43,6 @@ class RayonViewState extends State<RayonView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
 
   @override
@@ -75,13 +72,12 @@ class RayonViewState extends State<RayonView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'libelle': TextEditingController(),
-            'depot': '',
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             scaffold.currentContext,
             formKey,
-            headerIcon: 'assets/img/icons/cashier.png',
+            headerIcon: 'assets/img/icons/section.png',
             title: 'Ajouter un nouveau rayon',
             successMessage: 'Nouvelle rayon ajouté !',
             padding: EdgeInsets.all(20),
@@ -119,6 +115,7 @@ class RayonViewState extends State<RayonView> {
             formElements: [
               //todo: TextFormField
               MyTextFormField(
+                keyboardType: TextInputType.text,
                 textEditingController: fieldControllers['libelle'],
                 validator: (value) {
                   return value!.isNotEmpty ? null : 'Saisissez un nom de rayon';
@@ -137,79 +134,12 @@ class RayonViewState extends State<RayonView> {
                 enableBorderColor: Colors.transparent,
               ),
               SizedBox(height: 10),
-              //todo: Dépot DropDownButton
-              (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<Rayon>>(
-                      future: this.fetchRayons(),
-                      builder: (rayonComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! != 'Sélectionnez un rayon'
-                                  ? null
-                                  : 'Choisissez un rayon';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all rayons to get the selected rayon id
-                              for (var rayon in snapshot.data!) {
-                                if (rayon.libelle == value) {
-                                  fieldControllers['depot'] =
-                                      rayon.id; // save the new rayon selected
-                                  print(
-                                      "Nouveau rayon: $value, ${fieldControllers['depot']}, ${rayon.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue: 'Sélectionnez un rayon',
-                            initialDropDownList: [
-                              'Sélectionnez un rayon',
-                              // ? datas integration
-                              for (var rayon in snapshot.data!) rayon.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/section.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),
-                          placeholder: 'Sélectionnez un rayon',
-                          textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      },
-                    )
-                  : Container(),
             ],
           );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter un rayon',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -231,8 +161,6 @@ class RayonViewState extends State<RayonView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           RayonScreen(panelController: panelController),
           //todo: Profile Layout
@@ -242,14 +170,5 @@ class RayonViewState extends State<RayonView> {
         ],
       ),
     );
-  }
-
-  Future<List<Rayon>> fetchRayons() async {
-    // init API instance
-    Api api = Api();
-    // call API method getRayons
-    Future<List<Rayon>> rayons = api.getRayons(context);
-    // return results
-    return rayons;
   }
 }

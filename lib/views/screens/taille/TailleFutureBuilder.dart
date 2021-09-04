@@ -16,12 +16,15 @@ class TailleFutureBuilder extends StatefulWidget {
 class TailleFutureBuilderState extends State<TailleFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Taille>>(
-            future: this.fetchTailles(),
+            future: api.getTailles(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of taille is empty or not
@@ -49,7 +52,7 @@ class TailleFutureBuilderState extends State<TailleFutureBuilder> {
                                 Flexible(
                                   child: MyText(
                                     text:
-                                        "Vous n'avez pas encore enregistré de tailles. Remplissez le formulaire d'ajout pour en ajouter.",
+                                        "Vous n'avez pas encore enregistré de taille. Remplissez le formulaire d'ajout pour en ajouter.",
                                     textAlign: TextAlign.center,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(60, 141, 188, 0.5),
@@ -140,7 +143,6 @@ class TailleFutureBuilderState extends State<TailleFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -167,7 +169,7 @@ class TailleFutureBuilderState extends State<TailleFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des tailles',
+                      semanticsLabel: 'Chargement des tailles...',
                     ),
                   ],
                 ),
@@ -175,14 +177,5 @@ class TailleFutureBuilderState extends State<TailleFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Taille>> fetchTailles() async {
-    // init API instance
-    Api api = Api();
-    // call API method getTailles
-    Future<List<Taille>> tailles = api.getTailles(context);
-    // return results
-    return tailles;
   }
 }

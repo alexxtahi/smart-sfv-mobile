@@ -6,7 +6,6 @@ import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Banque.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
-import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/screens/banque/BanqueScreen.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/functions.dart' as functions;
@@ -130,6 +129,7 @@ class BanqueViewState extends State<BanqueView> {
                   SizedBox(height: 5),
                   //todo: Libelle TextFormField
                   MyTextFormField(
+                    keyboardType: TextInputType.text,
                     textEditingController: bankController,
                     validator: (value) {
                       return value!.isNotEmpty
@@ -180,8 +180,6 @@ class BanqueViewState extends State<BanqueView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           BanqueScreen(panelController: panelController),
           //todo: Profile Layout

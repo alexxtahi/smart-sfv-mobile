@@ -63,8 +63,6 @@ class PaysViewState extends State<PaysView> {
       key: scaffold,
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           PaysScreen(panelController: panelController),
           //todo: Profile Layout

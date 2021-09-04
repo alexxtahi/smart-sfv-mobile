@@ -12,7 +12,14 @@ class Tva {
   factory Tva.fromJson(Map<String, dynamic> json) {
     return Tva(
       id: json['id'] as int,
-      percent: json['libelle_tva'] as double,
+      percent: json['montant_tva'] as double,
     );
+  }
+  // return to Map
+  static Map<String, dynamic> toMap(Tva tva) {
+    return <String, dynamic>{
+      //'id': tva.id,
+      'montant_tva': tva.percent.toInt(),
+    };
   }
 }

@@ -18,12 +18,15 @@ class MoyenPayementFutureBuilderState
     extends State<MoyenPayementFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
-  ScrollController listViewScrollController = new ScrollController();
+  ScrollController listViewScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<MoyenPayement>>(
-            future: this.fetchMoyenPayements(),
+            future: api.getMoyenPayements(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of caisses is empty or not
@@ -142,7 +145,6 @@ class MoyenPayementFutureBuilderState
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -169,7 +171,7 @@ class MoyenPayementFutureBuilderState
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des moyens de payement',
+                      semanticsLabel: 'Chargement des moyens de payement...',
                     ),
                   ],
                 ),
@@ -177,14 +179,5 @@ class MoyenPayementFutureBuilderState
             },
           )
         : Container();
-  }
-
-  Future<List<MoyenPayement>> fetchMoyenPayements() async {
-    // init API instance
-    Api api = Api();
-    // call API method getMoyenPayements
-    Future<List<MoyenPayement>> moyenPayement = api.getMoyenPayements(context);
-    // return results
-    return moyenPayement;
   }
 }

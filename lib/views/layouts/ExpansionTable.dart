@@ -249,8 +249,8 @@ class ExpansionTableState extends State<ExpansionTable> {
                               for (var article in snapshot.data!.getRange(0, 5))
                                 [
                                   article.description,
-                                  article.categorie,
-                                  article.subCategorie,
+                                  article.categorie.libelle,
+                                  article.sousCategorie!.libelle,
                                   article.qteEnStock.toString(),
                                   article.libelleDepot,
                                 ],
@@ -258,8 +258,8 @@ class ExpansionTableState extends State<ExpansionTable> {
                               for (var article in snapshot.data!)
                                 [
                                   article.description,
-                                  article.categorie,
-                                  article.subCategorie,
+                                  article.categorie.libelle,
+                                  article.sousCategorie!.libelle,
                                   article.qteEnStock.toString(),
                                   article.libelleDepot,
                                 ],

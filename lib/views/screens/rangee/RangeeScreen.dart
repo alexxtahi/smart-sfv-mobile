@@ -56,15 +56,16 @@ class RangeeScreenState extends State<RangeeScreen> {
                   panelController: widget.panelController,
                   icon: 'assets/img/icons/above.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'Rangees',
+                  title: 'Rangées',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
-                  placeholder: 'Rechercher un rangée',
+                  placeholder: 'Rechercher une rangée',
                   textColor: Color.fromRGBO(60, 141, 188, 1),
                   placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                   cursorColor: Colors.black,

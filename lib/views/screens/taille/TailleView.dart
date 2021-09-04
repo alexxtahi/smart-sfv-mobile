@@ -40,13 +40,12 @@ class TailleViewState extends State<TailleView> {
     super.dispose();
   }
 
-  ///The controller of sliding up panel
+  //The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
-  String dropDownValue = 'Sélectionner un dépôt';
-  List<String> depotlist = ['Sélectionner un dépôt', 'Two', 'Free', 'Four'];
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +74,14 @@ class TailleViewState extends State<TailleView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'libelle': TextEditingController(),
-            'depot': '',
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             scaffold.currentContext,
             formKey,
-            headerIcon: 'assets/img/icons/above.png',
-            title: 'Ajouter une nouvelle ranéee',
-            successMessage: 'Nouvelle taille ajouté !',
+            headerIcon: 'assets/img/icons/package.png',
+            title: 'Ajouter une nouvelle taille',
+            successMessage: 'Nouvelle taille ajoutée !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
@@ -104,7 +102,7 @@ class TailleViewState extends State<TailleView> {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: scaffold.currentContext,
-                    message: 'Nouveau taille ajouté !',
+                    message: 'Nouvelle taille ajoutée !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -125,7 +123,7 @@ class TailleViewState extends State<TailleView> {
                       ? null
                       : 'Saisissez un nom de taille';
                 },
-                placeholder: 'Libellé du taille',
+                placeholder: 'Libellé de la taille',
                 prefixPadding: 10,
                 prefixIcon: Icon(
                   Icons.sort_by_alpha,
@@ -138,80 +136,12 @@ class TailleViewState extends State<TailleView> {
                 focusBorderColor: Colors.transparent,
                 enableBorderColor: Colors.transparent,
               ),
-              SizedBox(height: 10),
-              //todo: Dépot DropDownButton
-              (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<Taille>>(
-                      future: this.fetchTailles(),
-                      builder: (tailleComboBoxContext, snapshot) {
-                        if (snapshot.hasData) {
-                          // ? get nations datas from server
-                          return MyComboBox(
-                            validator: (value) {
-                              return value! != 'Sélectionnez un taille'
-                                  ? null
-                                  : 'Choisissez un taille';
-                            },
-                            onChanged: (value) {
-                              // ? Iterate all tailles to get the selected taille id
-                              for (var taille in snapshot.data!) {
-                                if (taille.libelle == value) {
-                                  fieldControllers['depot'] =
-                                      taille.id; // save the new taille selected
-                                  print(
-                                      "Nouveau taille: $value, ${fieldControllers['depot']}, ${taille.id}");
-                                  break;
-                                }
-                              }
-                            },
-                            initialDropDownValue: 'Sélectionnez un taille',
-                            initialDropDownList: [
-                              'Sélectionnez un taille',
-                              // ? datas integration
-                              for (var taille in snapshot.data!) taille.libelle,
-                            ],
-                            prefixPadding: 10,
-                            prefixIcon: Image.asset(
-                              'assets/img/icons/above.png',
-                              fit: BoxFit.contain,
-                              width: 15,
-                              height: 15,
-                              color: Color.fromRGBO(60, 141, 188, 1),
-                            ),
-                            textColor: Color.fromRGBO(60, 141, 188, 1),
-                            fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                            borderRadius: Radius.circular(10),
-                            focusBorderColor: Colors.transparent,
-                            enableBorderColor: Colors.transparent,
-                          );
-                        }
-                        // ? on wait the combo with data load empty combo
-                        return MyTextFormField(
-                          prefixPadding: 10,
-                          prefixIcon: Image.asset(
-                            'assets/img/icons/cashier.png',
-                            fit: BoxFit.contain,
-                            width: 15,
-                            height: 15,
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                          ),
-                          placeholder: 'Sélectionnez un taille',
-                          textColor: Color.fromRGBO(60, 141, 188, 1),
-                          placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                          fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                          borderRadius: Radius.circular(10),
-                          focusBorderColor: Colors.transparent,
-                          enableBorderColor: Colors.transparent,
-                        );
-                      },
-                    )
-                  : Container(),
             ],
           );
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un régime',
+          message: 'Ajouter une taille',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -233,8 +163,6 @@ class TailleViewState extends State<TailleView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           TailleScreen(panelController: panelController),
           //todo: Profile Layout
@@ -244,14 +172,5 @@ class TailleViewState extends State<TailleView> {
         ],
       ),
     );
-  }
-
-  Future<List<Taille>> fetchTailles() async {
-    // init API instance
-    Api api = Api();
-    // call API method getTailles
-    Future<List<Taille>> tailles = api.getTailles(context);
-    // return results
-    return tailles;
   }
 }

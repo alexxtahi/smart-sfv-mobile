@@ -17,11 +17,14 @@ class ClientFutureBuilder extends StatefulWidget {
 class ClientFutureBuilderState extends State<ClientFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
+  // init API instance
+  Api api = Api();
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
         ? FutureBuilder<List<Client>>(
-            future: this.fetchClients(),
+            future: api.getClients(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of clients is empty or not
@@ -120,7 +123,6 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -147,7 +149,7 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(60, 141, 188, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des clients',
+                      semanticsLabel: 'Chargement des clients...',
                     ),
                   ],
                 ),
@@ -155,14 +157,5 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
             },
           )
         : Container();
-  }
-
-  Future<List<Client>>? fetchClients() async {
-    // init API instance
-    Api api = Api();
-    // call API method getClients
-    Future<List<Client>> clients = api.getClients(context);
-    // return results
-    return clients;
   }
 }

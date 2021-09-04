@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
@@ -42,9 +43,11 @@ class ClientViewState extends State<ClientView> {
     super.dispose();
   }
 
-  ///The controller of sliding up panel
+  //The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   GlobalKey scaffold = GlobalKey();
+  // init API instance
+  Api api = Api();
   @override
   Widget build(BuildContext context) {
     // Change system UI properties
@@ -92,49 +95,43 @@ class ClientViewState extends State<ClientView> {
             onValidate: () async {
               if (formKey.currentState!.validate()) {
                 // ? get fields datas
-                String name =
-                    fieldControllers['name'].text; // get name  // ! required
-                String contact = fieldControllers['contact']
-                    .text; // get contact // ! required
-                String email = (fieldControllers['email'].text != null)
-                    ? fieldControllers['email'].text
-                    : ''; // get email
-                String pays = fieldControllers['pays']
-                    .toString(); // get pays // ! required
-                String geoAdr = (fieldControllers['geoAdr'].text != null)
-                    ? fieldControllers['geoAdr'].text
-                    : ''; // get geoAdr
-                String postalAdr = (fieldControllers['postalAdr'].text != null)
-                    ? fieldControllers['postalAdr'].text
-                    : ''; // get postalAdr
-                String regime = fieldControllers['regime']
-                    .toString(); // get regime // ! required
-                String montantPlafond =
-                    (fieldControllers['montantPlafond'].text != null)
-                        ? fieldControllers['montantPlafond'].text
-                        : ''; // get montant plafond
-                String fax = (fieldControllers['fax'].text != null)
-                    ? fieldControllers['fax'].text
-                    : ''; // get fax
-                String compteContrib =
-                    (fieldControllers['compteContrib'].text != null)
-                        ? fieldControllers['compteContrib'].text
-                        : ''; // get compte contribuable
+                Map<String, dynamic> clientDatas = {
+                  'full_name_client':
+                      fieldControllers['name'].text, // get name  // ! required
+                  'contact_client': fieldControllers['contact']
+                      .text, // get contact // ! required
+                  'email_client': (fieldControllers['email'].text != null)
+                      ? fieldControllers['email'].text
+                      : '', // get email
+                  'nation_id': fieldControllers['pays']
+                      .toString(), // get pays // ! required
+                  'adresse_client': (fieldControllers['geoAdr'].text != null)
+                      ? fieldControllers['geoAdr'].text
+                      : '', // get geoAdr
+                  'boite_postale_client':
+                      (fieldControllers['postalAdr'].text != null)
+                          ? fieldControllers['postalAdr'].text
+                          : '', // get postalAdr
+                  'regime_id': fieldControllers['regime']
+                      .toString(), // get regime // ! required
+                  'plafond_client':
+                      (fieldControllers['montantPlafond'].text != null)
+                          ? fieldControllers['montantPlafond'].text
+                          : '', // get montant plafond
+                  'fax_client': (fieldControllers['fax'].text != null)
+                      ? fieldControllers['fax'].text
+                      : '', // get fax
+                  'compte_contribuable_client':
+                      (fieldControllers['compteContrib'].text != null)
+                          ? fieldControllers['compteContrib'].text
+                          : '', // get compte contribuable
+                };
                 // ? sending datas to API
                 Api api = Api();
                 final Map<String, dynamic> postClientResponse =
                     await api.postClient(
-                  scaffold.currentContext,
-                  name,
-                  contact,
-                  pays,
-                  regime,
-                  email: email,
-                  geoAdr: geoAdr,
-                  postalAdr: postalAdr,
-                  montantPlafond: montantPlafond,
-                  fax: fax,
-                  compteContrib: compteContrib,
+                  context: scaffold.currentContext,
+                  client: Client.fromJson(clientDatas),
                 );
                 // ? check the server response
                 if (postClientResponse['msg'] ==
@@ -299,7 +296,7 @@ class ClientViewState extends State<ClientView> {
                   //todo: Pays DropDown
                   (ScreenController.actualView != "LoginView")
                       ? FutureBuilder<List<Pays>>(
-                          future: this.fetchCountries(),
+                          future: api.getPays(context),
                           builder: (paysComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get nations datas from server
@@ -402,7 +399,7 @@ class ClientViewState extends State<ClientView> {
                 children: [
                   //todo: Postal address label
                   MyText(
-                    text: 'Adresse postale',
+                    text: 'Boite postale',
                     color: Color.fromRGBO(0, 27, 121, 1),
                     fontWeight: FontWeight.bold,
                   ),
@@ -435,7 +432,7 @@ class ClientViewState extends State<ClientView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       MyText(
-                        text: 'Regime',
+                        text: 'Régime',
                         color: Color.fromRGBO(0, 27, 121, 1),
                         fontWeight: FontWeight.bold,
                       ),
@@ -449,7 +446,7 @@ class ClientViewState extends State<ClientView> {
                   //todo: Regime DropDown
                   (ScreenController.actualView != "LoginView")
                       ? FutureBuilder<List<Regime>>(
-                          future: this.fetchRegimes(),
+                          future: api.getRegimes(context),
                           builder: (regimeComboBoxContext, snapshot) {
                             if (snapshot.hasData) {
                               // ? get nations datas from server
@@ -634,8 +631,6 @@ class ClientViewState extends State<ClientView> {
       ),
       body: Stack(
         children: [
-          //todo: Drawer Screen
-          DrawerLayout(panelController: panelController),
           //todo: Home Screen
           ClientScreen(panelController: panelController),
           //todo: Profile Layout
@@ -645,23 +640,5 @@ class ClientViewState extends State<ClientView> {
         ],
       ),
     );
-  }
-
-  Future<List<Pays>> fetchCountries() async {
-    // init API instance
-    Api api = Api();
-    // call API method getPays
-    Future<List<Pays>> countries = api.getPays(context);
-    // return results
-    return countries;
-  }
-
-  Future<List<Regime>> fetchRegimes() async {
-    // init API instance
-    Api api = Api();
-    // call API method getRegimes
-    Future<List<Regime>> regimes = api.getRegimes(context);
-    // return results
-    return regimes;
   }
 }

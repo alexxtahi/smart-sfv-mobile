@@ -31,7 +31,7 @@ class CommandeFutureBuilderState extends State<CommandeFutureBuilder> {
                     ? ErrorLayout(
                         image: 'assets/img/icons/no-wifi.png',
                         message:
-                            "Nous n'arrivons à charger vos commandes. Vérifiez votre connexion internet.",
+                            "Nous n'arrivons pas à charger vos commandes. Vérifiez votre connexion internet.",
                       )
                     : Expanded(
                         child: FadingEdgeScrollView.fromSingleChildScrollView(
@@ -84,7 +84,6 @@ class CommandeFutureBuilderState extends State<CommandeFutureBuilder> {
                                         ),
                                       ),
                                     ),
-                                    //return Text(snapshot.data.imgPlat);
                                   ],
                                 ),
                               ],
@@ -100,7 +99,7 @@ class CommandeFutureBuilderState extends State<CommandeFutureBuilder> {
                 return ErrorLayout(
                   image: 'assets/img/icons/no-wifi.png',
                   message:
-                      "Nous n'arrivons à charger vos commandes. Vérifiez votre connexion internet.",
+                      "Nous n'arrivons pas à charger vos commandes. Vérifiez votre connexion internet.",
                 );
               }
 
@@ -112,7 +111,7 @@ class CommandeFutureBuilderState extends State<CommandeFutureBuilder> {
                     LinearProgressIndicator(
                       color: Color.fromRGBO(0, 27, 121, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des commandes',
+                      semanticsLabel: 'Chargement des commandes...',
                     ),
                   ],
                 ),

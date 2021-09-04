@@ -21,6 +21,7 @@ class MyTextField extends StatefulWidget {
   final void Function()? onTap;
   final void Function()? onEditingComplete;
   final void Function(String)? onSubmitted;
+  final TextInputType? keyboardType;
   MyTextField({
     Key? key,
     this.inputType = '',
@@ -42,6 +43,7 @@ class MyTextField extends StatefulWidget {
     this.onTap,
     this.onEditingComplete,
     this.onSubmitted,
+    this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -52,6 +54,7 @@ class MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      keyboardType: widget.keyboardType,
       focusNode: widget.focusNode,
       onSubmitted: widget.onSubmitted,
       obscureText: (widget.inputType == 'password') ? true : false,

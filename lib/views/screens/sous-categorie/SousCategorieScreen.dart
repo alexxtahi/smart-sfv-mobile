@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
@@ -57,11 +58,12 @@ class SousCategorieScreenState extends State<SousCategorieScreen> {
                   panelController: widget.panelController,
                   icon: 'assets/img/icons/sub-category.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'SousCategories',
+                  title: 'Sous Catégories',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
                 MyTextField(
+                  keyboardType: TextInputType.text,
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
@@ -164,7 +166,7 @@ class SousCategorieScreenState extends State<SousCategorieScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Liste des sous catégories',
+                          text: 'Les sous catégories',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),
