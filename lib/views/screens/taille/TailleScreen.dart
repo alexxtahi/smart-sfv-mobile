@@ -7,18 +7,17 @@ import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
-import 'package:smartsfv/views/screens/moyen-payement/MoyenPayementFutureBuilder.dart';
+import 'package:smartsfv/views/screens/taille/TailleFutureBuilder.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class MoyenPayementScreen extends StatefulWidget {
+class TailleScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
-  MoyenPayementScreen({Key? key, required this.panelController})
-      : super(key: key);
+  TailleScreen({Key? key, required this.panelController}) : super(key: key);
   @override
-  MoyenPayementScreenState createState() => MoyenPayementScreenState();
+  TailleScreenState createState() => TailleScreenState();
 }
 
-class MoyenPayementScreenState extends State<MoyenPayementScreen> {
+class TailleScreenState extends State<TailleScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
@@ -55,9 +54,9 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                 MyAppBar(
                   parentSetState: setstate,
                   panelController: widget.panelController,
-                  icon: 'assets/img/icons/wallet.png',
+                  icon: 'assets/img/icons/above.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'Moyens de payement',
+                  title: 'Tailles',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
@@ -65,7 +64,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
-                  placeholder: 'Rechercher un moyen de payement',
+                  placeholder: 'Rechercher un taille',
                   textColor: Color.fromRGBO(60, 141, 188, 1),
                   placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                   cursorColor: Colors.black,
@@ -164,7 +163,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Les moyens de payement',
+                          text: 'Liste des tailles',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),
@@ -197,7 +196,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                 ),
                 SizedBox(height: 10),
                 //todo: Scrolling View
-                MoyenPayementFutureBuilder(),
+                TailleFutureBuilder(),
               ],
             ),
           ),

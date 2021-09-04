@@ -3,28 +3,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/MoyenPayement.dart';
+import 'package:smartsfv/models/Rayon.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/functions.dart' as functions;
-import 'package:smartsfv/views/screens/moyen-payement/MoyenPayementScreen.dart';
+import 'package:smartsfv/views/screens/rayon/RayonScreen.dart';
 
-class MoyenPayementView extends StatefulWidget {
-  MoyenPayementView({Key? key}) : super(key: key);
+class RayonView extends StatefulWidget {
+  RayonView({Key? key}) : super(key: key);
   @override
-  MoyenPayementViewState createState() => MoyenPayementViewState();
+  RayonViewState createState() => RayonViewState();
 }
 
-class MoyenPayementViewState extends State<MoyenPayementView> {
+class RayonViewState extends State<RayonView> {
   //todo: Method called when the view is launching
   @override
   void initState() {
     super.initState();
     // ? Launching configs
     if (ScreenController.actualView != "LoginView") {
-      ScreenController.actualView = "MoyenPayementView";
+      ScreenController.actualView = "RayonView";
       ScreenController.isChildView = true;
     }
   }
@@ -82,29 +82,29 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
             scaffold.currentContext,
             formKey,
             headerIcon: 'assets/img/icons/cashier.png',
-            title: 'Ajouter un nouveau moyen de payement',
-            successMessage: 'Nouvelle moyen de payement ajouté !',
+            title: 'Ajouter un nouveau rayon',
+            successMessage: 'Nouvelle rayon ajouté !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
                 // ? sending datas to API
                 Api api = Api();
-                final Map<String, dynamic> postMoyenPayementResponse =
-                    await api.postMoyenPayement(
+                final Map<String, dynamic> postRayonResponse =
+                    await api.postRayon(
                   context: scaffold.currentContext,
-                  // ? Create MoyenPayement instance from Json and pass it to the fucnction
-                  moyenPayement: MoyenPayement.fromJson({
-                    'libelle_moyen_payement': fieldControllers['libelle']
+                  // ? Create Rayon instance from Json and pass it to the fucnction
+                  rayon: Rayon.fromJson({
+                    'libelle_rayon': fieldControllers['libelle']
                         .text, // get libelle  // ! required
                   }),
                 );
                 // ? check the server response
-                if (postMoyenPayementResponse['msg'] ==
+                if (postRayonResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: scaffold.currentContext,
-                    message: 'Nouveau moyen de payement ajouté !',
+                    message: 'Nouveau rayon ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -112,7 +112,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
                     message: 'Un problème est survenu',
                   );
                 }
-                // ? Refresh moyen de payement list
+                // ? Refresh rayon list
                 setState(() {});
               }
             },
@@ -121,11 +121,9 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
               MyTextFormField(
                 textEditingController: fieldControllers['libelle'],
                 validator: (value) {
-                  return value!.isNotEmpty
-                      ? null
-                      : 'Saisissez un nom de moyen de payement';
+                  return value!.isNotEmpty ? null : 'Saisissez un nom de rayon';
                 },
-                placeholder: 'Libellé du moyen de payement',
+                placeholder: 'Libellé du rayon',
                 prefixPadding: 10,
                 prefixIcon: Icon(
                   Icons.sort_by_alpha,
@@ -141,41 +139,38 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
               SizedBox(height: 10),
               //todo: Dépot DropDownButton
               (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<MoyenPayement>>(
-                      future: this.fetchMoyenPayements(),
-                      builder: (moyenPayementComboBoxContext, snapshot) {
+                  ? FutureBuilder<List<Rayon>>(
+                      future: this.fetchRayons(),
+                      builder: (rayonComboBoxContext, snapshot) {
                         if (snapshot.hasData) {
                           // ? get nations datas from server
                           return MyComboBox(
                             validator: (value) {
-                              return value! !=
-                                      'Sélectionnez un moyen de payement'
+                              return value! != 'Sélectionnez un rayon'
                                   ? null
-                                  : 'Choisissez un moyen de payement';
+                                  : 'Choisissez un rayon';
                             },
                             onChanged: (value) {
-                              // ? Iterate all moyen de payements to get the selected moyen de payement id
-                              for (var moyenPayement in snapshot.data!) {
-                                if (moyenPayement.libelle == value) {
-                                  fieldControllers['depot'] = moyenPayement
-                                      .id; // save the new moyenPayement selected
+                              // ? Iterate all rayons to get the selected rayon id
+                              for (var rayon in snapshot.data!) {
+                                if (rayon.libelle == value) {
+                                  fieldControllers['depot'] =
+                                      rayon.id; // save the new rayon selected
                                   print(
-                                      "Nouveau moyen de payement: $value, ${fieldControllers['depot']}, ${moyenPayement.id}");
+                                      "Nouveau rayon: $value, ${fieldControllers['depot']}, ${rayon.id}");
                                   break;
                                 }
                               }
                             },
-                            initialDropDownValue:
-                                'Sélectionnez un moyen de payement',
+                            initialDropDownValue: 'Sélectionnez un rayon',
                             initialDropDownList: [
-                              'Sélectionnez un moyen de payement',
+                              'Sélectionnez un rayon',
                               // ? datas integration
-                              for (var moyenPayement in snapshot.data!)
-                                moyenPayement.libelle,
+                              for (var rayon in snapshot.data!) rayon.libelle,
                             ],
                             prefixPadding: 10,
                             prefixIcon: Image.asset(
-                              'assets/img/icons/cashier.png',
+                              'assets/img/icons/section.png',
                               fit: BoxFit.contain,
                               width: 15,
                               height: 15,
@@ -198,7 +193,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
                             height: 15,
                             color: Color.fromRGBO(60, 141, 188, 1),
                           ),
-                          placeholder: 'Sélectionnez un moyen de payement',
+                          placeholder: 'Sélectionnez un rayon',
                           textColor: Color.fromRGBO(60, 141, 188, 1),
                           placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                           fillColor: Color.fromRGBO(60, 141, 188, 0.15),
@@ -239,7 +234,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
           //todo: Drawer Screen
           DrawerLayout(panelController: panelController),
           //todo: Home Screen
-          MoyenPayementScreen(panelController: panelController),
+          RayonScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
             panelController: panelController,
@@ -249,12 +244,12 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
     );
   }
 
-  Future<List<MoyenPayement>> fetchMoyenPayements() async {
+  Future<List<Rayon>> fetchRayons() async {
     // init API instance
     Api api = Api();
-    // call API method getMoyenPayements
-    Future<List<MoyenPayement>> moyenPayements = api.getMoyenPayements(context);
+    // call API method getRayons
+    Future<List<Rayon>> rayons = api.getRayons(context);
     // return results
-    return moyenPayements;
+    return rayons;
   }
 }

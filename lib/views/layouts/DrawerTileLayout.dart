@@ -5,9 +5,12 @@ import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/views/screens/article/ArticleView.dart';
 import 'package:smartsfv/views/screens/banque/BanqueView.dart';
 import 'package:smartsfv/views/screens/caisse/CaisseView.dart';
+import 'package:smartsfv/views/screens/casier/CasierView.dart';
+import 'package:smartsfv/views/screens/categorie-depense/CategorieDepenseView.dart';
 import 'package:smartsfv/views/screens/categorie/CategorieView.dart';
 import 'package:smartsfv/views/screens/client/ClientView.dart';
 import 'package:smartsfv/views/screens/commande/CommandeView.dart';
+import 'package:smartsfv/views/screens/divers/DiversView.dart';
 import 'package:smartsfv/views/screens/home/HomeView.dart';
 import 'package:smartsfv/views/screens/moyen-payement/MoyenPayementView.dart';
 import 'package:smartsfv/views/screens/others/ListTableView.dart';
@@ -16,9 +19,13 @@ import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
 import 'package:smartsfv/views/components/MyDrawerTile.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/views/screens/pays/PaysView.dart';
+import 'package:smartsfv/views/screens/rangee/RangeeView.dart';
+import 'package:smartsfv/views/screens/rayon/RayonView.dart';
 import 'package:smartsfv/views/screens/regime/RegimeView.dart';
 import 'package:smartsfv/views/screens/sous-categorie/SousCategorieView.dart';
+import 'package:smartsfv/views/screens/taille/TailleView.dart';
 import 'package:smartsfv/views/screens/tva/TvaView.dart';
+import 'package:smartsfv/views/screens/unite/UniteView.dart';
 
 class DrawerTileLayout extends StatefulWidget {
   DrawerTileLayout({
@@ -234,31 +241,101 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                       },
                       {
                         'icon': 'assets/img/icons/section.png',
-                        'headerText': 'Rayon'
+                        'headerText': 'Rayon',
+                        'onPressed': () {
+                          print('Rayons appuyé !');
+                          functions.openPage(
+                            context,
+                            RayonView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/above.png',
-                        'headerText': 'Rangée'
+                        'headerText': 'Rangée',
+                        'onPressed': () {
+                          print('Rangée appuyé !');
+                          functions.openPage(
+                            context,
+                            RangeeView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/locker.png',
-                        'headerText': 'Casier'
+                        'headerText': 'Casier',
+                        'onPressed': () {
+                          print('Casier appuyé !');
+                          functions.openPage(
+                            context,
+                            CasierView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/unity.png',
-                        'headerText': 'Unité'
+                        'headerText': 'Unité',
+                        'onPressed': () {
+                          print('Unité appuyé !');
+                          functions.openPage(
+                            context,
+                            UniteView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/package.png',
-                        'headerText': 'Taille'
+                        'headerText': 'Taille',
+                        'onPressed': () {
+                          print('Taille appuyé !');
+                          functions.openPage(
+                            context,
+                            TailleView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/more.png',
-                        'headerText': 'Divers'
+                        'headerText': 'Divers',
+                        'onPressed': () {
+                          print('Divers appuyé !');
+                          functions.openPage(
+                            context,
+                            DiversView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                       {
                         'icon': 'assets/img/icons/hand.png',
-                        'headerText': 'Catégorie dépense'
+                        'headerText': 'Catégorie dépense',
+                        'onPressed': () {
+                          print('CategorieDepense appuyé !');
+                          functions.openPage(
+                            context,
+                            CategorieDepenseView(),
+                          );
+                          setState(() {
+                            DrawerLayoutController.close();
+                          });
+                        },
                       },
                     ],
                   ),

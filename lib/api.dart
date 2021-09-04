@@ -11,15 +11,22 @@ import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Banque.dart';
 import 'package:smartsfv/models/Cache.dart';
 import 'package:smartsfv/models/Caisse.dart';
+import 'package:smartsfv/models/Casier.dart';
 import 'package:smartsfv/models/Categorie.dart';
+import 'package:smartsfv/models/CategorieDepense.dart';
 import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Commande.dart';
+import 'package:smartsfv/models/Divers.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/MoyenPayement.dart';
 import 'package:smartsfv/models/Pays.dart';
+import 'package:smartsfv/models/Rangee.dart';
+import 'package:smartsfv/models/Rayon.dart';
 import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/models/SousCategorie.dart';
+import 'package:smartsfv/models/Taille.dart';
 import 'package:smartsfv/models/Tva.dart';
+import 'package:smartsfv/models/Unite.dart';
 import 'package:smartsfv/models/User.dart';
 import 'package:smartsfv/views/screens/login/LoginView.dart';
 
@@ -1109,7 +1116,7 @@ class Api {
     }
   }
 
-  // todo: get catégories method
+  // todo: get moyen payement method
   Future<List<MoyenPayement>> getMoyenPayements(var context) async {
     this.url = this.routes['getMoyenPayements'].toString(); // set login url
     try {
@@ -1163,6 +1170,343 @@ class Api {
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <MoyenPayement>[];
+    }
+  }
+
+  // todo: get rayon method
+  Future<List<Rayon>> getRayons(var context) async {
+    this.url = this.routes['getRayons'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "RayonView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Rayons chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of taxs
+        List rayonResponse = json.decode(this.response.body)['rows'];
+        List<Rayon> rayons = [
+          // ? take only rayon created by the actual user
+          for (var rayon in rayonResponse) Rayon.fromJson(rayon), // ! debug
+          //if (rayon['created_by'] == User.id)
+          //Rayon.fromJson(rayon), // ! production
+        ];
+        // ? return list of rayons
+        return rayons;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "RayonView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des rayons",
+          );
+        return <Rayon>[];
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Rayon Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <Rayon>[];
+    }
+  }
+
+  // todo: get rangee method
+  Future<List<Rangee>> getRangees(var context) async {
+    this.url = this.routes['getRangees'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "RangeeView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Rangees chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of taxs
+        List rangeeResponse = json.decode(this.response.body)['rows'];
+        List<Rangee> rangees = [
+          // ? take only rangee created by the actual user
+          for (var rangee in rangeeResponse) Rangee.fromJson(rangee), // ! debug
+          //if (rangee['created_by'] == User.id)
+          //Rangee.fromJson(rangee), // ! production
+        ];
+        // ? return list of rangees
+        return rangees;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "RangeeView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des rangées",
+          );
+        return <Rangee>[];
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Rangee Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <Rangee>[];
+    }
+  }
+
+  // todo: get casier method
+  Future<List<Casier>> getCasiers(var context) async {
+    this.url = this.routes['getCasiers'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "CasierView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Casiers chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of taxs
+        List casierResponse = json.decode(this.response.body)['rows'];
+        List<Casier> casiers = [
+          // ? take only casier created by the actual user
+          for (var casier in casierResponse) Casier.fromJson(casier), // ! debug
+          //if (casier['created_by'] == User.id)
+          //Casier.fromJson(casier), // ! production
+        ];
+        // ? return list of casiers
+        return casiers;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "CasierView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des casiers",
+          );
+        return <Casier>[];
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Casier Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <Casier>[];
+    }
+  }
+
+  // todo: get taille method
+  Future<List<Taille>> getTailles(var context) async {
+    this.url = this.routes['getTailles'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "TailleView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Tailles chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of taxs
+        List tailleResponse = json.decode(this.response.body)['rows'];
+        List<Taille> tailles = [
+          // ? take only taille created by the actual user
+          for (var taille in tailleResponse) Taille.fromJson(taille), // ! debug
+          //if (taille['created_by'] == User.id)
+          //Taille.fromJson(taille), // ! production
+        ];
+        // ? return list of tailles
+        return tailles;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "TailleView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des tailles",
+          );
+        return <Taille>[];
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Taille Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <Taille>[];
+    }
+  }
+
+  // todo: get casier method
+  Future<List<Divers>> getDivers(var context) async {
+    this.url = this.routes['getDiverss'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "DiversView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Divers chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of taxs
+        List diversResponse = json.decode(this.response.body)['rows'];
+        List<Divers> diversList = [
+          // ? take only divers created by the actual user
+          for (var divers in diversResponse) Divers.fromJson(divers), // ! debug
+          //if (divers['created_by'] == User.id)
+          //Divers.fromJson(divers), // ! production
+        ];
+        // ? return list of diversList
+        return diversList;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "DiversView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des divers",
+          );
+        return <Divers>[];
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Divers Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <Divers>[];
+    }
+  }
+
+  // todo: get casier method
+  Future<List<CategorieDepense>> getCategorieDepenses(var context) async {
+    this.url = this.routes['getCategorieDepenses'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "CategorieDepenseView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Categories dépense chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of taxs
+        List categorieDepenseResponse = json.decode(this.response.body)['rows'];
+        List<CategorieDepense> categorieDepenses = [
+          // ? take only categorieDepense created by the actual user
+          for (var categorieDepense in categorieDepenseResponse)
+            CategorieDepense.fromJson(categorieDepense), // ! debug
+          //if (categorieDepense['created_by'] == User.id)
+          //CategorieDepense.fromJson(categorieDepense), // ! production
+        ];
+        // ? return list of categorieDepenses
+        return categorieDepenses;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "CategorieDepenseView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des catégories dépense",
+          );
+        return <CategorieDepense>[];
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get CategorieDepense Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <CategorieDepense>[];
     }
   }
 
@@ -1368,10 +1712,10 @@ class Api {
         this.requestSuccess = false;
         print('Failed to get user datas..');
         // show error snack bar
-        functions.errorSnackbar(
+        /*functions.errorSnackbar(
           context: context,
           message: "Echec de récupération des infos de l'utilisateur",
-        );
+        );*/
         return {'msg': 'failed to get user datas'};
         //throw Exception('Failed to load user datas');
       }
@@ -1382,10 +1726,10 @@ class Api {
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       // show error snack bar
-      functions.errorSnackbar(
+      /*functions.errorSnackbar(
         context: context,
         message: "Echec de récupération des infos de l'utilisateur",
-      );
+      );*/
       return {'msg': 'API error'};
     }
   }
@@ -2017,7 +2361,7 @@ class Api {
     }
   }
 
-  // todo: post catégories method
+  // todo: post moyen de paiement method
   Future<Map<String, dynamic>> postMoyenPayement({
     required var context,
     required MoyenPayement moyenPayement,
@@ -2058,10 +2402,10 @@ class Api {
   }
 
   // todo: post rayon method
-  Future<Map<String, dynamic>> postRayon(
-    var context,
-    String libelle,
-  ) async {
+  Future<Map<String, dynamic>> postRayon({
+    required var context,
+    required Rayon rayon,
+  }) async {
     this.url = this.routes['postRayon'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2074,9 +2418,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_rayon': libelle,
-        },
+        body: Rayon.toMap(rayon),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2100,10 +2442,10 @@ class Api {
   }
 
   // todo: post rangee method
-  Future<Map<String, dynamic>> postRangee(
-    var context,
-    String libelle,
-  ) async {
+  Future<Map<String, dynamic>> postRangee({
+    required var context,
+    required Rangee rangee,
+  }) async {
     this.url = this.routes['postRangee'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2116,9 +2458,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_rangee': libelle,
-        },
+        body: Rangee.toMap(rangee),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2142,10 +2482,10 @@ class Api {
   }
 
   // todo: post casier method
-  Future<Map<String, dynamic>> postCasier(
-    var context,
-    String libelle,
-  ) async {
+  Future<Map<String, dynamic>> postCasier({
+    required var context,
+    required Casier casier,
+  }) async {
     this.url = this.routes['postCasier'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2158,9 +2498,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_casier': libelle,
-        },
+        body: Casier.toMap(casier),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2184,11 +2522,10 @@ class Api {
   }
 
   // todo: post unité method
-  Future<Map<String, dynamic>> postUnite(
-    var context,
-    String libelle,
-    int quantite,
-  ) async {
+  Future<Map<String, dynamic>> postUnite({
+    required var context,
+    required Unite unite,
+  }) async {
     this.url = this.routes['postUnite'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2201,10 +2538,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_unite': libelle,
-          'quantite_lot': quantite,
-        },
+        body: Unite.toMap(unite),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2228,10 +2562,10 @@ class Api {
   }
 
   // todo: post taille method
-  Future<Map<String, dynamic>> postTaille(
-    var context,
-    String libelle,
-  ) async {
+  Future<Map<String, dynamic>> postTaille({
+    required var context,
+    required Taille taille,
+  }) async {
     this.url = this.routes['postTaille'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2244,9 +2578,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_taille': libelle,
-        },
+        body: Taille.toMap(taille),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2270,10 +2602,10 @@ class Api {
   }
 
   // todo: post divers method
-  Future<Map<String, dynamic>> postDivers(
-    var context,
-    String libelle,
-  ) async {
+  Future<Map<String, dynamic>> postDivers({
+    required var context,
+    required Divers divers,
+  }) async {
     this.url = this.routes['postDivers'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2286,9 +2618,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_divers': libelle,
-        },
+        body: Divers.toMap(divers),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2312,10 +2642,10 @@ class Api {
   }
 
   // todo: post catégorie dépense method
-  Future<Map<String, dynamic>> postCategorieDepense(
-    var context,
-    String libelle,
-  ) async {
+  Future<Map<String, dynamic>> postCategorieDepense({
+    required var context,
+    required CategorieDepense categorieDepense,
+  }) async {
     this.url = this.routes['postCategorieDepense'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2328,9 +2658,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_categorie_depense': libelle,
-        },
+        body: CategorieDepense.toMap(categorieDepense),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);

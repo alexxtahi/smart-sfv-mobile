@@ -2,31 +2,29 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/MoyenPayement.dart';
+import 'package:smartsfv/models/Divers.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class MoyenPayementFutureBuilder extends StatefulWidget {
-  MoyenPayementFutureBuilder({Key? key}) : super(key: key);
+class DiversFutureBuilder extends StatefulWidget {
+  DiversFutureBuilder({Key? key}) : super(key: key);
 
   @override
-  MoyenPayementFutureBuilderState createState() =>
-      MoyenPayementFutureBuilderState();
+  DiversFutureBuilderState createState() => DiversFutureBuilderState();
 }
 
-class MoyenPayementFutureBuilderState
-    extends State<MoyenPayementFutureBuilder> {
+class DiversFutureBuilderState extends State<DiversFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   ScrollController listViewScrollController = new ScrollController();
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
-        ? FutureBuilder<List<MoyenPayement>>(
-            future: this.fetchMoyenPayements(),
+        ? FutureBuilder<List<Divers>>(
+            future: this.fetchDiverss(),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
-                // ? Check if the list of caisses is empty or not
+                // ? Check if the list of divers is empty or not
                 return (snapshot.data!.isEmpty)
                     ? Flex(
                         direction: Axis.vertical,
@@ -51,7 +49,7 @@ class MoyenPayementFutureBuilderState
                                 Flexible(
                                   child: MyText(
                                     text:
-                                        "Vous n'avez pas encore enregistré de moyen de payement. Remplissez le formulaire d'ajout pour en ajouter.",
+                                        "Vous n'avez pas encore enregistré de diverss. Remplissez le formulaire d'ajout pour en ajouter.",
                                     textAlign: TextAlign.center,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(60, 141, 188, 0.5),
@@ -153,7 +151,7 @@ class MoyenPayementFutureBuilderState
               } else if (snapshot.hasError) {
                 functions.errorSnackbar(
                   context: context,
-                  message: 'Echec de récupération des moyens de payement',
+                  message: 'Echec de récupération des diverss',
                 );
                 return MyText(
                   text: snapshot.error.toString(),
@@ -169,7 +167,7 @@ class MoyenPayementFutureBuilderState
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des moyens de payement',
+                      semanticsLabel: 'Chargement des diverss',
                     ),
                   ],
                 ),
@@ -179,12 +177,12 @@ class MoyenPayementFutureBuilderState
         : Container();
   }
 
-  Future<List<MoyenPayement>> fetchMoyenPayements() async {
+  Future<List<Divers>> fetchDiverss() async {
     // init API instance
     Api api = Api();
-    // call API method getMoyenPayements
-    Future<List<MoyenPayement>> moyenPayement = api.getMoyenPayements(context);
+    // call API method getDiverss
+    Future<List<Divers>> diverss = api.getDivers(context);
     // return results
-    return moyenPayement;
+    return diverss;
   }
 }

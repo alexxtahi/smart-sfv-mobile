@@ -2,31 +2,30 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/MoyenPayement.dart';
+import 'package:smartsfv/models/Unite.dart';
+import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class MoyenPayementFutureBuilder extends StatefulWidget {
-  MoyenPayementFutureBuilder({Key? key}) : super(key: key);
+class UniteFutureBuilder extends StatefulWidget {
+  UniteFutureBuilder({Key? key}) : super(key: key);
 
   @override
-  MoyenPayementFutureBuilderState createState() =>
-      MoyenPayementFutureBuilderState();
+  UniteFutureBuilderState createState() => UniteFutureBuilderState();
 }
 
-class MoyenPayementFutureBuilderState
-    extends State<MoyenPayementFutureBuilder> {
+class UniteFutureBuilderState extends State<UniteFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   ScrollController listViewScrollController = new ScrollController();
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
-        ? FutureBuilder<List<MoyenPayement>>(
-            future: this.fetchMoyenPayements(),
+        ? FutureBuilder<List<Unite>>(
+            future: this.fetchUnites(),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
-                // ? Check if the list of caisses is empty or not
+                // ? Check if the list of sous categories is empty or not
                 return (snapshot.data!.isEmpty)
                     ? Flex(
                         direction: Axis.vertical,
@@ -51,7 +50,7 @@ class MoyenPayementFutureBuilderState
                                 Flexible(
                                   child: MyText(
                                     text:
-                                        "Vous n'avez pas encore enregistré de moyen de payement. Remplissez le formulaire d'ajout pour en ajouter.",
+                                        "Vous n'avez pas encore enregistré d'unité. Remplissez le formulaire d'ajout pour en ajouter.",
                                     textAlign: TextAlign.center,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(60, 141, 188, 0.5),
@@ -85,59 +84,24 @@ class MoyenPayementFutureBuilderState
                                           controller:
                                               this.datatableScrollController,
                                           physics: BouncingScrollPhysics(),
-                                          scrollDirection: Axis.vertical,
-                                          child: ListView.separated(
-                                            controller:
-                                                this.listViewScrollController,
-                                            shrinkWrap: true,
-                                            itemCount: snapshot.data!.length,
-                                            scrollDirection: Axis
-                                                .vertical, // direction of scrolling
-                                            separatorBuilder:
-                                                (separatorContext, index) =>
-                                                    SizedBox(width: 20.0),
-                                            itemBuilder:
-                                                (itemBuilderContext, index) {
-                                              // other cards
-                                              return ListTile(
-                                                enableFeedback: true,
-                                                onTap: () {
-                                                  print(snapshot.data![index]
-                                                          .libelle +
-                                                      ' on tap !');
-                                                },
-                                                onLongPress: () {
-                                                  print(snapshot.data![index]
-                                                          .libelle +
-                                                      ' long press !');
-                                                },
-                                                leading: CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundColor:
-                                                      Color.fromRGBO(
-                                                          60, 141, 188, 0.15),
-                                                  child: MyText(
-                                                    text:
-                                                        (index + 1).toString(),
-                                                    color: Color.fromRGBO(
-                                                        60, 141, 188, 1),
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                title: MyText(
-                                                  text: snapshot
-                                                      .data![index].libelle,
-                                                  //fontWeight: FontWeight.bold,
-                                                ),
-                                                selectedTileColor:
-                                                    Color.fromRGBO(
-                                                        60, 141, 188, 0.15),
-                                                focusColor: Color.fromRGBO(
-                                                    60, 141, 188, 0.15),
-                                                hoverColor: Color.fromRGBO(
-                                                    60, 141, 188, 0.15),
-                                              );
-                                            },
+                                          scrollDirection: Axis.horizontal,
+                                          child: MyDataTable(
+                                            columns: [
+                                              'N°',
+                                              'Libellé',
+                                              'Qunatité du lot',
+                                            ],
+                                            rows: [
+                                              for (var unite in snapshot.data!)
+                                                [
+                                                  (snapshot.data!
+                                                              .indexOf(unite) +
+                                                          1)
+                                                      .toString(),
+                                                  unite.libelle,
+                                                  unite.qte.toString(),
+                                                ],
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -153,7 +117,7 @@ class MoyenPayementFutureBuilderState
               } else if (snapshot.hasError) {
                 functions.errorSnackbar(
                   context: context,
-                  message: 'Echec de récupération des moyens de payement',
+                  message: 'Echec de récupération des sous categories',
                 );
                 return MyText(
                   text: snapshot.error.toString(),
@@ -169,7 +133,7 @@ class MoyenPayementFutureBuilderState
                     LinearProgressIndicator(
                       color: Color.fromRGBO(221, 75, 57, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des moyens de payement',
+                      semanticsLabel: 'Chargement des sous categories',
                     ),
                   ],
                 ),
@@ -179,12 +143,12 @@ class MoyenPayementFutureBuilderState
         : Container();
   }
 
-  Future<List<MoyenPayement>> fetchMoyenPayements() async {
+  Future<List<Unite>> fetchUnites() async {
     // init API instance
     Api api = Api();
-    // call API method getMoyenPayements
-    Future<List<MoyenPayement>> moyenPayement = api.getMoyenPayements(context);
+    // call API method getUnites
+    Future<List<Unite>> unites = api.getUnites(context);
     // return results
-    return moyenPayement;
+    return unites;
   }
 }

@@ -3,28 +3,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/MoyenPayement.dart';
+import 'package:smartsfv/models/Unite.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
+import 'package:smartsfv/views/screens/unite/UniteScreen.dart';
 import 'package:smartsfv/functions.dart' as functions;
-import 'package:smartsfv/views/screens/moyen-payement/MoyenPayementScreen.dart';
 
-class MoyenPayementView extends StatefulWidget {
-  MoyenPayementView({Key? key}) : super(key: key);
+class UniteView extends StatefulWidget {
+  UniteView({Key? key}) : super(key: key);
   @override
-  MoyenPayementViewState createState() => MoyenPayementViewState();
+  UniteViewState createState() => UniteViewState();
 }
 
-class MoyenPayementViewState extends State<MoyenPayementView> {
+class UniteViewState extends State<UniteView> {
   //todo: Method called when the view is launching
   @override
   void initState() {
     super.initState();
     // ? Launching configs
     if (ScreenController.actualView != "LoginView") {
-      ScreenController.actualView = "MoyenPayementView";
+      ScreenController.actualView = "UniteView";
       ScreenController.isChildView = true;
     }
   }
@@ -82,29 +82,29 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
             scaffold.currentContext,
             formKey,
             headerIcon: 'assets/img/icons/cashier.png',
-            title: 'Ajouter un nouveau moyen de payement',
-            successMessage: 'Nouvelle moyen de payement ajouté !',
+            title: 'Ajouter une nouvelle caisse',
+            successMessage: 'Nouvelle caisse ajouté !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
                 // ? sending datas to API
                 Api api = Api();
-                final Map<String, dynamic> postMoyenPayementResponse =
-                    await api.postMoyenPayement(
+                final Map<String, dynamic> postUniteResponse =
+                    await api.postUnite(
                   context: scaffold.currentContext,
-                  // ? Create MoyenPayement instance from Json and pass it to the fucnction
-                  moyenPayement: MoyenPayement.fromJson({
-                    'libelle_moyen_payement': fieldControllers['libelle']
+                  // ? Create Unite instance from Json and pass it to the fucnction
+                  unite: Unite.fromJson({
+                    'libelle_caisse': fieldControllers['libelle']
                         .text, // get libelle  // ! required
                   }),
                 );
                 // ? check the server response
-                if (postMoyenPayementResponse['msg'] ==
+                if (postUniteResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
                   functions.successSnackbar(
                     context: scaffold.currentContext,
-                    message: 'Nouveau moyen de payement ajouté !',
+                    message: 'Nouvelle caisse ajouté !',
                   );
                 } else {
                   functions.errorSnackbar(
@@ -112,7 +112,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
                     message: 'Un problème est survenu',
                   );
                 }
-                // ? Refresh moyen de payement list
+                // ? Refresh caisse list
                 setState(() {});
               }
             },
@@ -123,9 +123,9 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
                 validator: (value) {
                   return value!.isNotEmpty
                       ? null
-                      : 'Saisissez un nom de moyen de payement';
+                      : 'Saisissez un nom de caisse';
                 },
-                placeholder: 'Libellé du moyen de payement',
+                placeholder: 'Libellé de la caisse',
                 prefixPadding: 10,
                 prefixIcon: Icon(
                   Icons.sort_by_alpha,
@@ -141,37 +141,34 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
               SizedBox(height: 10),
               //todo: Dépot DropDownButton
               (ScreenController.actualView != "LoginView")
-                  ? FutureBuilder<List<MoyenPayement>>(
-                      future: this.fetchMoyenPayements(),
-                      builder: (moyenPayementComboBoxContext, snapshot) {
+                  ? FutureBuilder<List<Unite>>(
+                      future: this.fetchUnites(),
+                      builder: (caisseComboBoxContext, snapshot) {
                         if (snapshot.hasData) {
                           // ? get nations datas from server
                           return MyComboBox(
                             validator: (value) {
-                              return value! !=
-                                      'Sélectionnez un moyen de payement'
+                              return value! != 'Sélectionnez une caisse'
                                   ? null
-                                  : 'Choisissez un moyen de payement';
+                                  : 'Choisissez une caisse';
                             },
                             onChanged: (value) {
-                              // ? Iterate all moyen de payements to get the selected moyen de payement id
-                              for (var moyenPayement in snapshot.data!) {
-                                if (moyenPayement.libelle == value) {
-                                  fieldControllers['depot'] = moyenPayement
-                                      .id; // save the new moyenPayement selected
+                              // ? Iterate all caisses to get the selected caisse id
+                              for (var caisse in snapshot.data!) {
+                                if (caisse.libelle == value) {
+                                  fieldControllers['depot'] =
+                                      caisse.id; // save the new caisse selected
                                   print(
-                                      "Nouveau moyen de payement: $value, ${fieldControllers['depot']}, ${moyenPayement.id}");
+                                      "Nouveau caisse: $value, ${fieldControllers['depot']}, ${caisse.id}");
                                   break;
                                 }
                               }
                             },
-                            initialDropDownValue:
-                                'Sélectionnez un moyen de payement',
+                            initialDropDownValue: 'Sélectionnez une caisse',
                             initialDropDownList: [
-                              'Sélectionnez un moyen de payement',
+                              'Sélectionnez une caisse',
                               // ? datas integration
-                              for (var moyenPayement in snapshot.data!)
-                                moyenPayement.libelle,
+                              for (var caisse in snapshot.data!) caisse.libelle,
                             ],
                             prefixPadding: 10,
                             prefixIcon: Image.asset(
@@ -198,7 +195,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
                             height: 15,
                             color: Color.fromRGBO(60, 141, 188, 1),
                           ),
-                          placeholder: 'Sélectionnez un moyen de payement',
+                          placeholder: 'Sélectionnez une caisse',
                           textColor: Color.fromRGBO(60, 141, 188, 1),
                           placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                           fillColor: Color.fromRGBO(60, 141, 188, 0.15),
@@ -239,7 +236,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
           //todo: Drawer Screen
           DrawerLayout(panelController: panelController),
           //todo: Home Screen
-          MoyenPayementScreen(panelController: panelController),
+          UniteScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
             panelController: panelController,
@@ -249,12 +246,12 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
     );
   }
 
-  Future<List<MoyenPayement>> fetchMoyenPayements() async {
+  Future<List<Unite>> fetchUnites() async {
     // init API instance
     Api api = Api();
-    // call API method getMoyenPayements
-    Future<List<MoyenPayement>> moyenPayements = api.getMoyenPayements(context);
+    // call API method getUnites
+    Future<List<Unite>> caisses = api.getUnites(context);
     // return results
-    return moyenPayements;
+    return caisses;
   }
 }
