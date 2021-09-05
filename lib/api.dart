@@ -36,7 +36,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = 'http://192.168.1.100:8000'; // local ip adress // ! local
+  String host = 'http://192.168.1.13:8000'; // local ip adress // ! local
   //String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
@@ -61,7 +61,7 @@ class Api {
       'postClient': '${this.host}/api/auth/client/store',
       'getClients': '${this.host}/api/auth/clients',
       'getBestClients': '${this.host}/api/auth/beste-clients',
-      'getDettesClients': '${this.host}/api/auth/beste-clients',
+      'getDettesClients': '${this.host}/api/auth/clients-plus-endettes',
       'getWorstRentabilityClients': '${this.host}/api/auth/beste-clients',
       'putClient': '${this.host}/api/auth/client/update/',
       'deleteClient': '${this.host}/api/auth/clients/delete/',
@@ -116,9 +116,9 @@ class Api {
                 Research.searchBy == 'Par code barre' &&
                 article['code_barre'].contains(Research.value))
               Article.fromJson(article) // ! Get articles by code barre
-          /*else
+            else
               Article.fromJson(article) // ! Get all articles
-              */
+
           // ? take all articles
           //Article.fromJson(article), // ! debug
           // ? take only article created by the actual user

@@ -43,6 +43,7 @@ class ExpansionTableState extends State<ExpansionTable> {
               openListTableView(
                 title: 'Caisses ouvertes',
                 columns: [
+                  'N°',
                   'Dépôt',
                   'Caisse',
                   'Etat',
@@ -110,6 +111,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                 title: 'Articles en voie de péremption',
                 listName: 'getArticlesPeremption',
                 columns: [
+                  'N°',
                   'Dépôt',
                   'Article',
                   'lot',
@@ -213,6 +215,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                 title: 'Articles en voie de rupture',
                 listName: 'getArticlesRupture',
                 columns: [
+                  'N°',
                   'Article',
                   'Catégorie',
                   'Sous catégorie',
@@ -249,18 +252,22 @@ class ExpansionTableState extends State<ExpansionTable> {
                               for (var article in snapshot.data!.getRange(0, 5))
                                 [
                                   article.description,
-                                  "", //article.categorie.libelle,
-                                  "", //article.sousCategorie.libelle,
-                                  article.qteEnStock.toString(),
+                                  article.categorie.libelle,
+                                  (article.sousCategorie != null)
+                                      ? article.sousCategorie!.libelle
+                                      : 'Aucune',
+                                  article.totalStock.toString(),
                                   article.libelleDepot,
                                 ],
                             if (snapshot.data!.length < 5)
                               for (var article in snapshot.data!)
                                 [
                                   article.description,
-                                  "", //article.categorie.libelle,
-                                  article.sousCategorie!.libelle,
-                                  article.qteEnStock.toString(),
+                                  article.categorie.libelle,
+                                  (article.sousCategorie != null)
+                                      ? article.sousCategorie!.libelle
+                                      : 'Aucune',
+                                  article.totalStock.toString(),
                                   article.libelleDepot,
                                 ],
                           ],
@@ -302,6 +309,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                 title: 'Liste des 5 meilleurs clients',
                 listName: 'getBestClients',
                 columns: [
+                  'N°',
                   'Client',
                   'Contact',
                   "Chiffre d'affaires",
@@ -309,6 +317,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                 rows: [
                   for (var i = 1; i < 100; i++)
                     [
+                      '1',
                       '1',
                       'Alexandre TAHI',
                       '+225 05 84 64 98 25',
@@ -333,14 +342,14 @@ class ExpansionTableState extends State<ExpansionTable> {
                                 [
                                   client.nom,
                                   client.contact,
-                                  client.chiffreAffaire.toString(),
+                                  client.chiffreAffaire.toString() + ' FCFA',
                                 ],
                             if (snapshot.data!.length < 5)
                               for (var client in snapshot.data!)
                                 [
                                   client.nom,
                                   client.contact,
-                                  client.chiffreAffaire.toString(),
+                                  client.chiffreAffaire.toString() + ' FCFA',
                                 ],
                           ],
                         );
@@ -381,6 +390,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                 title: 'Liste des 5 clients les moins rentables',
                 listName: 'getWorstRentabilityClients',
                 columns: [
+                  'N°',
                   'Client',
                   'Contact',
                   "Chiffre d'affaires",
@@ -412,14 +422,14 @@ class ExpansionTableState extends State<ExpansionTable> {
                                 [
                                   client.nom,
                                   client.contact,
-                                  client.chiffreAffaire.toString(),
+                                  client.chiffreAffaire.toString() + ' FCFA',
                                 ],
                             if (snapshot.data!.length < 5)
                               for (var client in snapshot.data!)
                                 [
                                   client.nom,
                                   client.contact,
-                                  client.chiffreAffaire.toString(),
+                                  client.chiffreAffaire.toString() + ' FCFA',
                                 ],
                           ],
                         );
@@ -460,6 +470,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                 title: 'Liste des 5 articles les plus vendus',
                 listName: 'getBestArticles',
                 columns: [
+                  'N°',
                   'Article',
                   'Quantité',
                   'Montant',
@@ -491,14 +502,14 @@ class ExpansionTableState extends State<ExpansionTable> {
                                 [
                                   article.description,
                                   article.qteEnStock.toString(),
-                                  article.prixVenteTTC.toString(),
+                                  article.prixVenteTTC.toString() + ' FCFA',
                                 ],
                             if (snapshot.data!.length < 5)
                               for (var article in snapshot.data!)
                                 [
                                   article.description,
                                   article.qteEnStock.toString(),
-                                  article.prixVenteTTC.toString(),
+                                  article.prixVenteTTC.toString() + ' FCFA',
                                 ],
                           ],
                         );
@@ -539,6 +550,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                 title: 'Liste des 5 articles les moins vendus',
                 listName: 'getWorstArticles',
                 columns: [
+                  'N°',
                   'Article',
                   'Quantité',
                   'Montant',
@@ -570,14 +582,14 @@ class ExpansionTableState extends State<ExpansionTable> {
                                 [
                                   article.description,
                                   article.qteEnStock.toString(),
-                                  article.prixVenteTTC.toString(),
+                                  article.prixVenteTTC.toString() + ' FCFA',
                                 ],
                             if (snapshot.data!.length < 5)
                               for (var article in snapshot.data!)
                                 [
                                   article.description,
                                   article.qteEnStock.toString(),
-                                  article.prixVenteTTC.toString(),
+                                  article.prixVenteTTC.toString() + ' FCFA',
                                 ],
                           ],
                         );
@@ -618,6 +630,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                 title: 'Liste des clients les plus endettés',
                 listName: 'getDettesClients',
                 columns: [
+                  'N°',
                   'Client',
                   'Contact',
                   'Adresse',
@@ -653,7 +666,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                                   client.nom,
                                   client.contact,
                                   client.adresse,
-                                  client.chiffreAffaire.toString(),
+                                  client.chiffreAffaire.toString() + ' FCFA',
                                 ],
                             if (snapshot.data!.length < 5)
                               for (var client in snapshot.data!)
@@ -661,7 +674,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                                   client.nom,
                                   client.contact,
                                   client.adresse,
-                                  client.chiffreAffaire.toString(),
+                                  client.chiffreAffaire.toString() + ' FCFA',
                                 ],
                           ],
                         );

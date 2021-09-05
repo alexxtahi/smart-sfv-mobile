@@ -222,6 +222,10 @@ class ListTableViewState extends State<ListTableView> {
                                               for (var article
                                                   in snapshot.data!)
                                                 [
+                                                  (snapshot.data!.indexOf(
+                                                              article) +
+                                                          1)
+                                                      .toString(),
                                                   article.libelleDepot,
                                                   article.description,
                                                   article.libelleUnite,
@@ -248,10 +252,22 @@ class ListTableViewState extends State<ListTableView> {
                                               for (var article
                                                   in snapshot.data!)
                                                 [
+                                                  (snapshot.data!.indexOf(
+                                                              article) +
+                                                          1)
+                                                      .toString(),
                                                   article.description,
-                                                  article.categorie,
-                                                  article.subCategorie,
-                                                  article.qteEnStock.toString(),
+                                                  (article.categorie != null)
+                                                      ? article
+                                                          .categorie.libelle
+                                                      : 'Aucune',
+                                                  (article.sousCategorie !=
+                                                          null)
+                                                      ? article
+                                                          .sousCategorie.libelle
+                                                      : 'Aucune',
+                                                  article.totalStock
+                                                      .toString(), //article.qteEnStock.toString(),
                                                   article.libelleDepot,
                                                 ],
                                             ];
@@ -264,10 +280,15 @@ class ListTableViewState extends State<ListTableView> {
                                             this.docDatas = [
                                               for (var client in snapshot.data!)
                                                 [
+                                                  (snapshot.data!
+                                                              .indexOf(client) +
+                                                          1)
+                                                      .toString(),
                                                   client.nom,
                                                   client.contact,
                                                   client.chiffreAffaire
-                                                      .toString(),
+                                                          .toString() +
+                                                      ' FCFA',
                                                 ],
                                             ];
                                             return MyDataTable(
@@ -279,10 +300,15 @@ class ListTableViewState extends State<ListTableView> {
                                             this.docDatas = [
                                               for (var client in snapshot.data!)
                                                 [
+                                                  (snapshot.data!
+                                                              .indexOf(client) +
+                                                          1)
+                                                      .toString(),
                                                   client.nom,
                                                   client.contact,
                                                   client.chiffreAffaire
-                                                      .toString(),
+                                                          .toString() +
+                                                      ' FCFA',
                                                 ],
                                             ];
                                             return MyDataTable(
@@ -295,10 +321,15 @@ class ListTableViewState extends State<ListTableView> {
                                               for (var article
                                                   in snapshot.data!)
                                                 [
-                                                  article.description,
-                                                  article.qteEnStock.toString(),
-                                                  article.prixVenteTTC
+                                                  (snapshot.data!.indexOf(
+                                                              article) +
+                                                          1)
                                                       .toString(),
+                                                  article.description,
+                                                  article.totalStock.toString(),
+                                                  article.prixVenteTTC
+                                                          .toString() +
+                                                      ' FCFA',
                                                 ],
                                             ];
                                             return MyDataTable(
@@ -311,10 +342,15 @@ class ListTableViewState extends State<ListTableView> {
                                               for (var article
                                                   in snapshot.data!)
                                                 [
-                                                  article.description,
-                                                  article.qteEnStock.toString(),
-                                                  article.prixVenteTTC
+                                                  (snapshot.data!.indexOf(
+                                                              article) +
+                                                          1)
                                                       .toString(),
+                                                  article.description,
+                                                  article.totalStock.toString(),
+                                                  article.prixVenteTTC
+                                                          .toString() +
+                                                      ' FCFA',
                                                 ],
                                             ];
                                             return MyDataTable(
@@ -326,11 +362,16 @@ class ListTableViewState extends State<ListTableView> {
                                             this.docDatas = [
                                               for (var client in snapshot.data!)
                                                 [
+                                                  (snapshot.data!
+                                                              .indexOf(client) +
+                                                          1)
+                                                      .toString(),
                                                   client.nom,
                                                   client.contact,
                                                   client.adresse,
                                                   client.chiffreAffaire
-                                                      .toString(),
+                                                          .toString() +
+                                                      ' FCFA',
                                                 ],
                                             ];
                                             return MyDataTable(

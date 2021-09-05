@@ -12,6 +12,7 @@ class Article {
   Categorie categorie;
   SousCategorie? sousCategorie;
   int qteEnStock;
+  int totalStock;
   int prixAchatTTC;
   int prixAchatHT;
   int? tauxMargeAchat;
@@ -36,6 +37,7 @@ class Article {
     required this.categorie,
     this.sousCategorie,
     this.qteEnStock = 0,
+    this.totalStock = 0,
     this.prixAchatTTC = 0,
     this.prixAchatHT = 0,
     this.tauxMargeAchat = 0,
@@ -71,6 +73,9 @@ class Article {
       qteEnStock: (json['quantite_en_stock'] != null)
           ? json['quantite_en_stock'] as int
           : 0,
+      totalStock: (json['totalStock'] != null)
+          ? int.parse(json['totalStock'].toString())
+          : 0,
       prixAchatTTC:
           (json['prix_achat_ttc'] != null) ? json['prix_achat_ttc'] as int : 0,
       //prixAchatHT: json[''] as int,
@@ -78,10 +83,13 @@ class Article {
           ? json['prix_vente_ttc_base'] as int
           : 0,
       //prixVenteHT: json[''] as int,
-      fournisseurs: [
-        for (var fournisseur in json['fournisseurs'])
-          Fournisseur.fromJson(fournisseur),
-      ],
+      fournisseurs:
+          (json['fournisseurs'] != null && json['fournisseurs'].isNotEmpty)
+              ? [
+                  for (var fournisseur in json['fournisseurs'])
+                    Fournisseur.fromJson(fournisseur),
+                ]
+              : [],
       tva:
           (json['param_tva'] != null) ? Tva.fromJson(json['param_tva']) : Tva(),
       stockMin: (json['stock_mini'] != null) ? json['stock_mini'] as int : 0,
@@ -90,7 +98,7 @@ class Article {
           : '',
       stockable:
           (json['stockable'] != null && json['stockable'] == 1) ? true : false,
-      /*datePeremption: (json['date_peremption'] != null)
+      datePeremption: (json['date_peremption'] != null)
           ? json['date_peremption']
               .toString()
               .replaceAll('T00:00:00.000000Z', '')
@@ -105,7 +113,7 @@ class Article {
           ? json['date_peremptions']
               .toString()
               .replaceAll('T00:00:00.000000Z', '')
-          : '',*/
+          : '',
     );
   }
   // return to Map

@@ -72,6 +72,7 @@ class MyExpandableBoxState extends State<MyExpandableBox> {
                             text: widget.headerText,
                             color: Colors.black,
                             fontSize: 16,
+                            overflow: TextOverflow.visible,
                           ),
                         ),
                       ],
