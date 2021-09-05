@@ -9,7 +9,6 @@ import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
-import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/screens/client/ClientScreen.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/functions.dart' as functions;

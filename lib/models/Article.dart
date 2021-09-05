@@ -1,30 +1,31 @@
 import 'package:smartsfv/models/Categorie.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/SousCategorie.dart';
+import 'package:smartsfv/models/Tva.dart';
 
 class Article {
   // todo: Properties
   int id;
   String codeBarre;
   String description;
-  String designation;
+  String? designation;
   Categorie categorie;
   SousCategorie? sousCategorie;
   int qteEnStock;
   int prixAchatTTC;
   int prixAchatHT;
-  int tauxMargeAchat;
+  int? tauxMargeAchat;
   int prixVenteTTC;
   int prixVenteHT;
   int tauxMargeVente;
-  Fournisseur? fournisseur;
-  int tva;
+  List<Fournisseur> fournisseurs;
+  Tva tva;
   int stockMin;
   String datePeremption;
   String libelleDepot;
   String libelleUnite;
   String datePeremptions;
-  String image;
+  String? image;
   bool stockable;
   // todo: Constructor
   Article({
@@ -41,8 +42,8 @@ class Article {
     this.prixVenteTTC = 0,
     this.prixVenteHT = 0,
     this.tauxMargeVente = 0,
-    this.fournisseur,
-    this.tva = 0,
+    this.fournisseurs = const [],
+    required this.tva,
     this.stockMin = 0,
     this.datePeremption = '',
     this.libelleDepot = '',
@@ -64,7 +65,9 @@ class Article {
       categorie: (json['categorie'] != null)
           ? Categorie.fromJson(json['categorie'])
           : Categorie(),
-      sousCategorie: SousCategorie.fromJson(json['sous_categorie']), // nullable
+      sousCategorie: (json['sous_categorie'] != null)
+          ? SousCategorie.fromJson(json['sous_categorie'])
+          : null, // ! nullable
       qteEnStock: (json['quantite_en_stock'] != null)
           ? json['quantite_en_stock'] as int
           : 0,
@@ -75,10 +78,19 @@ class Article {
           ? json['prix_vente_ttc_base'] as int
           : 0,
       //prixVenteHT: json[''] as int,
-      fournisseur: Fournisseur.fromJson(json['fournisseurs'][0]),
-      //tva: json['param_tva'] as int,
+      fournisseurs: [
+        for (var fournisseur in json['fournisseurs'])
+          Fournisseur.fromJson(fournisseur),
+      ],
+      tva:
+          (json['param_tva'] != null) ? Tva.fromJson(json['param_tva']) : Tva(),
       stockMin: (json['stock_mini'] != null) ? json['stock_mini'] as int : 0,
-      datePeremption: (json['date_peremption'] != null)
+      image: (json['image_article'] != null)
+          ? json['image_article'] as String
+          : '',
+      stockable:
+          (json['stockable'] != null && json['stockable'] == 1) ? true : false,
+      /*datePeremption: (json['date_peremption'] != null)
           ? json['date_peremption']
               .toString()
               .replaceAll('T00:00:00.000000Z', '')
@@ -93,7 +105,7 @@ class Article {
           ? json['date_peremptions']
               .toString()
               .replaceAll('T00:00:00.000000Z', '')
-          : '',
+          : '',*/
     );
   }
   // return to Map
@@ -102,7 +114,7 @@ class Article {
       //'id': 0,
       'code_barre': article.codeBarre,
       'designation': article.designation,
-      'fournisseur': article.fournisseur,
+      'fournisseur': article.fournisseurs,
       'categorie': article.categorie,
       'subCategorie': article.sousCategorie,
       'stockMin': article.stockMin,
@@ -113,7 +125,7 @@ class Article {
       'prixVenteTTC': article.prixVenteTTC,
       'prixVenteHT': article.prixVenteHT,
       'tauxMargeVente': article.tauxMargeVente,
-      'imageArticle': article.image,
+      'image_article': article.image,
       'stockable': article.stockable.toString(),
     };
   }

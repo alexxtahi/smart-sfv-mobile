@@ -12,7 +12,7 @@ class Categorie {
   factory Categorie.fromJson(Map<String, dynamic> json) {
     return Categorie(
       id: json['id'] as int,
-      libelle: json['libelle_category'] as String,
+      libelle: json['libelle_categorie'] as String,
     );
   }
   // return to Map

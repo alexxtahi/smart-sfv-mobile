@@ -7,7 +7,6 @@ import 'package:smartsfv/models/Categorie.dart';
 import 'package:smartsfv/models/SousCategorie.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
-import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/views/screens/sous-categorie/SousCategorieScreen.dart';
 import 'package:smartsfv/functions.dart' as functions;

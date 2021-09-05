@@ -4,6 +4,7 @@ import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Categorie.dart';
+import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
@@ -24,6 +25,7 @@ class ArticleScreenState extends State<ArticleScreen> {
   TextEditingController textEditingController = TextEditingController();
   String searchBy = 'Par nom';
   String searchByIcon = 'sort-az';
+  Map<String, String> research = {}; // var to save user reasearch
   // init API instance
   Api api = Api();
   //todo: setState function for the childrens
@@ -79,11 +81,42 @@ class ArticleScreenState extends State<ArticleScreen> {
                   onSubmitted: (text) {
                     // dismiss keyboard
                     FocusScope.of(context).requestFocus(FocusNode());
+                    // launch research
+                    setState(() {
+                      Research.type = 'Article';
+                      Research.searchBy = this.searchBy;
+                      Research.value = this.textEditingController.text;
+                    });
                   },
+                  onChanged: (text) {
+                    // launch research
+                    setState(() {
+                      Research.type = 'Article';
+                      Research.searchBy = this.searchBy;
+                      Research.value = this.textEditingController.text;
+                    });
+                  },
+                  //todo: Research button
                   suffixIcon: MyOutlinedIconButton(
                     onPressed: () {
+                      // ? Show reloading message
+                      functions.showMessageToSnackbar(
+                        context: context,
+                        message: "Recherche...",
+                        icon: CircularProgressIndicator(
+                          color: Color.fromRGBO(60, 141, 188, 1),
+                          backgroundColor: Colors.white.withOpacity(0.1),
+                          strokeWidth: 5,
+                        ),
+                      );
                       // dismiss keyboard
                       FocusScope.of(context).requestFocus(FocusNode());
+                      // launch research
+                      setState(() {
+                        Research.type = 'Article';
+                        Research.searchBy = this.searchBy;
+                        Research.value = this.textEditingController.text;
+                      });
                     },
                     backgroundColor: Colors.white,
                     borderColor: Colors.transparent,

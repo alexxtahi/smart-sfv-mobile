@@ -23,6 +23,7 @@ import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Rangee.dart';
 import 'package:smartsfv/models/Rayon.dart';
 import 'package:smartsfv/models/Regime.dart';
+import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/models/SousCategorie.dart';
 import 'package:smartsfv/models/Taille.dart';
 import 'package:smartsfv/models/Tva.dart';
@@ -35,8 +36,8 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  //$$String host = 'http://192.168.1.100:8000'; // local ip adress // ! local
-  String host = 'https://smartsfv.smartyacademy.com'; // ! production
+  String host = 'http://192.168.1.100:8000'; // local ip adress // ! local
+  //String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
   Api() {
@@ -91,7 +92,7 @@ class Api {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         this.requestSuccess = true;
-        //print(this.response.body);
+        print("Articles response -> ${this.response.body}");
         // ? Show success snack bar
         if (ScreenController.actualView == "ArticleView")
           functions.showMessageToSnackbar(
@@ -106,7 +107,20 @@ class Api {
         List articleResponse = json.decode(this.response.body)['rows'];
         List<Article> articles = [
           for (var article in articleResponse)
-            Article.fromJson(article), // ! debug
+            // ? filter articles by Research
+            if (Research.type == 'Article' &&
+                Research.searchBy == 'Par nom' &&
+                article['description_article'].contains(Research.value))
+              Article.fromJson(article) // ! Get articles by nom
+            else if (Research.type == 'Article' &&
+                Research.searchBy == 'Par code barre' &&
+                article['code_barre'].contains(Research.value))
+              Article.fromJson(article) // ! Get articles by code barre
+          /*else
+              Article.fromJson(article) // ! Get all articles
+              */
+          // ? take all articles
+          //Article.fromJson(article), // ! debug
           // ? take only article created by the actual user
           //if (article['created_by'] == User.id)
           //Article.fromJson(article), // ! production
@@ -1812,7 +1826,7 @@ class Api {
       // get and show server response
       final responseJson = json.decode(this.response.body);
 
-      print(responseJson.runtimeType);
+      print('${responseJson.runtimeType} response -> $responseJson');
       // ? Login success
       if (responseJson['access_token'] != null) {
         // ? Save token to the cache

@@ -53,9 +53,17 @@ Future<void> showFormDialog(
                   (hasHeaderTitle)
                       ?
                       //todo: Title
-                      MyText(
-                          text: title,
-                          fontWeight: FontWeight.bold,
+                      Wrap(
+                          alignment: WrapAlignment.center,
+                          children: [
+                            Flexible(
+                              child: MyText(
+                                text: title,
+                                fontWeight: FontWeight.bold,
+                                overflow: TextOverflow.visible,
+                              ),
+                            ),
+                          ],
                         )
                       : Container(),
                   (hasHeaderIcon || hasHeaderTitle)
@@ -175,12 +183,14 @@ void showMessageToSnackbar({
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      /*
       elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       behavior: SnackBarBehavior.floating,
       margin: padding,
+      */
       backgroundColor: backgroundColor,
       duration: Duration(seconds: duration),
       content: Row(

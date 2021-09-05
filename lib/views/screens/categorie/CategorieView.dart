@@ -4,9 +4,7 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Categorie.dart';
-import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
-import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/views/screens/categorie/CategorieScreen.dart';
 import 'package:smartsfv/functions.dart' as functions;
@@ -79,9 +77,9 @@ class CategorieViewState extends State<CategorieView> {
           functions.showFormDialog(
             scaffold.currentContext,
             formKey,
-            headerIcon: 'assets/img/icons/cashier.png',
-            title: 'Ajouter une nouvelle caisse',
-            successMessage: 'Nouvelle caisse ajouté !',
+            headerIcon: 'assets/img/icons/category.png',
+            title: 'Ajouter une nouvelle categorie',
+            successMessage: 'Nouvelle categorie ajoutée !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
@@ -92,7 +90,7 @@ class CategorieViewState extends State<CategorieView> {
                   context: scaffold.currentContext,
                   // ? Create Categorie instance from Json and pass it to the fucnction
                   categorie: Categorie.fromJson({
-                    'libelle_caisse': fieldControllers['libelle']
+                    'libelle_categorie': fieldControllers['libelle']
                         .text, // get libelle  // ! required
                   }),
                 );
@@ -110,7 +108,7 @@ class CategorieViewState extends State<CategorieView> {
                     message: 'Un problème est survenu',
                   );
                 }
-                // ? Refresh caisse list
+                // ? Refresh categorie list
                 setState(() {});
               }
             },

@@ -113,16 +113,30 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                                   article.categorie.libelle,
                                                   article.qteEnStock.toString(),
                                                   article.prixAchatTTC
-                                                      .toString(),
+                                                          .toString() +
+                                                      ' FCFA',
                                                   article.prixAchatHT
-                                                      .toString(),
+                                                          .toString() +
+                                                      ' FCFA',
                                                   article.prixVenteTTC
-                                                      .toString(),
+                                                          .toString() +
+                                                      ' FCFA',
                                                   article.prixVenteHT
-                                                      .toString(),
-                                                  article.fournisseur!.nom
-                                                      .toString(),
-                                                  article.tva.toString(),
+                                                          .toString() +
+                                                      ' FCFA',
+                                                  (article.fournisseurs
+                                                          .isNotEmpty)
+                                                      ? [
+                                                          for (var fournisseur
+                                                              in article
+                                                                  .fournisseurs)
+                                                            fournisseur.nom
+                                                                .toString()
+                                                        ].toString()
+                                                      : 'Aucun',
+                                                  (article.tva.percent * 100)
+                                                          .toString() +
+                                                      ' %',
                                                   article.stockMin.toString(),
                                                 ],
                                             ],
