@@ -1,10 +1,13 @@
+import 'package:smartsfv/models/Pays.dart';
+import 'package:smartsfv/models/Regime.dart';
+
 class Client {
   // todo: Properties
   String code;
   String nom;
   String contact;
-  String pays;
-  String regime;
+  Pays pays;
+  Regime regime;
   String email;
   String adresse;
   String boitePostale;
@@ -17,8 +20,8 @@ class Client {
     this.code = '',
     this.nom = '',
     this.contact = '',
-    this.pays = '',
-    this.regime = '',
+    required this.pays,
+    required this.regime,
     this.email = '',
     this.adresse = '',
     this.boitePostale = '',
@@ -37,11 +40,11 @@ class Client {
       nom: json['full_name_client'] as String, // ! required
       contact: json['contact_client'] as String, // ! required
       pays: (json['nation'] != null)
-          ? json['nation']['libelle_nation'] as String
-          : 'Aucun', // ! required
+          ? Pays.fromJson(json['nation'])
+          : Pays(libelle: "Aucun"), // ! required
       regime: (json['regime'] != null)
-          ? json['regime']['libelle_regime'] as String
-          : 'Aucun', // ! required
+          ? Regime.fromJson(json['regime'])
+          : Regime(libelle: "Aucun"), // ! required
       email: (json['email_client'] != null)
           ? json['email_client'] as String
           : 'Aucune',
@@ -70,11 +73,11 @@ class Client {
       'full_name_client': client.nom, // ! required
       'contact_client': client.contact, // ! required
       'email_client': client.email,
-      'nation_id': client.pays, // ! required
+      'nation_id': client.pays.id.toString(), // ! required
       'adresse_client': client.adresse,
       'boite_postale_client': client.boitePostale,
       'plafond_client': client.montantPlafond,
-      'regime_id': client.regime, // ! required
+      'regime_id': client.regime.id.toString(), // ! required
       'fax_client': client.fax,
       'compte_contribuable_client': client.compteContrib,
     };

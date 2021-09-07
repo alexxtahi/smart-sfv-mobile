@@ -11,8 +11,10 @@ class Regime {
   // get data from json method
   factory Regime.fromJson(Map<String, dynamic> json) {
     return Regime(
-      id: json['id'] as int,
-      libelle: json['libelle_regime'] as String,
+      id: (json['id'] != null) ? json['id'] as int : 0,
+      libelle: (json['libelle_regime'] != null)
+          ? json['libelle_regime'] as String
+          : '',
     );
   }
 }

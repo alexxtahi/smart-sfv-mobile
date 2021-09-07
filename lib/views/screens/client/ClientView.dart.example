@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:phonenumbers/phonenumbers.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
-import 'package:smartsfv/views/components/MyPhoneNumberFormField.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/client/ClientScreen.dart';
@@ -76,13 +74,12 @@ class ClientViewState extends State<ClientView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'name': TextEditingController(),
-            'contact':
-                TextEditingController(), //'contact': PhoneNumberEditingController(),
+            'contact': TextEditingController(),
             'email': TextEditingController(),
-            'pays': 0,
+            'pays': '',
             'geoAdr': TextEditingController(),
             'postalAdr': TextEditingController(),
-            'regime': 0,
+            'regimes': '',
             'montantPlafond': TextEditingController(),
             'fax': TextEditingController(),
             'compteContrib': TextEditingController(),
@@ -95,7 +92,6 @@ class ClientViewState extends State<ClientView> {
             headerIcon: 'assets/img/icons/customer.png',
             title: 'Ajouter un nouveau client',
             onValidate: () async {
-              //functions.normalizePhoneNumber(fieldControllers['contact'].text); // ! debug
               if (formKey.currentState!.validate()) {
                 // ? sending datas to API
                 Api api = Api();
@@ -105,12 +101,8 @@ class ClientViewState extends State<ClientView> {
                   client: Client.fromJson({
                     'full_name_client': fieldControllers['name']
                         .text, // get name  // ! required
-                    'contact_client': (fieldControllers['pays'] == 51)
-                        ? // ? Normalize Ivoirian phone numbers
-                        functions.normalizePhoneNumber(
-                            fieldControllers['contact'].text)
-                        : fieldControllers['contact']
-                            .text, // get contact // ! required
+                    'contact_client': fieldControllers['contact']
+                        .text, // get contact // ! required
                     'email_client': (fieldControllers['email'].text != null)
                         ? fieldControllers['email'].text
                         : '', // get email
@@ -144,17 +136,10 @@ class ClientViewState extends State<ClientView> {
                 if (postClientResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
                   Navigator.of(context).pop();
-                  functions.showSuccessDialog(
-                    context: scaffold.currentContext,
-                    message: 'Nouveau client ajouté !',
-                  );
-
-                  /*
                   functions.successSnackbar(
                     context: scaffold.currentContext,
                     message: 'Nouveau client ajouté !',
                   );
-                  */
                 } else {
                   functions.errorSnackbar(
                     context: scaffold.currentContext,
@@ -234,39 +219,12 @@ class ClientViewState extends State<ClientView> {
                   ),
                   SizedBox(height: 5),
                   //todo: Contact TextFormField
-                  /*MyPhoneNumberFormField(
-                    controller: fieldControllers['contact'],
-                    prefixPadding: 10,
-                    prefixIcon: Icon(
-                      Icons.phone_android_rounded,
-                      color: Color.fromRGBO(60, 141, 188, 1),
-                    ),
-                    placeholder: 'Contact du client',
-                    textColor: Color.fromRGBO(60, 141, 188, 1),
-                    placeholderColor: Color.fromRGBO(60, 141, 188, 1),
-                    fillColor: Color.fromRGBO(60, 141, 188, 0.15),
-                    borderRadius: Radius.circular(10),
-                    focusBorderColor: Colors.transparent,
-                    enableBorderColor: Colors.transparent,
-                  ),*/
                   MyTextFormField(
-                    keyboardType: TextInputType.number,
                     textEditingController: fieldControllers['contact'],
                     validator: (value) {
-                      if (value!.isNotEmpty) {
-                        // ? For ivoirian number
-                        if (fieldControllers['pays'] == 51) {
-                          if (value.length == 10)
-                            return null;
-                          else
-                            return 'Numéro de téléphone incorrect';
-                        } else {
-                          // ? For all other numbers
-                          return null;
-                        }
-                      } else {
-                        return 'Saisissez le contact du client';
-                      }
+                      return value!.isNotEmpty
+                          ? null
+                          : 'Saisissez le contact du client';
                     },
                     prefixPadding: 10,
                     prefixIcon: Icon(

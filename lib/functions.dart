@@ -56,12 +56,10 @@ Future<void> showFormDialog(
                       Wrap(
                           alignment: WrapAlignment.center,
                           children: [
-                            Flexible(
-                              child: MyText(
-                                text: title,
-                                fontWeight: FontWeight.bold,
-                                overflow: TextOverflow.visible,
-                              ),
+                            MyText(
+                              text: title,
+                              fontWeight: FontWeight.bold,
+                              overflow: TextOverflow.visible,
                             ),
                           ],
                         )
@@ -324,5 +322,60 @@ void logout(var context, {Function()? onValidate}) {
             ),
           ],
     onValidate: onValidate,
+  );
+}
+
+//todo: Function to normalize phone numbers
+String normalizePhoneNumber(String phoneNumber) {
+  String normalizedNumber = '(' + phoneNumber.substring(0, 2) + ')';
+  normalizedNumber += ' ' + phoneNumber.substring(2, 4);
+  normalizedNumber += '-' + phoneNumber.substring(4, 6);
+  normalizedNumber += '-' + phoneNumber.substring(6, 8);
+  normalizedNumber += '-' + phoneNumber.substring(8, 10);
+  print("Normalized number -> " + normalizedNumber);
+  return normalizedNumber;
+}
+
+//todo: Show success dialog
+void showSuccessDialog({
+  required var context,
+  String message = 'Succès !',
+}) async {
+  return await showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (alertContext, setState) {
+          return AlertDialog(
+            elevation: 5,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 30,
+            ),
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 35,
+                  backgroundColor: Colors.green,
+                  child: Icon(
+                    Icons.check_rounded,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                SizedBox(height: 10),
+                MyText(
+                  text: message,
+                  fontWeight: FontWeight.bold,
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
   );
 }

@@ -35,13 +35,12 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
                   //todo: Profile Picture
                   CircleAvatar(
                     radius: 40,
-                    backgroundColor: Color.fromRGBO(60, 141, 188, 0.3),
-                    //backgroundColor: Color.fromRGBO(1, 21, 122, 1),
+                    backgroundColor: Colors.white,
+                    //backgroundColor: Color.fromRGBO(60, 141, 188, 0.3),
                     child: Icon(
                       Icons.account_circle_outlined,
                       size: 70,
-                      color: Colors.white,
-                      //color: Color.fromRGBO(60, 141, 188, 1),
+                      color: Color.fromRGBO(60, 141, 188, 1),
                     ),
                     //backgroundImage: AssetImage('assets/img/motion-design/avatar-image.png'),
                   ),

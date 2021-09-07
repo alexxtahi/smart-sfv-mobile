@@ -104,47 +104,49 @@ class ArticleViewState extends State<ArticleView> {
             title: 'Ajouter un nouvel article',
             onValidate: () async {
               if (formKey.currentState!.validate()) {
-                // ? get fields datas
-                Map<String, dynamic> articleDatas = {
-                  'code_barre': (fieldControllers['codeBarre'].text)
-                      ? fieldControllers['codeBarre'].text
-                      : '', // get code barre
-                  'designation': fieldControllers['designation']
-                      .text, // get designation // ! required
-                  'fournisseur': (fieldControllers['fournisseur'].text != null)
-                      ? fieldControllers['fournisseur'].text
-                      : '', // get fournisseur
-                  'categorie': fieldControllers['categorie']
-                      .toString(), // get categorie // ! required
-                  'sous_categorie': fieldControllers['subCategorie']
-                      .toString(), // get subCategorie
-                  'stock_mini': (fieldControllers['stockMin'].text != null)
-                      ? fieldControllers['stockMin'].text
-                      : '', // get stockMin
-                  'param_tva': fieldControllers['tva'], // get tva // ! required
-                  'prix_achat_ttc': int.parse(fieldControllers['prixAchatTTC']
-                      .text), // get prixAchatTTC // ! required
-                  'prix_achat_ht': int.parse(
-                      fieldControllers['prixAchatHT'].text), // get prixAchatTTC
-                  'tauxMargeAchat': int.parse(fieldControllers['tauxMargeAchat']
-                      .text), // get tauxMargeAchat
-                  'prix_vente_ttc_base': int.parse(
-                      fieldControllers['prixVenteTTC']
-                          .text), // get prixVenteTTC
-                  'prix_vente_ht': int.parse(
-                      fieldControllers['prixVenteHT'].text), // get prixVenteTTC
-                  'tauxMargeVente': int.parse(fieldControllers['tauxMargeVente']
-                      .text), // get tauxMargeVente
-                  'image':
-                      fieldControllers['imageArticle'].text, // get imageArticle
-                  'stockable': fieldControllers['stockable'], // get stockable
-                };
                 // ? sending datas to API
                 Api api = Api();
                 final Map<String, dynamic> postArticleResponse =
                     await api.postArticle(
                   context: scaffold.currentContext,
-                  article: Article.fromJson(articleDatas),
+                  article: Article.fromJson({
+                    'code_barre': (fieldControllers['codeBarre'].text)
+                        ? fieldControllers['codeBarre'].text
+                        : '', // get code barre
+                    'designation': fieldControllers['designation']
+                        .text, // get designation // ! required
+                    'fournisseur':
+                        (fieldControllers['fournisseur'].text != null)
+                            ? fieldControllers['fournisseur'].text
+                            : '', // get fournisseur
+                    'categorie': fieldControllers['categorie']
+                        .toString(), // get categorie // ! required
+                    'sous_categorie': fieldControllers['subCategorie']
+                        .toString(), // get subCategorie
+                    'stock_mini': (fieldControllers['stockMin'].text != null)
+                        ? fieldControllers['stockMin'].text
+                        : '', // get stockMin
+                    'param_tva':
+                        fieldControllers['tva'], // get tva // ! required
+                    'prix_achat_ttc': int.parse(fieldControllers['prixAchatTTC']
+                        .text), // get prixAchatTTC // ! required
+                    'prix_achat_ht': int.parse(fieldControllers['prixAchatHT']
+                        .text), // get prixAchatTTC
+                    'tauxMargeAchat': int.parse(
+                        fieldControllers['tauxMargeAchat']
+                            .text), // get tauxMargeAchat
+                    'prix_vente_ttc_base': int.parse(
+                        fieldControllers['prixVenteTTC']
+                            .text), // get prixVenteTTC
+                    'prix_vente_ht': int.parse(fieldControllers['prixVenteHT']
+                        .text), // get prixVenteTTC
+                    'tauxMargeVente': int.parse(
+                        fieldControllers['tauxMargeVente']
+                            .text), // get tauxMargeVente
+                    'image': fieldControllers['imageArticle']
+                        .text, // get imageArticle
+                    'stockable': fieldControllers['stockable'], // get stockable
+                  }),
                 );
                 // ? check the server response
                 if (postArticleResponse['msg'] ==

@@ -110,8 +110,8 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
                                                   client.code,
                                                   client.nom,
                                                   client.contact,
-                                                  client.pays,
-                                                  client.regime,
+                                                  client.pays.libelle,
+                                                  client.regime.libelle,
                                                   client.email,
                                                   client.adresse,
                                                   client.montantPlafond

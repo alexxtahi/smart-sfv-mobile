@@ -46,6 +46,10 @@ dependencies:
   path_provider: ^2.0.2
   pdf: ^3.4.2
   printing: ^5.5.0
+  # ? phonenumbers dependencies
+  #quiver: ^2.0.1
+  #phonenumbers_core: ^1.0.0
+  phonenumbers: ^1.0.2
 
 dev_dependencies:
   flutter_test:

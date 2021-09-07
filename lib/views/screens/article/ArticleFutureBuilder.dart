@@ -93,8 +93,8 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                               'Catégorie',
                                               'En stock',
                                               "Prix d'achat TTC",
-                                              "Prix d'achat HT",
                                               "Prix de vente TTC",
+                                              "Prix d'achat HT",
                                               "Prix de vente HT",
                                               'Fournisseur(s)',
                                               'TVA',
@@ -116,12 +116,13 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                                   article.prixAchatTTC
                                                           .toString() +
                                                       ' FCFA',
-                                                  article.prixAchatHT
-                                                          .toString() +
-                                                      ' FCFA',
                                                   article.prixVenteTTC
                                                           .toString() +
                                                       ' FCFA',
+                                                  article.prixAchatHT
+                                                          .toString() +
+                                                      ' FCFA',
+
                                                   article.prixVenteHT
                                                           .toString() +
                                                       ' FCFA',

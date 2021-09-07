@@ -36,7 +36,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  //String host = 'http://192.168.1.15:8000'; // local ip adress // ! local
+  //String host = 'http://192.168.1.3:8000'; // local ip adress // ! local
   String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
@@ -2151,6 +2151,8 @@ class Api {
         // If the server did not return a 200 OK response,
         // then throw an exception.
         this.requestSuccess = false;
+        print(
+            "API ERROR: Logout Error -> Echec de déconnexion, vérifiez votre connexion internet");
         // show error snack bar
         if (ScreenController.actualView != "LoginView") {
           functions.errorSnackbar(
