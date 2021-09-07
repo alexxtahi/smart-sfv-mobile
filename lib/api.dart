@@ -36,8 +36,8 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = 'http://192.168.1.13:8000'; // local ip adress // ! local
-  //String host = 'https://smartsfv.smartyacademy.com'; // ! production
+  //String host = 'http://192.168.1.7:8000'; // local ip adress // ! local
+  String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
   Api() {
@@ -110,13 +110,17 @@ class Api {
             // ? filter articles by Research
             if (Research.type == 'Article' &&
                 Research.searchBy == 'Par nom' &&
-                article['description_article'].contains(Research.value))
+                article['description_article']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
               Article.fromJson(article) // ! Get articles by nom
             else if (Research.type == 'Article' &&
                 Research.searchBy == 'Par code barre' &&
-                article['code_barre'].contains(Research.value))
+                article['code_barre']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
               Article.fromJson(article) // ! Get articles by code barre
-            else
+            else if (Research.type == '')
               Article.fromJson(article) // ! Get all articles
 
           // ? take all articles
@@ -443,7 +447,18 @@ class Api {
         // ? create list of clients
         List clientResponse = json.decode(this.response.body)['rows'];
         List<Client> clients = [
-          for (var client in clientResponse) Client.fromJson(client), // ! debug
+          for (var client in clientResponse)
+            // ? filter clients by Research
+            if (Research.type == 'Client' &&
+                client['full_name_client']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Client.fromJson(client) // ! Get clients by nom
+            else if (Research.type == '')
+              Client.fromJson(client) // ! Get all clients
+
+          // ? take all clients
+          //Client.fromJson(client), // ! debug
           // ? take only client created by the actual user
           //if (client['created_by'] == User.id)
           //Client.fromJson(client), // ! production
@@ -693,16 +708,34 @@ class Api {
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
           );
-        // ? create list of countries
-        List commandesResponse = json.decode(this.response.body)['rows'];
+        // ? create list of commandes
+        List commandeResponse = json.decode(this.response.body)['rows'];
         List<Commande> commandes = [
-          for (var commande in commandesResponse) Commande.fromJson(commande),
+          for (var commande in commandeResponse)
+            // ? filter commandes by Research
+            if (Research.type == 'Commande' &&
+                Research.searchBy == 'Par N° de bon' &&
+                commande['numero_bon']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Commande.fromJson(commande) // ! Get commandes by numero bon
+            else if (Research.type == 'Commande' &&
+                Research.searchBy == 'Par date' &&
+                DateTime.parse(commande['date_bon_commande']).compareTo(
+                        DateTime.parse(Research.value.toLowerCase())) ==
+                    0)
+              Commande.fromJson(commande) // ! Get commandes by date
+            else if (Research.type == '')
+              Commande.fromJson(commande) // ! Get all commandes
+
+          // ? take all commandes
+          //Commande.fromJson(commande), // ! debug
           // ? take only commande created by the actual user
           //if (commande['created_by'] == User.id)
           //Commande.fromJson(commande), // ! production
         ];
         //print('List: $countries'); // ! debug
-        // ? return list of countries
+        // ? return list of commandes
         return commandes;
       } else {
         // If the server did not return a 200 OK response,
@@ -759,7 +792,15 @@ class Api {
         // ? create list of countries
         List paysResponse = json.decode(this.response.body)['rows'];
         List<Pays> countries = [
-          for (var pays in paysResponse) Pays.fromJson(pays),
+          for (var pays in paysResponse)
+            // ? filter pays by Research
+            if (Research.type == 'Pays' &&
+                pays['libelle_nation']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Pays.fromJson(pays) // ! Get pays by nom
+            else if (Research.type == '')
+              Pays.fromJson(pays) // ! Get all pays
         ];
         //print('List: $countries'); // ! debug
         // ? return list of countries
@@ -818,8 +859,19 @@ class Api {
         // ? create list of régimes
         List regimeResponse = json.decode(this.response.body)['rows'];
         List<Regime> regimes = [
+          for (var regime in regimeResponse)
+            // ? filter regimes by Research
+            if (Research.type == 'Regime' &&
+                regime['libelle_regime']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Regime.fromJson(regime) // ! Get regimes by name
+            else if (Research.type == '')
+              Regime.fromJson(regime) // ! Get all regimes
+
+          // ? take all regimes
+          //Regime.fromJson(regime), // ! debug
           // ? take only regime created by the actual user
-          for (var regime in regimeResponse) Regime.fromJson(regime), // ! debug
           //if (regime['created_by'] == User.id)
           //Regime.fromJson(regime), // ! production
         ];
@@ -875,11 +927,22 @@ class Api {
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
           );
-        // ? create list of countries
+        // ? create list of banques
         List banqueResponse = json.decode(this.response.body)['rows'];
         List<Banque> banques = [
+          for (var banque in banqueResponse)
+            // ? filter banques by Research
+            if (Research.type == 'Banque' &&
+                banque['libelle_banque']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Banque.fromJson(banque) // ! Get banques by name
+            else if (Research.type == '')
+              Banque.fromJson(banque) // ! Get all banques
+
+          // ? take all banques
+          //Banque.fromJson(banque), // ! debug
           // ? take only banque created by the actual user
-          for (var banque in banqueResponse) Banque.fromJson(banque), // ! debug
           //if (banque['created_by'] == User.id)
           //Banque.fromJson(banque), // ! production
         ];
@@ -932,11 +995,22 @@ class Api {
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
           );
-        // ? create list of countries
+        // ? create list of caisses
         List caisseResponse = json.decode(this.response.body)['rows'];
         List<Caisse> caisses = [
+          for (var caisse in caisseResponse)
+            // ? filter caisses by Research
+            if (Research.type == 'Caisse' &&
+                caisse['libelle_caisse']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Caisse.fromJson(caisse) // ! Get caisses by name
+            else if (Research.type == '')
+              Caisse.fromJson(caisse) // ! Get all caisses
+
+          // ? take all caisses
+          //Caisse.fromJson(caisse), // ! debug
           // ? take only caisse created by the actual user
-          for (var caisse in caisseResponse) Caisse.fromJson(caisse), // ! debug
           //if (caisse['created_by'] == User.id)
           //Caisse.fromJson(caisse), // ! production
         ];
@@ -992,9 +1066,21 @@ class Api {
         // ? create list of taxs
         List tvaResponse = json.decode(this.response.body)['rows'];
         List<Tva> tvas = [
+          for (var tva in tvaResponse)
+            // ? filter tvas by Research
+            if (Research.type == 'Tva' &&
+                tva['libelle_tva']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Tva.fromJson(tva) // ! Get tvas by name
+            else if (Research.type == '')
+              Tva.fromJson(tva) // ! Get all tvas
+
+          // ? take all tvas
+          //Tva.fromJson(tva), // ! debug
           // ? take only tva created by the actual user
-          for (var tva in tvaResponse) Tva.fromJson(tva), // ! debug
-          //if (tva['created_by'] == User.id) Tva.fromJson(tva), // ! production
+          //if (tva['created_by'] == User.id)
+          //Tva.fromJson(tva), // ! production
         ];
         // ? return list of taxs
         return tvas;
@@ -1046,9 +1132,19 @@ class Api {
         // ? create list of taxs
         List categorieResponse = json.decode(this.response.body)['rows'];
         List<Categorie> categories = [
-          // ? take only categorie created by the actual user
           for (var categorie in categorieResponse)
-            Categorie.fromJson(categorie), // ! debug
+            // ? filter categories by Research
+            if (Research.type == 'Categorie' &&
+                categorie['libelle_categorie']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Categorie.fromJson(categorie) // ! Get categories by name
+            else if (Research.type == '')
+              Categorie.fromJson(categorie) // ! Get all categories
+
+          // ? take all categories
+          //Categorie.fromJson(categorie), // ! debug
+          // ? take only categorie created by the actual user
           //if (categorie['created_by'] == User.id)
           //Categorie.fromJson(categorie), // ! production
         ];
@@ -1101,16 +1197,27 @@ class Api {
             ),
           );
         // ? create list of taxs
-        List subCategorieResponse = json.decode(this.response.body)['rows'];
-        List<SousCategorie> subCategories = [
-          // ? take only subCategorie created by the actual user
-          for (var subCategorie in subCategorieResponse)
-            SousCategorie.fromJson(subCategorie), // ! debug
-          //if (subCategorie['created_by'] == User.id)
-          //SousCategorie.fromJson(subCategorie), // ! production
+        List sousCategorieResponse = json.decode(this.response.body)['rows'];
+        List<SousCategorie> sousCategories = [
+          for (var sousCategorie in sousCategorieResponse)
+            // ? filter sousCategories by Research
+            if (Research.type == 'SousCategorie' &&
+                sousCategorie['libelle_sous_categorie']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              SousCategorie.fromJson(
+                  sousCategorie) // ! Get sousCategories by name
+            else if (Research.type == '')
+              SousCategorie.fromJson(sousCategorie) // ! Get all sousCategories
+
+          // ? take all sousCategories
+          //SousCategorie.fromJson(sousCategorie), // ! debug
+          // ? take only sousCategorie created by the actual user
+          //if (sousCategorie['created_by'] == User.id)
+          //SousCategorie.fromJson(sousCategorie), // ! production
         ];
         // ? return list of sous categories
-        return subCategories;
+        return sousCategories;
       } else {
         this.requestSuccess = false;
         // ? Show error snack bar
@@ -1160,9 +1267,20 @@ class Api {
         // ? create list of taxs
         List moyenPayementResponse = json.decode(this.response.body)['rows'];
         List<MoyenPayement> moyenPayements = [
-          // ? take only moyenPayement created by the actual user
           for (var moyenPayement in moyenPayementResponse)
-            MoyenPayement.fromJson(moyenPayement), // ! debug
+            // ? filter moyenPayements by Research
+            if (Research.type == 'MoyenPayement' &&
+                moyenPayement['libelle_moyenPayement']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              MoyenPayement.fromJson(
+                  moyenPayement) // ! Get moyenPayements by name
+            else if (Research.type == '')
+              MoyenPayement.fromJson(moyenPayement) // ! Get all moyenPayements
+
+          // ? take all moyenPayements
+          //MoyenPayement.fromJson(moyenPayement), // ! debug
+          // ? take only moyenPayement created by the actual user
           //if (moyenPayement['created_by'] == User.id)
           //MoyenPayement.fromJson(moyenPayement), // ! production
         ];
@@ -1217,8 +1335,19 @@ class Api {
         // ? create list of taxs
         List rayonResponse = json.decode(this.response.body)['rows'];
         List<Rayon> rayons = [
+          for (var rayon in rayonResponse)
+            // ? filter rayons by Research
+            if (Research.type == 'Rayon' &&
+                rayon['libelle_rayon']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Rayon.fromJson(rayon) // ! Get rayons by name
+            else if (Research.type == '')
+              Rayon.fromJson(rayon) // ! Get all rayons
+
+          // ? take all rayons
+          //Rayon.fromJson(rayon), // ! debug
           // ? take only rayon created by the actual user
-          for (var rayon in rayonResponse) Rayon.fromJson(rayon), // ! debug
           //if (rayon['created_by'] == User.id)
           //Rayon.fromJson(rayon), // ! production
         ];
@@ -1273,8 +1402,19 @@ class Api {
         // ? create list of taxs
         List rangeeResponse = json.decode(this.response.body)['rows'];
         List<Rangee> rangees = [
+          for (var rangee in rangeeResponse)
+            // ? filter rangees by Research
+            if (Research.type == 'Rangee' &&
+                rangee['libelle_rangee']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Rangee.fromJson(rangee) // ! Get rangees by name
+            else if (Research.type == '')
+              Rangee.fromJson(rangee) // ! Get all rangees
+
+          // ? take all rangees
+          //Rangee.fromJson(rangee), // ! debug
           // ? take only rangee created by the actual user
-          for (var rangee in rangeeResponse) Rangee.fromJson(rangee), // ! debug
           //if (rangee['created_by'] == User.id)
           //Rangee.fromJson(rangee), // ! production
         ];
@@ -1329,8 +1469,19 @@ class Api {
         // ? create list of taxs
         List casierResponse = json.decode(this.response.body)['rows'];
         List<Casier> casiers = [
+          for (var casier in casierResponse)
+            // ? filter casiers by Research
+            if (Research.type == 'Casier' &&
+                casier['libelle_casier']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Casier.fromJson(casier) // ! Get casiers by name
+            else if (Research.type == '')
+              Casier.fromJson(casier) // ! Get all casiers
+
+          // ? take all casiers
+          //Casier.fromJson(casier), // ! debug
           // ? take only casier created by the actual user
-          for (var casier in casierResponse) Casier.fromJson(casier), // ! debug
           //if (casier['created_by'] == User.id)
           //Casier.fromJson(casier), // ! production
         ];
@@ -1385,8 +1536,19 @@ class Api {
         // ? create list of taxs
         List uniteResponse = json.decode(this.response.body)['rows'];
         List<Unite> unites = [
+          for (var unite in uniteResponse)
+            // ? filter unites by Research
+            if (Research.type == 'Unite' &&
+                unite['libelle_unite']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Unite.fromJson(unite) // ! Get unites by name
+            else if (Research.type == '')
+              Unite.fromJson(unite) // ! Get all unites
+
+          // ? take all unites
+          //Unite.fromJson(unite), // ! debug
           // ? take only unite created by the actual user
-          for (var unite in uniteResponse) Unite.fromJson(unite), // ! debug
           //if (unite['created_by'] == User.id)
           //Unite.fromJson(unite), // ! production
         ];
@@ -1440,8 +1602,19 @@ class Api {
         // ? create list of taxs
         List tailleResponse = json.decode(this.response.body)['rows'];
         List<Taille> tailles = [
+          for (var taille in tailleResponse)
+            // ? filter tailles by Research
+            if (Research.type == 'Taille' &&
+                taille['libelle_taille']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Taille.fromJson(taille) // ! Get tailles by name
+            else if (Research.type == '')
+              Taille.fromJson(taille) // ! Get all tailles
+
+          // ? take all tailles
+          //Taille.fromJson(taille), // ! debug
           // ? take only taille created by the actual user
-          for (var taille in tailleResponse) Taille.fromJson(taille), // ! debug
           //if (taille['created_by'] == User.id)
           //Taille.fromJson(taille), // ! production
         ];
@@ -1496,8 +1669,19 @@ class Api {
         // ? create list of taxs
         List diversResponse = json.decode(this.response.body)['rows'];
         List<Divers> diversList = [
+          for (var divers in diversResponse)
+            // ? filter divers by Research
+            if (Research.type == 'Divers' &&
+                divers['libelle_divers']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Divers.fromJson(divers) // ! Get divers by name
+            else if (Research.type == '')
+              Divers.fromJson(divers) // ! Get all divers
+
+          // ? take all divers
+          //Divers.fromJson(divers), // ! debug
           // ? take only divers created by the actual user
-          for (var divers in diversResponse) Divers.fromJson(divers), // ! debug
           //if (divers['created_by'] == User.id)
           //Divers.fromJson(divers), // ! production
         ];
@@ -1552,9 +1736,21 @@ class Api {
         // ? create list of taxs
         List categorieDepenseResponse = json.decode(this.response.body)['rows'];
         List<CategorieDepense> categorieDepenses = [
-          // ? take only categorieDepense created by the actual user
           for (var categorieDepense in categorieDepenseResponse)
-            CategorieDepense.fromJson(categorieDepense), // ! debug
+            // ? filter categorieDepenses by Research
+            if (Research.type == 'CategorieDepense' &&
+                categorieDepense['libelle_categorieDepense']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              CategorieDepense.fromJson(
+                  categorieDepense) // ! Get categorieDepenses by name
+            else if (Research.type == '')
+              CategorieDepense.fromJson(
+                  categorieDepense) // ! Get all categorieDepenses
+
+          // ? take all categorieDepenses
+          //CategorieDepense.fromJson(categorieDepense), // ! debug
+          // ? take only categorieDepense created by the actual user
           //if (categorieDepense['created_by'] == User.id)
           //CategorieDepense.fromJson(categorieDepense), // ! production
         ];
@@ -1716,10 +1912,20 @@ class Api {
         List fournisseurResponse = json.decode(this.response.body)['rows'];
         List<Fournisseur> fournisseurs = [
           for (var fournisseur in fournisseurResponse)
-            Fournisseur.fromJson(fournisseur),
+            // ? filter fournisseurs by Research
+            if (Research.type == 'Fournisseur' &&
+                fournisseur['full_name_fournisseur']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Fournisseur.fromJson(fournisseur) // ! Get fournisseurs by name
+            else if (Research.type == '')
+              Fournisseur.fromJson(fournisseur) // ! Get all fournisseurs
+
+          // ? take all fournisseurs
+          //Fournisseur.fromJson(fournisseur), // ! debug
           // ? take only fournisseur created by the actual user
           //if (fournisseur['created_by'] == User.id)
-          //Fournisseur.fromJson(fournisseur),
+          //Fournisseur.fromJson(fournisseur), // ! production
         ];
         // ? return list of fournisseurs
         return fournisseurs;

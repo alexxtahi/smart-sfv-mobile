@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/AppName.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
@@ -60,6 +61,7 @@ class MyAppBarState extends State<MyAppBar> {
                 if (ScreenController.isChildView) {
                   Navigator.of(context).pop();
                   ScreenController.isChildView = false;
+                  Research.reset(); // Reset last research datas
                 }
               },
             )

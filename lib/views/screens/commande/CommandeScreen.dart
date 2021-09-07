@@ -4,6 +4,7 @@ import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
+import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
@@ -78,14 +79,52 @@ class CommandeScreenState extends State<CommandeScreen> {
                   enableBorderColor: Colors.transparent,
                   focusBorderColor: Colors.transparent,
                   fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                  onChanged: (text) {
+                    // ? Check if the field is empty or not
+                    setState(() {
+                      if (this.textEditingController.text.isEmpty)
+                        Research.reset(); // Reset last research datas
+                      else
+                        // launch research
+                        Research.find(
+                          'Commande',
+                          this.textEditingController.text,
+                          searchBy: this.searchBy,
+                        );
+                    });
+                  },
                   onSubmitted: (text) {
                     // dismiss keyboard
                     FocusScope.of(context).requestFocus(FocusNode());
+                    // ? Check if the field is empty or not
+                    setState(() {
+                      if (this.textEditingController.text.isEmpty)
+                        Research.reset(); // Reset last research datas
+                      else
+                        // launch research
+                        Research.find(
+                          'Commande',
+                          this.textEditingController.text,
+                          searchBy: this.searchBy,
+                        );
+                    });
                   },
                   suffixIcon: MyOutlinedIconButton(
                     onPressed: () {
                       // dismiss keyboard
                       FocusScope.of(context).requestFocus(FocusNode());
+                      // ? Check if the field is empty or not
+                      setState(() {
+                        if (this.textEditingController.text.isEmpty)
+                          Research.reset(); // Reset last research datas
+                        else
+                          // launch research
+                          Research.find(
+                            'Commande',
+                            this.textEditingController.text,
+                            searchBy: this.searchBy,
+                          );
+                      });
                     },
                     backgroundColor: Colors.white,
                     borderColor: Colors.transparent,

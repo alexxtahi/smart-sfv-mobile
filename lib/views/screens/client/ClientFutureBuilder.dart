@@ -115,7 +115,8 @@ class ClientFutureBuilderState extends State<ClientFutureBuilder> {
                                                   client.email,
                                                   client.adresse,
                                                   client.montantPlafond
-                                                      .toString(),
+                                                          .toString() +
+                                                      ' FCFA',
                                                   client.compteContrib,
                                                 ],
                                             ],

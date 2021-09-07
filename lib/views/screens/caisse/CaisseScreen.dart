@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
@@ -73,14 +74,43 @@ class CaisseScreenState extends State<CaisseScreen> {
                   enableBorderColor: Colors.transparent,
                   focusBorderColor: Colors.transparent,
                   fillColor: Color.fromRGBO(60, 141, 188, 0.15),
+                  onChanged: (text) {
+                    // ? Check if the field is empty or not
+                    setState(() {
+                      if (this.textEditingController.text.isEmpty)
+                        Research.reset(); // Reset last research datas
+                      else
+                        // launch research
+                        Research.find(
+                            'Caisse', this.textEditingController.text);
+                    });
+                  },
                   onSubmitted: (text) {
                     // dismiss keyboard
                     FocusScope.of(context).requestFocus(FocusNode());
+                    // ? Check if the field is empty or not
+                    setState(() {
+                      if (this.textEditingController.text.isEmpty)
+                        Research.reset(); // Reset last research datas
+                      else
+                        // launch research
+                        Research.find(
+                            'Caisse', this.textEditingController.text);
+                    });
                   },
                   suffixIcon: MyOutlinedIconButton(
                     onPressed: () {
                       // dismiss keyboard
                       FocusScope.of(context).requestFocus(FocusNode());
+                      // ? Check if the field is empty or not
+                      setState(() {
+                        if (this.textEditingController.text.isEmpty)
+                          Research.reset(); // Reset last research datas
+                        else
+                          // launch research
+                          Research.find(
+                              'Caisse', this.textEditingController.text);
+                      });
                     },
                     backgroundColor: Colors.white,
                     borderColor: Colors.transparent,

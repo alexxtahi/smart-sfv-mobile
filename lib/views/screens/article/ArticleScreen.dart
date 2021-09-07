@@ -81,19 +81,27 @@ class ArticleScreenState extends State<ArticleScreen> {
                   onSubmitted: (text) {
                     // dismiss keyboard
                     FocusScope.of(context).requestFocus(FocusNode());
-                    // launch research
+                    // ? Check if the field is empty or not
                     setState(() {
-                      Research.type = 'Article';
-                      Research.searchBy = this.searchBy;
-                      Research.value = this.textEditingController.text;
+                      if (this.textEditingController.text.isEmpty)
+                        Research.reset(); // Reset last research datas
+                      else
+                        // launch research
+                        Research.find(
+                            'Article', this.textEditingController.text,
+                            searchBy: this.searchBy);
                     });
                   },
                   onChanged: (text) {
-                    // launch research
+                    // ? Check if the field is empty or not
                     setState(() {
-                      Research.type = 'Article';
-                      Research.searchBy = this.searchBy;
-                      Research.value = this.textEditingController.text;
+                      if (this.textEditingController.text.isEmpty)
+                        Research.reset(); // Reset last research datas
+                      else
+                        // launch research
+                        Research.find(
+                            'Article', this.textEditingController.text,
+                            searchBy: this.searchBy);
                     });
                   },
                   //todo: Research button
@@ -111,11 +119,15 @@ class ArticleScreenState extends State<ArticleScreen> {
                       );
                       // dismiss keyboard
                       FocusScope.of(context).requestFocus(FocusNode());
-                      // launch research
+                      // ? Check if the field is empty or not
                       setState(() {
-                        Research.type = 'Article';
-                        Research.searchBy = this.searchBy;
-                        Research.value = this.textEditingController.text;
+                        if (this.textEditingController.text.isEmpty)
+                          Research.reset(); // Reset last research datas
+                        else
+                          // launch research
+                          Research.find(
+                              'Article', this.textEditingController.text,
+                              searchBy: this.searchBy);
                       });
                     },
                     backgroundColor: Colors.white,
