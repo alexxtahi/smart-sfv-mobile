@@ -165,6 +165,24 @@ class ArticleScreenState extends State<ArticleScreen> {
                                       for (var categorie in snapshot.data!)
                                         categorie.libelle,
                                     ],
+                                    // ? On item selected function
+                                    onItemSelected: (categorie) {
+                                      print("Catégorie -> $categorie");
+                                      // ? Check if the field is empty or not
+                                      setState(() {
+                                        if (categorie == 'Catégorie' ||
+                                            categorie == null)
+                                          Research
+                                              .reset(); // Reset last research datas
+                                        else
+                                          // launch research
+                                          Research.find(
+                                            'Article',
+                                            categorie,
+                                            searchBy: 'Categorie',
+                                          );
+                                      });
+                                    },
                                     iconSize: 0,
                                     textFontSize: 10,
                                     prefixPadding: 10,

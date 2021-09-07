@@ -160,6 +160,23 @@ class ClientScreenState extends State<ClientScreen> {
                                       for (var pays in snapshot.data!)
                                         pays.libelle,
                                     ],
+                                    // ? On item selected function
+                                    onItemSelected: (pays) {
+                                      print("Pays -> $pays");
+                                      // ? Check if the field is empty or not
+                                      setState(() {
+                                        if (pays == 'Pays' || pays == null)
+                                          Research
+                                              .reset(); // Reset last research datas
+                                        else
+                                          // launch research
+                                          Research.find(
+                                            'Client',
+                                            pays,
+                                            searchBy: 'Pays',
+                                          );
+                                      });
+                                    },
                                     iconSize: 0,
                                     prefixPadding: 10,
                                     prefixIcon: Image.asset(

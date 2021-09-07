@@ -146,13 +146,13 @@ class CommandeScreenState extends State<CommandeScreen> {
                     childAspectRatio: 3,
                     crossAxisSpacing: 10,
                     children: [
-                      //todo: Catégories DropDown
+                      //todo: Fournisseurs DropDown
                       (ScreenController.actualView != "LoginView")
                           ? FutureBuilder<List<Fournisseur>>(
                               future: api.getFournisseurs(context),
                               builder: (comboBoxContext, snapshot) {
                                 if (snapshot.hasData) {
-                                  // ? get nations datas from server
+                                  // ? get fournisseurs datas from server
                                   return MyComboBox(
                                     initialDropDownValue: 'Fournisseurs',
                                     initialDropDownList: [
@@ -161,6 +161,24 @@ class CommandeScreenState extends State<CommandeScreen> {
                                       for (var fournisseur in snapshot.data!)
                                         fournisseur.nom!,
                                     ],
+                                    // ? On item selected function
+                                    onItemSelected: (fournisseur) {
+                                      print("Fournisseur -> $fournisseur");
+                                      // ? Check if the field is empty or not
+                                      setState(() {
+                                        if (fournisseur == 'Fournisseur' ||
+                                            fournisseur == null)
+                                          Research
+                                              .reset(); // Reset last research datas
+                                        else
+                                          // launch research
+                                          Research.find(
+                                            'Client',
+                                            fournisseur,
+                                            searchBy: 'Fournisseur',
+                                          );
+                                      });
+                                    },
                                     iconSize: 0,
                                     textFontSize: 10,
                                     prefixPadding: 10,

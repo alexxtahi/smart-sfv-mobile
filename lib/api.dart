@@ -36,7 +36,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  //String host = 'http://192.168.1.7:8000'; // local ip adress // ! local
+  //String host = 'http://192.168.1.15:8000'; // local ip adress // ! local
   String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
@@ -120,6 +120,12 @@ class Api {
                     .toLowerCase()
                     .contains(Research.value.toLowerCase()))
               Article.fromJson(article) // ! Get articles by code barre
+            else if (Research.type == 'Article' &&
+                Research.type == 'Categorie' &&
+                article['categorie']['libelle_categorie']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Article.fromJson(article) // ! Get articles by categorie
             else if (Research.type == '')
               Article.fromJson(article) // ! Get all articles
 
@@ -454,6 +460,12 @@ class Api {
                     .toLowerCase()
                     .contains(Research.value.toLowerCase()))
               Client.fromJson(client) // ! Get clients by nom
+            else if (Research.type == 'Client' &&
+                Research.searchBy == 'Pays' &&
+                client['nation']['libelle_nation']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Client.fromJson(client) // ! Get clients by pays
             else if (Research.type == '')
               Client.fromJson(client) // ! Get all clients
 
@@ -725,6 +737,12 @@ class Api {
                         DateTime.parse(Research.value.toLowerCase())) ==
                     0)
               Commande.fromJson(commande) // ! Get commandes by date
+            else if (Research.type == 'Commande' &&
+                Research.searchBy == 'Fournisseur' &&
+                commande['fournisseur']['full_name_fournisseur']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Commande.fromJson(commande) // ! Get commandes by pays
             else if (Research.type == '')
               Commande.fromJson(commande) // ! Get all commandes
 
@@ -1917,7 +1935,13 @@ class Api {
                 fournisseur['full_name_fournisseur']
                     .toLowerCase()
                     .contains(Research.value.toLowerCase()))
-              Fournisseur.fromJson(fournisseur) // ! Get fournisseurs by name
+              Fournisseur.fromJson(fournisseur) // ! Get fournisseurs by nom
+            else if (Research.type == 'Fournisseur' &&
+                Research.searchBy == 'Pays' &&
+                fournisseur['nation']['libelle_nation']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Fournisseur.fromJson(fournisseur) // ! Get fournisseurs by pays
             else if (Research.type == '')
               Fournisseur.fromJson(fournisseur) // ! Get all fournisseurs
 

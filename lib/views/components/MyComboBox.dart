@@ -25,6 +25,7 @@ class MyComboBox extends StatefulWidget {
   final FocusNode? focusNode;
   final void Function()? onTap;
   final void Function(String?)? onChanged;
+  final void Function(String?)? onItemSelected;
   final String? Function(String?)? validator;
   var menuItem;
 
@@ -49,6 +50,7 @@ class MyComboBox extends StatefulWidget {
     this.borderRadius = Radius.zero,
     this.onTap,
     this.onChanged,
+    this.onItemSelected,
     this.validator,
     this.textFontWeight = FontWeight.normal,
     this.textFontSize = 14,
@@ -94,6 +96,9 @@ class MyComboBoxState extends State<MyComboBox> {
           : (String? newDropDownValue) {
               setState(() {
                 this.dropDownValue = newDropDownValue!;
+                // ? Add on item selected function
+                if (widget.onItemSelected != null)
+                  widget.onItemSelected!(newDropDownValue);
               });
             },
       items: this.dropDownList.map<DropdownMenuItem<String>>(

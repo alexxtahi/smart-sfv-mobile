@@ -96,19 +96,21 @@ class Article {
       image: (json['image_article'] != null)
           ? json['image_article'] as String
           : '',
-      stockable:
-          (json['stockable'] != null && json['stockable'] == 1) ? true : false,
+      stockable: (json['stockable'] != null &&
+              (json['stockable'] == 1 || json['stockable'] == '1'))
+          ? true
+          : false,
       datePeremption: (json['date_peremption'] != null)
           ? json['date_peremption']
               .toString()
               .replaceAll('T00:00:00.000000Z', '')
           : '',
       libelleDepot: (json['libelle_depot'] != null)
-          ? json['libelle_depot'].toString()
-          : '',
+          ? json['libelle_depot'] as String
+          : 'Aucun',
       libelleUnite: (json['libelle_unite'] != null)
-          ? json['libelle_unite'].toString()
-          : '',
+          ? json['libelle_unite'] as String
+          : 'Aucune',
       datePeremptions: (json['date_peremptions'] != null)
           ? json['date_peremptions']
               .toString()
