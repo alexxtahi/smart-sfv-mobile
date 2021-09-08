@@ -359,17 +359,117 @@ void showSuccessDialog({
               children: [
                 CircleAvatar(
                   radius: 35,
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.green.withOpacity(0.2),
                   child: Icon(
                     Icons.check_rounded,
-                    color: Colors.white,
+                    color: Colors.green,
                     size: 30,
                   ),
                 ),
                 SizedBox(height: 10),
-                MyText(
-                  text: message,
-                  fontWeight: FontWeight.bold,
+                Flexible(
+                  child: MyText(
+                    textAlign: TextAlign.center,
+                    text: message,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+
+//todo: Show warning dialog
+void showWarningDialog({
+  required var context,
+  String message = 'Attention !',
+}) async {
+  return await showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (alertContext, setState) {
+          return AlertDialog(
+            elevation: 5,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 30,
+            ),
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 35,
+                  backgroundColor: Colors.yellow[800]!.withOpacity(0.2),
+                  child: Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.yellow[800],
+                    size: 40,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Flexible(
+                  child: MyText(
+                    textAlign: TextAlign.center,
+                    text: message,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+
+//todo: Show error dialog
+void showErrorDialog({
+  required var context,
+  String message = 'Erreur !',
+}) async {
+  return await showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (alertContext, setState) {
+          return AlertDialog(
+            elevation: 5,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 30,
+            ),
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 35,
+                  backgroundColor: Colors.red[800]!.withOpacity(0.2),
+                  child: Icon(
+                    Icons.error_outline_rounded,
+                    color: Colors.red[800],
+                    size: 40,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Flexible(
+                  child: MyText(
+                    textAlign: TextAlign.center,
+                    text: message,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,
+                  ),
                 ),
               ],
             ),

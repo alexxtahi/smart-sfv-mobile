@@ -22,7 +22,7 @@ class Banque {
   static Map<String, dynamic> toMap(Banque banque) {
     return <String, dynamic>{
       //'id': banque.id,
-      'libelle_banque': banque.libelle.toString(),
+      'libelle_banque': banque.libelle,
     };
   }
 }

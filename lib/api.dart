@@ -36,8 +36,8 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  //String host = 'http://192.168.1.3:8000'; // local ip adress // ! local
-  String host = 'https://smartsfv.smartyacademy.com'; // ! production
+  String host = 'http://192.168.1.9:8000'; // local ip adress // ! local
+  //String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
   Api() {
@@ -55,11 +55,13 @@ class Api {
       'getArticlesPeremption':
           '${this.host}/api/auth/articles-en-voie-peremption',
       'getArticlesRupture': '${this.host}/api/auth/articles-en-voie-rupture',
+      // Routes régimes
       'getRegimes': '${this.host}/api/auth/regimes',
+      // Routes pays
       'getNations': '${this.host}/api/auth/nations',
       // Routes clients
-      'postClient': '${this.host}/api/auth/client/store',
       'getClients': '${this.host}/api/auth/clients',
+      'postClient': '${this.host}/api/auth/client/store',
       'getBestClients': '${this.host}/api/auth/beste-clients',
       'getDettesClients': '${this.host}/api/auth/clients-plus-endettes',
       'getWorstRentabilityClients': '${this.host}/api/auth/beste-clients',
@@ -70,6 +72,33 @@ class Api {
       'postFournisseur': '${this.host}/api/auth/fournisseur/store',
       // Routes commandes
       'getCommandes': '${this.host}/api/auth/commande-en-cours',
+      // Routes banques
+      'getBanques': '${this.host}/api/auth/banques',
+      'postBanque': '${this.host}/api/auth/banque/store',
+      // Routes tvas
+      'getTvas': '${this.host}/api/auth/tvas',
+      // Routes caisses
+      'getCaisses': '${this.host}/api/auth/caisses',
+      // Routes catégories
+      'getCategories': '${this.host}/api/auth/categories',
+      // Routes sous catégories
+      'getSousCategories': '${this.host}/api/auth/sous-categories',
+      // Routes moyens payement
+      'getMoyensPayement': '${this.host}/api/auth/moyens-payement',
+      // Routes rayons
+      'getRayons': '${this.host}/api/auth/rayons',
+      // Routes rangées
+      'getRangees': '${this.host}/api/auth/rangees',
+      // Routes casiers
+      'getCasiers': '${this.host}/api/auth/casiers',
+      // Routes unités
+      'getUnites': '${this.host}/api/auth/unites',
+      // Routes tailles
+      'getTailles': '${this.host}/api/auth/tailles',
+      // Routes divers
+      'getDivers': '${this.host}/api/auth/divers',
+      // Routes categories dépenses
+      'getCategoriesDepenses': '${this.host}/api/auth/categories-depenses',
     };
   }
 
@@ -2331,9 +2360,9 @@ class Api {
   }
 
   // todo: post bank method
-  Future<Map<String, dynamic>> postBank(
+  Future<Map<String, dynamic>> postBanques(
       {required var context, required Banque banque}) async {
-    this.url = this.routes['postBank'].toString(); // set client url
+    this.url = this.routes['postBanque'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
@@ -2354,16 +2383,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "BanqueView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement de la banque",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }

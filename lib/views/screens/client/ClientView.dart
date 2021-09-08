@@ -148,13 +148,6 @@ class ClientViewState extends State<ClientView> {
                     context: scaffold.currentContext,
                     message: 'Nouveau client ajouté !',
                   );
-
-                  /*
-                  functions.successSnackbar(
-                    context: scaffold.currentContext,
-                    message: 'Nouveau client ajouté !',
-                  );
-                  */
                 } else {
                   functions.errorSnackbar(
                     context: scaffold.currentContext,

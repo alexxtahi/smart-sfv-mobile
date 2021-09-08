@@ -80,8 +80,8 @@ class BanqueViewState extends State<BanqueView> {
               if (formKey.currentState!.validate()) {
                 // ? sending datas to API
                 Api api = Api();
-                final Map<String, dynamic> postBankResponse =
-                    await api.postBank(
+                final Map<String, dynamic> postBanquesResponse =
+                    await api.postBanques(
                   context: scaffold.currentContext,
                   // ? Create Banque instance from Json and pass it to the fucnction
                   banque: Banque.fromJson({
@@ -89,17 +89,28 @@ class BanqueViewState extends State<BanqueView> {
                   }),
                 );
                 // ? check the server response
-                if (postBankResponse['msg'] ==
+                if (postBanquesResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
-                  Navigator.of(scaffold.currentContext!).pop();
-                  functions.successSnackbar(
+                  // ? In Success case
+                  Navigator.of(context).pop();
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
                     message: 'Nouvelle banque ajoutée !',
                   );
-                } else {
-                  functions.errorSnackbar(
+                } else if (postBanquesResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: 'Vous avez déjà enregistré cette banque !',
+                  );
+                } else {
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
+                    context: scaffold.currentContext,
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh bank list
