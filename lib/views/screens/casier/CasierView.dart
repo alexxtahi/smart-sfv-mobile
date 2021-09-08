@@ -98,15 +98,26 @@ class CasierViewState extends State<CasierView> {
                 // ? check the server response
                 if (postCasierResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
                     message: 'Nouveau casier ajouté !',
                   );
-                } else {
-                  functions.errorSnackbar(
+                } else if (postCasierResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: 'Vous avez déjà enregistré ce casier !',
+                  );
+                } else {
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
+                    context: scaffold.currentContext,
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh casier list

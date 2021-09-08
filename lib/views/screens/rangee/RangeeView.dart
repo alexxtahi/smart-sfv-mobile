@@ -95,15 +95,26 @@ class RangeeViewState extends State<RangeeView> {
                 // ? check the server response
                 if (postRangeeResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
-                    message: 'Nouvelle rangée ajouté !',
+                    message: 'Nouvelle rangée ajoutée !',
+                  );
+                } else if (postRangeeResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
+                    context: scaffold.currentContext,
+                    message: 'Vous avez déjà enregistré cette rangée !',
                   );
                 } else {
-                  functions.errorSnackbar(
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh rangee list

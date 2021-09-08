@@ -27,8 +27,8 @@ class Caisse {
   static Map<String, dynamic> toMap(Caisse caisse) {
     return <String, dynamic>{
       //'id': caisse.id,
-      'libelle_caisse': caisse.libelle.toString(),
-      'depot_id': caisse.depot.toString(),
+      'libelle_caisse': caisse.libelle,
+      'depot_id': caisse.depot,
     };
   }
 }

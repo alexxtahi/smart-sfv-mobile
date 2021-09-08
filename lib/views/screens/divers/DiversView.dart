@@ -97,15 +97,26 @@ class DiversViewState extends State<DiversView> {
                 // ? check the server response
                 if (postDiversResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
-                    message: 'Nouveau divers ajouté !',
+                    message: 'Nouveau ajoutée !',
+                  );
+                } else if (postDiversResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
+                    context: scaffold.currentContext,
+                    message: 'Vous avez déjà enregistré ce divers !',
                   );
                 } else {
-                  functions.errorSnackbar(
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh divers list

@@ -2,20 +2,20 @@ import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/MoyenPayement.dart';
+import 'package:smartsfv/models/MoyenReglement.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class MoyenPayementFutureBuilder extends StatefulWidget {
-  MoyenPayementFutureBuilder({Key? key}) : super(key: key);
+class MoyenReglementFutureBuilder extends StatefulWidget {
+  MoyenReglementFutureBuilder({Key? key}) : super(key: key);
 
   @override
-  MoyenPayementFutureBuilderState createState() =>
-      MoyenPayementFutureBuilderState();
+  MoyenReglementFutureBuilderState createState() =>
+      MoyenReglementFutureBuilderState();
 }
 
-class MoyenPayementFutureBuilderState
-    extends State<MoyenPayementFutureBuilder> {
+class MoyenReglementFutureBuilderState
+    extends State<MoyenReglementFutureBuilder> {
   ScrollController scrollController = ScrollController();
   ScrollController datatableScrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
@@ -25,8 +25,8 @@ class MoyenPayementFutureBuilderState
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
-        ? FutureBuilder<List<MoyenPayement>>(
-            future: api.getMoyenPayements(context),
+        ? FutureBuilder<List<MoyenReglement>>(
+            future: api.getMoyenReglements(context),
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of caisses is empty or not
@@ -54,7 +54,7 @@ class MoyenPayementFutureBuilderState
                                 Flexible(
                                   child: MyText(
                                     text:
-                                        "Vous n'avez pas encore enregistré de moyen de payement. Remplissez le formulaire d'ajout pour en ajouter.",
+                                        "Vous n'avez pas encore enregistré de moyen de reglement. Remplissez le formulaire d'ajout pour en ajouter.",
                                     textAlign: TextAlign.center,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(60, 141, 188, 0.5),
@@ -155,7 +155,7 @@ class MoyenPayementFutureBuilderState
               } else if (snapshot.hasError) {
                 functions.errorSnackbar(
                   context: context,
-                  message: 'Echec de récupération des moyens de payement',
+                  message: 'Echec de récupération des moyens de reglement',
                 );
                 return MyText(
                   text: snapshot.error.toString(),
@@ -169,9 +169,9 @@ class MoyenPayementFutureBuilderState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     LinearProgressIndicator(
-                      color: Color.fromRGBO(221, 75, 57, 1),
+                      color: Color.fromRGBO(60, 141, 188, 1),
                       backgroundColor: Colors.transparent,
-                      semanticsLabel: 'Chargement des moyens de payement...',
+                      semanticsLabel: 'Chargement des moyens de reglement...',
                     ),
                   ],
                 ),

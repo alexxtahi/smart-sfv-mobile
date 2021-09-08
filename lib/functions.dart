@@ -53,15 +53,13 @@ Future<void> showFormDialog(
                   (hasHeaderTitle)
                       ?
                       //todo: Title
-                      Wrap(
-                          alignment: WrapAlignment.center,
-                          children: [
-                            MyText(
-                              text: title,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.visible,
-                            ),
-                          ],
+                      Flexible(
+                          child: MyText(
+                            text: title,
+                            textAlign: TextAlign.center,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.visible,
+                          ),
                         )
                       : Container(),
                   (hasHeaderIcon || hasHeaderTitle)

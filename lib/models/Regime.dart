@@ -17,4 +17,11 @@ class Regime {
           : '',
     );
   }
+  // return to Map
+  static Map<String, dynamic> toMap(Regime regime) {
+    return <String, dynamic>{
+      //'id': regime.id,
+      'libelle_regime': regime.libelle,
+    };
+  }
 }

@@ -11,15 +11,17 @@ class CategorieDepense {
   // get data from json method
   factory CategorieDepense.fromJson(Map<String, dynamic> json) {
     return CategorieDepense(
-      id: json['id'] as int,
-      libelle: json['libelle_categorie_depense'] as String,
+      id: (json['id'] != null) ? json['id'] as int : 0,
+      libelle: (json['libelle_categorie_depense'] != null)
+          ? json['libelle_categorie_depense'] as String
+          : '',
     );
   }
   // return to Map
-  static Map<String, dynamic> toMap(CategorieDepense categorie) {
+  static Map<String, dynamic> toMap(CategorieDepense categorieDepense) {
     return <String, dynamic>{
-      //'id': categorie.id,
-      'libelle_categorie_depense': categorie.libelle.toString(),
+      //'id': categorieDepense.id,
+      'libelle_categorie_depense': categorieDepense.libelle,
     };
   }
 }

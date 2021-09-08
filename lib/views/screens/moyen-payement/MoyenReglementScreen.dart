@@ -8,18 +8,18 @@ import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
-import 'package:smartsfv/views/screens/moyen-payement/MoyenPayementFutureBuilder.dart';
+import 'package:smartsfv/views/screens/moyen-payement/MoyenReglementFutureBuilder.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
-class MoyenPayementScreen extends StatefulWidget {
+class MoyenReglementScreen extends StatefulWidget {
   final SlidingUpPanelController panelController;
-  MoyenPayementScreen({Key? key, required this.panelController})
+  MoyenReglementScreen({Key? key, required this.panelController})
       : super(key: key);
   @override
-  MoyenPayementScreenState createState() => MoyenPayementScreenState();
+  MoyenReglementScreenState createState() => MoyenReglementScreenState();
 }
 
-class MoyenPayementScreenState extends State<MoyenPayementScreen> {
+class MoyenReglementScreenState extends State<MoyenReglementScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
@@ -58,7 +58,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                   panelController: widget.panelController,
                   icon: 'assets/img/icons/wallet.png',
                   iconColor: Color.fromRGBO(60, 141, 188, 1),
-                  title: 'Moyens de payement',
+                  title: 'Moyens de reglement',
                 ),
                 SizedBox(height: 20),
                 //todo: Search Bar
@@ -66,7 +66,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                   focusNode: FocusNode(),
                   textEditingController: this.textEditingController,
                   borderRadius: Radius.circular(20),
-                  placeholder: 'Rechercher un moyen de payement',
+                  placeholder: 'Rechercher un moyen de reglement',
                   textColor: Color.fromRGBO(60, 141, 188, 1),
                   placeholderColor: Color.fromRGBO(60, 141, 188, 1),
                   cursorColor: Colors.black,
@@ -81,7 +81,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                       else
                         // launch research
                         Research.find(
-                          'MoyenPayement',
+                          'MoyenReglement',
                           this.textEditingController.text,
                         );
                     });
@@ -96,7 +96,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                       else
                         // launch research
                         Research.find(
-                          'MoyenPayement',
+                          'MoyenReglement',
                           this.textEditingController.text,
                         );
                     });
@@ -112,7 +112,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                         else
                           // launch research
                           Research.find(
-                            'MoyenPayement',
+                            'MoyenReglement',
                             this.textEditingController.text,
                           );
                       });
@@ -200,7 +200,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                         ),
                         SizedBox(width: 10),
                         MyText(
-                          text: 'Les moyens de payement',
+                          text: 'Les moyens de reglement',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color.fromRGBO(60, 141, 188, 1),
@@ -215,7 +215,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                       onPressed: () {
                         // show refresh message
                         functions.showMessageToSnackbar(
-                          context: scaffold.currentContext,
+                          context: context,
                           message: "Rechargement...",
                           icon: CircularProgressIndicator(
                             color: Color.fromRGBO(60, 141, 188, 1),
@@ -233,7 +233,7 @@ class MoyenPayementScreenState extends State<MoyenPayementScreen> {
                 ),
                 SizedBox(height: 10),
                 //todo: Scrolling View
-                MoyenPayementFutureBuilder(),
+                MoyenReglementFutureBuilder(),
               ],
             ),
           ),

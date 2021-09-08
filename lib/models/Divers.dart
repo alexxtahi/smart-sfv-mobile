@@ -11,15 +11,17 @@ class Divers {
   // get data from json method
   factory Divers.fromJson(Map<String, dynamic> json) {
     return Divers(
-      id: json['id'] as int,
-      libelle: json['libelle_divers'] as String,
+      id: (json['id'] != null) ? json['id'] as int : 0,
+      libelle: (json['libelle_divers'] != null)
+          ? json['libelle_divers'] as String
+          : '',
     );
   }
   // return to Map
   static Map<String, dynamic> toMap(Divers categorie) {
     return <String, dynamic>{
       //'id': categorie.id,
-      'libelle_divers': categorie.libelle.toString(),
+      'libelle_divers': categorie.libelle,
     };
   }
 }

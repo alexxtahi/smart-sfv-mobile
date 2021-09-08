@@ -37,7 +37,6 @@ class SousCategorieScreenState extends State<SousCategorieScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    GlobalKey scaffold = GlobalKey();
     return AnimatedContainer(
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
@@ -216,7 +215,7 @@ class SousCategorieScreenState extends State<SousCategorieScreen> {
                       onPressed: () {
                         // show refresh message
                         functions.showMessageToSnackbar(
-                          context: scaffold.currentContext,
+                          context: context,
                           message: "Rechargement...",
                           icon: CircularProgressIndicator(
                             color: Color.fromRGBO(60, 141, 188, 1),

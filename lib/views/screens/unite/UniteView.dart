@@ -91,24 +91,35 @@ class UniteViewState extends State<UniteView> {
                   context: scaffold.currentContext,
                   // ? Create Unite instance from Json and pass it to the fucnction
                   unite: Unite.fromJson({
-                    'libelle_unité': fieldControllers['libelle']
+                    'libelle_unite': fieldControllers['libelle']
                         .text, // get libelle  // ! required
-                    'qte_unité': fieldControllers['qte']
-                        .text, // get libelle  // ! required
+                    'quantite_unite': int.parse(fieldControllers['qte']
+                        .text), // get libelle  // ! required
                   }),
                 );
                 // ? check the server response
                 if (postUniteResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
                     message: 'Nouvelle unité ajoutée !',
                   );
-                } else {
-                  functions.errorSnackbar(
+                } else if (postUniteResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: 'Vous avez déjà enregistré cette unité !',
+                  );
+                } else {
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
+                    context: scaffold.currentContext,
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh unité list

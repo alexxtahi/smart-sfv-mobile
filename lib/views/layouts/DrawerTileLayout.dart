@@ -12,7 +12,7 @@ import 'package:smartsfv/views/screens/client/ClientView.dart';
 import 'package:smartsfv/views/screens/commande/CommandeView.dart';
 import 'package:smartsfv/views/screens/divers/DiversView.dart';
 import 'package:smartsfv/views/screens/home/HomeView.dart';
-import 'package:smartsfv/views/screens/moyen-payement/MoyenPayementView.dart';
+import 'package:smartsfv/views/screens/moyen-payement/MoyenReglementView.dart';
 import 'package:smartsfv/views/screens/others/ListTableView.dart';
 import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DrawerExpandableBox.dart';
@@ -232,7 +232,7 @@ class DrawerTileLayoutState extends State<DrawerTileLayout> {
                           print('Sous Catégorie appuyé !');
                           functions.openPage(
                             context,
-                            MoyenPayementView(),
+                            MoyenReglementView(),
                           );
                           setState(() {
                             DrawerLayoutController.close();

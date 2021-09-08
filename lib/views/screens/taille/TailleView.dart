@@ -97,15 +97,26 @@ class TailleViewState extends State<TailleView> {
                 // ? check the server response
                 if (postTailleResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
                     message: 'Nouvelle taille ajoutée !',
                   );
-                } else {
-                  functions.errorSnackbar(
+                } else if (postTailleResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: 'Vous avez déjà enregistré cette taille !',
+                  );
+                } else {
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
+                    context: scaffold.currentContext,
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh taille list

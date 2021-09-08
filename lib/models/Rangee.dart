@@ -11,8 +11,10 @@ class Rangee {
   // get data from json method
   factory Rangee.fromJson(Map<String, dynamic> json) {
     return Rangee(
-      id: json['id'] as int,
-      libelle: json['libelle_rangee'] as String,
+      id: (json['id'] != null) ? json['id'] as int : 0,
+      libelle: (json['libelle_rangee'] != null)
+          ? json['libelle_rangee'] as String
+          : '',
     );
   }
   // return to Map

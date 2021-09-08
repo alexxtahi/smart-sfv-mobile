@@ -11,15 +11,17 @@ class Rayon {
   // get data from json method
   factory Rayon.fromJson(Map<String, dynamic> json) {
     return Rayon(
-      id: json['id'] as int,
-      libelle: json['libelle_rayon'] as String,
+      id: (json['id'] != null) ? json['id'] as int : 0,
+      libelle: (json['libelle_rayon'] != null)
+          ? json['libelle_rayon'] as String
+          : '',
     );
   }
   // return to Map
-  static Map<String, dynamic> toMap(Rayon categorie) {
+  static Map<String, dynamic> toMap(Rayon rayon) {
     return <String, dynamic>{
-      //'id': categorie.id,
-      'libelle_rayon': categorie.libelle.toString(),
+      //'id': rayon.id,
+      'libelle_rayon': rayon.libelle,
     };
   }
 }

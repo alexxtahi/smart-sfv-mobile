@@ -18,7 +18,7 @@ import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Commande.dart';
 import 'package:smartsfv/models/Divers.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
-import 'package:smartsfv/models/MoyenPayement.dart';
+import 'package:smartsfv/models/MoyenReglement.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Rangee.dart';
 import 'package:smartsfv/models/Rayon.dart';
@@ -1117,8 +1117,8 @@ class Api {
   }
 
   // todo: get moyen payement method
-  Future<List<MoyenPayement>> getMoyenPayements(var context) async {
-    this.url = this.routes['getMoyenPayements'].toString(); // set login url
+  Future<List<MoyenReglement>> getMoyenReglements(var context) async {
+    this.url = this.routes['getMoyenReglements'].toString(); // set login url
     try {
       // ? getting datas from url
       print("Actual view -> " + ScreenController.actualView);
@@ -1134,42 +1134,42 @@ class Api {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "MoyenPayementView")
+        if (ScreenController.actualView == "MoyenReglementView")
           functions.showMessageToSnackbar(
             context: context,
-            message: "Moyens de payement chargés !",
+            message: "Moyens de reglement chargés !",
             icon: Icon(
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
           );
         // ? create list of taxs
-        List moyenPayementResponse = json.decode(this.response.body)['rows'];
-        List<MoyenPayement> moyenPayements = [
-          // ? take only moyenPayement created by the actual user
-          for (var moyenPayement in moyenPayementResponse)
-            MoyenPayement.fromJson(moyenPayement), // ! debug
-          //if (moyenPayement['created_by'] == User.id)
-          //MoyenPayement.fromJson(moyenPayement), // ! production
+        List moyenReglementResponse = json.decode(this.response.body)['rows'];
+        List<MoyenReglement> moyenReglements = [
+          // ? take only moyenReglement created by the actual user
+          for (var moyenReglement in moyenReglementResponse)
+            MoyenReglement.fromJson(moyenReglement), // ! debug
+          //if (moyenReglement['created_by'] == User.id)
+          //MoyenReglement.fromJson(moyenReglement), // ! production
         ];
-        // ? return list of moyenPayements
-        return moyenPayements;
+        // ? return list of moyenReglements
+        return moyenReglements;
       } else {
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "MoyenPayementView")
+        if (ScreenController.actualView == "MoyenReglementView")
           functions.errorSnackbar(
             context: context,
-            message: "Echec de récupération des moyens de payement",
+            message: "Echec de récupération des moyens de reglement",
           );
-        return <MoyenPayement>[];
+        return <MoyenReglement>[];
       }
     } catch (error) {
       print(
-          'API ERROR: Get MoyenPayement Model Error -> ${error.runtimeType} -> $error');
+          'API ERROR: Get MoyenReglement Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
-      return <MoyenPayement>[];
+      return <MoyenReglement>[];
     }
   }
 
@@ -2417,11 +2417,11 @@ class Api {
   }
 
   // todo: post moyen de paiement method
-  Future<Map<String, dynamic>> postMoyenPayement({
+  Future<Map<String, dynamic>> postMoyenReglement({
     required var context,
-    required MoyenPayement moyenPayement,
+    required MoyenReglement moyenReglement,
   }) async {
-    this.url = this.routes['postMoyenPayement'].toString(); // set client url
+    this.url = this.routes['postMoyenReglement'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
@@ -2433,7 +2433,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: MoyenPayement.toMap(moyenPayement),
+        body: MoyenReglement.toMap(moyenReglement),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);

@@ -18,7 +18,7 @@ import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Commande.dart';
 import 'package:smartsfv/models/Divers.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
-import 'package:smartsfv/models/MoyenPayement.dart';
+import 'package:smartsfv/models/MoyenReglement.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Rangee.dart';
 import 'package:smartsfv/models/Rayon.dart';
@@ -57,6 +57,7 @@ class Api {
       'getArticlesRupture': '${this.host}/api/auth/articles-en-voie-rupture',
       // Routes régimes
       'getRegimes': '${this.host}/api/auth/regimes',
+      'postRegime': '${this.host}/api/auth/regime/store',
       // Routes pays
       'getNations': '${this.host}/api/auth/nations',
       // Routes clients
@@ -77,28 +78,40 @@ class Api {
       'postBanque': '${this.host}/api/auth/banque/store',
       // Routes tvas
       'getTvas': '${this.host}/api/auth/tvas',
+      'postTva': '${this.host}/api/auth/tva/store',
       // Routes caisses
       'getCaisses': '${this.host}/api/auth/caisses',
+      'postCaisse': '${this.host}/api/auth/caisse/store',
       // Routes catégories
       'getCategories': '${this.host}/api/auth/categories',
+      'postCategorie': '${this.host}/api/auth/categorie/store',
       // Routes sous catégories
       'getSousCategories': '${this.host}/api/auth/sous-categories',
-      // Routes moyens payement
-      'getMoyensPayement': '${this.host}/api/auth/moyens-payement',
+      'postSousCategorie': '${this.host}/api/auth/sous-categorie/store',
+      // Routes moyens reglement
+      'getMoyenReglements': '${this.host}/api/auth/moyen-reglements',
+      'postMoyenReglement': '${this.host}/api/auth/moyen-reglement/store',
       // Routes rayons
       'getRayons': '${this.host}/api/auth/rayons',
+      'postRayon': '${this.host}/api/auth/rayon/store',
       // Routes rangées
       'getRangees': '${this.host}/api/auth/rangees',
+      'postRangee': '${this.host}/api/auth/rangee/store',
       // Routes casiers
       'getCasiers': '${this.host}/api/auth/casiers',
+      'postCasier': '${this.host}/api/auth/casier/store',
       // Routes unités
       'getUnites': '${this.host}/api/auth/unites',
+      'postUnite': '${this.host}/api/auth/unite/store',
       // Routes tailles
       'getTailles': '${this.host}/api/auth/tailles',
+      'postTaille': '${this.host}/api/auth/taille/store',
       // Routes divers
       'getDivers': '${this.host}/api/auth/divers',
+      'postDivers': '${this.host}/api/auth/divers/store',
       // Routes categories dépenses
-      'getCategoriesDepenses': '${this.host}/api/auth/categories-depenses',
+      'getCategorieDepenses': '${this.host}/api/auth/categorie-depenses',
+      'postCategorieDepense': '${this.host}/api/auth/categorie-depense/store',
     };
   }
 
@@ -1284,9 +1297,9 @@ class Api {
     }
   }
 
-  // todo: get moyen payement method
-  Future<List<MoyenPayement>> getMoyenPayements(var context) async {
-    this.url = this.routes['getMoyenPayements'].toString(); // set login url
+  // todo: get moyen reglement method
+  Future<List<MoyenReglement>> getMoyenReglements(var context) async {
+    this.url = this.routes['getMoyenReglements'].toString(); // set login url
     try {
       // ? getting datas from url
       print("Actual view -> " + ScreenController.actualView);
@@ -1302,53 +1315,54 @@ class Api {
         this.requestSuccess = true;
         //print('Réponse du serveur: ' + this.response.body);
         // ? Show success snack bar
-        if (ScreenController.actualView == "MoyenPayementView")
+        if (ScreenController.actualView == "MoyenReglementView")
           functions.showMessageToSnackbar(
             context: context,
-            message: "Moyens de payement chargés !",
+            message: "Moyens de reglement chargés !",
             icon: Icon(
               Icons.info_rounded,
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
           );
         // ? create list of taxs
-        List moyenPayementResponse = json.decode(this.response.body)['rows'];
-        List<MoyenPayement> moyenPayements = [
-          for (var moyenPayement in moyenPayementResponse)
-            // ? filter moyenPayements by Research
-            if (Research.type == 'MoyenPayement' &&
-                moyenPayement['libelle_moyenPayement']
+        List moyenReglementResponse = json.decode(this.response.body)['rows'];
+        List<MoyenReglement> moyenReglements = [
+          for (var moyenReglement in moyenReglementResponse)
+            // ? filter moyenReglements by Research
+            if (Research.type == 'MoyenReglement' &&
+                moyenReglement['libelle_moyen_reglement']
                     .toLowerCase()
                     .contains(Research.value.toLowerCase()))
-              MoyenPayement.fromJson(
-                  moyenPayement) // ! Get moyenPayements by name
+              MoyenReglement.fromJson(
+                  moyenReglement) // ! Get moyenReglements by name
             else if (Research.type == '')
-              MoyenPayement.fromJson(moyenPayement) // ! Get all moyenPayements
+              MoyenReglement.fromJson(
+                  moyenReglement) // ! Get all moyenReglements
 
-          // ? take all moyenPayements
-          //MoyenPayement.fromJson(moyenPayement), // ! debug
-          // ? take only moyenPayement created by the actual user
-          //if (moyenPayement['created_by'] == User.id)
-          //MoyenPayement.fromJson(moyenPayement), // ! production
+          // ? take all moyenReglements
+          //MoyenReglement.fromJson(moyenReglement), // ! debug
+          // ? take only moyenReglement created by the actual user
+          //if (moyenReglement['created_by'] == User.id)
+          //MoyenReglement.fromJson(moyenReglement), // ! production
         ];
-        // ? return list of moyenPayements
-        return moyenPayements;
+        // ? return list of moyenReglements
+        return moyenReglements;
       } else {
         this.requestSuccess = false;
         // ? Show error snack bar
-        if (ScreenController.actualView == "MoyenPayementView")
+        if (ScreenController.actualView == "MoyenReglementView")
           functions.errorSnackbar(
             context: context,
-            message: "Echec de récupération des moyens de payement",
+            message: "Echec de récupération des moyens de reglement",
           );
-        return <MoyenPayement>[];
+        return <MoyenReglement>[];
       }
     } catch (error) {
       print(
-          'API ERROR: Get MoyenPayement Model Error -> ${error.runtimeType} -> $error');
+          'API ERROR: Get MoyenReglement Model Error -> ${error.runtimeType} -> $error');
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
-      return <MoyenPayement>[];
+      return <MoyenReglement>[];
     }
   }
 
@@ -1688,7 +1702,7 @@ class Api {
 
   // todo: get casier method
   Future<List<Divers>> getDivers(var context) async {
-    this.url = this.routes['getDiverss'].toString(); // set login url
+    this.url = this.routes['getDivers'].toString(); // set login url
     try {
       // ? getting datas from url
       print("Actual view -> " + ScreenController.actualView);
@@ -1786,7 +1800,7 @@ class Api {
           for (var categorieDepense in categorieDepenseResponse)
             // ? filter categorieDepenses by Research
             if (Research.type == 'CategorieDepense' &&
-                categorieDepense['libelle_categorieDepense']
+                categorieDepense['libelle_categorie_depense']
                     .toLowerCase()
                     .contains(Research.value.toLowerCase()))
               CategorieDepense.fromJson(
@@ -2360,7 +2374,7 @@ class Api {
   }
 
   // todo: post bank method
-  Future<Map<String, dynamic>> postBanques(
+  Future<Map<String, dynamic>> postBanque(
       {required var context, required Banque banque}) async {
     this.url = this.routes['postBanque'].toString(); // set client url
     try {
@@ -2388,10 +2402,10 @@ class Api {
   }
 
   // todo: post regime method
-  Future<Map<String, dynamic>> postRegime(
-    var context,
-    String libelle,
-  ) async {
+  Future<Map<String, dynamic>> postRegime({
+    required var context,
+    required Regime regime,
+  }) async {
     this.url = this.routes['postRegime'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
@@ -2404,9 +2418,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: {
-          'libelle_regime': libelle,
-        },
+        body: Regime.toMap(regime),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2415,16 +2427,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "RegimeView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement du regime",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2454,17 +2456,7 @@ class Api {
       print(responseJson.runtimeType);
       return responseJson;
     } catch (error) {
-      print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "TvaView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement de la taxe",
-          );
-      }
+      print("Post Tva Error -> $error");
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2630,11 +2622,11 @@ class Api {
   }
 
   // todo: post moyen de paiement method
-  Future<Map<String, dynamic>> postMoyenPayement({
+  Future<Map<String, dynamic>> postMoyenReglement({
     required var context,
-    required MoyenPayement moyenPayement,
+    required MoyenReglement moyenReglement,
   }) async {
-    this.url = this.routes['postMoyenPayement'].toString(); // set client url
+    this.url = this.routes['postMoyenReglement'].toString(); // set client url
     try {
       print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
@@ -2646,7 +2638,7 @@ class Api {
           // pass access token into the header
           HttpHeaders.authorizationHeader: User.token,
         },
-        body: MoyenPayement.toMap(moyenPayement),
+        body: MoyenReglement.toMap(moyenReglement),
       );
       // get and show server response
       final responseJson = json.decode(this.response.body);
@@ -2655,16 +2647,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "CategorieView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement de la catégorie",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2695,16 +2677,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "RayonView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement du rayon",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2735,16 +2707,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "RangeeView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement de la rangée",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2775,16 +2737,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "CasierView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement du casier",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2815,16 +2767,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "UniteView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement de l'unité",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2855,16 +2797,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "TailleView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement de la taille",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2895,16 +2827,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "DiversView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement du divers",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }
@@ -2935,16 +2857,6 @@ class Api {
       return responseJson;
     } catch (error) {
       print(error);
-      // ? Show error snack bar
-      if (ScreenController.actualView == "CategorieDepenseView") {
-        if (error is SocketException || error is FormatException)
-          functions.socketErrorSnackbar(context: context);
-        else
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec d'enregistrement de la catégorie dépense",
-          );
-      }
       return {'msg': 'Une erreur est survenue'};
     }
   }

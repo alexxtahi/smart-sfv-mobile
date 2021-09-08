@@ -29,7 +29,7 @@ class SousCategorie {
     return <String, dynamic>{
       //'id': categorie.id,
       'libelle_sous_categorie': sousCategorie.libelle,
-      'categorie_id': sousCategorie.categorie.id,
+      'categorie_id': sousCategorie.categorie.id.toString(),
     };
   }
 }

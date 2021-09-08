@@ -128,9 +128,11 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
                                                   ),
                                                 ),
                                                 title: MyText(
-                                                  text: snapshot
-                                                      .data![index].percent
-                                                      .toString(),
+                                                  text: (snapshot.data![index]
+                                                                  .percent *
+                                                              100)
+                                                          .toString() +
+                                                      ' %',
                                                   //fontWeight: FontWeight.bold,
                                                 ),
                                                 selectedTileColor:

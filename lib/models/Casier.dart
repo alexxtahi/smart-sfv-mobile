@@ -11,15 +11,17 @@ class Casier {
   // get data from json method
   factory Casier.fromJson(Map<String, dynamic> json) {
     return Casier(
-      id: json['id'] as int,
-      libelle: json['libelle_casier'] as String,
+      id: (json['id'] != null) ? json['id'] as int : 0,
+      libelle: (json['libelle_casier'] != null)
+          ? json['libelle_casier'] as String
+          : '',
     );
   }
   // return to Map
-  static Map<String, dynamic> toMap(Casier categorie) {
+  static Map<String, dynamic> toMap(Casier casier) {
     return <String, dynamic>{
-      //'id': categorie.id,
-      'libelle_casier': categorie.libelle.toString(),
+      //'id': casier.id,
+      'libelle_casier': casier.libelle,
     };
   }
 }

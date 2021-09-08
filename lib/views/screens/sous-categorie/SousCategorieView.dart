@@ -45,7 +45,7 @@ class SousCategorieViewState extends State<SousCategorieView> {
   TextEditingController textEditingController = TextEditingController();
   bool isNewBankEmpty = false;
   String dropDownValue = 'Sélectionner une catégorie';
-  List<String> depotlist = [
+  List<String> categorielist = [
     'Sélectionner une catégorie',
     'Two',
     'Free',
@@ -82,7 +82,7 @@ class SousCategorieViewState extends State<SousCategorieView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'libelle': TextEditingController(),
-            'depot': '',
+            'categorie': 0,
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
@@ -103,20 +103,34 @@ class SousCategorieViewState extends State<SousCategorieView> {
                   sousCategorie: SousCategorie.fromJson({
                     'libelle_sous_categorie': fieldControllers['libelle']
                         .text, // get libelle  // ! required
+                    'categorie': {
+                      'id': fieldControllers['categorie'],
+                    },
                   }),
                 );
                 // ? check the server response
                 if (postSousCategorieResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
                     message: 'Nouvelle sous catégorie ajoutée !',
                   );
-                } else {
-                  functions.errorSnackbar(
+                } else if (postSousCategorieResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: 'Vous avez déjà enregistré cette sous catégorie !',
+                  );
+                } else {
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
+                    context: scaffold.currentContext,
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh sous catégorie list
@@ -167,7 +181,7 @@ class SousCategorieViewState extends State<SousCategorieView> {
                                   fieldControllers['categorie'] = categorie
                                       .id; // save the new catégorie selected
                                   print(
-                                      "Nouveau catégorie: $value, ${fieldControllers['categorie']}, ${categorie.id}");
+                                      "Nouvelle catégorie: $value, ${fieldControllers['categorie']}, ${categorie.id}");
                                   break;
                                 }
                               }

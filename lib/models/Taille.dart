@@ -11,15 +11,17 @@ class Taille {
   // get data from json method
   factory Taille.fromJson(Map<String, dynamic> json) {
     return Taille(
-      id: json['id'] as int,
-      libelle: json['libelle_taille'] as String,
+      id: (json['id'] != null) ? json['id'] as int : 0,
+      libelle: (json['libelle_taille'] != null)
+          ? json['libelle_taille'] as String
+          : '',
     );
   }
   // return to Map
-  static Map<String, dynamic> toMap(Taille categorie) {
+  static Map<String, dynamic> toMap(Taille taille) {
     return <String, dynamic>{
-      //'id': categorie.id,
-      'libelle_taille': categorie.libelle.toString(),
+      //'id': taille.id,
+      'libelle_taille': taille.libelle,
     };
   }
 }

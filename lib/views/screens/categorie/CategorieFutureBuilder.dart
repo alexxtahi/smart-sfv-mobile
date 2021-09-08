@@ -166,7 +166,7 @@ class CategorieFutureBuilderState extends State<CategorieFutureBuilder> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     LinearProgressIndicator(
-                      color: Color.fromRGBO(221, 75, 57, 1),
+                      color: Color.fromRGBO(60, 141, 188, 1),
                       backgroundColor: Colors.transparent,
                       semanticsLabel: 'Chargement des catégories...',
                     ),

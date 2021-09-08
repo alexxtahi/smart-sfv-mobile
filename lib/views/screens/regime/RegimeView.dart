@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
@@ -78,28 +79,38 @@ class RegimeViewState extends State<RegimeView> {
             title: 'Ajouter un régime',
             onValidate: () async {
               if (formKey.currentState!.validate()) {
-                // ? get fields datas
-                String libelle =
-                    regimeController.text; // get name  // ! required
                 // ? sending datas to API
                 Api api = Api();
                 final Map<String, dynamic> postRegimeResponse =
                     await api.postRegime(
-                  scaffold.currentContext,
-                  libelle,
+                  context: scaffold.currentContext,
+                  regime: Regime.fromJson({
+                    'libelle_regime': regimeController.text,
+                  }),
                 );
                 // ? check the server response
                 if (postRegimeResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
                     message: 'Nouveau régime ajouté !',
                   );
-                } else {
-                  functions.errorSnackbar(
+                } else if (postRegimeResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: 'Vous avez déjà enregistré ce régime !',
+                  );
+                } else {
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
+                    context: scaffold.currentContext,
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh regime list

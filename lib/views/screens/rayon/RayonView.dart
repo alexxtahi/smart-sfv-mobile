@@ -95,15 +95,26 @@ class RayonViewState extends State<RayonView> {
                 // ? check the server response
                 if (postRayonResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
                     message: 'Nouveau rayon ajouté !',
                   );
-                } else {
-                  functions.errorSnackbar(
+                } else if (postRayonResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: 'Vous avez déjà enregistré ce rayon !',
+                  );
+                } else {
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
+                    context: scaffold.currentContext,
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh rayon list
@@ -131,7 +142,6 @@ class RayonViewState extends State<RayonView> {
                 focusBorderColor: Colors.transparent,
                 enableBorderColor: Colors.transparent,
               ),
-              SizedBox(height: 10),
             ],
           );
         },

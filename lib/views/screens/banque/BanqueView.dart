@@ -80,8 +80,8 @@ class BanqueViewState extends State<BanqueView> {
               if (formKey.currentState!.validate()) {
                 // ? sending datas to API
                 Api api = Api();
-                final Map<String, dynamic> postBanquesResponse =
-                    await api.postBanques(
+                final Map<String, dynamic> postBanqueResponse =
+                    await api.postBanque(
                   context: scaffold.currentContext,
                   // ? Create Banque instance from Json and pass it to the fucnction
                   banque: Banque.fromJson({
@@ -89,7 +89,7 @@ class BanqueViewState extends State<BanqueView> {
                   }),
                 );
                 // ? check the server response
-                if (postBanquesResponse['msg'] ==
+                if (postBanqueResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
                   // ? In Success case
                   Navigator.of(context).pop();
@@ -97,7 +97,7 @@ class BanqueViewState extends State<BanqueView> {
                     context: scaffold.currentContext,
                     message: 'Nouvelle banque ajoutée !',
                   );
-                } else if (postBanquesResponse['msg'] ==
+                } else if (postBanqueResponse['msg'] ==
                     'Cet enregistrement existe déjà dans la base') {
                   // ? In instance already exist case
                   Navigator.of(context).pop();

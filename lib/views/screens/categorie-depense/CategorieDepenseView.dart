@@ -90,22 +90,34 @@ class CategorieDepenseViewState extends State<CategorieDepenseView> {
                   context: scaffold.currentContext,
                   // ? Create CategorieDepense instance from Json and pass it to the fucnction
                   categorieDepense: CategorieDepense.fromJson({
-                    'libelle_categorieDepense': fieldControllers['libelle']
+                    'libelle_categorie_depense': fieldControllers['libelle']
                         .text, // get libelle  // ! required
                   }),
                 );
                 // ? check the server response
                 if (postCategorieDepenseResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
-                    message: 'Nouvelle catégorie de dépenses ajoutée !',
+                    message: 'Nouvelle catégorie de dépense !',
+                  );
+                } else if (postCategorieDepenseResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
+                    context: scaffold.currentContext,
+                    message:
+                        'Vous avez déjà enregistré cette catégorie de dépense !',
                   );
                 } else {
-                  functions.errorSnackbar(
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh categorieDepense list

@@ -3,26 +3,26 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/MoyenPayement.dart';
+import 'package:smartsfv/models/MoyenReglement.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
 import 'package:smartsfv/functions.dart' as functions;
-import 'package:smartsfv/views/screens/moyen-payement/MoyenPayementScreen.dart';
+import 'package:smartsfv/views/screens/moyen-payement/MoyenReglementScreen.dart';
 
-class MoyenPayementView extends StatefulWidget {
-  MoyenPayementView({Key? key}) : super(key: key);
+class MoyenReglementView extends StatefulWidget {
+  MoyenReglementView({Key? key}) : super(key: key);
   @override
-  MoyenPayementViewState createState() => MoyenPayementViewState();
+  MoyenReglementViewState createState() => MoyenReglementViewState();
 }
 
-class MoyenPayementViewState extends State<MoyenPayementView> {
+class MoyenReglementViewState extends State<MoyenReglementView> {
   //todo: Method called when the view is launching
   @override
   void initState() {
     super.initState();
     // ? Launching configs
     if (ScreenController.actualView != "LoginView") {
-      ScreenController.actualView = "MoyenPayementView";
+      ScreenController.actualView = "MoyenReglementView";
       ScreenController.isChildView = true;
     }
   }
@@ -76,37 +76,49 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
             scaffold.currentContext,
             formKey,
             headerIcon: 'assets/img/icons/wallet.png',
-            title: 'Ajouter un nouveau moyen de payement',
-            successMessage: 'Nouveau moyen de payement ajouté !',
+            title: 'Ajouter un nouveau moyen de reglement',
+            successMessage: 'Nouveau moyen de reglement ajouté !',
             padding: EdgeInsets.all(20),
             onValidate: () async {
               if (formKey.currentState!.validate()) {
                 // ? sending datas to API
                 Api api = Api();
-                final Map<String, dynamic> postMoyenPayementResponse =
-                    await api.postMoyenPayement(
+                final Map<String, dynamic> postMoyenReglementResponse =
+                    await api.postMoyenReglement(
                   context: scaffold.currentContext,
-                  // ? Create MoyenPayement instance from Json and pass it to the fucnction
-                  moyenPayement: MoyenPayement.fromJson({
-                    'libelle_moyen_payement': fieldControllers['libelle']
+                  // ? Create MoyenReglement instance from Json and pass it to the fucnction
+                  moyenReglement: MoyenReglement.fromJson({
+                    'libelle_moyen_reglement': fieldControllers['libelle']
                         .text, // get libelle  // ! required
                   }),
                 );
                 // ? check the server response
-                if (postMoyenPayementResponse['msg'] ==
+                if (postMoyenReglementResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
+                  // ? In Success case
                   Navigator.of(context).pop();
-                  functions.successSnackbar(
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
-                    message: 'Nouveau moyen de payement ajouté !',
+                    message: 'Nouveau moyen de reglement ajouté !',
+                  );
+                } else if (postMoyenReglementResponse['msg'] ==
+                    'Cet enregistrement existe déjà dans la base') {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
+                    context: scaffold.currentContext,
+                    message:
+                        'Vous avez déjà enregistré ce moyen de reglement !',
                   );
                 } else {
-                  functions.errorSnackbar(
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: "Une erreur s'est produite",
                   );
                 }
-                // ? Refresh moyen de payement list
+                // ? Refresh moyen de reglement list
                 setState(() {});
               }
             },
@@ -118,9 +130,9 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
                 validator: (value) {
                   return value!.isNotEmpty
                       ? null
-                      : 'Saisissez un nom de moyen de payement';
+                      : 'Saisissez un nom de moyen de reglement';
                 },
-                placeholder: 'Libellé du moyen de payement',
+                placeholder: 'Libellé du moyen de reglement',
                 prefixPadding: 10,
                 prefixIcon: Icon(
                   Icons.sort_by_alpha,
@@ -138,7 +150,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(
-          message: 'Ajouter un moyen de payement',
+          message: 'Ajouter un moyen de reglement',
           decoration: BoxDecoration(
             color: Color.fromRGBO(60, 141, 188, 1),
             shape: BoxShape.rectangle,
@@ -161,7 +173,7 @@ class MoyenPayementViewState extends State<MoyenPayementView> {
       body: Stack(
         children: [
           //todo: Home Screen
-          MoyenPayementScreen(panelController: panelController),
+          MoyenReglementScreen(panelController: panelController),
           //todo: Profile Layout
           ProfileLayout(
             panelController: panelController,

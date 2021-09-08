@@ -214,7 +214,7 @@ class UniteScreenState extends State<UniteScreen> {
                       onPressed: () {
                         // show refresh message
                         functions.showMessageToSnackbar(
-                          context: scaffold.currentContext,
+                          context: context,
                           message: "Rechargement...",
                           icon: CircularProgressIndicator(
                             color: Color.fromRGBO(60, 141, 188, 1),
