@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
-import 'package:phonenumbers/phonenumbers.dart';
+//import 'package:phonenumbers/phonenumbers.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
 import 'package:smartsfv/views/components/MyComboBox.dart';
-import 'package:smartsfv/views/components/MyPhoneNumberFormField.dart';
+//import 'package:smartsfv/views/components/MyPhoneNumberFormField.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/client/ClientScreen.dart';

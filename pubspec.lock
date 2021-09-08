@@ -317,13 +317,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
-  phonenumbers:
-    dependency: "direct main"
-    description:
-      name: phonenumbers
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   platform:
     dependency: transitive
     description:

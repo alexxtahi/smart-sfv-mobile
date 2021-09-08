@@ -79,10 +79,10 @@ class ArticleViewState extends State<ArticleView> {
           // TextFormField controllers
           Map<String, dynamic> fieldControllers = {
             'codeBarre': TextEditingController(),
-            'designation': TextEditingController(),
+            'description': TextEditingController(),
             'fournisseur': '',
             'categorie': '',
-            'subCategorie': '',
+            'sousCategorie': '',
             'stockMin': TextEditingController(),
             'tva': 45 / 100, // 45% de TVA
             'prixAchatTTC': TextEditingController(),
@@ -92,7 +92,7 @@ class ArticleViewState extends State<ArticleView> {
             'prixVenteHT': TextEditingController(),
             'tauxMargeVente': TextEditingController(),
             'imageArticle': TextEditingController(),
-            'stockable': true
+            'stockable': 1,
           };
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
@@ -110,39 +110,49 @@ class ArticleViewState extends State<ArticleView> {
                     await api.postArticle(
                   context: scaffold.currentContext,
                   article: Article.fromJson({
-                    'code_barre': (fieldControllers['codeBarre'].text)
-                        ? fieldControllers['codeBarre'].text
-                        : '', // get code barre
-                    'designation': fieldControllers['designation']
-                        .text, // get designation // ! required
+                    'code_barre':
+                        (fieldControllers['codeBarre'].text.isNotEmpty)
+                            ? fieldControllers['codeBarre'].text
+                            : '', // get code barre
+                    'description_article': fieldControllers['description']
+                        .text, // get description // ! required
                     'fournisseur':
                         (fieldControllers['fournisseur'].text != null)
                             ? fieldControllers['fournisseur'].text
                             : '', // get fournisseur
-                    'categorie': fieldControllers['categorie']
-                        .toString(), // get categorie // ! required
-                    'sous_categorie': fieldControllers['subCategorie']
-                        .toString(), // get subCategorie
-                    'stock_mini': (fieldControllers['stockMin'].text != null)
-                        ? fieldControllers['stockMin'].text
-                        : '', // get stockMin
-                    'param_tva':
-                        fieldControllers['tva'], // get tva // ! required
+                    'categorie': {
+                      'id': fieldControllers['categorie'],
+                    }, // get categorie // ! required
+                    'sous_categorie':
+                        (fieldControllers['sousCategorie'] != null)
+                            ? {
+                                'id': fieldControllers['sousCategorie'],
+                              }
+                            : null, // get sousCategorie
+                    'stock_mini': (fieldControllers['stockMin'].text != null &&
+                            fieldControllers['stockMin'].text.isNotEmpty)
+                        ? int.parse(fieldControllers['stockMin'].text)
+                        : 0, // get stockMin
+                    'param_tva': {
+                      'id': fieldControllers['tva'],
+                    }, // get tva // ! required
                     'prix_achat_ttc': int.parse(fieldControllers['prixAchatTTC']
                         .text), // get prixAchatTTC // ! required
                     'prix_achat_ht': int.parse(fieldControllers['prixAchatHT']
                         .text), // get prixAchatTTC
-                    'tauxMargeAchat': int.parse(
-                        fieldControllers['tauxMargeAchat']
-                            .text), // get tauxMargeAchat
+                    'taux_airsi_achat':
+                        (fieldControllers['taux_airsi_achat'].text.isNotEmpty)
+                            ? int.parse(fieldControllers['tauxMargeAchat'].text)
+                            : null, // get tauxMargeAchat
                     'prix_vente_ttc_base': int.parse(
                         fieldControllers['prixVenteTTC']
                             .text), // get prixVenteTTC
                     'prix_vente_ht': int.parse(fieldControllers['prixVenteHT']
                         .text), // get prixVenteTTC
-                    'tauxMargeVente': int.parse(
-                        fieldControllers['tauxMargeVente']
-                            .text), // get tauxMargeVente
+                    'taux_airsi_vente':
+                        (fieldControllers['taux_airsi_vente'].text.isNotEmpty)
+                            ? int.parse(fieldControllers['tauxMargeVente'].text)
+                            : null, // get tauxMargeVente
                     'image': fieldControllers['imageArticle']
                         .text, // get imageArticle
                     'stockable': fieldControllers['stockable'], // get stockable
@@ -226,7 +236,7 @@ class ArticleViewState extends State<ArticleView> {
                   //todo: Designation TextFormField
                   MyTextFormField(
                     keyboardType: TextInputType.text,
-                    textEditingController: fieldControllers['designation'],
+                    textEditingController: fieldControllers['description'],
                     validator: (value) {
                       return value!.isNotEmpty
                           ? null
@@ -436,13 +446,13 @@ class ArticleViewState extends State<ArticleView> {
                               return MyComboBox(
                                 onChanged: (value) {
                                   // ? Iterate all providers to get the selected provider id
-                                  for (var subCategorie in snapshot.data!) {
-                                    if (subCategorie.libelle == value) {
-                                      fieldControllers['subCategorie'] =
-                                          subCategorie
+                                  for (var sousCategorie in snapshot.data!) {
+                                    if (sousCategorie.libelle == value) {
+                                      fieldControllers['sousCategorie'] =
+                                          sousCategorie
                                               .id; // save the new countrie selected
                                       print(
-                                          "Nouvelle catégorie: $value, ${fieldControllers['subCategorie']}, ${subCategorie.id}");
+                                          "Nouvelle catégorie: $value, ${fieldControllers['sousCategorie']}, ${sousCategorie.id}");
                                       break;
                                     }
                                   }
@@ -452,8 +462,8 @@ class ArticleViewState extends State<ArticleView> {
                                 initialDropDownList: [
                                   'Sélectionnez une sous catégorie',
                                   // ? datas integration
-                                  for (var subCategorie in snapshot.data!)
-                                    subCategorie.libelle,
+                                  for (var sousCategorie in snapshot.data!)
+                                    sousCategorie.libelle,
                                 ],
                                 prefixPadding: 10,
                                 prefixIcon: Image.asset(
