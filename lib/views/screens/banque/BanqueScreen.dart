@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Banque.dart';
 import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
@@ -9,6 +11,7 @@ import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/banque/BanqueFutureBuilder.dart';
 
 class BanqueScreen extends StatefulWidget {
@@ -22,6 +25,7 @@ class BanqueScreenState extends State<BanqueScreen> {
   ScrollController scrollController = new ScrollController();
   ScrollController listViewScrollController = new ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController bankController = TextEditingController();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -121,7 +125,7 @@ class BanqueScreenState extends State<BanqueScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                //todo: Countries & Filters
+                //todo: Edit & Delete Button
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),
                   child: GridView.count(
@@ -131,7 +135,6 @@ class BanqueScreenState extends State<BanqueScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -152,9 +155,126 @@ class BanqueScreenState extends State<BanqueScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (Banque.banque != null) {
+                            // ? Show confirm dialog
+                            GlobalKey<FormState> formKey =
+                                GlobalKey<FormState>();
+                            bankController.text = Banque.banque!.libelle;
+                            functions.showFormDialog(
+                              context,
+                              formKey,
+                              headerIcon: 'assets/img/icons/bank-building.png',
+                              title: 'Modification de la banque',
+                              formElements: [
+                                //todo: Libelle Field
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //todo: Libelle label
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        MyText(
+                                          text: 'Libellé',
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor:
+                                              Color.fromRGBO(221, 75, 57, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    //todo: Libelle TextFormField
+                                    MyTextFormField(
+                                      keyboardType: TextInputType.text,
+                                      textEditingController: bankController,
+                                      validator: (value) {
+                                        if (value != null &&
+                                            value == Banque.banque!.libelle)
+                                          return "Saisissez un nom différent";
+                                        else if (value!.isEmpty)
+                                          return "Saisissez le libellé de la banque";
+                                        else
+                                          null;
+                                      },
+                                      prefixPadding: 10,
+                                      prefixIcon: Icon(
+                                        Icons.sort_by_alpha,
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
+                                      placeholder: 'Libellé',
+                                      textColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      placeholderColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      fillColor:
+                                          Color.fromRGBO(60, 141, 188, 0.15),
+                                      borderRadius: Radius.circular(10),
+                                      focusBorderColor: Colors.transparent,
+                                      enableBorderColor: Colors.transparent,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                              onValidate: () async {
+                                if (formKey.currentState!.validate()) {
+                                  // ? sending update request to API
+                                  Api api = Api();
+                                  Banque banqueToUpdate = Banque.banque!;
+                                  final Map<String, dynamic>
+                                      updateBanqueResponse =
+                                      await api.updateBanque(
+                                    banque: Banque.fromJson({
+                                      'id': banqueToUpdate.id,
+                                      'libelle_banque': bankController.text,
+                                    }),
+                                  );
+                                  // ? check the server response
+                                  if (updateBanqueResponse['msg'] ==
+                                      'Modification effectuée avec succès.') {
+                                    // ? In Success case
+                                    Navigator.of(context).pop();
+                                    Banque.banque = null;
+                                    functions.showSuccessDialog(
+                                      context: context,
+                                      message: 'Modification réussie !',
+                                    );
+                                  } else if (updateBanqueResponse['msg'] ==
+                                      'Cet enregistrement existe déjà dans la base') {
+                                    // ? In instance already exist case
+                                    Navigator.of(context).pop();
+                                    functions.showWarningDialog(
+                                      context: context,
+                                      message:
+                                          'Vous avez déjà enregistré cette banque !',
+                                    );
+                                  } else {
+                                    // ? In Error case
+                                    Navigator.of(context).pop();
+                                    functions.showErrorDialog(
+                                      context: context,
+                                      message: "Une erreur s'est produite",
+                                    );
+                                  }
+                                  // ? Refresh bank list
+                                  setState(() {});
+                                }
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message: "Choisissez d'abord une banque",
+                            );
+                          }
+                        },
                       ),
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -175,6 +295,55 @@ class BanqueScreenState extends State<BanqueScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (Banque.banque != null) {
+                            // ? Show confirm dialog
+                            functions.showConfirmationDialog(
+                              context: context,
+                              message:
+                                  'Voulez-vous vraiment supprimer la banque : ' +
+                                      Banque.banque!.libelle +
+                                      ' ?',
+                              onValidate: () async {
+                                // ? sending delete request to API
+                                Api api = Api();
+                                Banque banqueToDelete = Banque.banque!;
+                                final Map<String, dynamic>
+                                    deleteBanqueResponse =
+                                    await api.deleteBanque(
+                                  banque: banqueToDelete,
+                                );
+                                // ? check the server response
+                                if (deleteBanqueResponse['msg'] ==
+                                    'Opération effectuée avec succès.') {
+                                  // ? In Success case
+                                  Navigator.of(context).pop();
+                                  Banque.banque = null;
+                                  functions.showSuccessDialog(
+                                    context: context,
+                                    message: 'La banque : ' +
+                                        banqueToDelete.libelle +
+                                        ' a bien été supprimée !',
+                                  );
+                                } else {
+                                  // ? In Error case
+                                  Navigator.of(context).pop();
+                                  functions.showErrorDialog(
+                                    context: context,
+                                    message: "Une erreur s'est produite",
+                                  );
+                                }
+                                // ? Refresh bank list
+                                setState(() {});
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message: "Choisissez d'abord une banque",
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),

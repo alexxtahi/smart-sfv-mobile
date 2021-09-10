@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/MoyenReglement.dart';
 import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/moyen-payement/MoyenReglementFutureBuilder.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
@@ -23,6 +26,7 @@ class MoyenReglementScreenState extends State<MoyenReglementScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController moyenReglementController = TextEditingController();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -36,7 +40,6 @@ class MoyenReglementScreenState extends State<MoyenReglementScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    GlobalKey scaffold = GlobalKey();
     return AnimatedContainer(
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
@@ -129,6 +132,7 @@ class MoyenReglementScreenState extends State<MoyenReglementScreen> {
                 ),
                 SizedBox(height: 10),
                 //todo: Countries & Filters
+                //todo: Edit & Delete Button
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),
                   child: GridView.count(
@@ -138,7 +142,6 @@ class MoyenReglementScreenState extends State<MoyenReglementScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -159,9 +162,134 @@ class MoyenReglementScreenState extends State<MoyenReglementScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (MoyenReglement.moyenReglement != null) {
+                            // ? Show confirm dialog
+                            GlobalKey<FormState> formKey =
+                                GlobalKey<FormState>();
+                            moyenReglementController.text =
+                                MoyenReglement.moyenReglement!.libelle;
+                            functions.showFormDialog(
+                              context,
+                              formKey,
+                              headerIcon: 'assets/img/icons/wallet.png',
+                              title: 'Modification du moyen de paiement',
+                              formElements: [
+                                //todo: Libelle Field
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //todo: Libelle label
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        MyText(
+                                          text: 'Libellé',
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor:
+                                              Color.fromRGBO(221, 75, 57, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    //todo: Libelle TextFormField
+                                    MyTextFormField(
+                                      keyboardType: TextInputType.text,
+                                      textEditingController:
+                                          moyenReglementController,
+                                      validator: (value) {
+                                        if (value != null &&
+                                            value ==
+                                                MoyenReglement
+                                                    .moyenReglement!.libelle)
+                                          return "Saisissez un nom différent";
+                                        else if (value!.isEmpty)
+                                          return "Saisissez le libellé du moyen de paiement";
+                                        else
+                                          null;
+                                      },
+                                      prefixPadding: 10,
+                                      prefixIcon: Icon(
+                                        Icons.sort_by_alpha,
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
+                                      placeholder: 'Libellé',
+                                      textColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      placeholderColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      fillColor:
+                                          Color.fromRGBO(60, 141, 188, 0.15),
+                                      borderRadius: Radius.circular(10),
+                                      focusBorderColor: Colors.transparent,
+                                      enableBorderColor: Colors.transparent,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                              onValidate: () async {
+                                if (formKey.currentState!.validate()) {
+                                  // ? sending update request to API
+                                  Api api = Api();
+                                  MoyenReglement moyenReglementToUpdate =
+                                      MoyenReglement.moyenReglement!;
+                                  final Map<String, dynamic>
+                                      updateMoyenReglementResponse =
+                                      await api.updateMoyenReglement(
+                                    moyenReglement: MoyenReglement.fromJson({
+                                      'id': moyenReglementToUpdate.id,
+                                      'libelle_moyen_reglement':
+                                          moyenReglementController.text,
+                                    }),
+                                  );
+                                  // ? check the server response
+                                  if (updateMoyenReglementResponse['msg'] ==
+                                      'Modification effectuée avec succès.') {
+                                    // ? In Success case
+                                    Navigator.of(context).pop();
+                                    MoyenReglement.moyenReglement = null;
+                                    functions.showSuccessDialog(
+                                      context: context,
+                                      message: 'Modification réussie !',
+                                    );
+                                  } else if (updateMoyenReglementResponse[
+                                          'msg'] ==
+                                      'Cet enregistrement existe déjà dans la base') {
+                                    // ? In instance already exist case
+                                    Navigator.of(context).pop();
+                                    functions.showWarningDialog(
+                                      context: context,
+                                      message:
+                                          'Vous avez déjà enregistré ce moyen de paiement !',
+                                    );
+                                  } else {
+                                    // ? In Error case
+                                    Navigator.of(context).pop();
+                                    functions.showErrorDialog(
+                                      context: context,
+                                      message: "Une erreur s'est produite",
+                                    );
+                                  }
+                                  // ? Refresh moyenReglement list
+                                  setState(() {});
+                                }
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message:
+                                  "Choisissez d'abord un moyen de paiement",
+                            );
+                          }
+                        },
                       ),
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -182,6 +310,57 @@ class MoyenReglementScreenState extends State<MoyenReglementScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (MoyenReglement.moyenReglement != null) {
+                            // ? Show confirm dialog
+                            functions.showConfirmationDialog(
+                              context: context,
+                              message:
+                                  'Voulez-vous vraiment supprimer le moyen de paiement : ' +
+                                      MoyenReglement.moyenReglement!.libelle +
+                                      ' ?',
+                              onValidate: () async {
+                                // ? sending delete request to API
+                                Api api = Api();
+                                MoyenReglement moyenReglementToDelete =
+                                    MoyenReglement.moyenReglement!;
+                                final Map<String, dynamic>
+                                    deleteMoyenReglementResponse =
+                                    await api.deleteMoyenReglement(
+                                  moyenReglement: moyenReglementToDelete,
+                                );
+                                // ? check the server response
+                                if (deleteMoyenReglementResponse['msg'] ==
+                                    'Opération effectuée avec succès.') {
+                                  // ? In Success case
+                                  Navigator.of(context).pop();
+                                  MoyenReglement.moyenReglement = null;
+                                  functions.showSuccessDialog(
+                                    context: context,
+                                    message: 'Le moyen de règlement : ' +
+                                        moyenReglementToDelete.libelle +
+                                        ' a bien été supprimé !',
+                                  );
+                                } else {
+                                  // ? In Error case
+                                  Navigator.of(context).pop();
+                                  functions.showErrorDialog(
+                                    context: context,
+                                    message: "Une erreur s'est produite",
+                                  );
+                                }
+                                // ? Refresh moyenReglement list
+                                setState(() {});
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message:
+                                  "Choisissez d'abord un moyen de paiement",
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),

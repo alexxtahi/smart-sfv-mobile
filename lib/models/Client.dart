@@ -3,6 +3,8 @@ import 'package:smartsfv/models/Regime.dart';
 
 class Client {
   // todo: Properties
+  static Client? client;
+  int id;
   String code;
   String nom;
   String contact;
@@ -17,6 +19,7 @@ class Client {
   int chiffreAffaire;
   // todo: Constructor
   Client({
+    this.id = 0,
     this.code = '',
     this.nom = '',
     this.contact = '',
@@ -34,6 +37,7 @@ class Client {
   // get data from json method
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
+      id: (json['id'] != null) ? json['id'] : 0,
       code: (json['code_client'] != null)
           ? json['code_client'] as String
           : 'Aucun',

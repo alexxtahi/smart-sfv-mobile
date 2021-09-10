@@ -1,5 +1,6 @@
 class Taille {
   // todo: Properties
+  static Taille? taille;
   int id;
   String libelle;
   // todo: Constructor

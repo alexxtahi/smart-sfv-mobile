@@ -1,5 +1,6 @@
 class Commande {
   // todo: Properties
+  static Commande? commande;
   int id;
   String date;
   String numeroBon;

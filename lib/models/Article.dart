@@ -5,6 +5,7 @@ import 'package:smartsfv/models/Tva.dart';
 
 class Article {
   // todo: Properties
+  static Article? article;
   int id;
   String codeBarre;
   String description;

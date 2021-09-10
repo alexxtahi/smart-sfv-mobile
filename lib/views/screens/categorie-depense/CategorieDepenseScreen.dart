@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/CategorieDepense.dart';
 import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/categorie-depense/CategorieDepenseFutureBuilder.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
@@ -23,6 +26,7 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController categorieDepenseController = TextEditingController();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -36,7 +40,6 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    GlobalKey scaffold = GlobalKey();
     return AnimatedContainer(
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
@@ -124,6 +127,7 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
                 ),
                 SizedBox(height: 10),
                 //todo: Countries & Filters
+                //todo: Edit & Delete Button
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),
                   child: GridView.count(
@@ -133,7 +137,6 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -154,9 +157,135 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (CategorieDepense.categorieDepense != null) {
+                            // ? Show confirm dialog
+                            GlobalKey<FormState> formKey =
+                                GlobalKey<FormState>();
+                            categorieDepenseController.text =
+                                CategorieDepense.categorieDepense!.libelle;
+                            functions.showFormDialog(
+                              context,
+                              formKey,
+                              headerIcon: 'assets/img/icons/regim.png',
+                              title: 'Modification de la catégorie de dépense',
+                              formElements: [
+                                //todo: Libelle Field
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //todo: Libelle label
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        MyText(
+                                          text: 'Libellé',
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor:
+                                              Color.fromRGBO(221, 75, 57, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    //todo: Libelle TextFormField
+                                    MyTextFormField(
+                                      keyboardType: TextInputType.text,
+                                      textEditingController:
+                                          categorieDepenseController,
+                                      validator: (value) {
+                                        if (value != null &&
+                                            value ==
+                                                CategorieDepense
+                                                    .categorieDepense!.libelle)
+                                          return "Saisissez un nom différent";
+                                        else if (value!.isEmpty)
+                                          return "Saisissez le libellé de la catégorie de dépense";
+                                        else
+                                          null;
+                                      },
+                                      prefixPadding: 10,
+                                      prefixIcon: Icon(
+                                        Icons.sort_by_alpha,
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
+                                      placeholder: 'Libellé',
+                                      textColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      placeholderColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      fillColor:
+                                          Color.fromRGBO(60, 141, 188, 0.15),
+                                      borderRadius: Radius.circular(10),
+                                      focusBorderColor: Colors.transparent,
+                                      enableBorderColor: Colors.transparent,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                              onValidate: () async {
+                                if (formKey.currentState!.validate()) {
+                                  // ? sending update request to API
+                                  Api api = Api();
+                                  CategorieDepense categorieDepenseToUpdate =
+                                      CategorieDepense.categorieDepense!;
+                                  final Map<String, dynamic>
+                                      updateCategorieDepenseResponse =
+                                      await api.updateCategorieDepense(
+                                    categorieDepense:
+                                        CategorieDepense.fromJson({
+                                      'id': categorieDepenseToUpdate.id,
+                                      'libelle_categorie_depense':
+                                          categorieDepenseController.text,
+                                    }),
+                                  );
+                                  // ? check the server response
+                                  if (updateCategorieDepenseResponse['msg'] ==
+                                      'Modification effectuée avec succès.') {
+                                    // ? In Success case
+                                    Navigator.of(context).pop();
+                                    CategorieDepense.categorieDepense = null;
+                                    functions.showSuccessDialog(
+                                      context: context,
+                                      message: 'Modification réussie !',
+                                    );
+                                  } else if (updateCategorieDepenseResponse[
+                                          'msg'] ==
+                                      'Cet enregistrement existe déjà dans la base') {
+                                    // ? In instance already exist case
+                                    Navigator.of(context).pop();
+                                    functions.showWarningDialog(
+                                      context: context,
+                                      message:
+                                          'Vous avez déjà enregistré cette catégorie de dépense !',
+                                    );
+                                  } else {
+                                    // ? In Error case
+                                    Navigator.of(context).pop();
+                                    functions.showErrorDialog(
+                                      context: context,
+                                      message: "Une erreur s'est produite",
+                                    );
+                                  }
+                                  // ? Refresh categorieDepense list
+                                  setState(() {});
+                                }
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message:
+                                  "Choisissez d'abord une catégorie de dépense",
+                            );
+                          }
+                        },
                       ),
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -177,6 +306,58 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (CategorieDepense.categorieDepense != null) {
+                            // ? Show confirm dialog
+                            functions.showConfirmationDialog(
+                              context: context,
+                              message:
+                                  'Voulez-vous vraiment supprimer la catégorie de dépense : ' +
+                                      CategorieDepense
+                                          .categorieDepense!.libelle +
+                                      ' ?',
+                              onValidate: () async {
+                                // ? sending delete request to API
+                                Api api = Api();
+                                CategorieDepense categorieDepenseToDelete =
+                                    CategorieDepense.categorieDepense!;
+                                final Map<String, dynamic>
+                                    deleteCategorieDepenseResponse =
+                                    await api.deleteCategorieDepense(
+                                  categorieDepense: categorieDepenseToDelete,
+                                );
+                                // ? check the server response
+                                if (deleteCategorieDepenseResponse['msg'] ==
+                                    'Opération effectuée avec succès.') {
+                                  // ? In Success case
+                                  Navigator.of(context).pop();
+                                  CategorieDepense.categorieDepense = null;
+                                  functions.showSuccessDialog(
+                                    context: context,
+                                    message: 'La categorie de dépense : ' +
+                                        categorieDepenseToDelete.libelle +
+                                        ' a bien été supprimée !',
+                                  );
+                                } else {
+                                  // ? In Error case
+                                  Navigator.of(context).pop();
+                                  functions.showErrorDialog(
+                                    context: context,
+                                    message: "Une erreur s'est produite",
+                                  );
+                                }
+                                // ? Refresh categorieDepense list
+                                setState(() {});
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message:
+                                  "Choisissez d'abord une catégorie de dépense",
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),

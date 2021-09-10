@@ -23,6 +23,7 @@ class TvaScreenState extends State<TvaScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController tvaController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
@@ -140,7 +141,7 @@ class TvaScreenState extends State<TvaScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                //todo: Edit & Delete buttons
+                //todo: Edit & Delete Button
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),
                   child: GridView.count(
@@ -150,7 +151,6 @@ class TvaScreenState extends State<TvaScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -171,9 +171,126 @@ class TvaScreenState extends State<TvaScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (Tva.tva != null) {
+                            // ? Show confirm dialog
+                            GlobalKey<FormState> formKey =
+                                GlobalKey<FormState>();
+                            tvaController.text =
+                                (Tva.tva!.percent * 100).toString();
+                            functions.showFormDialog(
+                              context,
+                              formKey,
+                              headerIcon: 'assets/img/icons/tax.png',
+                              title: 'Modification de la taxe',
+                              formElements: [
+                                //todo: Libelle Field
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //todo: Libelle label
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        MyText(
+                                          text: 'Pourcentage',
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor:
+                                              Color.fromRGBO(221, 75, 57, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    //todo: Libelle TextFormField
+                                    MyTextFormField(
+                                      keyboardType: TextInputType.number,
+                                      textEditingController: tvaController,
+                                      validator: (value) {
+                                        if (value != null &&
+                                            double.parse(value) ==
+                                                Tva.tva!.percent)
+                                          return "Saisissez une taxe différente";
+                                        else if (value!.isEmpty)
+                                          return "Saisissez le pourcentage de la taxe";
+                                      },
+                                      prefixPadding: 10,
+                                      prefixIcon: Icon(
+                                        Icons.sort_by_alpha,
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
+                                      placeholder: 'Pourcentage',
+                                      textColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      placeholderColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      fillColor:
+                                          Color.fromRGBO(60, 141, 188, 0.15),
+                                      borderRadius: Radius.circular(10),
+                                      focusBorderColor: Colors.transparent,
+                                      enableBorderColor: Colors.transparent,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                              onValidate: () async {
+                                if (formKey.currentState!.validate()) {
+                                  // ? sending update request to API
+                                  Api api = Api();
+                                  Tva tvaToUpdate = Tva.tva!;
+                                  final Map<String, dynamic> updateTvaResponse =
+                                      await api.updateTva(
+                                    tva: Tva.fromJson({
+                                      'id': tvaToUpdate.id,
+                                      'montant_tva':
+                                          double.parse(tvaController.text),
+                                    }),
+                                  );
+                                  // ? check the server response
+                                  if (updateTvaResponse['msg'] ==
+                                      'Modification effectuée avec succès.') {
+                                    // ? In Success case
+                                    Navigator.of(context).pop();
+                                    Tva.tva = null;
+                                    functions.showSuccessDialog(
+                                      context: context,
+                                      message: 'Modification réussie !',
+                                    );
+                                  } else if (updateTvaResponse['msg'] ==
+                                      'Cet enregistrement existe déjà dans la base') {
+                                    // ? In instance already exist case
+                                    Navigator.of(context).pop();
+                                    functions.showWarningDialog(
+                                      context: context,
+                                      message:
+                                          'Vous avez déjà enregistré cette taxe !',
+                                    );
+                                  } else {
+                                    // ? In Error case
+                                    Navigator.of(context).pop();
+                                    functions.showErrorDialog(
+                                      context: context,
+                                      message: "Une erreur s'est produite",
+                                    );
+                                  }
+                                  // ? Refresh tva list
+                                  setState(() {});
+                                }
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message: "Choisissez d'abord un régime",
+                            );
+                          }
+                        },
                       ),
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -194,6 +311,54 @@ class TvaScreenState extends State<TvaScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (Tva.tva != null) {
+                            // ? Show confirm dialog
+                            functions.showConfirmationDialog(
+                              context: context,
+                              message:
+                                  'Voulez-vous vraiment supprimer la taxe : ' +
+                                      (Tva.tva!.percent * 100).toString() +
+                                      '% ?',
+                              onValidate: () async {
+                                // ? sending delete request to API
+                                Api api = Api();
+                                Tva tvaToDelete = Tva.tva!;
+                                final Map<String, dynamic> deleteTvaResponse =
+                                    await api.deleteTva(
+                                  tva: tvaToDelete,
+                                );
+                                // ? check the server response
+                                if (deleteTvaResponse['msg'] ==
+                                    'Opération effectuée avec succès.') {
+                                  // ? In Success case
+                                  Navigator.of(context).pop();
+                                  Tva.tva = null;
+                                  functions.showSuccessDialog(
+                                    context: context,
+                                    message: 'La taxe : ' +
+                                        (tvaToDelete.percent * 100).toString() +
+                                        '% a bien été supprimée !',
+                                  );
+                                } else {
+                                  // ? In Error case
+                                  Navigator.of(context).pop();
+                                  functions.showErrorDialog(
+                                    context: context,
+                                    message: "Une erreur s'est produite",
+                                  );
+                                }
+                                // ? Refresh tva list
+                                setState(() {});
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message: "Choisissez d'abord un régime",
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),

@@ -1,5 +1,6 @@
 class Rangee {
   // todo: Properties
+  static Rangee? rangee;
   int id;
   String libelle;
   // todo: Constructor

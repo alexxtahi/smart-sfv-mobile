@@ -31,95 +31,141 @@ class SousCategorieFutureBuilderState
             builder: (dataTableContext, snapshot) {
               if (snapshot.hasData) {
                 // ? Check if the list of sous categories is empty or not
-                return (snapshot.data!.isEmpty)
-                    ? Flex(
-                        direction: Axis.vertical,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                if (snapshot.data!.isEmpty) {
+                  return Flex(
+                    direction: Axis.vertical,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/img/icons/sad.png',
+                              fit: BoxFit.contain,
+                              width: 100,
+                              height: 100,
+                              color: Color.fromRGBO(60, 141, 188, 0.5),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Flexible(
+                              child: MyText(
+                                text:
+                                    "Vous n'avez pas encore enregistré de sous categorie. Remplissez le formulaire d'ajout pour en ajouter.",
+                                textAlign: TextAlign.center,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(60, 141, 188, 0.5),
+                                overflow: TextOverflow.visible,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Expanded(
+                    child: FadingEdgeScrollView.fromSingleChildScrollView(
+                      gradientFractionOnStart: 0.05,
+                      gradientFractionOnEnd: 0.2,
+                      child: SingleChildScrollView(
+                        controller: this.scrollController,
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            //todo: Table
+                            Row(
                               children: [
-                                Image.asset(
-                                  'assets/img/icons/sad.png',
-                                  fit: BoxFit.contain,
-                                  width: 100,
-                                  height: 100,
-                                  color: Color.fromRGBO(60, 141, 188, 0.5),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Flexible(
-                                  child: MyText(
-                                    text:
-                                        "Vous n'avez pas encore enregistré de sous categorie. Remplissez le formulaire d'ajout pour en ajouter.",
-                                    textAlign: TextAlign.center,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(60, 141, 188, 0.5),
-                                    overflow: TextOverflow.visible,
+                                Expanded(
+                                  child: FadingEdgeScrollView
+                                      .fromSingleChildScrollView(
+                                    gradientFractionOnStart: 0.2,
+                                    gradientFractionOnEnd: 0.2,
+                                    child: SingleChildScrollView(
+                                      controller:
+                                          this.datatableScrollController,
+                                      physics: BouncingScrollPhysics(),
+                                      scrollDirection: Axis.horizontal,
+                                      child: MyDataTable(
+                                        hasRowSelectable: true,
+                                        columns: [
+                                          'N°',
+                                          'Libellé',
+                                          'Catégorie',
+                                        ],
+                                        rows: [
+                                          for (var sousCategorie
+                                              in snapshot.data!)
+                                            [
+                                              (snapshot.data!.indexOf(
+                                                          sousCategorie) +
+                                                      1)
+                                                  .toString(),
+                                              sousCategorie.libelle,
+                                              sousCategorie.categorie.libelle,
+                                            ],
+                                        ],
+                                        onCellLongPress: () {
+                                          setState(() {
+                                            // ? Check if actual DataRow is already selected or not
+                                            if (MyDataTable.selectedRowIndex !=
+                                                    null &&
+                                                SousCategorie.sousCategorie !=
+                                                    null &&
+                                                SousCategorie
+                                                        .sousCategorie!.id ==
+                                                    snapshot
+                                                        .data![MyDataTable
+                                                            .selectedRowIndex!]
+                                                        .id) {
+                                              // When is already selected
+                                              // ? Reset all sousCategorieStates
+                                              SousCategorie.sousCategorie =
+                                                  null;
+                                              MyDataTable.selectedRowIndex =
+                                                  null;
+                                            } else {
+                                              // When is not selected yet
+                                              // ? Load SousCategorie instance for deletion
+                                              SousCategorie.sousCategorie =
+                                                  SousCategorie.fromJson({
+                                                'id': snapshot
+                                                    .data![MyDataTable
+                                                        .selectedRowIndex!]
+                                                    .id,
+                                                'libelle_sous_categorie':
+                                                    snapshot
+                                                        .data![MyDataTable
+                                                            .selectedRowIndex!]
+                                                        .libelle,
+                                                'categorie': {
+                                                  'id': snapshot
+                                                      .data![MyDataTable
+                                                          .selectedRowIndex!]
+                                                      .categorie
+                                                      .id,
+                                                },
+                                              });
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      )
-                    : Expanded(
-                        child: FadingEdgeScrollView.fromSingleChildScrollView(
-                          gradientFractionOnStart: 0.05,
-                          gradientFractionOnEnd: 0.2,
-                          child: SingleChildScrollView(
-                            controller: this.scrollController,
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            child: Column(
-                              children: [
-                                //todo: Table
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: FadingEdgeScrollView
-                                          .fromSingleChildScrollView(
-                                        gradientFractionOnStart: 0.2,
-                                        gradientFractionOnEnd: 0.2,
-                                        child: SingleChildScrollView(
-                                          controller:
-                                              this.datatableScrollController,
-                                          physics: BouncingScrollPhysics(),
-                                          scrollDirection: Axis.horizontal,
-                                          child: MyDataTable(
-                                            columns: [
-                                              'N°',
-                                              'Libellé',
-                                              'Catégorie',
-                                            ],
-                                            rows: [
-                                              for (var sousCategorie
-                                                  in snapshot.data!)
-                                                [
-                                                  (snapshot.data!.indexOf(
-                                                              sousCategorie) +
-                                                          1)
-                                                      .toString(),
-                                                  sousCategorie.libelle,
-                                                  sousCategorie
-                                                      .categorie.libelle,
-                                                ],
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                          ],
                         ),
-                      );
+                      ),
+                    ),
+                  );
+                }
               } else if (snapshot.hasError) {
                 functions.errorSnackbar(
                   context: context,

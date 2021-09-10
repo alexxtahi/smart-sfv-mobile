@@ -1,5 +1,6 @@
 class Regime {
   // todo: Properties
+  static Regime? regime;
   int id;
   String libelle;
   // todo: Constructor

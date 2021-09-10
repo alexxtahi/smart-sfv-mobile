@@ -16,6 +16,7 @@ import 'package:smartsfv/models/Categorie.dart';
 import 'package:smartsfv/models/CategorieDepense.dart';
 import 'package:smartsfv/models/Client.dart';
 import 'package:smartsfv/models/Commande.dart';
+import 'package:smartsfv/models/Depot.dart';
 import 'package:smartsfv/models/Divers.dart';
 import 'package:smartsfv/models/Fournisseur.dart';
 import 'package:smartsfv/models/MoyenReglement.dart';
@@ -36,7 +37,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = 'http://192.168.1.9:8000'; // local ip adress // ! local
+  String host = 'http://192.168.1.14:8000'; // local ip adress // ! local
   //String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
@@ -55,9 +56,13 @@ class Api {
       'getArticlesPeremption':
           '${this.host}/api/auth/articles-en-voie-peremption',
       'getArticlesRupture': '${this.host}/api/auth/articles-en-voie-rupture',
+      'updateArticle': '${this.host}/api/auth/article/update/{id}',
+      'deleteArticle': '${this.host}/api/auth/article/delete/{id}',
       // Routes régimes
       'getRegimes': '${this.host}/api/auth/regimes',
       'postRegime': '${this.host}/api/auth/regime/store',
+      'updateRegime': '${this.host}/api/auth/regime/update/{id}',
+      'deleteRegime': '${this.host}/api/auth/regime/delete/{id}',
       // Routes pays
       'getNations': '${this.host}/api/auth/nations',
       // Routes clients
@@ -66,52 +71,89 @@ class Api {
       'getBestClients': '${this.host}/api/auth/beste-clients',
       'getDettesClients': '${this.host}/api/auth/clients-plus-endettes',
       'getWorstRentabilityClients': '${this.host}/api/auth/beste-clients',
-      'putClient': '${this.host}/api/auth/client/update/',
-      'deleteClient': '${this.host}/api/auth/clients/delete/',
+      'updateClient': '${this.host}/api/auth/client/update/{id}',
+      'deleteClient': '${this.host}/api/auth/client/delete/{id}',
       // Routes fournisseurs
       'getFournisseurs': '${this.host}/api/auth/fournisseurs',
       'postFournisseur': '${this.host}/api/auth/fournisseur/store',
+      'updateFournisseur': '${this.host}/api/auth/fournissuer/update/{id}',
+      'deleteFournisseur': '${this.host}/api/auth/fournissuer/delete/{id}',
       // Routes commandes
       'getCommandes': '${this.host}/api/auth/commande-en-cours',
       // Routes banques
       'getBanques': '${this.host}/api/auth/banques',
       'postBanque': '${this.host}/api/auth/banque/store',
+      'updateBanque': '${this.host}/api/auth/banque/update/{id}',
+      'deleteBanque': '${this.host}/api/auth/banque/delete/{id}',
       // Routes tvas
       'getTvas': '${this.host}/api/auth/tvas',
       'postTva': '${this.host}/api/auth/tva/store',
+      'updateTva': '${this.host}/api/auth/tva/update/{id}',
+      'deleteTva': '${this.host}/api/auth/tva/delete/{id}',
       // Routes caisses
       'getCaisses': '${this.host}/api/auth/caisses',
       'postCaisse': '${this.host}/api/auth/caisse/store',
+      'updateCaisse': '${this.host}/api/auth/caisse/update/{id}',
+      'deleteCaisse': '${this.host}/api/auth/caisse/delete/{id}',
       // Routes catégories
       'getCategories': '${this.host}/api/auth/categories',
       'postCategorie': '${this.host}/api/auth/categorie/store',
+      'updateCategorie': '${this.host}/api/auth/categorie/update/{id}',
+      'deleteCategorie': '${this.host}/api/auth/categorie/delete/{id}',
       // Routes sous catégories
       'getSousCategories': '${this.host}/api/auth/sous-categories',
       'postSousCategorie': '${this.host}/api/auth/sous-categorie/store',
+      'updateSousCategorie': '${this.host}/api/auth/sous-categorie/update/{id}',
+      'deleteSousCategorie': '${this.host}/api/auth/sous-categorie/delete/{id}',
       // Routes moyens reglement
       'getMoyenReglements': '${this.host}/api/auth/moyen-reglements',
       'postMoyenReglement': '${this.host}/api/auth/moyen-reglement/store',
+      'updateMoyenReglement':
+          '${this.host}/api/auth/moyen-reglement/update/{id}',
+      'deleteMoyenReglement':
+          '${this.host}/api/auth/moyen-reglement/delete/{id}',
       // Routes rayons
       'getRayons': '${this.host}/api/auth/rayons',
       'postRayon': '${this.host}/api/auth/rayon/store',
+      'updateRayon': '${this.host}/api/auth/rayon/update/{id}',
+      'deleteRayon': '${this.host}/api/auth/rayon/delete/{id}',
       // Routes rangées
       'getRangees': '${this.host}/api/auth/rangees',
       'postRangee': '${this.host}/api/auth/rangee/store',
+      'updateRangee': '${this.host}/api/auth/rangee/update/{id}',
+      'deleteRangee': '${this.host}/api/auth/rangee/delete/{id}',
       // Routes casiers
       'getCasiers': '${this.host}/api/auth/casiers',
       'postCasier': '${this.host}/api/auth/casier/store',
+      'updateCasier': '${this.host}/api/auth/casier/update/{id}',
+      'deleteCasier': '${this.host}/api/auth/casier/delete/{id}',
       // Routes unités
       'getUnites': '${this.host}/api/auth/unites',
       'postUnite': '${this.host}/api/auth/unite/store',
+      'updateUnite': '${this.host}/api/auth/unite/update/{id}',
+      'deleteUnite': '${this.host}/api/auth/unite/delete/{id}',
       // Routes tailles
       'getTailles': '${this.host}/api/auth/tailles',
       'postTaille': '${this.host}/api/auth/taille/store',
+      'updateTaille': '${this.host}/api/auth/taille/update/{id}',
+      'deleteTaille': '${this.host}/api/auth/taille/delete/{id}',
       // Routes divers
       'getDivers': '${this.host}/api/auth/divers',
       'postDivers': '${this.host}/api/auth/divers/store',
+      'updateDivers': '${this.host}/api/auth/divers/update/{id}',
+      'deleteDivers': '${this.host}/api/auth/divers/delete/{id}',
       // Routes categories dépenses
       'getCategorieDepenses': '${this.host}/api/auth/categorie-depenses',
       'postCategorieDepense': '${this.host}/api/auth/categorie-depense/store',
+      'updateCategorieDepense':
+          '${this.host}/api/auth/categorie-depense/update/{id}',
+      'deleteCategorieDepense':
+          '${this.host}/api/auth/categorie-depense/delete/{id}',
+      // Routes dépot
+      'getDepots': '${this.host}/api/auth/depots',
+      'postDepot': '${this.host}/api/auth/depot/store',
+      'updateDepot': '${this.host}/api/auth/depot/update/{id}',
+      'deleteDepot': '${this.host}/api/auth/depot/delete/{id}',
     };
   }
 
@@ -1297,6 +1339,72 @@ class Api {
     }
   }
 
+  // todo: get dépot method
+  Future<List<Depot>> getDepots(var context) async {
+    this.url = this.routes['getDepots'].toString(); // set login url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print('Réponse du serveur: ' + this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "DepotView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Dépôts chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of depot
+        List depotResponse = json.decode(this.response.body)['rows'];
+        List<Depot> depots = [
+          for (var depot in depotResponse)
+            // ? filter depots by Research
+            if (Research.type == 'Depot' &&
+                depot['libelle_depot']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              Depot.fromJson(depot) // ! Get depots by name
+            else if (Research.type == '')
+              Depot.fromJson(depot) // ! Get all depots
+
+          // ? take all depots
+          //Depot.fromJson(depot), // ! debug
+          // ? take only depot created by the actual user
+          //if (depot['created_by'] == User.id)
+          //Depot.fromJson(depot), // ! production
+        ];
+        // ? return list of depots
+        return depots;
+      } else {
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        if (ScreenController.actualView == "DepotView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des sous catégories",
+          );
+        return <Depot>[];
+      }
+    } catch (error) {
+      print('API ERROR: Depot Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <Depot>[];
+    }
+  }
+
   // todo: get moyen reglement method
   Future<List<MoyenReglement>> getMoyenReglements(var context) async {
     this.url = this.routes['getMoyenReglements'].toString(); // set login url
@@ -2175,35 +2283,16 @@ class Api {
           HttpHeaders.authorizationHeader: User.token,
         },
       );
-      // ? Check the response status code
-      if (this.response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-        this.requestSuccess = true;
-        // ? Delete user access token
-        // load SharedPreferences
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        User.token = '';
-        prefs.clear();
-        prefs.remove('token');
-        // Reset drawer animation
-        DrawerLayoutController.close();
-        // ? Return to LoginView
-        functions.openPage(context, LoginView(), mode: 'pushReplacement');
-      } else {
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
-        this.requestSuccess = false;
-        print(
-            "API ERROR: Logout Error -> Echec de déconnexion, vérifiez votre connexion internet");
-        // show error snack bar
-        if (ScreenController.actualView != "LoginView") {
-          functions.errorSnackbar(
-            context: context,
-            message: "Echec de déconnexion, vérifiez votre connexion internet",
-          );
-        }
-      }
+      // ? Delete user access token
+      // load SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      User.token = '';
+      prefs.clear();
+      prefs.remove('token');
+      // Reset drawer animation
+      DrawerLayoutController.close();
+      // ? Return to LoginView
+      functions.openPage(context, LoginView(), mode: 'pushReplacement');
     } catch (error) {
       print('API ERROR: Logout Error -> ${error.runtimeType} -> $error');
       if (ScreenController.actualView != "LoginView") {
@@ -2840,6 +2929,1111 @@ class Api {
     try {
       print("Actual view -> " + ScreenController.actualView);
       this.response = await http.post(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: CategorieDepense.toMap(categorieDepense),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete banque method
+  Future<Map<String, dynamic>> deleteBanque({
+    required Banque banque,
+  }) async {
+    this.url = this.routes['deleteBanque'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          banque.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update banque method
+  Future<Map<String, dynamic>> updateBanque({
+    required Banque banque,
+  }) async {
+    this.url = this.routes['updateBanque'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          banque.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Banque.toMap(banque),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete client method
+  Future<Map<String, dynamic>> deleteClient({
+    required Client client,
+  }) async {
+    this.url = this.routes['deleteClient'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          client.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update client method
+  Future<Map<String, dynamic>> updateClient({
+    required Client client,
+  }) async {
+    this.url = this.routes['updateClient'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          client.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Client.toMap(client),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete fournisseur method
+  Future<Map<String, dynamic>> deleteFournisseur({
+    required Fournisseur fournisseur,
+  }) async {
+    this.url = this.routes['deleteFournisseur'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          fournisseur.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update fournisseur method
+  Future<Map<String, dynamic>> updateFournisseur({
+    required Fournisseur fournisseur,
+  }) async {
+    this.url = this.routes['updateFournisseur'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          fournisseur.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Fournisseur.toMap(fournisseur),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete tva method
+  Future<Map<String, dynamic>> deleteTva({
+    required Tva tva,
+  }) async {
+    this.url = this.routes['deleteTva'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          tva.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update tva method
+  Future<Map<String, dynamic>> updateTva({
+    required Tva tva,
+  }) async {
+    this.url = this.routes['updateTva'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          tva.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Tva.toMap(tva),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete regime method
+  Future<Map<String, dynamic>> deleteRegime({
+    required Regime regime,
+  }) async {
+    this.url = this.routes['deleteRegime'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          regime.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update regime method
+  Future<Map<String, dynamic>> updateRegime({
+    required Regime regime,
+  }) async {
+    this.url = this.routes['updateRegime'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          regime.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Regime.toMap(regime),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete article method
+  Future<Map<String, dynamic>> deleteArticle({
+    required Article article,
+  }) async {
+    this.url = this.routes['deleteArticle'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          article.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update article method
+  Future<Map<String, dynamic>> updateArticle({
+    required Article article,
+  }) async {
+    this.url = this.routes['updateArticle'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          article.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Article.toMap(article),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete caisse method
+  Future<Map<String, dynamic>> deleteCaisse({
+    required Caisse caisse,
+  }) async {
+    this.url = this.routes['deleteCaisse'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          caisse.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update caisse method
+  Future<Map<String, dynamic>> updateCaisse({
+    required Caisse caisse,
+  }) async {
+    this.url = this.routes['updateCaisse'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          caisse.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Caisse.toMap(caisse),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete categorie method
+  Future<Map<String, dynamic>> deleteCategorie({
+    required Categorie categorie,
+  }) async {
+    this.url = this.routes['deleteCategorie'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          categorie.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update categorie method
+  Future<Map<String, dynamic>> updateCategorie({
+    required Categorie categorie,
+  }) async {
+    this.url = this.routes['updateCategorie'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          categorie.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Categorie.toMap(categorie),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete sousCategorie method
+  Future<Map<String, dynamic>> deleteSousCategorie({
+    required SousCategorie sousCategorie,
+  }) async {
+    this.url = this.routes['deleteSousCategorie'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          sousCategorie.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update sousCategorie method
+  Future<Map<String, dynamic>> updateSousCategorie({
+    required SousCategorie sousCategorie,
+  }) async {
+    this.url = this.routes['updateSousCategorie'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          sousCategorie.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: SousCategorie.toMap(sousCategorie),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete moyenReglement method
+  Future<Map<String, dynamic>> deleteMoyenReglement({
+    required MoyenReglement moyenReglement,
+  }) async {
+    this.url = this.routes['deleteMoyenReglement'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          moyenReglement.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update moyenReglement method
+  Future<Map<String, dynamic>> updateMoyenReglement({
+    required MoyenReglement moyenReglement,
+  }) async {
+    this.url = this.routes['updateMoyenReglement'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          moyenReglement.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: MoyenReglement.toMap(moyenReglement),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete rayon method
+  Future<Map<String, dynamic>> deleteRayon({
+    required Rayon rayon,
+  }) async {
+    this.url = this.routes['deleteRayon'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          rayon.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update rayon method
+  Future<Map<String, dynamic>> updateRayon({
+    required Rayon rayon,
+  }) async {
+    this.url = this.routes['updateRayon'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          rayon.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Rayon.toMap(rayon),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete rangee method
+  Future<Map<String, dynamic>> deleteRangee({
+    required Rangee rangee,
+  }) async {
+    this.url = this.routes['deleteRangee'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          rangee.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update rangee method
+  Future<Map<String, dynamic>> updateRangee({
+    required Rangee rangee,
+  }) async {
+    this.url = this.routes['updateRangee'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          rangee.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Rangee.toMap(rangee),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete casier method
+  Future<Map<String, dynamic>> deleteCasier({
+    required Casier casier,
+  }) async {
+    this.url = this.routes['deleteCasier'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          casier.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update casier method
+  Future<Map<String, dynamic>> updateCasier({
+    required Casier casier,
+  }) async {
+    this.url = this.routes['updateCasier'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          casier.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Casier.toMap(casier),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete unite method
+  Future<Map<String, dynamic>> deleteUnite({
+    required Unite unite,
+  }) async {
+    this.url = this.routes['deleteUnite'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          unite.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update unite method
+  Future<Map<String, dynamic>> updateUnite({
+    required Unite unite,
+  }) async {
+    this.url = this.routes['updateUnite'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          unite.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Unite.toMap(unite),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete taille method
+  Future<Map<String, dynamic>> deleteTaille({
+    required Taille taille,
+  }) async {
+    this.url = this.routes['deleteTaille'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          taille.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update taille method
+  Future<Map<String, dynamic>> updateTaille({
+    required Taille taille,
+  }) async {
+    this.url = this.routes['updateTaille'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          taille.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Taille.toMap(taille),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete divers method
+  Future<Map<String, dynamic>> deleteDivers({
+    required Divers divers,
+  }) async {
+    this.url = this.routes['deleteDivers'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          divers.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update divers method
+  Future<Map<String, dynamic>> updateDivers({
+    required Divers divers,
+  }) async {
+    this.url = this.routes['updateDivers'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          divers.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+        body: Divers.toMap(divers),
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: delete categorieDepense method
+  Future<Map<String, dynamic>> deleteCategorieDepense({
+    required CategorieDepense categorieDepense,
+  }) async {
+    this.url = this.routes['deleteCategorieDepense'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          categorieDepense.id.toString(),
+        ); // set delete url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.delete(
+        Uri.parse(this.url),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Charset': 'utf-8',
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // get and show server response
+      final responseJson = json.decode(this.response.body);
+      print("Réponse du server: $responseJson");
+      print(responseJson.runtimeType);
+      return responseJson;
+    } catch (error) {
+      print(error);
+      return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: update categorieDepense method
+  Future<Map<String, dynamic>> updateCategorieDepense({
+    required CategorieDepense categorieDepense,
+  }) async {
+    this.url = this.routes['updateCategorieDepense'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          categorieDepense.id.toString(),
+        ); // set update url
+    try {
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.put(
         Uri.parse(this.url),
         headers: {
           'Accept': 'application/json',

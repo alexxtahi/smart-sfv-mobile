@@ -1,5 +1,6 @@
 class Fournisseur {
   // todo: Properties
+  static Fournisseur? fournisseur;
   int? id;
   String? code;
   String? nom;

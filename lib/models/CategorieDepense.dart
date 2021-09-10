@@ -1,5 +1,6 @@
 class CategorieDepense {
   // todo: Properties
+  static CategorieDepense? categorieDepense;
   int id;
   String libelle;
   // todo: Constructor

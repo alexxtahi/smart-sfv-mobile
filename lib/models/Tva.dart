@@ -1,5 +1,6 @@
 class Tva {
   // todo: Properties
+  static Tva? tva;
   int id;
   double percent;
   // todo: Constructor

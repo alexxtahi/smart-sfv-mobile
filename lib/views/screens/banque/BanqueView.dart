@@ -162,7 +162,6 @@ class BanqueViewState extends State<BanqueView> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
             ],
           );
         },

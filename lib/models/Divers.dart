@@ -1,5 +1,6 @@
 class Divers {
   // todo: Properties
+  static Divers? divers;
   int id;
   String libelle;
   // todo: Constructor

@@ -43,7 +43,6 @@ class SousCategorieViewState extends State<SousCategorieView> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
   TextEditingController textEditingController = TextEditingController();
-  bool isNewBankEmpty = false;
   String dropDownValue = 'Sélectionner une catégorie';
   List<String> categorielist = [
     'Sélectionner une catégorie',

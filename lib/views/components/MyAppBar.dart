@@ -4,6 +4,7 @@ import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/AppName.dart';
+import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/UserAvatar.dart';
@@ -61,6 +62,7 @@ class MyAppBarState extends State<MyAppBar> {
                 if (ScreenController.isChildView) {
                   Navigator.of(context).pop();
                   ScreenController.isChildView = false;
+                  MyDataTable.selectedRowIndex = null;
                   Research.reset(); // Reset last research datas
                 }
               },

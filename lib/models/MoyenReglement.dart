@@ -1,5 +1,6 @@
 class MoyenReglement {
   // todo: Properties
+  static MoyenReglement? moyenReglement;
   int id;
   String libelle;
   // todo: Constructor
@@ -18,10 +19,10 @@ class MoyenReglement {
     );
   }
   // return to Map
-  static Map<String, dynamic> toMap(MoyenReglement categorie) {
+  static Map<String, dynamic> toMap(MoyenReglement moyenReglement) {
     return <String, dynamic>{
-      //'id': categorie.id,
-      'libelle_moyen_reglement': categorie.libelle,
+      //'id': moyenReglement.id,
+      'libelle_moyen_reglement': moyenReglement.libelle,
     };
   }
 }

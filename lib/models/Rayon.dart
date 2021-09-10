@@ -1,5 +1,6 @@
 class Rayon {
   // todo: Properties
+  static Rayon? rayon;
   int id;
   String libelle;
   // todo: Constructor

@@ -1,5 +1,6 @@
 class Casier {
   // todo: Properties
+  static Casier? casier;
   int id;
   String libelle;
   // todo: Constructor

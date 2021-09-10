@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Rangee.dart';
 import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/rangee/RangeeFutureBuilder.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
@@ -22,6 +25,7 @@ class RangeeScreenState extends State<RangeeScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController rangeeController = TextEditingController();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -35,7 +39,6 @@ class RangeeScreenState extends State<RangeeScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    GlobalKey scaffold = GlobalKey();
     return AnimatedContainer(
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
@@ -129,6 +132,7 @@ class RangeeScreenState extends State<RangeeScreen> {
                 ),
                 SizedBox(height: 10),
                 //todo: Countries & Filters
+                //todo: Edit & Delete Button
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),
                   child: GridView.count(
@@ -138,7 +142,6 @@ class RangeeScreenState extends State<RangeeScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -159,9 +162,124 @@ class RangeeScreenState extends State<RangeeScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (Rangee.rangee != null) {
+                            // ? Show confirm dialog
+                            GlobalKey<FormState> formKey =
+                                GlobalKey<FormState>();
+                            rangeeController.text = Rangee.rangee!.libelle;
+                            functions.showFormDialog(
+                              context,
+                              formKey,
+                              headerIcon: 'assets/img/icons/above.png',
+                              title: 'Modification de la rangée',
+                              formElements: [
+                                //todo: Libelle Field
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //todo: Libelle label
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        MyText(
+                                          text: 'Libellé',
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor:
+                                              Color.fromRGBO(221, 75, 57, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    //todo: Libelle TextFormField
+                                    MyTextFormField(
+                                      keyboardType: TextInputType.text,
+                                      textEditingController: rangeeController,
+                                      validator: (value) {
+                                        if (value != null &&
+                                            value == Rangee.rangee!.libelle)
+                                          return "Saisissez un nom différent";
+                                        else if (value!.isEmpty)
+                                          return "Saisissez le libellé de la rangée";
+                                      },
+                                      prefixPadding: 10,
+                                      prefixIcon: Icon(
+                                        Icons.sort_by_alpha,
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
+                                      placeholder: 'Libellé',
+                                      textColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      placeholderColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      fillColor:
+                                          Color.fromRGBO(60, 141, 188, 0.15),
+                                      borderRadius: Radius.circular(10),
+                                      focusBorderColor: Colors.transparent,
+                                      enableBorderColor: Colors.transparent,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                              onValidate: () async {
+                                if (formKey.currentState!.validate()) {
+                                  // ? sending update request to API
+                                  Api api = Api();
+                                  Rangee rangeeToUpdate = Rangee.rangee!;
+                                  final Map<String, dynamic>
+                                      updateRangeeResponse =
+                                      await api.updateRangee(
+                                    rangee: Rangee.fromJson({
+                                      'id': rangeeToUpdate.id,
+                                      'libelle_rangee': rangeeController.text,
+                                    }),
+                                  );
+                                  // ? check the server response
+                                  if (updateRangeeResponse['msg'] ==
+                                      'Modification effectuée avec succès.') {
+                                    // ? In Success case
+                                    Navigator.of(context).pop();
+                                    Rangee.rangee = null;
+                                    functions.showSuccessDialog(
+                                      context: context,
+                                      message: 'Modification réussie !',
+                                    );
+                                  } else if (updateRangeeResponse['msg'] ==
+                                      'Cet enregistrement existe déjà dans la base') {
+                                    // ? In instance already exist case
+                                    Navigator.of(context).pop();
+                                    functions.showWarningDialog(
+                                      context: context,
+                                      message:
+                                          'Vous avez déjà enregistré cette rangée !',
+                                    );
+                                  } else {
+                                    // ? In Error case
+                                    Navigator.of(context).pop();
+                                    functions.showErrorDialog(
+                                      context: context,
+                                      message: "Une erreur s'est produite",
+                                    );
+                                  }
+                                  // ? Refresh rangee list
+                                  setState(() {});
+                                }
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message: "Choisissez d'abord un rangée",
+                            );
+                          }
+                        },
                       ),
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -182,6 +300,55 @@ class RangeeScreenState extends State<RangeeScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (Rangee.rangee != null) {
+                            // ? Show confirm dialog
+                            functions.showConfirmationDialog(
+                              context: context,
+                              message:
+                                  'Voulez-vous vraiment supprimer la rangée : ' +
+                                      Rangee.rangee!.libelle +
+                                      ' ?',
+                              onValidate: () async {
+                                // ? sending delete request to API
+                                Api api = Api();
+                                Rangee rangeeToDelete = Rangee.rangee!;
+                                final Map<String, dynamic>
+                                    deleteRangeeResponse =
+                                    await api.deleteRangee(
+                                  rangee: rangeeToDelete,
+                                );
+                                // ? check the server response
+                                if (deleteRangeeResponse['msg'] ==
+                                    'Opération effectuée avec succès.') {
+                                  // ? In Success case
+                                  Navigator.of(context).pop();
+                                  Rangee.rangee = null;
+                                  functions.showSuccessDialog(
+                                    context: context,
+                                    message: 'La rangée : ' +
+                                        rangeeToDelete.libelle +
+                                        ' a bien été supprimée !',
+                                  );
+                                } else {
+                                  // ? In Error case
+                                  Navigator.of(context).pop();
+                                  functions.showErrorDialog(
+                                    context: context,
+                                    message: "Une erreur s'est produite",
+                                  );
+                                }
+                                // ? Refresh rangee list
+                                setState(() {});
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message: "Choisissez d'abord un rangée",
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),

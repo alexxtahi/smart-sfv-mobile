@@ -1,5 +1,6 @@
 class Banque {
   // todo: Properties
+  static Banque? banque;
   int id;
   String libelle;
   // todo: Constructor

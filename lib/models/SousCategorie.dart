@@ -2,6 +2,7 @@ import 'package:smartsfv/models/Categorie.dart';
 
 class SousCategorie {
   // todo: Properties
+  static SousCategorie? sousCategorie;
   int id;
   String libelle;
   Categorie categorie;

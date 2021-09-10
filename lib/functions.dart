@@ -477,3 +477,45 @@ void showErrorDialog({
     },
   );
 }
+
+//todo: Show confirmation dialog
+void showConfirmationDialog({
+  required var context,
+  String message = 'Êtes-vous sûr ?',
+  required void Function()? onValidate,
+}) async {
+  return await showFormDialog(
+    context,
+    GlobalKey<FormState>(),
+    barrierDismissible: true,
+    hasHeaderTitle: false,
+    hasHeaderIcon: false,
+    hasSnackbar: false,
+    onValidate: onValidate,
+    formElements: [
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircleAvatar(
+            radius: 35,
+            backgroundColor: Colors.yellow[800]!.withOpacity(0.2),
+            child: Icon(
+              Icons.question_answer_outlined,
+              color: Colors.yellow[800]!,
+              size: 40,
+            ),
+          ),
+          SizedBox(height: 10),
+          Flexible(
+            child: MyText(
+              textAlign: TextAlign.center,
+              text: message,
+              fontWeight: FontWeight.bold,
+              overflow: TextOverflow.visible,
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+}

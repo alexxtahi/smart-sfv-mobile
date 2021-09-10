@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Casier.dart';
 import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/views/components/MyAppBar.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
 import 'package:smartsfv/views/components/MyOutlinedIconButton.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
+import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/casier/CasierFutureBuilder.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
@@ -22,6 +25,7 @@ class CasierScreenState extends State<CasierScreen> {
   ScrollController scrollController = ScrollController();
   ScrollController listViewScrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController casierController = TextEditingController();
   //todo: setState function for the childrens
   void setstate(Function childSetState) {
     /*
@@ -35,7 +39,6 @@ class CasierScreenState extends State<CasierScreen> {
   @override
   Widget build(BuildContext context) {
     List<double> screenSize = ScreenController.getScreenSize(context);
-    GlobalKey scaffold = GlobalKey();
     return AnimatedContainer(
       transform: Matrix4.translationValues(
           DrawerLayoutController.xOffset, DrawerLayoutController.yOffset, 0)
@@ -125,6 +128,7 @@ class CasierScreenState extends State<CasierScreen> {
                 ),
                 SizedBox(height: 10),
                 //todo: Countries & Filters
+                //todo: Edit & Delete Button
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),
                   child: GridView.count(
@@ -134,7 +138,6 @@ class CasierScreenState extends State<CasierScreen> {
                     crossAxisSpacing: 10,
                     children: [
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -155,9 +158,124 @@ class CasierScreenState extends State<CasierScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (Casier.casier != null) {
+                            // ? Show confirm dialog
+                            GlobalKey<FormState> formKey =
+                                GlobalKey<FormState>();
+                            casierController.text = Casier.casier!.libelle;
+                            functions.showFormDialog(
+                              context,
+                              formKey,
+                              headerIcon: 'assets/img/icons/regim.png',
+                              title: 'Modification du casier',
+                              formElements: [
+                                //todo: Libelle Field
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //todo: Libelle label
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        MyText(
+                                          text: 'Libellé',
+                                          color: Color.fromRGBO(0, 27, 121, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor:
+                                              Color.fromRGBO(221, 75, 57, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    //todo: Libelle TextFormField
+                                    MyTextFormField(
+                                      keyboardType: TextInputType.text,
+                                      textEditingController: casierController,
+                                      validator: (value) {
+                                        if (value != null &&
+                                            value == Casier.casier!.libelle)
+                                          return "Saisissez un nom différent";
+                                        else if (value!.isEmpty)
+                                          return "Saisissez le libellé du casier";
+                                      },
+                                      prefixPadding: 10,
+                                      prefixIcon: Icon(
+                                        Icons.sort_by_alpha,
+                                        color: Color.fromRGBO(60, 141, 188, 1),
+                                      ),
+                                      placeholder: 'Libellé',
+                                      textColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      placeholderColor:
+                                          Color.fromRGBO(60, 141, 188, 1),
+                                      fillColor:
+                                          Color.fromRGBO(60, 141, 188, 0.15),
+                                      borderRadius: Radius.circular(10),
+                                      focusBorderColor: Colors.transparent,
+                                      enableBorderColor: Colors.transparent,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                              onValidate: () async {
+                                if (formKey.currentState!.validate()) {
+                                  // ? sending update request to API
+                                  Api api = Api();
+                                  Casier casierToUpdate = Casier.casier!;
+                                  final Map<String, dynamic>
+                                      updateCasierResponse =
+                                      await api.updateCasier(
+                                    casier: Casier.fromJson({
+                                      'id': casierToUpdate.id,
+                                      'libelle_casier': casierController.text,
+                                    }),
+                                  );
+                                  // ? check the server response
+                                  if (updateCasierResponse['msg'] ==
+                                      'Modification effectuée avec succès.') {
+                                    // ? In Success case
+                                    Navigator.of(context).pop();
+                                    Casier.casier = null;
+                                    functions.showSuccessDialog(
+                                      context: context,
+                                      message: 'Modification réussie !',
+                                    );
+                                  } else if (updateCasierResponse['msg'] ==
+                                      'Cet enregistrement existe déjà dans la base') {
+                                    // ? In instance already exist case
+                                    Navigator.of(context).pop();
+                                    functions.showWarningDialog(
+                                      context: context,
+                                      message:
+                                          'Vous avez déjà enregistré ce casier !',
+                                    );
+                                  } else {
+                                    // ? In Error case
+                                    Navigator.of(context).pop();
+                                    functions.showErrorDialog(
+                                      context: context,
+                                      message: "Une erreur s'est produite",
+                                    );
+                                  }
+                                  // ? Refresh casier list
+                                  setState(() {});
+                                }
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message: "Choisissez d'abord un casier",
+                            );
+                          }
+                        },
                       ),
                       MyOutlinedButton(
-                        onPressed: () {},
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         borderRadius: 15,
                         borderColor: Colors.transparent,
@@ -178,6 +296,55 @@ class CasierScreenState extends State<CasierScreen> {
                             ),
                           ],
                         ),
+                        onPressed: () {
+                          if (Casier.casier != null) {
+                            // ? Show confirm dialog
+                            functions.showConfirmationDialog(
+                              context: context,
+                              message:
+                                  'Voulez-vous vraiment supprimer le casier : ' +
+                                      Casier.casier!.libelle +
+                                      ' ?',
+                              onValidate: () async {
+                                // ? sending delete request to API
+                                Api api = Api();
+                                Casier casierToDelete = Casier.casier!;
+                                final Map<String, dynamic>
+                                    deleteCasierResponse =
+                                    await api.deleteCasier(
+                                  casier: casierToDelete,
+                                );
+                                // ? check the server response
+                                if (deleteCasierResponse['msg'] ==
+                                    'Opération effectuée avec succès.') {
+                                  // ? In Success case
+                                  Navigator.of(context).pop();
+                                  Casier.casier = null;
+                                  functions.showSuccessDialog(
+                                    context: context,
+                                    message: 'Le casier : ' +
+                                        casierToDelete.libelle +
+                                        ' a bien été supprimé !',
+                                  );
+                                } else {
+                                  // ? In Error case
+                                  Navigator.of(context).pop();
+                                  functions.showErrorDialog(
+                                    context: context,
+                                    message: "Une erreur s'est produite",
+                                  );
+                                }
+                                // ? Refresh casier list
+                                setState(() {});
+                              },
+                            );
+                          } else {
+                            functions.showWarningDialog(
+                              context: context,
+                              message: "Choisissez d'abord un casier",
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
