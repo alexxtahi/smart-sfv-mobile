@@ -67,7 +67,7 @@ class CategorieFutureBuilderState extends State<CategorieFutureBuilder> {
                 } else {
                   // ? Reset categorieStates list
                   categorieStates = [
-                    for (var categorie in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return categorie list
                   return Expanded(

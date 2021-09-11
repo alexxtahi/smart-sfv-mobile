@@ -68,7 +68,7 @@ class TailleFutureBuilderState extends State<TailleFutureBuilder> {
                 } else {
                   // ? Reset tailleStates list
                   tailleStates = [
-                    for (var taille in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return taille list
                   return Expanded(

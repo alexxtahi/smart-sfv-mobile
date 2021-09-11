@@ -68,7 +68,7 @@ class RegimeFutureBuilderState extends State<RegimeFutureBuilder> {
                 } else {
                   // ? Reset regimeStates list
                   regimeStates = [
-                    for (var regime in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return regime list
                   return Expanded(

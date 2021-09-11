@@ -45,15 +45,8 @@ class FicheClientViewState extends State<FicheClientView> {
   void dispose() {
     // ? Set actualView to "HomeView"
     if (ScreenController.actualView != "LoginView") {
-      ScreenController.actualView = "HomeView";
-      ScreenController.isChildView = false;
-      // ? Reload client table
-      /*
-      widget.parentSetState(() {
-        MyDataTable.selectedRowIndex = null;
-        Client.client = null;
-        Research.reset(); // Reset last research datas
-      });*/
+      ScreenController.actualView = "ClientView";
+      ScreenController.isChildView = true;
     }
     super.dispose();
   }

@@ -69,7 +69,7 @@ class CategorieDepenseFutureBuilderState
                 } else {
                   // ? Reset categorieDepenseStates list
                   categorieDepenseStates = [
-                    for (var categorieDepense in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return categorieDepense list
                   return Expanded(

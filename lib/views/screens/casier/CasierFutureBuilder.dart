@@ -67,7 +67,7 @@ class CasierFutureBuilderState extends State<CasierFutureBuilder> {
                 } else {
                   // ? Reset casierStates list
                   casierStates = [
-                    for (var casier in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return casier list
                   return Expanded(

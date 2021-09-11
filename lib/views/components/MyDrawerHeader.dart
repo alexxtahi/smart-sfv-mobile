@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/User.dart';
+import 'package:smartsfv/models/Auth.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
@@ -45,18 +45,18 @@ class MyDrawerHeaderState extends State<MyDrawerHeader> {
                     //backgroundImage: AssetImage('assets/img/motion-design/avatar-image.png'),
                   ),
                   SizedBox(width: 10),
-                  //todo: Username & role
+                  //todo: Auth.user!name & role
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MyText(
-                          text: User.name, // ? set user name
+                          text: Auth.user!.name, // ? set user name
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
                         ),
                         MyText(
-                          text: User.role, // ? set user role
+                          text: Auth.user!.role, // ? set user role
                           color: Colors.white,
                           overflow: TextOverflow.visible,
                         ),

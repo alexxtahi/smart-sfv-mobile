@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/User.dart';
+import 'package:smartsfv/models/Auth.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 
 Future<void> showFormDialog(
@@ -215,7 +215,7 @@ void showMessageToSnackbar({
   );
 }
 
-void openPage(BuildContext context, Widget view, {String mode = 'push'}) {
+void openPage(var context, Widget view, {String mode = 'push'}) {
   String oldView = ScreenController.actualView;
   switch (mode) {
     case 'pushReplacement':
@@ -253,7 +253,7 @@ void logout(var context, {Function()? onValidate}) {
     hasValidationButton: false,
     confirmBtnText: 'Se déconnecter',
     cancelBtnText: 'Annuler',
-    formElements: (User.isConnected == true)
+    formElements: (Auth.user!.isConnected == true)
         ? [
             Wrap(
               children: [
@@ -287,7 +287,7 @@ void logout(var context, {Function()? onValidate}) {
                 InkWell(
                   onTap: () {
                     // ? Quit logout AlertDialog
-                    if (User.isConnected) Navigator.pop(context);
+                    if (Auth.user!.isConnected) Navigator.pop(context);
                   },
                   child: CircleAvatar(
                     radius: 30,

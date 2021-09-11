@@ -1,5 +1,3 @@
-import 'package:smartsfv/models/Categorie.dart';
-
 class Depot {
   // todo: Properties
   static Depot? depot;

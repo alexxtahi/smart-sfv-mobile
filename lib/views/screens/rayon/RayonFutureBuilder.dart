@@ -68,7 +68,7 @@ class RayonFutureBuilderState extends State<RayonFutureBuilder> {
                 } else {
                   // ? Reset rayonStates list
                   rayonStates = [
-                    for (var rayon in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return rayon list
                   return Expanded(

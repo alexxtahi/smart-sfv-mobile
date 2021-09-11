@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
+import 'package:smartsfv/models/Auth.dart';
 import 'package:smartsfv/models/User.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/screens/home/HomeView.dart';
@@ -45,13 +46,26 @@ class SplashScreenState extends State<SplashScreen> {
         // showing HomeView
         print('Last token -> $token');
         print('[AUTO CONNECTION] Loading home page...');
-        User.token = (token != null) ? token : 'no token';
         // ? Get last user informations
         Api api = Api();
         Map<String, dynamic> userInfos = await api.getUserInfo(context);
-        User.create(userInfos);
-        print('Last user infos -> ${User.toMap()}'); // ! debug
-        return true;
+        print('User informations -> $userInfos'); // ! debug
+        // ? Check server response before allow acces
+        if (userInfos['msg'] == 'API Error' ||
+            userInfos['msg'] == 'failed to get user datas') {
+          return false;
+        } else {
+          // ? Load instance of User with server datas
+          Auth.user = User.fromJson(userInfos);
+          if (Auth.user != null) {
+            // Save token
+            Auth.user!.token = (token != null) ? token : 'no token';
+          } else
+            print("[LOG] Autologin -> User not already connected");
+          print(
+              'Last user infos -> ${User.toMap(User.fromInstance(Auth.user))}'); // ! debug
+          return true;
+        }
       }
     } catch (e) {
       print('Autologin Error -> $e');
@@ -126,7 +140,7 @@ class SplashScreenState extends State<SplashScreen> {
                         builder: (verifyContext, snapshot) {
                           if (snapshot.hasData) {
                             // ? If the user is not disconnected
-                            if (snapshot.data! == true) {
+                            if (snapshot.data! == true && Auth.user != null) {
                               ScreenController.actualView = "HomeView";
                               //todo: Start timer
                               Timer(

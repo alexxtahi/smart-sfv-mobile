@@ -68,7 +68,7 @@ class DiversFutureBuilderState extends State<DiversFutureBuilder> {
                 } else {
                   // ? Reset diversStates list
                   diversStates = [
-                    for (var divers in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return divers list
                   return Expanded(

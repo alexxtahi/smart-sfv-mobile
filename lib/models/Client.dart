@@ -87,7 +87,7 @@ class Client {
     };
   }
 
-  // get data from json method
+  // get data from instance method
   factory Client.fromInstance(Client? client) {
     return (client != null)
         ? Client(

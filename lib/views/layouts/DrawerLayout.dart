@@ -4,7 +4,7 @@ import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/functions.dart' as functions;
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/User.dart';
+import 'package:smartsfv/models/Auth.dart';
 import 'package:smartsfv/views/components/DrawerBlurBackground.dart';
 import 'package:smartsfv/views/components/MyDrawerHeader.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
@@ -92,7 +92,7 @@ class DrawerLayoutState extends State<DrawerLayout> {
                               textColor: Colors.white,
                               backgroundColor: Colors.white.withOpacity(0.2),
                               onPressed: () {
-                                if (User.isConnected) {
+                                if (Auth.user!.isConnected) {
                                   // ? Show confirmation dialog
                                   functions.logout(
                                     context,
@@ -140,7 +140,7 @@ class DrawerLayoutState extends State<DrawerLayout> {
                                       Api api = Api(); // Load API instance
                                       // Call logout method
                                       api.logout(context).then((value) {
-                                        User.isConnected = false;
+                                        Auth.user!.isConnected = false;
                                       });
                                     },
                                   );

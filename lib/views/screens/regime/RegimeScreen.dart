@@ -205,8 +205,6 @@ class RegimeScreenState extends State<RegimeScreen> {
                                           return "Saisissez un nom différent";
                                         else if (value!.isEmpty)
                                           return "Saisissez le libellé du régime";
-                                        else
-                                          null;
                                       },
                                       prefixPadding: 10,
                                       prefixIcon: Icon(

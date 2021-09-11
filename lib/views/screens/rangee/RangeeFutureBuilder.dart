@@ -68,7 +68,7 @@ class RangeeFutureBuilderState extends State<RangeeFutureBuilder> {
                 } else {
                   // ? Reset rangeeStates list
                   rangeeStates = [
-                    for (var rangee in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return rangee list
                   return Expanded(

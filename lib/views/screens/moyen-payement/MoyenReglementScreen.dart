@@ -210,8 +210,6 @@ class MoyenReglementScreenState extends State<MoyenReglementScreen> {
                                           return "Saisissez un nom différent";
                                         else if (value!.isEmpty)
                                           return "Saisissez le libellé du moyen de paiement";
-                                        else
-                                          null;
                                       },
                                       prefixPadding: 10,
                                       prefixIcon: Icon(

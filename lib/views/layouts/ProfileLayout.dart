@@ -3,7 +3,7 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
-import 'package:smartsfv/models/User.dart';
+import 'package:smartsfv/models/Auth.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/components/MyOutlinedButton.dart';
@@ -105,9 +105,9 @@ class ProfileLayoutState extends State<ProfileLayout> {
                 ),
               ),
               SizedBox(height: 15),
-              //todo: Username
+              //todo: Auth.user!name
               MyText(
-                text: User.name,
+                text: Auth.user!.name,
                 color: Color.fromRGBO(0, 0, 0, 0.5),
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
@@ -130,7 +130,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                       ),
                     ),
                     TextSpan(text: ": "),
-                    TextSpan(text: User.role),
+                    TextSpan(text: Auth.user!.role),
                   ],
                 ),
               ),
@@ -156,10 +156,10 @@ class ProfileLayoutState extends State<ProfileLayout> {
                           TextEditingController();
                       TextEditingController contactField =
                           TextEditingController();
-                      nameField.text = User.name;
-                      loginField.text = User.login;
-                      emailField.text = User.email;
-                      contactField.text = User.contact;
+                      nameField.text = Auth.user!.name;
+                      loginField.text = Auth.user!.login;
+                      emailField.text = Auth.user!.email;
+                      contactField.text = Auth.user!.contact;
                       functions.showFormDialog(
                         context,
                         formKey,
@@ -355,7 +355,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                         borderColor: Color.fromRGBO(221, 75, 57, 1),
                         backgroundColor: Color.fromRGBO(221, 75, 57, 0.15),
                         onPressed: () {
-                          if (User.isConnected) {
+                          if (Auth.user!.isConnected) {
                             // ? Show confirmation dialog
                             functions.logout(
                               context,
@@ -402,7 +402,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                 Api api = Api(); // Load API instance
                                 // Call logout method
                                 api.logout(context).then((value) {
-                                  User.isConnected = false;
+                                  Auth.user!.isConnected = false;
                                 });
                               },
                             );
@@ -412,7 +412,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                     ],
                   ),
                   SizedBox(height: 15),
-                  //todo: User all datas
+                  //todo: Auth.user! all datas
                   Row(
                     children: [
                       Expanded(
@@ -445,7 +445,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     ),
                                     SizedBox(width: 10),
                                     MyText(
-                                      text: User.name,
+                                      text: Auth.user!.name,
                                       fontSize: 12,
                                       //fontWeight: FontWeight.bold,
                                     ),
@@ -459,7 +459,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     // ? Get actual username
                                     TextEditingController nameField =
                                         TextEditingController();
-                                    nameField.text = User.name;
+                                    nameField.text = Auth.user!.name;
                                     functions.showFormDialog(
                                       context,
                                       formKey,
@@ -491,7 +491,8 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                               validator: (value) {
                                                 if (value!.isEmpty) {
                                                   return 'Entrez un nom avant de valider';
-                                                } else if (value == User.name) {
+                                                } else if (value ==
+                                                    Auth.user!.name) {
                                                   return 'Les noms sont identiques';
                                                 } else {
                                                   return null;
@@ -554,7 +555,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     ),
                                     SizedBox(width: 10),
                                     MyText(
-                                      text: User.login,
+                                      text: Auth.user!.login,
                                       fontSize: 12,
                                       //fontWeight: FontWeight.bold,
                                     ),
@@ -568,7 +569,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     // ? Get actual username
                                     TextEditingController loginField =
                                         TextEditingController();
-                                    loginField.text = User.login;
+                                    loginField.text = Auth.user!.login;
                                     functions.showFormDialog(
                                       context,
                                       formKey,
@@ -601,7 +602,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                                 if (value!.isEmpty) {
                                                   return 'Entrez un login avant de valider';
                                                 } else if (value ==
-                                                    User.login) {
+                                                    Auth.user!.login) {
                                                   return 'Les logins sont identiques';
                                                 } else {
                                                   return null;
@@ -665,7 +666,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     SizedBox(width: 10),
                                     MyText(
                                       text: (isPasswordShow)
-                                          ? User.password
+                                          ? Auth.user!.password
                                           : '••••••••',
                                       fontSize: 12,
                                       //fontWeight: FontWeight.bold,
@@ -714,7 +715,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                             TextEditingController();
                                         TextEditingController newPasswordField =
                                             TextEditingController();
-                                        //passwordField.text = User.login;
+                                        //passwordField.text = Auth.user!.login;
                                         functions.showFormDialog(
                                           context,
                                           formKey,
@@ -750,7 +751,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                                     if (value!.isEmpty) {
                                                       return 'Entrez le mot de passe actuel';
                                                     } else if (value !=
-                                                        User.login) {
+                                                        Auth.user!.login) {
                                                       return 'Ce mot de passe ne correspond pas à celui de votre compte';
                                                     } else {
                                                       return null;
@@ -806,7 +807,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                                     if (value!.isEmpty) {
                                                       return 'Entrez un nouveau mot de passe avant de valider';
                                                     } else if (value ==
-                                                        User.login) {
+                                                        Auth.user!.login) {
                                                       return 'Les mots de passe sont identiques';
                                                     } else {
                                                       return null;
@@ -862,7 +863,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     ),
                                     SizedBox(width: 10),
                                     MyText(
-                                      text: User.email,
+                                      text: Auth.user!.email,
                                       fontSize: 12,
                                       //fontWeight: FontWeight.bold,
                                     ),
@@ -876,7 +877,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     // ? Get actual username
                                     TextEditingController emailField =
                                         TextEditingController();
-                                    emailField.text = User.email;
+                                    emailField.text = Auth.user!.email;
                                     functions.showFormDialog(
                                       context,
                                       formKey,
@@ -909,7 +910,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                                 if (value!.isEmpty) {
                                                   return 'Entrez un email avant de valider';
                                                 } else if (value ==
-                                                    User.email) {
+                                                    Auth.user!.email) {
                                                   return 'Les emails sont identiques';
                                                 } else {
                                                   return null;
@@ -972,7 +973,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     ),
                                     SizedBox(width: 10),
                                     MyText(
-                                      text: User.contact,
+                                      text: Auth.user!.contact,
                                       //fontWeight: FontWeight.bold,
                                     ),
                                   ],
@@ -985,7 +986,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                     // ? Get actual username
                                     TextEditingController contactField =
                                         TextEditingController();
-                                    contactField.text = User.contact;
+                                    contactField.text = Auth.user!.contact;
                                     functions.showFormDialog(
                                       context,
                                       formKey,
@@ -1014,7 +1015,7 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                                 if (value!.isEmpty) {
                                                   return 'Entrez un contact avant de valider';
                                                 } else if (value ==
-                                                    User.contact) {
+                                                    Auth.user!.contact) {
                                                   return 'Les contacts sont identiques';
                                                 } else {
                                                   return null;
@@ -1078,10 +1079,10 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                               ),
                                               SizedBox(width: 10),
                                               MyText(
-                                                text: (User.accountState)
+                                                text: (Auth.user!.accountState)
                                                     ? 'Actif'
                                                     : 'Inactif',
-                                                color: (User.accountState)
+                                                color: (Auth.user!.accountState)
                                                     ? Colors.green
                                                     : Colors.red,
                                                 fontSize: 12,
@@ -1102,9 +1103,8 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                               SizedBox(width: 10),
                                               Flexible(
                                                 child: MyText(
-                                                  text: this
-                                                      .dateFormat
-                                                      .format(User.createdAt),
+                                                  text: this.dateFormat.format(
+                                                      Auth.user!.createdAt),
                                                   fontSize: 12,
                                                 ),
                                               ),
@@ -1123,9 +1123,8 @@ class ProfileLayoutState extends State<ProfileLayout> {
                                               SizedBox(width: 10),
                                               Flexible(
                                                 child: MyText(
-                                                  text: this
-                                                      .dateFormat
-                                                      .format(User.lastLogin),
+                                                  text: this.dateFormat.format(
+                                                      Auth.user!.lastLogin),
                                                   fontSize: 12,
                                                 ),
                                               ),

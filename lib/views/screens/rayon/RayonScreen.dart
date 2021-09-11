@@ -206,8 +206,6 @@ class RayonScreenState extends State<RayonScreen> {
                                           return "Saisissez un nom différent";
                                         else if (value!.isEmpty)
                                           return "Saisissez le libellé du rayon";
-                                        else
-                                          null;
                                       },
                                       prefixPadding: 10,
                                       prefixIcon: Icon(

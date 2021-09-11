@@ -203,8 +203,6 @@ class CategorieScreenState extends State<CategorieScreen> {
                                           return "Saisissez un nom différent";
                                         else if (value!.isEmpty)
                                           return "Saisissez le libellé de la catégorie";
-                                        else
-                                          null;
                                       },
                                       prefixPadding: 10,
                                       prefixIcon: Icon(

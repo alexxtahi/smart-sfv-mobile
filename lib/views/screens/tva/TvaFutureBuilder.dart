@@ -68,7 +68,7 @@ class TvaFutureBuilderState extends State<TvaFutureBuilder> {
                 } else {
                   // ? Reset tvaStates list
                   tvaStates = [
-                    for (var tva in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return tva list
                   return Expanded(

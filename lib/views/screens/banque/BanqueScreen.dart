@@ -199,8 +199,6 @@ class BanqueScreenState extends State<BanqueScreen> {
                                           return "Saisissez un nom différent";
                                         else if (value!.isEmpty)
                                           return "Saisissez le libellé de la banque";
-                                        else
-                                          null;
                                       },
                                       prefixPadding: 10,
                                       prefixIcon: Icon(

@@ -205,8 +205,6 @@ class CategorieDepenseScreenState extends State<CategorieDepenseScreen> {
                                           return "Saisissez un nom différent";
                                         else if (value!.isEmpty)
                                           return "Saisissez le libellé de la catégorie de dépense";
-                                        else
-                                          null;
                                       },
                                       prefixPadding: 10,
                                       prefixIcon: Icon(

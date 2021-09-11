@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/models/User.dart';
+import 'package:smartsfv/models/Auth.dart';
 import 'package:smartsfv/views/screens/home/DashboardScreen.dart';
 import 'package:smartsfv/views/layouts/DrawerLayout.dart';
 import 'package:smartsfv/views/layouts/ProfileLayout.dart';
@@ -22,7 +22,11 @@ class HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    User.isConnected = true;
+    // ? Set isConnected variable to true
+    if (Auth.user != null)
+      Auth.user!.isConnected = true;
+    else
+      print("[LOG] HomeView -> User not connected");
     // ? Launching configs
     if (ScreenController.actualView != "LoginView") {
       ScreenController.actualView = "HomeView";

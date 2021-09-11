@@ -67,7 +67,7 @@ class BanqueFutureBuilderState extends State<BanqueFutureBuilder> {
                 } else {
                   // ? Reset banqueStates list
                   banqueStates = [
-                    for (var banque in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return banque list
                   return Expanded(

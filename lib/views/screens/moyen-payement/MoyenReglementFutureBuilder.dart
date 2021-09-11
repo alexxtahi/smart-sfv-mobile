@@ -70,7 +70,7 @@ class MoyenReglementFutureBuilderState
                 } else {
                   // ? Reset moyenReglementStates list
                   moyenReglementStates = [
-                    for (var moyenReglement in snapshot.data!) false,
+                    for (var _ in snapshot.data!) false,
                   ];
                   // ? Return moyenReglement list
                   return Expanded(
