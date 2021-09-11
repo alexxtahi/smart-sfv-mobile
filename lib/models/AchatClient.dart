@@ -1,9 +1,9 @@
 import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Regime.dart';
 
-class Client {
+class AchatClient {
   // todo: Properties
-  static Client? client;
+  static AchatClient? achatClient;
   int id;
   String code;
   String nom;
@@ -18,7 +18,7 @@ class Client {
   String fax;
   int chiffreAffaire;
   // todo: Constructor
-  Client({
+  AchatClient({
     this.id = 0,
     this.code = '',
     this.nom = '',
@@ -35,8 +35,8 @@ class Client {
   });
   // todo: Methods
   // get data from json method
-  factory Client.fromJson(Map<String, dynamic> json) {
-    return Client(
+  factory AchatClient.fromJson(Map<String, dynamic> json) {
+    return AchatClient(
       id: (json['id'] != null) ? json['id'] : 0,
       code: (json['code_client'] != null)
           ? json['code_client'] as String
@@ -71,7 +71,7 @@ class Client {
     );
   }
   // return to Map
-  static Map<String, dynamic> toMap(Client client) {
+  static Map<String, dynamic> toMap(AchatClient client) {
     return <String, dynamic>{
       //'id': 0,
       'full_name_client': client.nom, // ! required
@@ -85,26 +85,5 @@ class Client {
       'fax_client': client.fax,
       'compte_contribuable_client': client.compteContrib,
     };
-  }
-
-  // get data from json method
-  factory Client.fromInstance(Client? client) {
-    return (client != null)
-        ? Client(
-            id: client.id,
-            code: client.code,
-            nom: client.nom, // ! required
-            contact: client.contact, // ! required
-            pays: client.pays, // ! required
-            regime: client.regime, // ! required
-            email: client.email,
-            adresse: client.adresse,
-            boitePostale: client.boitePostale,
-            montantPlafond: client.montantPlafond,
-            compteContrib: client.compteContrib,
-            fax: client.fax,
-            chiffreAffaire: client.chiffreAffaire,
-          )
-        : Client.fromJson({});
   }
 }

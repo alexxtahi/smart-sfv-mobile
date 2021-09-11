@@ -52,19 +52,21 @@ class MyDataTableState extends State<MyDataTable> {
                     fontSize: 14,
                   ),
                   onLongPress: () {
-                    setState(() {
-                      // ? Set selected row index
-                      MyDataTable.selectedRowIndex = widget.rows.indexOf(row);
-                      print("Index du tableau sélectionné -> " +
-                          MyDataTable.selectedRowIndex!.toString());
-                      // ? Call on long press function
-                      if (widget.onCellLongPress != null) {
-                        widget.onCellLongPress!();
-                        print("DataTable long press !!!");
-                      } else {
-                        print("DataTable long press null");
-                      }
-                    });
+                    if (widget.hasRowSelectable != null &&
+                        widget.hasRowSelectable!)
+                      setState(() {
+                        // ? Set selected row index
+                        MyDataTable.selectedRowIndex = widget.rows.indexOf(row);
+                        print("Index du tableau sélectionné -> " +
+                            MyDataTable.selectedRowIndex!.toString());
+                        // ? Call on long press function
+                        if (widget.onCellLongPress != null) {
+                          widget.onCellLongPress!();
+                          print("DataTable long press !!!");
+                        } else {
+                          print("DataTable long press null");
+                        }
+                      });
                   },
                 ),
             ],

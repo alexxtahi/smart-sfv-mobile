@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/models/AchatClient.dart';
 import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/models/Banque.dart';
 import 'package:smartsfv/models/Cache.dart';
@@ -580,6 +581,85 @@ class Api {
       if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);
       return <Client>[];
+    }
+  }
+
+  // todo: get clients method
+  Future<List<AchatClient>> getAchatClients(var context) async {
+    this.url = this.routes['getAchatClients'].toString(); // set login url
+    //print('get clients token: ' + User.token);
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: User.token,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        if (ScreenController.actualView == "AchatClientView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "AchatClients chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+        // ? create list of clients
+        List clientResponse = json.decode(this.response.body)['rows'];
+        List<AchatClient> clients = [
+          for (var client in clientResponse)
+            // ? filter clients by Research
+            if (Research.type == 'AchatClient' &&
+                client['full_name_client']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              AchatClient.fromJson(client) // ! Get clients by nom
+            else if (Research.type == 'AchatClient' &&
+                Research.searchBy == 'Pays' &&
+                client['nation']['libelle_nation']
+                    .toLowerCase()
+                    .contains(Research.value.toLowerCase()))
+              AchatClient.fromJson(client) // ! Get clients by pays
+            else if (Research.type == '')
+              AchatClient.fromJson(client) // ! Get all clients
+
+          // ? take all clients
+          //AchatClient.fromJson(client), // ! debug
+          // ? take only client created by the actual user
+          //if (client['created_by'] == User.id)
+          //AchatClient.fromJson(client), // ! production
+        ];
+        // ? return list of clients
+        return clients;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        /*if (ScreenController.actualView == "AchatClientView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des clients",
+          );*/
+        return <AchatClient>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get AchatClient Model Error -> ${error.runtimeType} -> $error');
+      if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);
+      return <AchatClient>[];
     }
   }
 
