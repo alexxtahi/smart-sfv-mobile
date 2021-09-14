@@ -1,89 +1,126 @@
-import 'package:smartsfv/models/Pays.dart';
-import 'package:smartsfv/models/Regime.dart';
+import 'package:intl/intl.dart';
+import 'package:smartsfv/models/Caisse.dart';
+import 'package:smartsfv/models/Client.dart';
+import 'package:smartsfv/models/Depot.dart';
+import 'package:smartsfv/models/Remise.dart';
 
 class AchatClient {
   // todo: Properties
   static AchatClient? achatClient;
   int id;
-  String code;
-  String nom;
-  String contact;
-  Pays pays;
-  Regime regime;
-  String email;
-  String adresse;
-  String boitePostale;
-  String montantPlafond;
-  String compteContrib;
-  String fax;
-  int chiffreAffaire;
+  String numeroFacture;
+  String numeroTicket;
+  DateTime dateVente;
+  Depot depot;
+  Client client;
+  Caisse? caisseOuverte;
+  int acompteFacture;
+  int montantAPayer;
+  int montantPayer;
+  int reste;
+  Remise? remise;
+  bool proformat;
+  bool attente;
+  bool divers;
+  int sommeTotale;
+  int sommeRemise;
+  DateTime dateVentes;
+  static int totalAchat = 0;
+  static int totalAcompte = 0;
+  static int totalRemise = 0;
   // todo: Constructor
   AchatClient({
     this.id = 0,
-    this.code = '',
-    this.nom = '',
-    this.contact = '',
-    required this.pays,
-    required this.regime,
-    this.email = '',
-    this.adresse = '',
-    this.boitePostale = '',
-    this.montantPlafond = '',
-    this.compteContrib = '',
-    this.fax = '',
-    this.chiffreAffaire = 0,
+    this.numeroFacture = '',
+    this.numeroTicket = '',
+    required this.dateVente,
+    required this.depot,
+    required this.client,
+    this.caisseOuverte,
+    this.acompteFacture = 0,
+    this.montantAPayer = 0,
+    this.montantPayer = 0,
+    this.reste = 0,
+    this.remise,
+    this.proformat = false,
+    this.attente = false,
+    this.divers = false,
+    this.sommeTotale = 0,
+    this.sommeRemise = 0,
+    required this.dateVentes,
   });
   // todo: Methods
   // get data from json method
   factory AchatClient.fromJson(Map<String, dynamic> json) {
     return AchatClient(
-      id: (json['id'] != null) ? json['id'] : 0,
-      code: (json['code_client'] != null)
-          ? json['code_client'] as String
-          : 'Aucun',
-      nom: json['full_name_client'] as String, // ! required
-      contact: json['contact_client'] as String, // ! required
-      pays: (json['nation'] != null)
-          ? Pays.fromJson(json['nation'])
-          : Pays(libelle: "Aucun"), // ! required
-      regime: (json['regime'] != null)
-          ? Regime.fromJson(json['regime'])
-          : Regime(libelle: "Aucun"), // ! required
-      email: (json['email_client'] != null)
-          ? json['email_client'] as String
-          : 'Aucune',
-      adresse: (json['adresse_client'] != null)
-          ? json['adresse_client'] as String
-          : 'Aucune',
-      boitePostale: (json['boite_postale_client'] != null)
-          ? json['boite_postale_client'] as String
-          : 'Aucune',
-      montantPlafond: (json['plafond_client'] != null)
-          ? json['plafond_client'].toString()
-          : 'Aucun',
-      compteContrib: (json['compte_contribuable_client'] != null)
-          ? json['compte_contribuable_client'] as String
-          : 'Aucun',
-      fax:
-          (json['fax_client'] != null) ? json['fax_client'] as String : 'Aucun',
-      chiffreAffaire:
-          (json['sommeTotale'] != null) ? json['sommeTotale'] as int : 0,
+      id: (json['id'] != null) ? json['id'] as int : 0,
+      numeroFacture: (json['numero_facture'] != null)
+          ? json['numero_facture'] as String
+          : '',
+      numeroTicket: (json['numero_ticket'] != null)
+          ? json['numero_ticket'] as String
+          : '',
+      dateVente: (json['date_vente'] != null)
+          ? DateTime.parse(json['date_vente'])
+          : DateTime.now(),
+      depot: (json['depot'] != null) ? Depot.fromJson(json['depot']) : Depot(),
+      client: (json['client'] != null)
+          ? Client.fromJson(json['client'])
+          : Client.fromJson({}),
+      caisseOuverte: (json['caisse_ouverte'] != null)
+          ? Caisse.fromJson(json['caisse_ouverte'])
+          : null,
+      acompteFacture:
+          (json['acompte_facture'] != null && json['acompte_facture'] == 1)
+              ? json['acompte_facture'] as int
+              : 0,
+      montantAPayer: (json['montant_a_payer'] != null)
+          ? json['montant_a_payer'] as int
+          : 0,
+      montantPayer:
+          (json['montant_payer'] != null) ? json['montant_payer'] as int : 0,
+      reste: (json['sommeRemise'] != null && json['sommeTotale'] != null)
+          ? (int.parse(json['sommeTotale'].toString()) -
+              int.parse(json['sommeRemise'].toString()))
+          : 0,
+      remise: (json['remise'] != null) ? Remise.fromJson(json['remise']) : null,
+      proformat:
+          (json['proformat'] != null && json['proformat'] == 1) ? true : false,
+      attente: (json['attente'] != null && json['attente'] == 1) ? true : false,
+      divers: (json['divers'] != null && json['divers'] == 1) ? true : false,
+      sommeTotale: (json['sommeTotale'] != null)
+          ? int.parse(json['sommeTotale'].toString())
+          : 0,
+      sommeRemise: (json['sommeRemise'] != null)
+          ? int.parse(json['sommeRemise'].toString())
+          : 0,
+      dateVentes: (json['date_ventes'] != null)
+          ? DateFormat('dd-MM-yyyy').parse(json['date_ventes'])
+          : DateTime.now(),
     );
   }
   // return to Map
-  static Map<String, dynamic> toMap(AchatClient client) {
+  static Map<String, dynamic> toMap(AchatClient achatClient) {
     return <String, dynamic>{
       //'id': 0,
-      'full_name_client': client.nom, // ! required
-      'contact_client': client.contact, // ! required
-      'email_client': client.email,
-      'nation_id': client.pays.id.toString(), // ! required
-      'adresse_client': client.adresse,
-      'boite_postale_client': client.boitePostale,
-      'plafond_client': client.montantPlafond,
-      'regime_id': client.regime.id.toString(), // ! required
-      'fax_client': client.fax,
-      'compte_contribuable_client': client.compteContrib,
+      'numero_facture': achatClient.numeroFacture,
+      'numero_ticket': achatClient.numeroTicket,
+      'date_vente':
+          DateFormat('yyy-mm-dd HH:mm:ss').format(achatClient.dateVente),
+      'depot_id': achatClient.depot.id,
+      'client_id': achatClient.client.id,
+      'caisse_ouverte_id': achatClient.caisseOuverte!.id,
+      'acompte_facture': achatClient.acompteFacture,
+      'montant_a_payer': achatClient.montantAPayer,
+      'montant_payer': achatClient.montantPayer,
+      'remise_id': achatClient.remise!.id,
+      'proformat': (achatClient.proformat) ? '1' : '0',
+      'attente': (achatClient.attente) ? '1' : '0',
+      'divers': (achatClient.divers) ? '1' : '0',
+      'sommeTotale': achatClient.sommeTotale,
+      'sommeRemise': achatClient.sommeRemise,
+      'date_ventes':
+          DateFormat('yyy-mm-dd HH:mm:ss').format(achatClient.dateVentes),
     };
   }
 }

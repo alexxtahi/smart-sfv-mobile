@@ -45,9 +45,9 @@ class SplashScreenState extends State<SplashScreen> {
       } else {
         // showing HomeView
         print('Last token -> $token');
-        print('[AUTO CONNECTION] Loading home page...');
         // ? Get last user informations
         Api api = Api();
+        Auth.token = token; // Load previous token
         Map<String, dynamic> userInfos = await api.getUserInfo(context);
         print('User informations -> $userInfos'); // ! debug
         // ? Check server response before allow acces
@@ -55,16 +55,20 @@ class SplashScreenState extends State<SplashScreen> {
             userInfos['msg'] == 'failed to get user datas') {
           return false;
         } else {
+          print('[AUTO CONNECTION] Loading home page...');
           // ? Load instance of User with server datas
           Auth.user = User.fromJson(userInfos);
-          if (Auth.user != null) {
+          if (Auth.user != null && Auth.user!.id != 0) {
             // Save token
-            Auth.user!.token = (token != null) ? token : 'no token';
-          } else
+            Auth.token = (token != null) ? token : 'no token';
+            print(
+                'Last user infos -> ${User.toMap(User.fromInstance(Auth.user))}'); // ! debug
+            return true;
+          } else {
+            // In Error
             print("[LOG] Autologin -> User not already connected");
-          print(
-              'Last user infos -> ${User.toMap(User.fromInstance(Auth.user))}'); // ! debug
-          return true;
+            return false;
+          }
         }
       }
     } catch (e) {

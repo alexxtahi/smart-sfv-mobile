@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
@@ -39,7 +40,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = 'http://192.168.1.14:8000'; // local ip adress // ! local
+  String host = 'http://192.168.1.8:8000'; // local ip adress // ! local
   //String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
@@ -75,6 +76,7 @@ class Api {
       'getWorstRentabilityClients': '${this.host}/api/auth/beste-clients',
       'updateClient': '${this.host}/api/auth/client/update/{id}',
       'deleteClient': '${this.host}/api/auth/client/delete/{id}',
+      'getAchatClients': '${this.host}/api/auth/liste-achats-client/{id}',
       // Routes fournisseurs
       'getFournisseurs': '${this.host}/api/auth/fournisseurs',
       'postFournisseur': '${this.host}/api/auth/fournisseur/store',
@@ -156,6 +158,8 @@ class Api {
       'postDepot': '${this.host}/api/auth/depot/store',
       'updateDepot': '${this.host}/api/auth/depot/update/{id}',
       'deleteDepot': '${this.host}/api/auth/depot/delete/{id}',
+      // Etats
+      'getFactureVentePdf': '${this.host}/api/auth/facture-vente-pdf/{vente}',
     };
   }
 
@@ -170,7 +174,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -257,7 +261,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -322,7 +326,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -387,7 +391,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -452,7 +456,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -509,7 +513,7 @@ class Api {
   // todo: get clients method
   Future<List<Client>> getClients(var context) async {
     this.url = this.routes['getClients'].toString(); // set login url
-    //print('get clients token: ' + Auth.user!.token);
+    //print('get clients token: ' + Auth.token!);
     try {
       // ? getting datas from url
       print("Actual view -> " + ScreenController.actualView);
@@ -517,7 +521,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -586,9 +590,13 @@ class Api {
   }
 
   // todo: get clients method
-  Future<List<AchatClient>> getAchatClients(var context) async {
-    this.url = this.routes['getAchatClients'].toString(); // set login url
-    //print('get clients token: ' + Auth.user!.token);
+  Future<List<AchatClient>> getAchatClients({required int id}) async {
+    this.url = this.routes['getAchatClients'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{id}',
+          id.toString(),
+        ); // set update ur
+    //print('get clients token: ' + Auth.token!);
     try {
       // ? getting datas from url
       print("Actual view -> " + ScreenController.actualView);
@@ -596,7 +604,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -606,6 +614,7 @@ class Api {
         this.requestSuccess = true;
         //print(this.response.body);
         // ? Show success snack bar
+        /*
         if (ScreenController.actualView == "AchatClientView")
           functions.showMessageToSnackbar(
             context: context,
@@ -615,33 +624,65 @@ class Api {
               color: Color.fromRGBO(60, 141, 188, 1),
             ),
           );
-        // ? create list of clients
-        List clientResponse = json.decode(this.response.body)['rows'];
-        List<AchatClient> clients = [
-          for (var client in clientResponse)
-            // ? filter clients by Research
-            if (Research.type == 'AchatClient' &&
-                client['full_name_client']
-                    .toLowerCase()
-                    .contains(Research.value.toLowerCase()))
-              AchatClient.fromJson(client) // ! Get clients by nom
+          */
+        // ? create list of achatClient
+        List achatClientResponse = json.decode(this.response.body)['rows'];
+        AchatClient.totalAchat = json.decode(this.response.body)['totalAchat'];
+        AchatClient.totalAcompte =
+            json.decode(this.response.body)['totalAcompte'];
+        AchatClient.totalRemise =
+            json.decode(this.response.body)['totalRemise'];
+        List<AchatClient> achatClient = [
+          for (var achatClient in achatClientResponse)
+            // ? filter achat client by Research
+            if (Research.type == '')
+              AchatClient.fromJson(achatClient) // ! Get all achatClient
             else if (Research.type == 'AchatClient' &&
-                Research.searchBy == 'Pays' &&
-                client['nation']['libelle_nation']
+                Research.searchBy == 'Numero facture' &&
+                achatClient['numero_facture']
                     .toLowerCase()
                     .contains(Research.value.toLowerCase()))
-              AchatClient.fromJson(client) // ! Get clients by pays
-            else if (Research.type == '')
-              AchatClient.fromJson(client) // ! Get all clients
-
-          // ? take all clients
-          //AchatClient.fromJson(client), // ! debug
-          // ? take only client created by the actual user
-          //if (client['created_by'] == User.id)
-          //AchatClient.fromJson(client), // ! production
+              AchatClient.fromJson(
+                  achatClient) // ! Get achatClient by numero facture
+            else if (Research.type == 'AchatClient' &&
+                Research.searchBy == 'Date' &&
+                achatClient['date_ventes'] != null)
+              // ? AchatClient in research date interval
+              if ((Research.startDate != null && Research.endDate != null) &&
+                  (DateFormat('dd-MM-yyyy')
+                              .parse(achatClient['date_ventes'])
+                              .compareTo(Research.startDate!) >=
+                          0 &&
+                      DateFormat('dd-MM-yyyy')
+                              .parse(achatClient['date_ventes'])
+                              .compareTo(Research.endDate!) <=
+                          0))
+                AchatClient.fromJson(
+                    achatClient) // ! Get achatClient in date interval
+              else if (Research.startDate != null &&
+                  Research.endDate == null &&
+                  DateFormat('dd-MM-yyyy')
+                          .parse(achatClient['date_ventes'])
+                          .compareTo(Research.startDate!) >=
+                      0)
+                AchatClient.fromJson(
+                    achatClient) // ! Get achatClient after startDate
+              else if (Research.endDate != null &&
+                  Research.startDate == null &&
+                  DateFormat('dd-MM-yyyy')
+                          .parse(achatClient['date_ventes'])
+                          .compareTo(Research.endDate!) <=
+                      0)
+                AchatClient.fromJson(
+                    achatClient) // ! Get achatClient before endDate
+          // ? take all achatClient
+          //AchatClient.fromJson(achatClient), // ! debug
+          // ? take only achatClient created by the actual user
+          //if (achatClient['created_by'] == User.id)
+          //AchatClient.fromJson(achatClient), // ! production
         ];
-        // ? return list of clients
-        return clients;
+        // ? return list of achatClient
+        return achatClient;
       } else {
         // If the server did not return a 200 OK response,
         // then throw an exception.
@@ -650,7 +691,7 @@ class Api {
         /*if (ScreenController.actualView == "AchatClientView")
           functions.errorSnackbar(
             context: context,
-            message: "Echec de récupération des clients",
+            message: "Echec de récupération des achatClient",
           );*/
         return <AchatClient>[];
         //throw Exception('Failed to load user datas');
@@ -658,8 +699,8 @@ class Api {
     } catch (error) {
       print(
           'API ERROR: Get AchatClient Model Error -> ${error.runtimeType} -> $error');
-      if (error is SocketException || error is FormatException)
-        functions.socketErrorSnackbar(context: context);
+      /*if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);*/
       return <AchatClient>[];
     }
   }
@@ -675,7 +716,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -738,7 +779,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -802,7 +843,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -865,7 +906,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -953,7 +994,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1020,7 +1061,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1093,7 +1134,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1161,7 +1202,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1229,7 +1270,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1295,7 +1336,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1362,7 +1403,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1430,7 +1471,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1496,7 +1537,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1565,7 +1606,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1632,7 +1673,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1699,7 +1740,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1766,7 +1807,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1832,7 +1873,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1899,7 +1940,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -1966,7 +2007,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -2131,7 +2172,7 @@ class Api {
     /*SharedPreferences prefs =
         await SharedPreferences.getInstance(); // load SharedPreferences
     String? token = prefs.getString('access_token');*/
-    //print('get articles token: ' + Auth.user!.token);
+    //print('get articles token: ' + Auth.token!);
     try {
       // ? getting datas from url
       print("Actual view -> " + ScreenController.actualView);
@@ -2139,7 +2180,7 @@ class Api {
         Uri.parse(this.url),
         headers: {
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Check the response status code
@@ -2210,6 +2251,7 @@ class Api {
   // todo: get user info method
   Future<Map<String, dynamic>> getUserInfo(var context) async {
     this.url = this.routes['userinfo'].toString(); // set login url
+    print("[LOG] Auth token -> ${Auth.token}");
     try {
       // ? getting datas from url
       print("Actual view -> " + ScreenController.actualView);
@@ -2218,7 +2260,7 @@ class Api {
         headers: {
           // pass access token into the header
           HttpHeaders.authorizationHeader:
-              Auth.user!.token, //.replaceAll('Bearer ', ''),
+              Auth.token!, //.replaceAll('Bearer ', ''),
         },
       );
       // ? Check the response status code
@@ -2235,6 +2277,8 @@ class Api {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           userInfos['password'] = prefs.getString('password');
         }
+        // ? Load user login in instance
+        Auth.user = User.fromJson(userInfos);
         // ? return this list
         return userInfos;
       } else {
@@ -2301,7 +2345,10 @@ class Api {
         print("Réponse du server: $responseJson");
         print("User informations: $userInfos");
         // ? set user informations
-        Auth.user = User.fromJson(responseJson);
+        Auth.login(
+          token: responseJson['access_token'],
+          user: User.fromJson(userInfos),
+        );
         print('User token -> ' + responseJson['access_token']!); // ! debug
         //print('Cache token -> ' + prefs.getString('token')!); // ! debug
         // ? Show success message
@@ -2323,17 +2370,13 @@ class Api {
         // ? Login failed
       } else {
         print("Login error -> ${responseJson['message']}");
-        functions.errorSnackbar(
-          context: context,
-          message: responseJson['message'],
-        );
-        ScreenController.actualView = "HomeView";
+        ScreenController.actualView = "LoginView";
         return responseJson; // return to know lodin state
       }
     } catch (error) {
       print('API ERROR: Login Error -> ${error.runtimeType} -> $error');
-      if (error is SocketException || error is FormatException)
-        functions.socketErrorSnackbar(context: context);
+      /*if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);*/
       return {"access_token": null}; // return to know login state
     }
   }
@@ -2351,13 +2394,13 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // ? Delete user access token
       // load SharedPreferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      Auth.user!.token = '';
+      Auth.logout();
       prefs.clear();
       prefs.remove('token');
       // Reset drawer animation
@@ -2390,7 +2433,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: {'email': email},
       );
@@ -2426,7 +2469,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Client.toMap(client),
       );
@@ -2467,7 +2510,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Fournisseur.toMap(fournisseur),
       );
@@ -2508,7 +2551,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Article.toMap(article),
       );
@@ -2546,7 +2589,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Banque.toMap(banque),
       );
@@ -2576,7 +2619,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Regime.toMap(regime),
       );
@@ -2606,7 +2649,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Tva.toMap(tva),
       );
@@ -2636,7 +2679,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Caisse.toMap(caisse),
       );
@@ -2676,7 +2719,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Pays.toMap(pays),
       );
@@ -2716,7 +2759,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Categorie.toMap(categorie),
       );
@@ -2756,7 +2799,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: SousCategorie.toMap(sousCategorie),
       );
@@ -2796,7 +2839,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: MoyenReglement.toMap(moyenReglement),
       );
@@ -2826,7 +2869,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Rayon.toMap(rayon),
       );
@@ -2856,7 +2899,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Rangee.toMap(rangee),
       );
@@ -2886,7 +2929,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Casier.toMap(casier),
       );
@@ -2916,7 +2959,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Unite.toMap(unite),
       );
@@ -2946,7 +2989,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Taille.toMap(taille),
       );
@@ -2976,7 +3019,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Divers.toMap(divers),
       );
@@ -3006,7 +3049,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: CategorieDepense.toMap(categorieDepense),
       );
@@ -3039,7 +3082,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3071,7 +3114,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Banque.toMap(banque),
       );
@@ -3104,7 +3147,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3136,7 +3179,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Client.toMap(client),
       );
@@ -3169,7 +3212,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3201,7 +3244,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Fournisseur.toMap(fournisseur),
       );
@@ -3234,7 +3277,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3266,7 +3309,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Tva.toMap(tva),
       );
@@ -3299,7 +3342,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3331,7 +3374,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Regime.toMap(regime),
       );
@@ -3364,7 +3407,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3396,7 +3439,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Article.toMap(article),
       );
@@ -3429,7 +3472,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3461,7 +3504,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Caisse.toMap(caisse),
       );
@@ -3494,7 +3537,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3526,7 +3569,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Categorie.toMap(categorie),
       );
@@ -3559,7 +3602,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3591,7 +3634,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: SousCategorie.toMap(sousCategorie),
       );
@@ -3624,7 +3667,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3656,7 +3699,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: MoyenReglement.toMap(moyenReglement),
       );
@@ -3689,7 +3732,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3721,7 +3764,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Rayon.toMap(rayon),
       );
@@ -3754,7 +3797,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3786,7 +3829,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Rangee.toMap(rangee),
       );
@@ -3819,7 +3862,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3851,7 +3894,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Casier.toMap(casier),
       );
@@ -3884,7 +3927,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3916,7 +3959,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Unite.toMap(unite),
       );
@@ -3949,7 +3992,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -3981,7 +4024,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Taille.toMap(taille),
       );
@@ -4014,7 +4057,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -4046,7 +4089,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: Divers.toMap(divers),
       );
@@ -4079,7 +4122,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
       );
       // get and show server response
@@ -4111,7 +4154,7 @@ class Api {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Charset': 'utf-8',
           // pass access token into the header
-          HttpHeaders.authorizationHeader: Auth.user!.token,
+          HttpHeaders.authorizationHeader: Auth.token!,
         },
         body: CategorieDepense.toMap(categorieDepense),
       );
@@ -4123,6 +4166,44 @@ class Api {
     } catch (error) {
       print(error);
       return {'msg': 'Une erreur est survenue'};
+    }
+  }
+
+  // todo: Etats ===============================================================
+  // Get facture-vente-pdf method
+  Future getFactureVentePdf({required int venteId}) async {
+    this.url = this.routes['getFactureVentePdf'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{vente}',
+          venteId.toString(),
+        ); // set url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: Auth.token!,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? create list of achatClient
+        Map<String, dynamic> pdfJson = json.decode(this.response.body);
+        // ? return list of achatClient
+        return pdfJson;
+      } else {
+        this.requestSuccess = false;
+        return {'msg': 'no data'};
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Facture Vente PDF Error -> ${error.runtimeType} -> $error');
+      return {'msg': 'Server error'};
     }
   }
 

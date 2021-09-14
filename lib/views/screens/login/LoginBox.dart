@@ -159,15 +159,28 @@ class LoginBoxState extends State<LoginBox> {
                                 final Map<String, dynamic> loginResponse =
                                     await api.verifyLogin(
                                         context, login, password);
-                                // get the access token value
-                                String? token = loginResponse["access_token"];
-                                // ? Open the home page when the server give access token
-                                if (token != null) {
+                                // ? Check server response
+                                if (loginResponse['message'] ==
+                                    'Connexion établie avec succès !') {
+                                  // ? Open the home page when the connection was a success
                                   ScreenController.actualView = "HomeView";
                                   functions.openPage(
                                     context,
                                     HomeView(), // ? Go to home view
                                     mode: 'pushReplacement',
+                                  );
+                                } else if (loginResponse['message'] ==
+                                    'Vous avez fourni des mauvais identifiants') {
+                                  // In false login case
+                                  functions.showWarningDialog(
+                                    context: context,
+                                    message: loginResponse['message'],
+                                  );
+                                } else {
+                                  // In error case
+                                  functions.showErrorDialog(
+                                    context: context,
+                                    message: "Une erreur s'est produite",
                                   );
                                 }
                               }

@@ -131,7 +131,6 @@ class RangeeScreenState extends State<RangeeScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                //todo: Countries & Filters
                 //todo: Edit & Delete Button
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: screenSize[0]),

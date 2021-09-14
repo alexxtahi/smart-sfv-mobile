@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/models/AchatClient.dart';
+import 'package:smartsfv/pdf.dart' as pdf;
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +22,7 @@ import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/client/AchatClientFutureBuilder.dart';
+import 'package:smartsfv/views/screens/unite/PdfView.dart';
 
 class FicheClientView extends StatefulWidget {
   final ValueChanged<Function> parentSetState;
@@ -55,6 +61,8 @@ class FicheClientViewState extends State<FicheClientView> {
   TextEditingController numberFactureController = TextEditingController();
   Api api = Api();
   GlobalKey scaffold = GlobalKey();
+  DateTime? startDate;
+  DateTime? endDate;
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +217,6 @@ class FicheClientViewState extends State<FicheClientView> {
                           focusBorderColor: Colors.transparent,
                           fillColor: Color.fromRGBO(60, 141, 188, 0.15),
                           onChanged: (text) {
-                            /*
                             // ? Check if the field is empty or not
                             setState(() {
                               if (this.numberFactureController.text.isEmpty)
@@ -217,14 +224,13 @@ class FicheClientViewState extends State<FicheClientView> {
                               else
                                 // launch research
                                 Research.find(
-                                  'Client',
+                                  'AchatClient',
                                   this.numberFactureController.text,
+                                  searchBy: 'Numero facture',
                                 );
                             });
-                            */
                           },
                           onSubmitted: (text) {
-                            /*
                             // dismiss keyboard
                             FocusScope.of(context).requestFocus(FocusNode());
                             // ? Check if the field is empty or not
@@ -234,15 +240,14 @@ class FicheClientViewState extends State<FicheClientView> {
                               else
                                 // launch research
                                 Research.find(
-                                  'Client',
+                                  'AchatClient',
                                   this.numberFactureController.text,
+                                  searchBy: 'Numero facture',
                                 );
                             });
-                            */
                           },
                           suffixIcon: MyOutlinedIconButton(
                             onPressed: () {
-                              /*
                               // dismiss keyboard
                               FocusScope.of(context).requestFocus(FocusNode());
                               // ? Check if the field is empty or not
@@ -252,11 +257,11 @@ class FicheClientViewState extends State<FicheClientView> {
                                 else
                                   // launch research
                                   Research.find(
-                                    'Client',
+                                    'AchatClient',
                                     this.numberFactureController.text,
+                                    searchBy: 'Numero facture',
                                   );
                               });
-                              */
                             },
                             backgroundColor: Colors.white,
                             borderColor: Colors.transparent,
@@ -280,8 +285,12 @@ class FicheClientViewState extends State<FicheClientView> {
                                   context,
                                   showTitleActions: true,
                                   minTime: DateTime(2021, 1, 1),
-                                  maxTime: DateTime(2050, 12, 31),
-                                  currentTime: DateTime.now(),
+                                  maxTime: (this.endDate != null)
+                                      ? this.endDate
+                                      : DateTime(2050, 12, 31),
+                                  currentTime: (this.startDate != null)
+                                      ? this.startDate
+                                      : DateTime.now(),
                                   theme: DatePickerTheme(
                                     itemStyle: TextStyle(
                                       fontFamily: 'Montserrat',
@@ -301,6 +310,18 @@ class FicheClientViewState extends State<FicheClientView> {
                                   },
                                   onConfirm: (date) {
                                     print('confirm $date');
+                                    // ? Check if the field is empty or not
+                                    setState(() {
+                                      // Update start date
+                                      startDate = date;
+                                      // launch research
+                                      Research.find(
+                                        'AchatClient',
+                                        '',
+                                        searchBy: 'Date',
+                                        startDate: date,
+                                      );
+                                    });
                                   },
                                   locale: LocaleType.fr,
                                 );
@@ -326,7 +347,10 @@ class FicheClientViewState extends State<FicheClientView> {
                                   SizedBox(width: 15),
                                   Flexible(
                                     child: MyText(
-                                      text: 'Date de début',
+                                      text: (this.startDate != null)
+                                          ? DateFormat('dd-MM-yyyy')
+                                              .format(startDate!)
+                                          : 'Date de début',
                                       fontWeight: FontWeight.bold,
                                       color: Color.fromRGBO(0, 27, 121, 1),
                                       overflow: TextOverflow.visible,
@@ -341,10 +365,13 @@ class FicheClientViewState extends State<FicheClientView> {
                                 DatePicker.showDatePicker(
                                   context,
                                   showTitleActions: true,
-                                  minTime: DateTime(2021, 1, 1),
+                                  minTime: (this.startDate != null)
+                                      ? this.startDate
+                                      : DateTime(2021, 1, 1),
                                   maxTime: DateTime(2050, 12, 31),
-                                  currentTime:
-                                      DateTime.now().add(Duration(days: 1)),
+                                  currentTime: (this.endDate != null)
+                                      ? this.endDate
+                                      : DateTime.now().add(Duration(days: 1)),
                                   theme: DatePickerTheme(
                                     itemStyle: TextStyle(
                                       fontFamily: 'Montserrat',
@@ -364,6 +391,18 @@ class FicheClientViewState extends State<FicheClientView> {
                                   },
                                   onConfirm: (date) {
                                     print('confirm $date');
+                                    // ? Check if the field is empty or not
+                                    setState(() {
+                                      // Update end date
+                                      endDate = date;
+                                      // launch research
+                                      Research.find(
+                                        'AchatClient',
+                                        '',
+                                        searchBy: 'Date',
+                                        endDate: date,
+                                      );
+                                    });
                                   },
                                   locale: LocaleType.fr,
                                 );
@@ -389,7 +428,10 @@ class FicheClientViewState extends State<FicheClientView> {
                                   SizedBox(width: 15),
                                   Flexible(
                                     child: MyText(
-                                      text: 'Date de fin',
+                                      text: (this.endDate != null)
+                                          ? DateFormat('dd-MM-yyyy')
+                                              .format(endDate!)
+                                          : 'Date de fin',
                                       fontWeight: FontWeight.bold,
                                       color: Color.fromRGBO(0, 27, 121, 1),
                                       overflow: TextOverflow.visible,
@@ -428,6 +470,94 @@ class FicheClientViewState extends State<FicheClientView> {
             unselectedItemColor: Colors.white,
             iconSize: 35.0,
             items: [
+              //todo: Print
+              BottomNavigationBarItem(
+                backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                icon: IconButton(
+                  onPressed: () async {
+                    // ? Show loading dialog
+                    functions.showFormDialog(
+                      scaffold.currentContext,
+                      GlobalKey<FormState>(),
+                      hasCancelButton: false,
+                      hasHeaderIcon: false,
+                      hasHeaderTitle: false,
+                      hasSnackbar: false,
+                      hasValidationButton: false,
+                      barrierDismissible: false,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      formElements: [
+                        Image.asset(
+                          'assets/img/icons/document.png',
+                          fit: BoxFit.contain,
+                          width: 70,
+                          height: 70,
+                        ),
+                        SizedBox(height: 10),
+                        MyText(text: "Génération du PDF en cours..."),
+                        SizedBox(height: 20),
+                        Container(
+                          width: 30,
+                          height: 30,
+                          child: CircularProgressIndicator(
+                            color: Color.fromRGBO(60, 141, 188, 1),
+                            backgroundColor: Color.fromRGBO(60, 141, 188, 0.1),
+                          ),
+                        )
+                      ],
+                    );
+                    Timer(
+                      Duration(seconds: 1),
+                      () async {
+                        // ? Get pdf from server
+                        Map<String, dynamic> pdfJson =
+                            await api.getFactureVentePdf(
+                                venteId: AchatClient.achatClient!.id);
+                        // ? Show overview of document
+                        functions.openPage(
+                          context,
+                          PdfView(parentContext: context, json: pdfJson),
+                        );
+                        /*
+                      // ? Call generate PDF method
+                      String result = await pdf.generateFromJson(pdfJson);
+                      // ? Check result to give response to the user
+                      Navigator.of(context)
+                          .pop(); // remove the AlertDialog to the screen
+                      if (result == "Document enregistré") {
+                        functions.successSnackbar(
+                          context: scaffold.currentContext,
+                          message: "Document PDF enregistré !",
+                        );
+                      } else if (result == "Enregistrement annulé") {
+                        functions.showMessageToSnackbar(
+                          context: scaffold.currentContext,
+                          message: "Enregistrement annulé",
+                          icon: Icon(
+                            Icons.file_download_off_rounded,
+                            color: Colors.red,
+                          ),
+                        );
+                      } else {
+                        functions.errorSnackbar(
+                          context: scaffold.currentContext,
+                          message:
+                              "Une erreur s'est produite lors de la génération du PDF",
+                        );
+                      }*/
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    Icons.print_rounded,
+                    color: Colors.teal,
+                    size: 30,
+                  ),
+                ),
+                label: 'Imprimer',
+              ),
+              //todo: Edit
               BottomNavigationBarItem(
                 backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                 icon: IconButton(
@@ -1074,6 +1204,7 @@ class FicheClientViewState extends State<FicheClientView> {
                 ),
                 label: 'Modifier',
               ),
+              //todo: Delete
               BottomNavigationBarItem(
                 backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                 icon: IconButton(
@@ -1130,6 +1261,26 @@ class FicheClientViewState extends State<FicheClientView> {
                   ),
                 ),
                 label: 'Supprimer',
+              ),
+              //todo: Reload
+              BottomNavigationBarItem(
+                backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                icon: IconButton(
+                  onPressed: () {
+                    // ? Reset & reload
+                    setState(() {
+                      this.numberFactureController.clear();
+                      Research.reset();
+                      startDate = endDate = null;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.refresh_rounded,
+                    color: Colors.black,
+                    size: 30,
+                  ),
+                ),
+                label: 'Recharger',
               ),
             ],
           ),

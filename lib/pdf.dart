@@ -1,10 +1,17 @@
 // PDF packages
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:smartsfv/views/layouts/ErrorLayout.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-//create pdf file
+//todo: create pdf file from datas
 Future<String> generatePDF(
     String titre, List<String> columns, List<List<String>> tableData) async {
   try {
@@ -225,4 +232,23 @@ Future<Map<String, pw.TtfFont>> getFont() async {
   };
   // ? Return that
   return montserrat;
+}
+
+//todo: create pdf file from json datas
+Widget generateFromJson(Map<String, dynamic> json) {
+  try {
+    // ? Load encoded document
+    //File doc = File.fromRawPath(base64.decode(json['data']));
+    return SfPdfViewer.memory(
+      base64.decode(json['data']),
+      canShowScrollHead: true,
+      canShowPaginationDialog: true,
+      controller: PdfViewerController(),
+    );
+  } catch (error) {
+    print("PDF Error -> $error");
+    return ErrorLayout(
+      message: "L'aperçu n'est pas disponible pour le moment.",
+    );
+  }
 }
