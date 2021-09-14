@@ -27,6 +27,7 @@ import 'package:smartsfv/models/Pays.dart';
 import 'package:smartsfv/models/Rangee.dart';
 import 'package:smartsfv/models/Rayon.dart';
 import 'package:smartsfv/models/Regime.dart';
+import 'package:smartsfv/models/Reglement.dart';
 import 'package:smartsfv/models/Research.dart';
 import 'package:smartsfv/models/SousCategorie.dart';
 import 'package:smartsfv/models/Taille.dart';
@@ -76,7 +77,10 @@ class Api {
       'getWorstRentabilityClients': '${this.host}/api/auth/beste-clients',
       'updateClient': '${this.host}/api/auth/client/update/{id}',
       'deleteClient': '${this.host}/api/auth/client/delete/{id}',
-      'getAchatClients': '${this.host}/api/auth/liste-achats-client/{id}',
+      'getAchatClients': '${this.host}/api/auth/liste-achats-client/{client}',
+      'getReglements': '${this.host}/api/auth/liste-reglements-client/{client}',
+      'getArticlesPlusAchetes':
+          '${this.host}/api/auth/liste-articles-plus-achetes/{client}',
       // Routes fournisseurs
       'getFournisseurs': '${this.host}/api/auth/fournisseurs',
       'postFournisseur': '${this.host}/api/auth/fournisseur/store',
@@ -593,7 +597,7 @@ class Api {
   Future<List<AchatClient>> getAchatClients({required int id}) async {
     this.url = this.routes['getAchatClients'].toString().replaceAll(
           // ? Replace {id} by true value
-          '{id}',
+          '{client}',
           id.toString(),
         ); // set update ur
     //print('get clients token: ' + Auth.token!);
@@ -632,6 +636,10 @@ class Api {
             json.decode(this.response.body)['totalAcompte'];
         AchatClient.totalRemise =
             json.decode(this.response.body)['totalRemise'];
+        // ? Load AchatClient instance
+        if (achatClientResponse.isNotEmpty)
+          AchatClient.achatClient =
+              AchatClient.fromJson(achatClientResponse[0]);
         List<AchatClient> achatClient = [
           for (var achatClient in achatClientResponse)
             // ? filter achat client by Research
@@ -702,6 +710,148 @@ class Api {
       /*if (error is SocketException || error is FormatException)
         functions.socketErrorSnackbar(context: context);*/
       return <AchatClient>[];
+    }
+  }
+
+  // todo: get clients method
+  Future<List<Reglement>> getReglements({required int id}) async {
+    this.url = this.routes['getReglements'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{client}',
+          id.toString(),
+        ); // set url
+    //print('get clients token: ' + Auth.token!);
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: Auth.token!,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? Show success snack bar
+        /*
+        if (ScreenController.actualView == "ReglementView")
+          functions.showMessageToSnackbar(
+            context: context,
+            message: "Reglements chargés !",
+            icon: Icon(
+              Icons.info_rounded,
+              color: Color.fromRGBO(60, 141, 188, 1),
+            ),
+          );
+          */
+        // ? create list of achatClient
+        List reglementResponse = json.decode(this.response.body)['rows'];
+        List<Reglement> reglement = [
+          for (var reglement in reglementResponse)
+            // ? filter achat client by Research
+            if (Research.type == '')
+              Reglement.fromJson(reglement) // ! Get all reglement
+            else if (Research.type == 'Reglement' &&
+                Research.searchBy == 'Date' &&
+                reglement['date_ventes'] != null)
+              // ? Reglement in research date interval
+              if ((Research.startDate != null && Research.endDate != null) &&
+                  (DateFormat('dd-MM-yyyy')
+                              .parse(reglement['date_reglement'])
+                              .compareTo(Research.startDate!) >=
+                          0 &&
+                      DateFormat('dd-MM-yyyy')
+                              .parse(reglement['date_reglement'])
+                              .compareTo(Research.endDate!) <=
+                          0))
+                Reglement.fromJson(
+                    reglement) // ! Get reglement in date interval
+              else if (Research.startDate != null &&
+                  Research.endDate == null &&
+                  DateFormat('dd-MM-yyyy')
+                          .parse(reglement['date_reglement'])
+                          .compareTo(Research.startDate!) >=
+                      0)
+                Reglement.fromJson(reglement) // ! Get reglement after startDate
+              else if (Research.endDate != null &&
+                  Research.startDate == null &&
+                  DateFormat('dd-MM-yyyy')
+                          .parse(reglement['date_reglement'])
+                          .compareTo(Research.endDate!) <=
+                      0)
+                Reglement.fromJson(reglement) // ! Get reglement before endDate
+        ];
+        // ? return list of reglement
+        return reglement;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        // ? Show error snack bar
+        /*if (ScreenController.actualView == "ReglementView")
+          functions.errorSnackbar(
+            context: context,
+            message: "Echec de récupération des reglement",
+          );*/
+        return <Reglement>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Reglement Model Error -> ${error.runtimeType} -> $error');
+      /*if (error is SocketException || error is FormatException)
+        functions.socketErrorSnackbar(context: context);*/
+      return <Reglement>[];
+    }
+  }
+
+  // todo: get articles method
+  Future<List<Article>> getArticlesPlusAchetes(int id) async {
+    this.url = this.routes['getArticlesPlusAchetes'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{client}',
+          id.toString(),
+        ); // set url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: Auth.token!,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        this.requestSuccess = true;
+        print("Articles response -> ${this.response.body}");
+        // ? create list of articles
+        List articleResponse = json.decode(this.response.body)['rows'];
+        List<Article> articles = [
+          for (var article in articleResponse)
+            Article.fromJson(article) // ! Get all articles
+        ];
+        // ? return list of articles
+        return articles;
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        this.requestSuccess = false;
+        return <Article>[];
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Articles Model Error ${error.runtimeType} -> $error');
+      return <Article>[];
     }
   }
 

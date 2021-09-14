@@ -22,6 +22,8 @@ import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/views/components/MyTextField.dart';
 import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/client/AchatClientFutureBuilder.dart';
+import 'package:smartsfv/views/screens/client/ArticlesPlusAchetesFutureBuilder.dart';
+import 'package:smartsfv/views/screens/client/ReglementFutureBuilder.dart';
 import 'package:smartsfv/views/screens/unite/PdfView.dart';
 
 class FicheClientView extends StatefulWidget {
@@ -53,6 +55,7 @@ class FicheClientViewState extends State<FicheClientView> {
     if (ScreenController.actualView != "LoginView") {
       ScreenController.actualView = "ClientView";
       ScreenController.isChildView = true;
+      AchatClient.achatClient = null;
     }
     super.dispose();
   }
@@ -115,6 +118,7 @@ class FicheClientViewState extends State<FicheClientView> {
                         ScreenController.isChildView = false;
                         MyDataTable.selectedRowIndex = null;
                         Client.client = null;
+                        AchatClient.achatClient = null;
                         Research.reset(); // Reset last research datas
                       });
                     },
@@ -442,8 +446,35 @@ class FicheClientViewState extends State<FicheClientView> {
                             ),
                           ],
                         ),
-                        //todo: DataTable
+                        //todo: AchatClient DataTable
                         AchatClientFutureBuilder(),
+                        SizedBox(height: 10),
+                        //todo: Grap
+                        Container(
+                          width: screenSize[0],
+                          height: 2.5,
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(60, 141, 188, 0.15),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        //todo: Reglement DataTable
+                        ReglementFutureBuilder(),
+                        SizedBox(height: 10),
+                        //todo: Grap
+                        Container(
+                          width: screenSize[0],
+                          height: 2.5,
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(60, 141, 188, 0.15),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        //todo: ArticlesPlusAchetes DataTable
+                        ArticlesPlusAchetesFutureBuilder(),
+                        SizedBox(height: 10),
                       ],
                     ),
                   ),
@@ -510,15 +541,23 @@ class FicheClientViewState extends State<FicheClientView> {
                     Timer(
                       Duration(seconds: 1),
                       () async {
-                        // ? Get pdf from server
-                        Map<String, dynamic> pdfJson =
-                            await api.getFactureVentePdf(
-                                venteId: AchatClient.achatClient!.id);
-                        // ? Show overview of document
-                        functions.openPage(
-                          context,
-                          PdfView(parentContext: context, json: pdfJson),
-                        );
+                        if (AchatClient.achatClient != null) {
+                          // ? Get pdf from server
+                          Map<String, dynamic> pdfJson =
+                              await api.getFactureVentePdf(
+                                  venteId: AchatClient.achatClient!.id);
+                          // ? Show overview of document
+                          functions.openPage(
+                            context,
+                            PdfView(parentContext: context, json: pdfJson),
+                          );
+                        } else {
+                          Navigator.pop(context);
+                          functions.showWarningDialog(
+                            context: context,
+                            message: "Nous n'arrivons pas à charger la facture",
+                          );
+                        }
                         /*
                       // ? Call generate PDF method
                       String result = await pdf.generateFromJson(pdfJson);
@@ -1267,6 +1306,15 @@ class FicheClientViewState extends State<FicheClientView> {
                 backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                 icon: IconButton(
                   onPressed: () {
+                    // show refresh message
+                    functions.showMessageToSnackbar(
+                      context: context,
+                      message: "Rechargement...",
+                      icon: CircularProgressIndicator(
+                        color: Color.fromRGBO(60, 141, 188, 1),
+                        strokeWidth: 5,
+                      ),
+                    );
                     // ? Reset & reload
                     setState(() {
                       this.numberFactureController.clear();

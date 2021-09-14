@@ -29,6 +29,8 @@ class Article {
   String datePeremptions;
   String? image;
   bool stockable;
+  int quantiteAchetee;
+  int sommeTotaleAchetee;
   // todo: Constructor
   Article({
     this.id = 0,
@@ -54,6 +56,8 @@ class Article {
     this.datePeremptions = '',
     this.image = '',
     this.stockable = true,
+    this.quantiteAchetee = 0,
+    this.sommeTotaleAchetee = 0,
   });
   // todo: Methods
   // get data from json method
@@ -117,6 +121,10 @@ class Article {
               .toString()
               .replaceAll('T00:00:00.000000Z', '')
           : '',
+      quantiteAchetee:
+          (json['qteTotale'] != null) ? json['qteTotale'] as int : 0,
+      sommeTotaleAchetee:
+          (json['sommeTotale'] != null) ? json['sommeTotale'] as int : 0,
     );
   }
   // return to Map
