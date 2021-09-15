@@ -41,7 +41,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = 'http://192.168.1.8:8000'; // local ip adress // ! local
+  String host = 'http://192.168.1.11:8000'; // local ip adress // ! local
   //String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
@@ -164,6 +164,10 @@ class Api {
       'deleteDepot': '${this.host}/api/auth/depot/delete/{id}',
       // Etats
       'getFactureVentePdf': '${this.host}/api/auth/facture-vente-pdf/{vente}',
+      'getReglementPdf':
+          '${this.host}/api/auth/liste-reglements-client-pdf/{client}',
+      'getArticlesPlusAchetesPdf':
+          '${this.host}/api/auth/liste-articles-plus-achetes-pdf/{client}',
     };
   }
 
@@ -4353,6 +4357,80 @@ class Api {
     } catch (error) {
       print(
           'API ERROR: Get Facture Vente PDF Error -> ${error.runtimeType} -> $error');
+      return {'msg': 'Server error'};
+    }
+  }
+
+  // Get liste-reglement-pdf method
+  Future getReglementPdf({required int clientId}) async {
+    this.url = this.routes['getReglementPdf'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{client}',
+          clientId.toString(),
+        ); // set url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: Auth.token!,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? create list of achatClient
+        Map<String, dynamic> pdfJson = json.decode(this.response.body);
+        // ? return list of achatClient
+        return pdfJson;
+      } else {
+        this.requestSuccess = false;
+        return {'msg': 'no data'};
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get Reglement PDF Error -> ${error.runtimeType} -> $error');
+      return {'msg': 'Server error'};
+    }
+  }
+
+  // Get liste-articles-plus-achetes-pdf method
+  Future getArticlesPlusAchetesPdf({required int clientId}) async {
+    this.url = this.routes['getArticlesPlusAchetesPdf'].toString().replaceAll(
+          // ? Replace {id} by true value
+          '{client}',
+          clientId.toString(),
+        ); // set url
+    try {
+      // ? getting datas from url
+      print("Actual view -> " + ScreenController.actualView);
+      this.response = await http.get(
+        Uri.parse(this.url),
+        headers: {
+          // pass access token into the header
+          HttpHeaders.authorizationHeader: Auth.token!,
+        },
+      );
+      // ? Check the response status code
+      if (this.response.statusCode == 200) {
+        this.requestSuccess = true;
+        //print(this.response.body);
+        // ? create list of achatClient
+        Map<String, dynamic> pdfJson = json.decode(this.response.body);
+        // ? return list of achatClient
+        return pdfJson;
+      } else {
+        this.requestSuccess = false;
+        return {'msg': 'no data'};
+        //throw Exception('Failed to load user datas');
+      }
+    } catch (error) {
+      print(
+          'API ERROR: Get ArticlesPlusAchetes PDF Error -> ${error.runtimeType} -> $error');
       return {'msg': 'Server error'};
     }
   }

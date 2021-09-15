@@ -24,7 +24,7 @@ import 'package:smartsfv/views/components/MyTextFormField.dart';
 import 'package:smartsfv/views/screens/client/AchatClientFutureBuilder.dart';
 import 'package:smartsfv/views/screens/client/ArticlesPlusAchetesFutureBuilder.dart';
 import 'package:smartsfv/views/screens/client/ReglementFutureBuilder.dart';
-import 'package:smartsfv/views/screens/unite/PdfView.dart';
+import 'package:smartsfv/views/screens/others/PdfView.dart';
 
 class FicheClientView extends StatefulWidget {
   final ValueChanged<Function> parentSetState;
@@ -505,87 +505,300 @@ class FicheClientViewState extends State<FicheClientView> {
               BottomNavigationBarItem(
                 backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
                 icon: IconButton(
-                  onPressed: () async {
-                    // ? Show loading dialog
+                  onPressed: () {
+                    // ? Show selection dialog
                     functions.showFormDialog(
-                      scaffold.currentContext,
+                      context,
                       GlobalKey<FormState>(),
-                      hasCancelButton: false,
-                      hasHeaderIcon: false,
-                      hasHeaderTitle: false,
-                      hasSnackbar: false,
+                      headerIcon: 'assets/img/icons/document.png',
                       hasValidationButton: false,
-                      barrierDismissible: false,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      title: 'Quelle liste souhaitez-vous imprimer ?',
                       formElements: [
-                        Image.asset(
-                          'assets/img/icons/document.png',
-                          fit: BoxFit.contain,
-                          width: 70,
-                          height: 70,
+                        //todo: Factue achat
+                        MyOutlinedButton(
+                          width: screenSize[0],
+                          backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                          borderRadius: 15,
+                          borderColor: Colors.transparent,
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Image.asset(
+                                'assets/img/icons/shopping-cart1.png',
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.contain,
+                                color: Color.fromRGBO(0, 27, 121, 1),
+                              ),
+                              SizedBox(width: 15),
+                              Flexible(
+                                child: MyText(
+                                  text: 'Liste des achats',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(0, 27, 121, 1),
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            // ? Show loading dialog
+                            functions.showFormDialog(
+                              scaffold.currentContext,
+                              GlobalKey<FormState>(),
+                              hasCancelButton: false,
+                              hasHeaderIcon: false,
+                              hasHeaderTitle: false,
+                              hasSnackbar: false,
+                              hasValidationButton: false,
+                              barrierDismissible: false,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 10),
+                              formElements: [
+                                Image.asset(
+                                  'assets/img/icons/document.png',
+                                  fit: BoxFit.contain,
+                                  width: 70,
+                                  height: 70,
+                                ),
+                                SizedBox(height: 10),
+                                MyText(text: "Génération du PDF en cours..."),
+                                SizedBox(height: 20),
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Color.fromRGBO(60, 141, 188, 1),
+                                    backgroundColor:
+                                        Color.fromRGBO(60, 141, 188, 0.1),
+                                  ),
+                                )
+                              ],
+                            );
+                            Timer(
+                              Duration(seconds: 1),
+                              () async {
+                                Navigator.pop(context);
+                                if (AchatClient.achatClient != null) {
+                                  // ? Get pdf from server
+                                  Map<String, dynamic> pdfJson =
+                                      await api.getFactureVentePdf(
+                                          venteId: AchatClient.achatClient!.id);
+                                  // ? Show overview of document
+                                  functions.openPage(
+                                    context,
+                                    PdfView(
+                                      parentContext: context,
+                                      json: pdfJson,
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.pop(context);
+                                  functions.showWarningDialog(
+                                    context: context,
+                                    message:
+                                        "Nous n'arrivons pas à charger la facture",
+                                  );
+                                }
+                              },
+                            );
+                          },
                         ),
                         SizedBox(height: 10),
-                        MyText(text: "Génération du PDF en cours..."),
-                        SizedBox(height: 20),
-                        Container(
-                          width: 30,
-                          height: 30,
-                          child: CircularProgressIndicator(
-                            color: Color.fromRGBO(60, 141, 188, 1),
-                            backgroundColor: Color.fromRGBO(60, 141, 188, 0.1),
+                        //todo: Factue règlement
+                        MyOutlinedButton(
+                          width: screenSize[0],
+                          backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                          borderRadius: 15,
+                          borderColor: Colors.transparent,
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Image.asset(
+                                'assets/img/icons/hand.png',
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.contain,
+                                color: Color.fromRGBO(0, 27, 121, 1),
+                              ),
+                              SizedBox(width: 15),
+                              Flexible(
+                                child: MyText(
+                                  text: 'Liste des règlements',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(0, 27, 121, 1),
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ),
+                            ],
                           ),
-                        )
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            // ? Show loading dialog
+                            functions.showFormDialog(
+                              scaffold.currentContext,
+                              GlobalKey<FormState>(),
+                              hasCancelButton: false,
+                              hasHeaderIcon: false,
+                              hasHeaderTitle: false,
+                              hasSnackbar: false,
+                              hasValidationButton: false,
+                              barrierDismissible: false,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 10),
+                              formElements: [
+                                Image.asset(
+                                  'assets/img/icons/document.png',
+                                  fit: BoxFit.contain,
+                                  width: 70,
+                                  height: 70,
+                                ),
+                                SizedBox(height: 10),
+                                MyText(text: "Génération du PDF en cours..."),
+                                SizedBox(height: 20),
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Color.fromRGBO(60, 141, 188, 1),
+                                    backgroundColor:
+                                        Color.fromRGBO(60, 141, 188, 0.1),
+                                  ),
+                                )
+                              ],
+                            );
+                            Timer(
+                              Duration(seconds: 1),
+                              () async {
+                                Navigator.pop(context);
+                                if (Client.client != null) {
+                                  // ? Get pdf from server
+                                  Map<String, dynamic> pdfJson =
+                                      await api.getReglementPdf(
+                                          clientId: Client.client!.id);
+                                  // ? Show overview of document
+                                  functions.openPage(
+                                    context,
+                                    PdfView(
+                                      parentContext: context,
+                                      json: pdfJson,
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.pop(context);
+                                  functions.showWarningDialog(
+                                    context: context,
+                                    message:
+                                        "Nous n'arrivons pas à charger la facture",
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        //todo: Liste articles
+                        MyOutlinedButton(
+                          width: screenSize[0],
+                          backgroundColor: Color.fromRGBO(60, 141, 188, 0.15),
+                          borderRadius: 15,
+                          borderColor: Colors.transparent,
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Image.asset(
+                                'assets/img/icons/box.png',
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.contain,
+                                color: Color.fromRGBO(0, 27, 121, 1),
+                              ),
+                              SizedBox(width: 15),
+                              Flexible(
+                                child: MyText(
+                                  text: 'Articles les plus achetés',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(0, 27, 121, 1),
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            // ? Show loading dialog
+                            functions.showFormDialog(
+                              scaffold.currentContext,
+                              GlobalKey<FormState>(),
+                              hasCancelButton: false,
+                              hasHeaderIcon: false,
+                              hasHeaderTitle: false,
+                              hasSnackbar: false,
+                              hasValidationButton: false,
+                              barrierDismissible: false,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 10),
+                              formElements: [
+                                Image.asset(
+                                  'assets/img/icons/document.png',
+                                  fit: BoxFit.contain,
+                                  width: 70,
+                                  height: 70,
+                                ),
+                                SizedBox(height: 10),
+                                MyText(text: "Génération du PDF en cours..."),
+                                SizedBox(height: 20),
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: CircularProgressIndicator(
+                                    color: Color.fromRGBO(60, 141, 188, 1),
+                                    backgroundColor:
+                                        Color.fromRGBO(60, 141, 188, 0.1),
+                                  ),
+                                )
+                              ],
+                            );
+                            Timer(
+                              Duration(seconds: 1),
+                              () async {
+                                Navigator.pop(context);
+                                if (Client.client != null) {
+                                  // ? Get pdf from server
+                                  Map<String, dynamic> pdfJson =
+                                      await api.getArticlesPlusAchetesPdf(
+                                          clientId: Client.client!.id);
+                                  // ? Show overview of document
+                                  functions.openPage(
+                                    context,
+                                    PdfView(
+                                      parentContext: context,
+                                      json: pdfJson,
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.pop(context);
+                                  functions.showWarningDialog(
+                                    context: context,
+                                    message:
+                                        "Nous n'arrivons pas à charger la facture",
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        ),
                       ],
-                    );
-                    Timer(
-                      Duration(seconds: 1),
-                      () async {
-                        if (AchatClient.achatClient != null) {
-                          // ? Get pdf from server
-                          Map<String, dynamic> pdfJson =
-                              await api.getFactureVentePdf(
-                                  venteId: AchatClient.achatClient!.id);
-                          // ? Show overview of document
-                          functions.openPage(
-                            context,
-                            PdfView(parentContext: context, json: pdfJson),
-                          );
-                        } else {
-                          Navigator.pop(context);
-                          functions.showWarningDialog(
-                            context: context,
-                            message: "Nous n'arrivons pas à charger la facture",
-                          );
-                        }
-                        /*
-                      // ? Call generate PDF method
-                      String result = await pdf.generateFromJson(pdfJson);
-                      // ? Check result to give response to the user
-                      Navigator.of(context)
-                          .pop(); // remove the AlertDialog to the screen
-                      if (result == "Document enregistré") {
-                        functions.successSnackbar(
-                          context: scaffold.currentContext,
-                          message: "Document PDF enregistré !",
-                        );
-                      } else if (result == "Enregistrement annulé") {
-                        functions.showMessageToSnackbar(
-                          context: scaffold.currentContext,
-                          message: "Enregistrement annulé",
-                          icon: Icon(
-                            Icons.file_download_off_rounded,
-                            color: Colors.red,
-                          ),
-                        );
-                      } else {
-                        functions.errorSnackbar(
-                          context: scaffold.currentContext,
-                          message:
-                              "Une erreur s'est produite lors de la génération du PDF",
-                        );
-                      }*/
-                      },
                     );
                   },
                   icon: Icon(

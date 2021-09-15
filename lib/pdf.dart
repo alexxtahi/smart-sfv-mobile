@@ -1,10 +1,8 @@
 // PDF packages
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -237,8 +235,7 @@ Future<Map<String, pw.TtfFont>> getFont() async {
 //todo: create pdf file from json datas
 Widget generateFromJson(Map<String, dynamic> json) {
   try {
-    // ? Load encoded document
-    //File doc = File.fromRawPath(base64.decode(json['data']));
+    // ? Decode document & Load preview widget
     return SfPdfViewer.memory(
       base64.decode(json['data']),
       canShowScrollHead: true,

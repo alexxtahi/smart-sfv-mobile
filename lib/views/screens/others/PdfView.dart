@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:smartsfv/api.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/pdf.dart';
 import 'package:smartsfv/views/components/MyText.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:smartsfv/functions.dart' as functions;
 
 class PdfView extends StatefulWidget {
   final String title;
@@ -39,7 +44,6 @@ class PdfViewState extends State<PdfView> {
     if (ScreenController.actualView != "LoginView") {
       ScreenController.actualView = "HomeView";
       ScreenController.isChildView = false;
-      Navigator.of(widget.parentContext).pop();
     }
     super.dispose();
   }
@@ -75,9 +79,29 @@ class PdfViewState extends State<PdfView> {
         isExtended: true,
         elevation: 5,
         hoverElevation: 10,
-        onPressed: () {
-          // ? Launch saving of the document
-          //this.pdfViewer!.createElement();
+        onPressed: () async {
+          // ? Create a file and write decoded document in
+          File doc = await functions.localFile(widget.json['title']);
+          doc.writeAsBytes(base64.decode(widget.json['data']));
+          print("Doc path -> " + doc.uri.toFilePath());
+          // ? Show preview of the document
+          bool isDocSaved = await Printing.layoutPdf(
+            name: widget.json['title'],
+            onLayout: (PdfPageFormat format) async =>
+                base64.decode(widget.json['data']),
+          );
+          // ? Check if the user has saved the document or not
+          if (isDocSaved) {
+            functions.showSuccessDialog(
+              context: context,
+              message: 'Document enregistré avec succès !',
+            );
+          } else {
+            functions.showWarningDialog(
+              context: context,
+              message: 'Enregistrement annulé',
+            );
+          }
         },
         backgroundColor: Color.fromRGBO(60, 141, 188, 1),
         child: Tooltip(

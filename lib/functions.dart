@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
 import 'package:smartsfv/models/Auth.dart';
 import 'package:smartsfv/views/components/MyText.dart';
@@ -518,4 +521,14 @@ void showConfirmationDialog({
       ),
     ],
   );
+}
+
+Future<String> get localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+  return directory.path;
+}
+
+Future<File> localFile(String title) async {
+  final path = await localPath;
+  return File('$path/$title');
 }
