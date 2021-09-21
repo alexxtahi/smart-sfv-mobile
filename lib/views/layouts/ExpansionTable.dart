@@ -147,9 +147,9 @@ class ExpansionTableState extends State<ExpansionTable> {
                             if (snapshot.data!.length >= 5)
                               for (var article in snapshot.data!.getRange(0, 5))
                                 [
-                                  article.libelleDepot,
+                                  article.depot!.libelle,
                                   article.description,
-                                  article.libelleUnite,
+                                  article.unite!.libelle,
                                   // get expiration date
                                   dateFormat.format(
                                       DateTime.parse(article.datePeremption)),
@@ -163,9 +163,9 @@ class ExpansionTableState extends State<ExpansionTable> {
                             if (snapshot.data!.length < 5)
                               for (var article in snapshot.data!)
                                 [
-                                  article.libelleDepot,
+                                  article.depot!.libelle,
                                   article.description,
-                                  article.libelleUnite,
+                                  article.unite!.libelle,
                                   // get expiration date
                                   dateFormat.format(
                                       DateTime.parse(article.datePeremption)),
@@ -257,7 +257,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                                       ? article.sousCategorie!.libelle
                                       : 'Aucune',
                                   article.totalStock.toString(),
-                                  article.libelleDepot,
+                                  article.depot!.libelle,
                                 ],
                             if (snapshot.data!.length < 5)
                               for (var article in snapshot.data!)
@@ -268,7 +268,7 @@ class ExpansionTableState extends State<ExpansionTable> {
                                       ? article.sousCategorie!.libelle
                                       : 'Aucune',
                                   article.totalStock.toString(),
-                                  article.libelleDepot,
+                                  article.depot!.libelle,
                                 ],
                           ],
                         );

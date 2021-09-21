@@ -232,11 +232,13 @@ class ArticleScreenState extends State<ArticleScreen> {
                                         color: Color.fromRGBO(231, 57, 0, 1),
                                       ),
                                       SizedBox(width: 15),
+                                      Flexible(child:
                                       MyText(
                                         text: 'Catégories',
                                         fontWeight: FontWeight.bold,
                                         color: Color.fromRGBO(231, 57, 0, 1),
                                         fontSize: 10,
+                                      ),
                                       ),
                                     ],
                                   ),

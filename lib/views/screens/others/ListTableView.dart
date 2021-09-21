@@ -226,9 +226,9 @@ class ListTableViewState extends State<ListTableView> {
                                                               article) +
                                                           1)
                                                       .toString(),
-                                                  article.libelleDepot,
+                                                  article.depot!.libelle,
                                                   article.description,
-                                                  article.libelleUnite,
+                                                  article.unite!.libelle,
                                                   // get expiration date
                                                   dateFormat.format(
                                                       DateTime.parse(article
@@ -268,7 +268,7 @@ class ListTableViewState extends State<ListTableView> {
                                                       : 'Aucune',
                                                   article.totalStock
                                                       .toString(), //article.qteEnStock.toString(),
-                                                  article.libelleDepot,
+                                                  article.depot!.libelle,
                                                 ],
                                             ];
                                             return MyDataTable(

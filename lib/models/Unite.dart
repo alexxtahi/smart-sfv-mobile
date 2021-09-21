@@ -7,8 +7,8 @@ class Unite {
   // todo: Constructor
   Unite({
     this.id = 0,
-    required this.libelle,
-    required this.qte,
+    this.libelle = '',
+    this.qte = 0,
   });
   // todo: Methods
   // get data from json method

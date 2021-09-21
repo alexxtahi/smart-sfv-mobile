@@ -86,7 +86,7 @@ class PdfViewState extends State<PdfView> {
           print("Doc path -> " + doc.uri.toFilePath());
           // ? Show preview of the document
           bool isDocSaved = await Printing.layoutPdf(
-            name: widget.json['title'],
+            name: widget.json['title'].replaceAll('.pdf', ''),
             onLayout: (PdfPageFormat format) async =>
                 base64.decode(widget.json['data']),
           );

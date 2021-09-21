@@ -41,7 +41,7 @@ class Api {
   late http.Response response;
   bool requestSuccess = false;
   String url = '';
-  String host = 'http://192.168.1.11:8000'; // local ip adress // ! local
+  String host = 'http://192.168.1.8:8000'; // local ip adress // ! local
   //String host = 'https://smartsfv.smartyacademy.com'; // ! production
   late Map<String, String> routes;
   //todo: Constructor
@@ -55,6 +55,7 @@ class Api {
       'resetPassword': '${this.host}/api/auth/reset-password',
       // Routes articles
       'getArticles': '${this.host}/api/auth/articles',
+      'postArticle': '${this.host}/api/auth/article/store',
       'getBestArticles': '${this.host}/api/auth/articles',
       'getWorstArticles': '${this.host}/api/auth/articles',
       'getArticlesPeremption':

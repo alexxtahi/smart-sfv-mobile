@@ -18,8 +18,8 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
-  ScrollController scrollController = new ScrollController();
-  ScrollController gridViewScrollController = new ScrollController();
+  ScrollController scrollController = ScrollController();
+  ScrollController gridViewScrollController = ScrollController();
 
   //todo: setState function for the childrens
   void setstate(Function childSetState) {

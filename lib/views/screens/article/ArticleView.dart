@@ -80,9 +80,9 @@ class ArticleViewState extends State<ArticleView> {
           Map<String, dynamic> fieldControllers = {
             'codeBarre': TextEditingController(),
             'description': TextEditingController(),
-            'fournisseur': '',
-            'categorie': '',
-            'sousCategorie': '',
+            'fournisseur': [],
+            'categorie': 0,
+            'sousCategorie': 0,
             'stockMin': TextEditingController(),
             'tva': 45 / 100, // 45% de TVA
             'prixAchatTTC': TextEditingController(),
@@ -92,8 +92,19 @@ class ArticleViewState extends State<ArticleView> {
             'prixVenteHT': TextEditingController(),
             'tauxMargeVente': TextEditingController(),
             'imageArticle': TextEditingController(),
-            'stockable': 1,
+            'stockable': true,
           };
+          // ! Start debug
+          fieldControllers['codeBarre'].text = '0345';
+          fieldControllers['description'].text = 'Assiette cassable';
+          fieldControllers['stockMin'].text = '12';
+          fieldControllers['prixAchatTTC'].text = '200';
+          fieldControllers['prixAchatHT'].text = '50';
+          fieldControllers['tauxMargeAchat'].text = '27';
+          fieldControllers['prixVenteTTC'].text = '1500';
+          fieldControllers['prixVenteHT'].text = '1000';
+          fieldControllers['tauxMargeVente'].text = '39';
+          // ! End debug
           GlobalKey<FormState> formKey = GlobalKey<FormState>();
           functions.showFormDialog(
             scaffold.currentContext,
@@ -116,21 +127,22 @@ class ArticleViewState extends State<ArticleView> {
                             : '', // get code barre
                     'description_article': fieldControllers['description']
                         .text, // get description // ! required
-                    'fournisseur':
-                        (fieldControllers['fournisseur'].text != null)
-                            ? fieldControllers['fournisseur'].text
-                            : '', // get fournisseur
+                    'fournisseur': (fieldControllers['fournisseur'] != 0)
+                        ? [
+                            {
+                              'id': fieldControllers['fournisseur'],
+                            },
+                          ]
+                        : [], // get fournisseur
                     'categorie': {
                       'id': fieldControllers['categorie'],
                     }, // get categorie // ! required
-                    'sous_categorie':
-                        (fieldControllers['sousCategorie'] != null)
-                            ? {
-                                'id': fieldControllers['sousCategorie'],
-                              }
-                            : null, // get sousCategorie
-                    'stock_mini': (fieldControllers['stockMin'].text != null &&
-                            fieldControllers['stockMin'].text.isNotEmpty)
+                    'sous_categorie': (fieldControllers['sousCategorie'] != 0)
+                        ? {
+                            'id': fieldControllers['sousCategorie'],
+                          }
+                        : null, // get sousCategorie
+                    'stock_mini': (fieldControllers['stockMin'].text.isNotEmpty)
                         ? int.parse(fieldControllers['stockMin'].text)
                         : 0, // get stockMin
                     'param_tva': {
@@ -141,8 +153,10 @@ class ArticleViewState extends State<ArticleView> {
                     'prix_achat_ht': int.parse(fieldControllers['prixAchatHT']
                         .text), // get prixAchatTTC
                     'taux_airsi_achat':
-                        (fieldControllers['taux_airsi_achat'].text.isNotEmpty)
-                            ? int.parse(fieldControllers['tauxMargeAchat'].text)
+                        (fieldControllers['tauxMargeAchat'].text.isNotEmpty)
+                            ? int.parse(fieldControllers['tauxMargeAchat']
+                                .text
+                                .replaceAll('%', ''))
                             : null, // get tauxMargeAchat
                     'prix_vente_ttc_base': int.parse(
                         fieldControllers['prixVenteTTC']
@@ -150,28 +164,39 @@ class ArticleViewState extends State<ArticleView> {
                     'prix_vente_ht': int.parse(fieldControllers['prixVenteHT']
                         .text), // get prixVenteTTC
                     'taux_airsi_vente':
-                        (fieldControllers['taux_airsi_vente'].text.isNotEmpty)
-                            ? int.parse(fieldControllers['tauxMargeVente'].text)
+                        (fieldControllers['tauxMargeVente'].text.isNotEmpty)
+                            ? int.parse(fieldControllers['tauxMargeVente']
+                                .text
+                                .replaceAll('%', ''))
                             : null, // get tauxMargeVente
-                    'image': fieldControllers['imageArticle']
-                        .text, // get imageArticle
+                    /*'image': fieldControllers['imageArticle']
+                        .text, // get imageArticle*/
                     'stockable': fieldControllers['stockable'], // get stockable
                   }),
                 );
                 // ? check the server response
                 if (postArticleResponse['msg'] ==
                     'Enregistrement effectué avec succès.') {
-                  Navigator.of(
-                    scaffold.currentContext!,
-                  ).pop();
-                  functions.successSnackbar(
+                  // ? In Success case
+                  Navigator.of(context).pop();
+                  functions.showSuccessDialog(
                     context: scaffold.currentContext,
                     message: 'Nouvel article ajouté !',
                   );
-                } else {
-                  functions.errorSnackbar(
+                } else if (postArticleResponse['msg'] ==
+                    "Cet enregistrement existe déjà dans la base, vérifier le nom de l'article ou le code barre") {
+                  // ? In instance already exist case
+                  Navigator.of(context).pop();
+                  functions.showWarningDialog(
                     context: scaffold.currentContext,
-                    message: 'Un problème est survenu',
+                    message: 'Vous avez déjà enregistré cet article !',
+                  );
+                } else {
+                  // ? In Error case
+                  Navigator.of(context).pop();
+                  functions.showErrorDialog(
+                    context: scaffold.currentContext,
+                    message: "Une erreur s'est produite",
                   );
                 }
                 // ? Refresh client list
@@ -881,7 +906,7 @@ class ArticleViewState extends State<ArticleView> {
               ),
               SizedBox(height: 10),
               //todo: Image Field
-              Column(
+              /*Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //todo: Image label
@@ -910,8 +935,8 @@ class ArticleViewState extends State<ArticleView> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              //todo: Stockabl CheckBox
+              SizedBox(height: 10),*/
+              //todo: Stockable CheckBox
               CheckboxListTile(
                 value: fieldControllers['stockable'],
                 checkColor: Color.fromRGBO(231, 57, 0, 1),
@@ -921,8 +946,9 @@ class ArticleViewState extends State<ArticleView> {
                   fontWeight: FontWeight.bold,
                 ),
                 onChanged: (value) {
+                  print('Article stockable = ' + value.toString());
                   setState(() {
-                    fieldControllers['stockable'] = false;
+                    fieldControllers['stockable'] = value;
                   });
                 },
               ),

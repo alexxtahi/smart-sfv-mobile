@@ -6,6 +6,7 @@ import 'package:smartsfv/models/Article.dart';
 import 'package:smartsfv/views/components/MyDataTable.dart';
 import 'package:smartsfv/views/components/MyText.dart';
 import 'package:smartsfv/functions.dart' as functions;
+import 'package:smartsfv/views/screens/article/FicheArticleView.dart';
 
 class ArticleFutureBuilder extends StatefulWidget {
   ArticleFutureBuilder({Key? key}) : super(key: key);
@@ -19,6 +20,17 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
   ScrollController datatableScrollController = ScrollController();
   // init API instance
   Api api = Api();
+
+  //todo: setState function for the childrens
+  void setstate(Function childSetState) {
+    /*
+    * This function is made to set state of this widget by this childrens
+    */
+    setState(() {
+      childSetState();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return (ScreenController.actualView != "LoginView")
@@ -86,6 +98,7 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                           physics: BouncingScrollPhysics(),
                                           scrollDirection: Axis.horizontal,
                                           child: MyDataTable(
+                                            hasRowSelectable: true,
                                             columns: [
                                               'Nº',
                                               'Code barre',
@@ -142,6 +155,25 @@ class ArticleFutureBuilderState extends State<ArticleFutureBuilder> {
                                                   article.stockMin.toString(),
                                                 ],
                                             ],
+                                            onCellLongPress: () {
+                                              if (MyDataTable
+                                                      .selectedRowIndex !=
+                                                  null) {
+                                                // ? Load Article instance
+                                                Article.article = Article
+                                                    .fromInstance(snapshot
+                                                            .data![
+                                                        MyDataTable
+                                                            .selectedRowIndex!]);
+                                              }
+                                              // ? Open view of the article fiche
+                                              functions.openPage(
+                                                context,
+                                                FicheArticleView(
+                                                  parentSetState: setstate,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ),
                                       ),
