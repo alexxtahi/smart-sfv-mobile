@@ -8,7 +8,7 @@ class Auth {
   // Login save method
   static login({required String token, required User user}) {
     Auth.user = user;
-    Auth.token = token;
+    Auth.token = token;//.replaceAll('Bearer ', '');
   }
 
   // Logout method

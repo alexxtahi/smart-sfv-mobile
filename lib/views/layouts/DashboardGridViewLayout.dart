@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smartsfv/controllers/DrawerLayoutController.dart';
 import 'package:smartsfv/controllers/ScreenController.dart';
-import 'package:smartsfv/views/screens/article/ArticleView.dart';
-import 'package:smartsfv/views/screens/client/ClientView.dart';
+import 'package:smartsfv/views/screens/parametres/article/ArticleView.dart';
+import 'package:smartsfv/views/screens/parametres/client/ClientView.dart';
 import 'package:smartsfv/views/screens/commande/CommandeView.dart';
-import 'package:smartsfv/views/screens/fournisseur/ProviderView.dart';
+import 'package:smartsfv/views/screens/parametres/fournisseur/ProviderView.dart';
 import 'package:smartsfv/views/components/DashboardCard.dart';
 import 'package:smartsfv/functions.dart' as functions;
 
